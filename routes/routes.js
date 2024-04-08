@@ -1,12 +1,12 @@
 import express from 'express';
 import { home } from '../controllers/staticControllers.js';
-import { signUp, register, login } from '../controllers/loginControllers.js'
+import * as userController from '../controllers/userControllers.js'
 
 const router = express.Router();
 
-router.get('/', signUp);
-router.post('/register', register);
-router.get('/login', login);
+router.get('/', userController.signUp);
+router.post('/register', userController.register);
+router.get('/login', userController.login);
 
 // home page
 router.get('/home', home);
