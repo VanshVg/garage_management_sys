@@ -24,7 +24,7 @@ CREATE TABLE `user_has_vehicles`(
     `createdtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-  FOREIGN KEY (owner_id) REFERENCES user_master(id)
+  FOREIGN KEY (owner_id) REFERENCES users_master(id)
 )
 
 CREATE TABLE `vehicle_condition` (
