@@ -25,6 +25,7 @@ CREATE  TABLE users(
     role_id INT REFERENCES roles(id),
     firstname VARCHAR(20) NOT NULL,
     lastname VARCHAR(20) DEFAULT NULL,
+    profile_pic VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     dob DATE,
     password VARCHAR(256) NOT NULL,
