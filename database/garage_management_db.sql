@@ -10,13 +10,13 @@ CREATE TABLE `vehicle_master` (
   FOREIGN KEY (type_id) REFERENCES vehicle_type(id)
 )
 
-CREATE TABLE `vehicle_type` (
+CREATE TABLE `vehicle_types` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(250) NOT NULL,
     PRIMARY KEY (`id`)
 )
 
-CREATE TABLE `user_has_vehicle`(
+CREATE TABLE `user_has_vehicles`(
     `id` int NOT NULL AUTO_INCREMENT,
     `owner_id` int NOT NULL,
     `vehicle_id` int NOT NULL,
@@ -34,4 +34,4 @@ CREATE TABLE `vehicle_condition` (
     `vehicle_id` int NOT NULL
     PRIMARY KEY (id),
   FOREIGN KEY (vehicle_id) REFERENCES vehicle_master(id)
-)
+) 
