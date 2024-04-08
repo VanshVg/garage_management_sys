@@ -21,6 +21,7 @@ set other rule (if any)
 -follow folder structure 
 -maintain variable,function and file/folder 📂 naming convenience 
 -use es6 formate (import export moduler)
+-use _ between names like first_name for database and use camel case like firstName for other variables
 set guideline (if any)
 ```
 
