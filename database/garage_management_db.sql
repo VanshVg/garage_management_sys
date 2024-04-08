@@ -104,7 +104,6 @@ CREATE TABLE vehicle_condition (
     PRIMARY KEY (id),
   FOREIGN KEY (vehicle_id) REFERENCES vehicle_master(id)
 ) 
-==============================================================
 #ADDRESS MODULE - NITIN
 create table state_master(
 	id int unique auto_increment,
@@ -132,7 +131,6 @@ create table address_master(
     foreign key(resident_id) references users(id),
     primary key(id)
 );
-=======================================
 #PAYMENT & FEEDBACK MODULE - JEEL PATEL
 CREATE TABLE payment_master(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -157,7 +155,6 @@ CREATE TABLE feedbacks(
     FOREIGN KEY(garage_id) REFERENCES garage_master.id,
     FOREIGN KEY(customer_id) REFERENCES users.id
 );
-============================================================================
 #AUTHENTICATION MODULE - MAKWANA BHARAT
 CREATE  TABLE roles(    
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -218,4 +215,3 @@ CREATE TRIGGER user_trigger BEFORE INSERT ON users
 FOR EACH ROW SET
     NEW.password_exp = TIMESTAMPADD(DAY, 10, CURRENT_TIMESTAMP),
     NEW.link_exp = TIMESTAMPADD(HOUR, 2, CURRENT_TIMESTAMP);
->>>>>>> a83e2da2b5ac3c843149351834c6b9c433cb6400
