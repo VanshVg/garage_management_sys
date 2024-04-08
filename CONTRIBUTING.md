@@ -1,6 +1,7 @@
 ### CONTRIBUTOR
 ```
 -bharat.makwana
+-jeel.patel
 -add your username here
 ```
 
@@ -38,6 +39,7 @@ set responsibility (if any)
     init: initalizing index.js (if you creating any files)
     improve: function chain calling to synchronous (any improvement rather then use of update)
     bug:email validation (any bug related)  
+    modify: file changes
     add other (if any)
 ```
 
