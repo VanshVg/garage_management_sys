@@ -1,3 +1,42 @@
+#VEHICAL MODULE - GANPAT PARMAR
+CREATE TABLE `vehicle_master` (
+  `id` INT AUTO_INCREMENT,
+  `type_id` INT  NOT NULL,
+  `brand` VARCHAR(250) DEFAULT NULL,
+  `model` VARCHAR(250) NOT NULL,
+  `year` year DEFAULT NULL,
+  `createdtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (type_id) REFERENCES vehicle_type(id)
+)
+
+CREATE TABLE `vehicle_types` (
+    `id` INT AUTO_INCREMENT,
+    `name` VARCHAR(250) NOT NULL,
+    PRIMARY KEY (`id`)
+)
+
+CREATE TABLE `user_has_vehicles`(
+    `id` INT AUTO_INCREMENT,
+    `owner_id` INT NOT NULL,
+    `vehicle_id` INT NOT NULL,
+    `register_plate_number` VARCHAR(250) NOT NULL,
+    `createdtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+)
+
+CREATE TABLE `vehicle_condition` (
+    `id` INT AUTO_INCREMENT,
+    `condition_image` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(250) DEFAULT NULL,
+    `vehicle_id` INT NOT NULL
+    PRIMARY KEY (id),
+  FOREIGN KEY (vehicle_id) REFERENCES vehicle_master(id)
+) 
+==============================================================
 #ADDRESS MODULE - NITIN
 create table state_master(
 	id int unique auto_increment,
@@ -35,11 +74,11 @@ CREATE TABLE payment_master(
     sub_total DECIMAL(10,2) NOT NULL,
     discount_per DECIMAL(10,2) DEFAULT 0,
     discount DECIMAL(10,2) DEFAULT 0,
-    appointment_id INT NOT NULL,
+    appoINTment_id INT NOT NULL,
     status bool DEFAULT 0,
     type VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(appointment_id) REFERENCES appointments.id
+    FOREIGN KEY(appoINTment_id) REFERENCES appoINTments.id
 );
 
 CREATE TABLE feedbacks(
