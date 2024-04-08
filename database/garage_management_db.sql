@@ -1,3 +1,25 @@
+#GARAGE MODULE - VANSH
+CREATE TABLE garage_master(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+  garage_name VARCHAR(255) NOT NULL,
+  contact_number VARCHAR(10) CHECK(LENGTH(contact_number) = 10) NOT NULL ,
+  email VARCHAR(255) NOT NULL,
+  thumbnail VARCHAR(255) DEFAULT NULL,
+  open_time TIMESTAMP NOT NULL,
+  close_time TIMESTAMP NOT NULL,
+  status BOOLEAN DEFAULT 1,
+  description VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE owner_has_garages(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  owner_id INT REFERENCES users(id),
+  garage_id INT REFERENCES garage_master(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 #APOINTMENTS & SLOTS & SERVICES - SHAILESH
 CREATE TABLE slot_master(
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,40 +67,40 @@ CREATE TABLE appointment_services(
   FOREIGN KEY(appointment_id) REFERENCES appointments(appointment_id)
 );
 #VEHICAL MODULE - GANPAT PARMAR
-CREATE TABLE `vehicle_master` (
-  `id` INT AUTO_INCREMENT,
-  `type_id` INT  NOT NULL,
-  `brand` VARCHAR(250) DEFAULT NULL,
-  `model` VARCHAR(250) NOT NULL,
-  `year` year DEFAULT NULL,
-  `createdtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+CREATE TABLE vehicle_master (
+  id INT AUTO_INCREMENT,
+  type_id INT  NOT NULL,
+  brand VARCHAR(250) DEFAULT NULL,
+  model VARCHAR(250) NOT NULL,
+  year year DEFAULT NULL,
+  createdtime TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
   FOREIGN KEY (type_id) REFERENCES vehicle_type(id)
 )
 
-CREATE TABLE `vehicle_types` (
-    `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(250) NOT NULL,
-    PRIMARY KEY (`id`)
+CREATE TABLE vehicle_types (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL,
+    PRIMARY KEY (id)
 )
 
-CREATE TABLE `user_has_vehicles`(
-    `id` INT AUTO_INCREMENT,
-    `owner_id` INT NOT NULL,
-    `vehicle_id` INT NOT NULL,
-    `register_plate_number` VARCHAR(250) NOT NULL,
-    `createdtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
+CREATE TABLE user_has_vehicles(
+    id INT AUTO_INCREMENT,
+    owner_id INT NOT NULL,
+    vehicle_id INT NOT NULL,
+    register_plate_number VARCHAR(250) NOT NULL,
+    createdtime TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
   FOREIGN KEY (owner_id) REFERENCES users(id)
 )
 
-CREATE TABLE `vehicle_condition` (
-    `id` INT AUTO_INCREMENT,
-    `condition_image` VARCHAR(255) NOT NULL,
-    `description` VARCHAR(250) DEFAULT NULL,
-    `vehicle_id` INT NOT NULL
+CREATE TABLE vehicle_condition (
+    id INT AUTO_INCREMENT,
+    condition_image VARCHAR(255) NOT NULL,
+    description VARCHAR(250) DEFAULT NULL,
+    vehicle_id INT NOT NULL
     PRIMARY KEY (id),
   FOREIGN KEY (vehicle_id) REFERENCES vehicle_master(id)
 ) 
@@ -101,15 +123,13 @@ create table city_master(
 create table address_master(
 	id int unique auto_increment,
 	resident_id int not null,
-    state_id int not null,
     city_id int not null,
     area varchar(255) not null,
     pincode varchar(255) not null CHECK(LENGTH(pincode) > 6),
     created_at timestamp default current_timestamp,
     updated_at timestamp on update current_timestamp,
 	foreign key(city_id) references city_master(id),
-    foreign key(state_id) references state_master(id),
-    foreign key(resident_id) references user_master(id),
+    foreign key(resident_id) references users(id),
     primary key(id)
 );
 =======================================
@@ -198,4 +218,4 @@ CREATE TRIGGER user_trigger BEFORE INSERT ON users
 FOR EACH ROW SET
     NEW.password_exp = TIMESTAMPADD(DAY, 10, CURRENT_TIMESTAMP),
     NEW.link_exp = TIMESTAMPADD(HOUR, 2, CURRENT_TIMESTAMP);
->>>>>>> 0ab6b5cc7cc90f506c81feeb679c694aac11bc43
+>>>>>>> a83e2da2b5ac3c843149351834c6b9c433cb6400
