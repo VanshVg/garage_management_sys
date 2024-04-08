@@ -1,11 +1,11 @@
 create table state_master(
-	id int not null unique auto_increment,
+	id int unique auto_increment,
     state_name varchar(255),
     primary key(id)
 );
 
 create table city_master(
-	id int not null unique auto_increment,
+	id int unique auto_increment,
     sid int,
     city_name varchar(255),
     Foreign key(sid) REFERENCES state_master(id),
@@ -13,7 +13,7 @@ create table city_master(
 );
 
 create table address_master(
-	id int not null unique auto_increment,
+	id int unique auto_increment,
 	resident_id int not null,
     state_id int not null,
     city_id int not null,
