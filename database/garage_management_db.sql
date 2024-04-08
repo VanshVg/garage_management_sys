@@ -1,0 +1,19 @@
+CREATE TABLE garage_master(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  garage_name VARCHAR(255) NOT NULL,
+  contact_number VARCHAR(10) NOT NULL,
+  CHECK(LENGTH(contact_number) = 10),
+  email VARCHAR(255) NOT NULL,
+  thumbnail VARCHAR(255) DEFAULT NULL,
+  garage_description VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE owner_has_garages(
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  owner_id INT REFERENCES users(id),
+  garage_id INT REFERENCES garage_master(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
