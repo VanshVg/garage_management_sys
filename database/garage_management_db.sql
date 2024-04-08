@@ -23,8 +23,8 @@ CREATE  TABLE role_has_permissions(
 CREATE  TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     role_id INT REFERENCES roles(id),
-    firstname VARCHAR(20) NOT NULL,
-    lastname VARCHAR(20) DEFAULT NULL,
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) DEFAULT NULL,
     profile_pic VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     dob DATE,
@@ -32,8 +32,8 @@ CREATE  TABLE users(
     activate_link VARCHAR(1000) NOT NULL,
     password_exp TIMESTAMP NOT NULL,
     link_exp TIMESTAMP NOT NULL,
-    isactive boolean DEFAULT 1,
-    isverifed boolean DEFAULT 0,
+    is_active boolean DEFAULT 1,
+    is_verifed boolean DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
