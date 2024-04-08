@@ -1,6 +1,7 @@
 ### CONTRIBUTOR
 ```
 -bharat.makwana
+-nitin.mujpara
 -jeel.patel
 -add your username here
 ```
