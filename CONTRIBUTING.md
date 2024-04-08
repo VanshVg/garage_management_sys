@@ -1,6 +1,7 @@
 ### CONTRIBUTOR
 ```
 -bharat.makwana
+-ganpat.parmar
 -add your username here
 ```
 
