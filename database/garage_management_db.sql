@@ -23,8 +23,7 @@ CREATE  TABLE role_has_permissions(
 CREATE  TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     role_id INT REFERENCES roles(id),
-    first_name VARCHAR(20) NOT NULL,
-    last_name VARCHAR(20) DEFAULT NULL,
+    name VARCHAR(20) DEFAULT NULL,
     profile_pic VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(256) NOT NULL,
