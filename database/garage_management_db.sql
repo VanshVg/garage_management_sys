@@ -27,7 +27,6 @@ CREATE  TABLE users(
     last_name VARCHAR(20) DEFAULT NULL,
     profile_pic VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
-    dob DATE,
     password VARCHAR(256) NOT NULL,
     activate_link VARCHAR(1000) NOT NULL,
     password_exp TIMESTAMP NOT NULL,
