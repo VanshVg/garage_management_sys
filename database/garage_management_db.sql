@@ -5,7 +5,7 @@ sub_total DECIMAL(10,2),
 discount_per DECIMAL(10,2),
 discount DECIMAL(10,2),
 appointment_id INT,
-FOREIGN KEY(appoINTment_id) REFERENCES appoINTments.id,
+FOREIGN KEY(appointment_id) REFERENCES appointments.id,
 status bool,
 type VARCHAR(255),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
