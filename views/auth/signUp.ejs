@@ -1,0 +1,64 @@
+<%- include('../partials/head.ejs') %>
+  <link rel="stylesheet" href="/styles/auth.css">
+  </head>
+
+  <body>
+    <div class="section">
+      <div class="container">
+        <div class="logo">
+          <img src="logo.png" alt="logo page">
+        </div>
+        <p class="projectTitle">Garage Management System</p>
+        <div class="imgContainer">
+          <img src="Group 35.png" alt="car image">
+          <img src="Group 15.png" alt="owner image">
+        </div>
+        <form action="#">
+          <div class="formContainer">
+            <div class="pageInputs">
+              <div class="pageIcons">
+                <img class="icons"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABTElEQVRIS72UjVECQQyFoQPpQCoQKvCsADsQKhAqECtQKuCsQKlA7MAObMEO4H1MdgbD7Q+nZ2YyudtN3ssm2e33OpZ+x/i9UoJbJXIvrSyhrexK+pZLsISgFshdBOhR68sUSY6AzF8NYHGU8VTfD7Z+I8uJGiVHQOC1FPBnh0DmkHxIq7YEOwscyH47kEv9f9laNNHcCTonCCVqauaflOi4yQC+WEmYKv6RXzUZgFra2ZiGvjIlZMxEIUwO/5QwKbkm5+Kz+ymCC0XzPNCHUQTpU+s8FzwbfowPITGCqfaepJCUCOBcxto7NxEAvjbHjSw3eBthqbQ+l05sf+ZJPAEZczuxJ86Joyy1x7PBSYZmD+6eIDiSObU/RzglU/bjUnoCmnYlTV6eRLnetQfGOPh4gvD2tB3fk/h/Jzin5kW+bUtRBN40RcWBpY579fo9GdNIiK4AAAAASUVORK5CYII=" />
+              </div>
+
+              <input type="text" name="name" id="name" placeholder="your name">
+
+            </div>
+            <div class="formContainer">
+              <div class="pageInputs">
+                <div class="pageIcons">
+                  <img class="icons"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABF0lEQVRIS+2U0Q3CMAxE2wlgA8oEMAKbABvAJLABsElHgA1gA5gA/KoYhSipS6A/CEtWmtS+812qlkXPUfaMX/wmwUxs20lWmfadpW8pWdMfs4iCUSa4toExThHcXdVV1rXkviPZQuo2kkNX3wwfU6AEigsBRBDGAkCAIfDDJMDHreRA8ijJntWPqWy4L9ab5Mrtn8O3KeAdjSiYOAW+ZUyslpycAgZQB0wFSo4FKJm70SEkICAObnK10CTwLfCfAVTLOFdLlFBrkwTh5frgqkYtUwXhnXD+EUFKnX+ebVEX8FYFoYchYNcfo6kgdRdfI7CsaPsYtPciDxUba6oQjHqLAHA+6TqXwFL48t5S8BZYrPhPYFr4AI3POBnLN2QjAAAAAElFTkSuQmCC" />
+                </div>
+
+                <input type="text" name="email" id="email" placeholder="abc@pqr.xyz">
+
+              </div>
+              <div class="pageInputs">
+                <div class="pageIcons">
+                  <img class="icons"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA5ElEQVRIS2NkoDFgpLH5DMRaEAB0SD4QO0AddABINwIxiMYLiLFgAdCEeBymgCxpwGcDIQtALl8PNaAQSG+AshOAdD2U7YjPJ4QsAAWBPRCDDJ+A5lKQy0GWHARiB1y+IGTBf6hGQSD9Ac0QBSD/PlQMpznEWoBLHcwBNLMAbwoCSVLqA7IsAEXYfCAGhTEp4AFQcSJ6isLmA5BCeVJMRlIL0quIrBebBQQjDoflWPWNWoAcWqNBRDDhDp4gApWa/ATdi13BQ/QSAFs+ABUVC8jIzSDDE4gpKsh0PHZthEpTii0DAFRcLhmQnrrFAAAAAElFTkSuQmCC" />
+                </div>
+
+                <input type="password" name="password" id="password" placeholder="* * * * * * * *">
+
+              </div>
+
+              <div class="pageInputs">
+                <div class="pageIcons">
+                  <img class="icons"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA5ElEQVRIS2NkoDFgpLH5DMRaEAB0SD4QO0AddABINwIxiMYLiLFgAdCEeBymgCxpwGcDIQtALl8PNaAQSG+AshOAdD2U7YjPJ4QsAAWBPRCDDJ+A5lKQy0GWHARiB1y+IGTBf6hGQSD9Ac0QBSD/PlQMpznEWoBLHcwBNLMAbwoCSVLqA7IsAEXYfCAGhTEp4AFQcSJ6isLmA5BCeVJMRlIL0quIrBebBQQjDoflWPWNWoAcWqNBRDDhDp4gApWa/ATdi13BQ/QSAFs+ABUVC8jIzSDDE4gpKsh0PHZthEpTii0DAFRcLhmQnrrFAAAAAElFTkSuQmCC" />
+                </div>
+
+                <input type="password" name="conformPassword" id="conformPassword" placeholder="* * * * * * * *">
+
+              </div>
+
+              <input type="button" class="registerButton" id="registerButton" value="REGISTER">
+              <div class="createAccount">
+                already have account ? <a id="registerLogin" href="/signin">login</a>
+              </div>
+        </form>
+      </div>
+    </div>
+    <%- include('../partials/foot.ejs') %>

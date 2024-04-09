@@ -1,0 +1,46 @@
+<%- include('../partials/head.ejs') %>
+  <link rel="stylesheet" href="/styles/auth.css">
+  </head>
+
+  <body>
+    <div class="section">
+      <div class="container">
+        <div class="logo">
+          <img src="logo.png" alt="logo page">
+        </div>
+        <p class="projectTitle">Garage Management System</p>
+        <form action="#">
+          <div class="formContainer">
+            <div class="pageInputs">
+              <div class="pageIcons">
+                <img class="icons"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABF0lEQVRIS+2U0Q3CMAxE2wlgA8oEMAKbABvAJLABsElHgA1gA5gA/KoYhSipS6A/CEtWmtS+812qlkXPUfaMX/wmwUxs20lWmfadpW8pWdMfs4iCUSa4toExThHcXdVV1rXkviPZQuo2kkNX3wwfU6AEigsBRBDGAkCAIfDDJMDHreRA8ijJntWPqWy4L9ab5Mrtn8O3KeAdjSiYOAW+ZUyslpycAgZQB0wFSo4FKJm70SEkICAObnK10CTwLfCfAVTLOFdLlFBrkwTh5frgqkYtUwXhnXD+EUFKnX+ebVEX8FYFoYchYNcfo6kgdRdfI7CsaPsYtPciDxUba6oQjHqLAHA+6TqXwFL48t5S8BZYrPhPYFr4AI3POBnLN2QjAAAAAElFTkSuQmCC" />
+              </div>
+
+              <input type="text" name="email" id="email" placeholder="abc@pqr.xyz">
+
+            </div>
+            <div class="pageInputs">
+              <div class="pageIcons">
+                <img class="icons"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA5ElEQVRIS2NkoDFgpLH5DMRaEAB0SD4QO0AddABINwIxiMYLiLFgAdCEeBymgCxpwGcDIQtALl8PNaAQSG+AshOAdD2U7YjPJ4QsAAWBPRCDDJ+A5lKQy0GWHARiB1y+IGTBf6hGQSD9Ac0QBSD/PlQMpznEWoBLHcwBNLMAbwoCSVLqA7IsAEXYfCAGhTEp4AFQcSJ6isLmA5BCeVJMRlIL0quIrBebBQQjDoflWPWNWoAcWqNBRDDhDp4gApWa/ATdi13BQ/QSAFs+ABUVC8jIzSDDE4gpKsh0PHZthEpTii0DAFRcLhmQnrrFAAAAAElFTkSuQmCC" />
+              </div>
+
+              <input type="password" name="password" id="password" placeholder="* * * * * * * *">
+
+            </div>
+            <div class="forgotPassword">
+              <a href="#">forgot password ?</a>
+            </div>
+          </div>
+
+
+          <input type="button" class="submitButton" id="submitButton" value="LOGIN">
+          <div class="createAccount">
+            don’t have account ?<a href="/"> create account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <%- include('../partials/foot.ejs') %>
