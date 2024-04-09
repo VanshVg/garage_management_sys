@@ -8,7 +8,7 @@ export const signUp = (req, res) => {
 }
 
 export const register = async (req, res) => {
-  const { role_id, name, email, password, repeatPassword } = req.body;
+  const { role_id, name, email, password } = req.body;
   console.log(name);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
