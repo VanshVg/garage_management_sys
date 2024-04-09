@@ -23,23 +23,20 @@ CREATE TABLE owner_has_garages(
 #APOINTMENTS & SLOTS & SERVICES - SHAILESH
 CREATE TABLE slot_master(
   id INT PRIMARY KEY AUTO_INCREMENT,
-  garage_id INT,
+  garage_id INT REFERENCES garage_master(id),
   start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   end_time TIMESTAMP NOT NULL,
   availability_status BOOL DEFAULT 0,
   create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY(garage_id) REFERENCES garage_master(garage_id)
+  updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE appointments(
-  appointment_id INT PRIMARY KEY AUTO_INCREMENT,
-  slot_id INT,
-  customer_id INT,
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  slot_id INT REFERENCES slot_master(id),
+  customer_id INT REFERENCES users(id),
   status BOOL DEFAULT 0,
-  comment VARCHAR(50),
-  FOREIGN KEY(slot_id) REFERENCES slot_master(slot_id),
-  FOREIGN KEY(customer_id) REFERENCES users(user_id)
+  comment VARCHAR(50)
 );
 
 CREATE TABLE appointment_payments(
@@ -48,10 +45,10 @@ CREATE TABLE appointment_payments(
   type VARCHAR(50) NOT NULL,
   status BOOL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(appointment_id) REFERENCES appointments(appointment_id)
+  FOREIGN KEY(appointment_id) REFERENCES appointments(id)
 );
 
-CREATE TABLE service_id(
+CREATE TABLE service_master(
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   description VARCHAR(150) NOT NULL,
@@ -63,10 +60,16 @@ CREATE TABLE appointment_services(
   id INT PRIMARY KEY AUTO_INCREMENT,
   service_id INT,
   appointment_id INT,
-  FOREIGN KEY(service_id) REFERENCES service_master(service_id),
-  FOREIGN KEY(appointment_id) REFERENCES appointments(appointment_id)
+  FOREIGN KEY(service_id) REFERENCES service_master(id),
+  FOREIGN KEY(appointment_id) REFERENCES appointments(id)
 );
 #VEHICAL MODULE - GANPAT PARMAR
+CREATE TABLE vehicle_types (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(250) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE vehicle_master (
   id INT AUTO_INCREMENT,
   type_id INT  NOT NULL,
@@ -76,14 +79,8 @@ CREATE TABLE vehicle_master (
   createdtime TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  FOREIGN KEY (type_id) REFERENCES vehicle_type(id)
-)
-
-CREATE TABLE vehicle_types (
-    id INT AUTO_INCREMENT,
-    name VARCHAR(250) NOT NULL,
-    PRIMARY KEY (id)
-)
+  FOREIGN KEY (type_id) REFERENCES vehicle_types(id)
+);
 
 CREATE TABLE user_has_vehicles(
     id INT AUTO_INCREMENT,
@@ -94,16 +91,16 @@ CREATE TABLE user_has_vehicles(
     updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
   FOREIGN KEY (owner_id) REFERENCES users(id)
-)
+);
 
 CREATE TABLE vehicle_condition (
     id INT AUTO_INCREMENT,
     condition_image VARCHAR(255) NOT NULL,
     description VARCHAR(250) DEFAULT NULL,
-    vehicle_id INT NOT NULL
+    vehicle_id INT NOT NULL,
     PRIMARY KEY (id),
   FOREIGN KEY (vehicle_id) REFERENCES vehicle_master(id)
-) 
+);
 #ADDRESS MODULE - NITIN
 create table state_master(
 	id int unique auto_increment,
@@ -138,11 +135,11 @@ CREATE TABLE payment_master(
     sub_total DECIMAL(10,2) NOT NULL,
     discount_per DECIMAL(10,2) DEFAULT 0,
     discount DECIMAL(10,2) DEFAULT 0,
-    appoINTment_id INT NOT NULL,
+    appointment_id INT NOT NULL,
     status bool DEFAULT 0,
     type VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(appoINTment_id) REFERENCES appoINTments.id
+    FOREIGN KEY(appointment_id) REFERENCES appointments(id)
 );
 
 CREATE TABLE feedbacks(
@@ -152,8 +149,8 @@ CREATE TABLE feedbacks(
     feedback VARCHAR(255) NOT NULL,
     ratings DECIMAL(10,2) DEFAULT 3,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(garage_id) REFERENCES garage_master.id,
-    FOREIGN KEY(customer_id) REFERENCES users.id
+    FOREIGN KEY(garage_id) REFERENCES garage_master(id),
+    FOREIGN KEY(customer_id) REFERENCES users(id)
 );
 #AUTHENTICATION MODULE - MAKWANA BHARAT
 CREATE  TABLE roles(    
