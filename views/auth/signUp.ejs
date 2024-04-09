@@ -1,4 +1,6 @@
 <%- include('../partials/head.ejs') %>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/styles/auth.css">
   </head>
 
@@ -13,50 +15,47 @@
           <img src="Group 35.png" alt="car image">
           <img src="Group 15.png" alt="owner image">
         </div>
-        <form action="#">
+        <form action="/register" method="post">
           <div class="formContainer">
             <div class="pageInputs">
               <div class="pageIcons">
-                <img class="icons"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABTElEQVRIS72UjVECQQyFoQPpQCoQKvCsADsQKhAqECtQKuCsQKlA7MAObMEO4H1MdgbD7Q+nZ2YyudtN3ssm2e33OpZ+x/i9UoJbJXIvrSyhrexK+pZLsISgFshdBOhR68sUSY6AzF8NYHGU8VTfD7Z+I8uJGiVHQOC1FPBnh0DmkHxIq7YEOwscyH47kEv9f9laNNHcCTonCCVqauaflOi4yQC+WEmYKv6RXzUZgFra2ZiGvjIlZMxEIUwO/5QwKbkm5+Kz+ymCC0XzPNCHUQTpU+s8FzwbfowPITGCqfaepJCUCOBcxto7NxEAvjbHjSw3eBthqbQ+l05sf+ZJPAEZczuxJ86Joyy1x7PBSYZmD+6eIDiSObU/RzglU/bjUnoCmnYlTV6eRLnetQfGOPh4gvD2tB3fk/h/Jzin5kW+bUtRBN40RcWBpY579fo9GdNIiK4AAAAASUVORK5CYII=" />
+                <box-icon class="icons" color="white" name='user'></box-icon>
               </div>
 
-              <input type="text" name="name" id="name" placeholder="your name">
+              <input type="text" name="name" id="name" placeholder="your name" tabindex="1">
 
             </div>
             <div class="formContainer">
               <div class="pageInputs">
                 <div class="pageIcons">
-                  <img class="icons"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABF0lEQVRIS+2U0Q3CMAxE2wlgA8oEMAKbABvAJLABsElHgA1gA5gA/KoYhSipS6A/CEtWmtS+812qlkXPUfaMX/wmwUxs20lWmfadpW8pWdMfs4iCUSa4toExThHcXdVV1rXkviPZQuo2kkNX3wwfU6AEigsBRBDGAkCAIfDDJMDHreRA8ijJntWPqWy4L9ab5Mrtn8O3KeAdjSiYOAW+ZUyslpycAgZQB0wFSo4FKJm70SEkICAObnK10CTwLfCfAVTLOFdLlFBrkwTh5frgqkYtUwXhnXD+EUFKnX+ebVEX8FYFoYchYNcfo6kgdRdfI7CsaPsYtPciDxUba6oQjHqLAHA+6TqXwFL48t5S8BZYrPhPYFr4AI3POBnLN2QjAAAAAElFTkSuQmCC" />
+                  <box-icon class="icons" color="white" name='mail-send'></box-icon>
                 </div>
 
-                <input type="text" name="email" id="email" placeholder="abc@pqr.xyz">
+                <input type="text" name="email" id="email" placeholder="abc@pqr.xyz" tabindex="2">
 
               </div>
               <div class="pageInputs">
                 <div class="pageIcons">
-                  <img class="icons"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA5ElEQVRIS2NkoDFgpLH5DMRaEAB0SD4QO0AddABINwIxiMYLiLFgAdCEeBymgCxpwGcDIQtALl8PNaAQSG+AshOAdD2U7YjPJ4QsAAWBPRCDDJ+A5lKQy0GWHARiB1y+IGTBf6hGQSD9Ac0QBSD/PlQMpznEWoBLHcwBNLMAbwoCSVLqA7IsAEXYfCAGhTEp4AFQcSJ6isLmA5BCeVJMRlIL0quIrBebBQQjDoflWPWNWoAcWqNBRDDhDp4gApWa/ATdi13BQ/QSAFs+ABUVC8jIzSDDE4gpKsh0PHZthEpTii0DAFRcLhmQnrrFAAAAAElFTkSuQmCC" />
+                  <box-icon class="icons" color="white" name='lock-open-alt'></box-icon>
                 </div>
 
-                <input type="password" name="password" id="password" placeholder="* * * * * * * *">
+                <input type="password" name="password" id="password" placeholder="* * * * * * * *" tabindex="3">
 
               </div>
 
               <div class="pageInputs">
                 <div class="pageIcons">
-                  <img class="icons"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA5ElEQVRIS2NkoDFgpLH5DMRaEAB0SD4QO0AddABINwIxiMYLiLFgAdCEeBymgCxpwGcDIQtALl8PNaAQSG+AshOAdD2U7YjPJ4QsAAWBPRCDDJ+A5lKQy0GWHARiB1y+IGTBf6hGQSD9Ac0QBSD/PlQMpznEWoBLHcwBNLMAbwoCSVLqA7IsAEXYfCAGhTEp4AFQcSJ6isLmA5BCeVJMRlIL0quIrBebBQQjDoflWPWNWoAcWqNBRDDhDp4gApWa/ATdi13BQ/QSAFs+ABUVC8jIzSDDE4gpKsh0PHZthEpTii0DAFRcLhmQnrrFAAAAAElFTkSuQmCC" />
+                  <box-icon class="icons" color="white" name='lock-open-alt'></box-icon>
                 </div>
 
-                <input type="password" name="conformPassword" id="conformPassword" placeholder="* * * * * * * *">
+                <input type="password" name="conformPassword" id="conformPassword" placeholder="* * * * * * * *"
+                  tabindex="4">
 
               </div>
 
-              <input type="button" class="registerButton" id="registerButton" value="REGISTER">
+              <input type="button" class="registerButton" id="registerButton" value="REGISTER" tabindex="5">
               <div class="createAccount">
-                already have account ? <a id="registerLogin" href="/signin">login</a>
+                already have account ? <a id="registerLogin" href="/signin" tabindex="6">login</a>
               </div>
         </form>
       </div>
