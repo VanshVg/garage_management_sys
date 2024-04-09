@@ -1,14 +1,18 @@
+<<<<<<< HEAD
 import { validationResult } from 'express-validator';
 import { activateUser, findOne, findOneById, insert } from '../utils/dbHandler.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+=======
+>>>>>>> b5eaeec8e3616f57952efc686a851c2b5151713d
 export const signUp = (req, res) => {
-  res.render('login/signUp', { title: 'Sign Up' });
-}
+  res.render("auth/signUp", { title: "Sign Up" });
+};
 
 export const register = async (req, res) => {
   const { role_id, name, email, password } = req.body;
+<<<<<<< HEAD
   console.log(name);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -34,8 +38,24 @@ export const register = async (req, res) => {
         res.status(301).json({ success: false, message: "Something went wrong!" });
       }
     }
+=======
+  if (!name) {
+    res
+      .status(301)
+      .json({ success: false, message: "Please provide First Name" });
+  } else if (!email) {
+    res
+      .status(301)
+      .json({ success: false, message: "Please provide an email address" });
+  } else if (!password) {
+    res
+      .status(301)
+      .json({ success: false, message: "Please provide a password" });
+  } else {
+    res.status(200).json({ success: true, message: "Registered Successfully" });
+>>>>>>> b5eaeec8e3616f57952efc686a851c2b5151713d
   }
-}
+};
 
 export const activate = (req, res) => {
   return new Promise(async (resolve, reject) => {
@@ -57,8 +77,8 @@ export const activate = (req, res) => {
 }
 
 export const signIn = (req, res) => {
-  res.render('login/login', { title: 'Login' });
-}
+  res.render("auth/login", { title: "Login" });
+};
 
 export const login = async (req, res) => {
   const errors = validationResult(req);
@@ -91,4 +111,10 @@ export const login = async (req, res) => {
       return res.status(201).json({ success: true, message: "Logged in successfully" });
     }
   }
+<<<<<<< HEAD
 }
+=======
+  const { email, password } = req.body;
+  res.status(201).json({ success: true, message: "Logged in successfully" });
+};
+>>>>>>> b5eaeec8e3616f57952efc686a851c2b5151713d
