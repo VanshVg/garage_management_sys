@@ -4,7 +4,8 @@
   "description": "The Garage Management System (GMS) is a comprehensive software solution designed to streamline and automate various aspects of managing automotive repair shops, commonly referred to as garages. The system aims to improve efficiency, enhance customer experience, and optimize resource utilization for garage owners, staff, administrators, and customers.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
