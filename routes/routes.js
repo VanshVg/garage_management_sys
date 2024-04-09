@@ -5,10 +5,11 @@ import { registerValidator, loginValidator } from '../validators/userValidation.
 
 const router = express.Router();
 
+// auth routes
 router.get('/', userController.signUp);
-router.post('/register', userController.register);
+router.post('/register', registerValidator, userController.register);
 router.get('/signin', userController.signIn);
-router.post('/login', userController.login);
+router.post('/login', loginValidator, userController.login);
 
 // home page
 router.get('/home', home);
