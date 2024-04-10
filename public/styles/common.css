@@ -7,3 +7,40 @@
 body {
   text-align: center;
 }
+
+.sidebar{
+  background-color: #182B3B;
+  color: aliceblue;
+  font-weight: bolder;
+  height: 100%;
+  width:20rem;
+  position: fixed;
+  background-repeat: repeat-y;
+}
+
+.sidebar .col{
+  margin: 0 auto;
+}
+
+.sidebar .brand{
+  padding: 5px;
+}
+
+.brand .brand-img img{
+  width: 100px;
+  height: 100px;
+}
+
+.sidebar .col ul li{
+  list-style: none;
+}
+
+.sidebar .col .menus{
+    text-align: left;
+    margin-left: 32px;
+    margin-top: 20px;
+}
+
+.sidebar .col .menus li{
+  margin-top: 10px;
+}

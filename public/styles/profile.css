@@ -1,0 +1,63 @@
+:root {
+  --dark: #182B3B;
+  --white: #ffffff;
+  --input-bg: #959ca2;
+  --light: #dfe7ec;
+  --button-bg:#355364;
+}
+
+body {
+  background-color: var(--dark);
+}
+
+.profile-container {
+  margin: 0 auto;
+  max-width: 720px;
+  color: var(--white);
+  padding: 10px 10px;
+}
+
+.change-button {
+  background-color: var(--input-bg);
+}
+
+.change-button:hover {
+  cursor: pointer;
+}
+
+.profile-header {
+  font-size: 30px;
+}
+
+input, select {
+  background-color: var(--input-bg);
+  border-color: var(--input-bg);
+  padding-left: 10px;
+}
+
+input:focus, select:focus {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: var(--light);
+}
+
+.area {
+  padding-bottom: 70px;
+  height: 100px;
+}
+
+.cancel-button {
+  padding: 7px 10px;
+  background-color: var(--button-bg);
+  border-radius: 5px;
+}
+
+.save-button {
+  padding: 9px 10px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: var(--button-bg);
+}

@@ -43,3 +43,31 @@ export const insert = async (UserInfo) => {
     return { error };
   }
 }
+
+export const insertSlot =  async (slotTime) =>{
+  try {
+    let query = `INSERT INTO slot_master (garage_id,start_time,end_time) values (?)`;
+    let results = await (await conn()).query(query,[slotTime])
+    return results[0].insertId;
+  } catch (error) {
+    return {error}
+  }
+}
+
+export const updateSlot = async (slotTime) =>{
+  try {
+    let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
+    let results = await (await conn()).query(query,[slotTime]);
+    return results[0];
+  } catch (error) {
+    return {error}
+  }
+}
+
+export const deleteSlot = async (slotId) =>{
+  try {
+    let query = `UPDATE salot_master set is deleted = 1 where id`
+  } catch (error) {
+    return {error}
+  }
+}
