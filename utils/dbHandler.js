@@ -57,7 +57,7 @@ export const insertSlot =  async (slotTime) =>{
 export const updateSlot = async (slotTime) =>{
   try {
     let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
-    let results = await (await conn()).query(query,[slotTime]);
+    let results = await (await conn()).query(query,[slotTime[0],slotTime[1],slotTime[2]]);
     return results[0];
   } catch (error) {
     return {error}
@@ -66,7 +66,7 @@ export const updateSlot = async (slotTime) =>{
 
 export const deleteSlot = async (slotId) =>{
   try {
-    let query = `UPDATE salot_master set is deleted = 1 where id = ?`
+    let query = `UPDATE slot_master set is_deleted = 1 where id = ?`
     let results = await (await conn()).query(query,[slotId])
     return results[0]
   } catch (error) {
