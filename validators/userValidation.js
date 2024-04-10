@@ -26,5 +26,18 @@ export const profileValidator = [
     .withMessage("Pincode must be at least 6 digits long...!!")
 ];
 
+export const garageValidator = [
+  body("garageName").isLength({ min: 3 }).withMessage('Name must be of 3 characters long.')
+    .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
+  body("email").isByteLength({ min: 6 }).withMessage("Please provide a valid email address").isEmail().withMessage("Invalid email...!!").normalizeEmail(),
+  body("cityId").isBoolean().withMessage("provide city id"),
+  body("residentId").isBoolean().withMessage("provide resident id"),
+  body("area").isLength({ min: 3 }).withMessage('area contains aleast 3 character'),
+  body("pincode").isAlphanumeric().withMessage('pincode must contain number only').isLength({ min: 7, max: 7 }).withMessage("pincode must contain six digit only"),
+  // body("description").isLength({ min: 1 }).withMessage('please provide description'),
+  body("contactNumber").isAlphanumeric().withMessage('contact number must contain numbers').matches(/^\d{10}$/).withMessage('contact number must be 10 digit'),
+  body("openTime").matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('provide valide open time'),
+  body("closeTime").matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('provide valide open time')
+]
 export const forgotPasswordValidator = () => { };
 export const forgotEmailValidator = () => { };
