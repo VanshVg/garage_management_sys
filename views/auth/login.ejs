@@ -1,6 +1,4 @@
 <%- include('../partials/head.ejs') %>
-  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/styles/auth.css">
   </head>
 
@@ -16,14 +14,14 @@
           <div class="formContainer">
             <div class="pageInputs">
               <div class="pageIcons">
-                <box-icon class="icons" color="white" name='mail-send'></box-icon>
+                <img src="/icons/mail.svg" alt="m" class="icons">
               </div>
               <input type="text" name="email" id="email" placeholder="abc@pqr.xyz" tabindex="1"
                 validation="require email" oninput="Validation.isValid(this)">
             </div>
             <div class="pageInputs">
               <div class="pageIcons">
-                <box-icon class="icons" color="white" name='lock-open-alt'></box-icon>
+                <img src="/icons/lock.svg" class="icons" alt="l">
               </div>
 
               <input type="password" name="password" id="password" placeholder="* * * * * * * *" tabindex="2"

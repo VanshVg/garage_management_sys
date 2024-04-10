@@ -1,5 +1,4 @@
 import { config } from "dotenv";
-// import { boxicons } from 'boxicons'
 import express from 'express';
 import routes from './routes/routes.js'
 import passport from "passport";
