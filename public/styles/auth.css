@@ -20,28 +20,29 @@ body {
 }
 
 .logo img {
-  height: 150px;
-  width: 150px;
+  height: 140px;
+  width: 140px;
 }
 
 .projectTitle {
   color: var(--white);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .pageIcons {
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
-  width: 20%;
   background-color: var(--blue);
-  height: 50px;
+  height: 45px;
   width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icons {
   color: #ffffff;
-  margin-top: 10px;
 }
 
 .formContainer {
@@ -51,9 +52,8 @@ body {
 
 .pageInputs {
   margin-top: 20px;
-  height: 50px;
+  height: 45px;
   display: flex;
-  gap: 0px;
   border-radius: 7px;
   position: relative;
 }
@@ -91,10 +91,23 @@ a {
   justify-content: space-around;
 }
 
-.imgContainer img {
-  height: 80px;
-  width: 80px;
+.imgContainer label {
+  height: 90px;
+  width: 90px;
   margin-top: 10px;
+  border: 1px solid #000;
+  padding: 8px;
+  border-radius: 12px;
+  color: #000;
+  filter: invert(1);
+  opacity: 0.5;
+}
+.imgContainer label img {
+  height: 60px;
+  margin: 0;
+}
+.imgContainer label p {
+  margin-top: -8px;
 }
 
 .submitButton {
@@ -109,23 +122,26 @@ a {
   border: none;
 }
 
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  margin: 10px 0;
+  margin-top: 20px;
+}
 .registerButton {
   color: #ffffff;
   font-size: large;
   font-weight: bold;
   background-color: var(--blue);
-  margin-top: 20px;
-  margin-left: 70%;
   border-radius: 7px;
   height: 50px;
   width: 30%;
-  /* border-color: #355364; */
   border: none;
 }
 
 .createAccount {
   color: var(--white);
-  margin-top: 20px;
   font-size: large;
 }
 
@@ -150,4 +166,7 @@ error {
 }
 input[type="radio"] {
   display: none;
+}
+.imgContainer input[type="radio"]:checked + label {
+  opacity: 1;
 }

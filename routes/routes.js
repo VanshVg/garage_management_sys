@@ -1,14 +1,18 @@
-import express from 'express';
-import { home, userProfile } from '../controllers/staticControllers.js';
+import express from "express";
+import { home, userProfile } from "../controllers/staticControllers.js";
 import * as userController from "../controllers/userControllers.js";
 import garageRoutes from "./garageRoutes.js";
-import passport from 'passport';
+import passport from "passport";
 import {
   registerValidator,
   loginValidator,
 } from "../validators/userValidation.js";
-import { slotValidator } from '../validators/slotValidation.js';
-import { slotBooking, slotDelete, slotUpdate } from '../controllers/slotBookingController.js';
+import { slotValidator } from "../validators/slotValidation.js";
+import {
+  slotBooking,
+  slotDelete,
+  slotUpdate,
+} from "../controllers/slotBookingController.js";
 
 // garage route file
 import profileRoutes from "./profileRoutes.js"
@@ -28,19 +32,24 @@ router.get("/activate/:id/:token", userController.activate);
 router.get("/home", home);
 
 // garage routes
-router.use('/garage', garageRoutes);
+router.use("/garage", garageRoutes);
 
-router.get('/profile', passport.authenticate("jwt", {
-  session: false,
-  failureRedirect: "/signIn"
-}), validateRole(1), userProfile);
+router.get(
+  "/profile",
+  passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: "/signIn",
+  }),
+  validateRole(1),
+  userProfile
+);
 
-router.use("/profile", profileRoutes)
+router.use("/profile", profileRoutes);
 
 // slot routes
-router.post('/slotinsert',slotBooking)
-router.post('/slotupdate',slotUpdate)
-router.post('/slotdelete',slotDelete)
+router.post('/slotinsert', slotBooking)
+router.post('/slotupdate', slotUpdate)
+router.post('/slotdelete', slotDelete)
 
 router.use("/service", serviceRoutes)
 export default router;
