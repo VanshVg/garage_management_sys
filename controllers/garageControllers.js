@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { insertGarage, insertGarageAddress, insetGargeOwner, updateGarage, deleteGarage } from "../utils/dbHandler.js";
+import { insertGarage, insertGarageAddress, insertGarageOwner, updateGarage, deleteGarage } from "../utils/dbHandler.js";
 import { fileUpload } from '../helpers/fileUploads.js';
 // garage add 
 export const garageAdd = async (req, res) => {
@@ -19,7 +19,7 @@ export const garageAdd = async (req, res) => {
       let garageId = await insertGarage([garageName, contactNumber, email, thumbnail, openTime, closeTime, description, result]);
       console.log(garageId);
       if (!garageId.error) {
-        result = await insetGargeOwner([garageId, userId]);
+        result = await insertGarageOwner([garageId, userId]);
         if (!result.error) {
           // console.log(result);
           res.status(200).json({ success: true, message: "garage registered successfully." })

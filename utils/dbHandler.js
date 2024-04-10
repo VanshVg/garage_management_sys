@@ -5,7 +5,7 @@ export const findOne = async (email) => {
   try {
     let query = "SELECT * FROM users WHERE email = ?";
     let [results] = await (await conn()).query(query, [email]);
-    let User = results[0];
+    let User = results;
     return User;
   } catch (err) {
     return { err };
@@ -16,7 +16,7 @@ export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
     let [results] = await (await conn()).query(query, [userId]);
-    let User = results[0];
+    let User = results;
     return User;
   } catch (err) {
     return { err };
@@ -25,7 +25,8 @@ export const findOneById = async (userId) => {
 
 export const activateUser = async (userId) => {
   try {
-    let query = "UPDATE users SET is_verified = 1 where user_id = ?";
+    console.log(userId);
+    let query = "UPDATE users SET is_verified = 1 where id = ?";
     let [results] = await (await conn()).query(query, [userId]);
     let User = results[0];
     return User;
@@ -100,7 +101,7 @@ export const insertGarage = async (garageInfo) => {
   }
 }
 // owner has garage insert
-export const insetGarageOwner = async (ownerInfo) => {
+export const insertGarageOwner = async (ownerInfo) => {
   try {
     let query = `INSERT INTO owner_has_garages (owner_id, garage_id) values (?)`;
     let result = await (await conn()).query(query, [ownerInfo]);
