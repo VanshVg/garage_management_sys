@@ -1,12 +1,7 @@
-import { validationResult } from "express-validator";
-import {
-  activateUser,
-  findOne,
-  findOneById,
-  insert,
-} from "../utils/dbHandler.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { validationResult } from 'express-validator';
+import { activateUser, findOne, findOneById, insert } from '../utils/dbHandler.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -112,3 +107,44 @@ export const login = async (req, res) => {
     }
   }
 };
+
+export const updateProfile = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(301).json({ success: false, errors: errors.array() });
+  }
+  let { name, email, area, pincode } = req.body
+  let { userId } = req.params
+
+  let user = await findOneById(userId);
+  if (!user) {
+    return res.status(301).json({ success: false, message: "User doesn't exist" });
+  }
+
+  let userEmail = await findOne(email);
+  if (!userEmail) {
+    return res.status(301).json({ success: false, message: "Email already taken" });
+  }
+
+  let userResult = await updateUserById([name, email, userId]);
+  if (userResult != 1) {
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+
+  let address = await findAddressById(userId);
+  if (!address) {
+    let result = await insertAddress([userId, 2, area, pincode]);
+    if (!result) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    } else {
+      return res.status(201).json({ success: true, message: "User updated successfully" });
+    }
+  }
+
+  let addressResult = await updateAddressById([2, area, pincode, userId]);
+  if (addressResult != 1) {
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+
+  return res.status(201).json({ success: true, message: "User updated successfully" });
+}
