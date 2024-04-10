@@ -7,6 +7,8 @@ import {
   registerValidator,
   loginValidator,
 } from "../validators/userValidation.js";
+// garage route file
+import garageRoutes from "./garageRoutes.js";
 import { applyPassportStrategy } from '../auth/auth.js';
 import { validateRole } from '../roleServices.js';
 
@@ -22,7 +24,7 @@ router.post('/login', loginValidator, userController.login);
 router.get("/home", home);
 
 // garage routes
-// router.use('/garage', garageRoutes);
+router.use('/garage', garageRoutes);
 
 router.get('/profile', passport.authenticate("jwt", {
   session: false,
