@@ -11,11 +11,11 @@ import * as garageRoutes from "./garageRoutes.js";
 const router = express.Router();
 
 // auth routes
-router.get('/', userController.signUp);
-router.post('/register', registerValidator, userController.register);
-router.get('/signin', userController.signIn);
-router.post('/login', loginValidator, userController.login);
-
+router.get("/", userController.signUp);
+router.post("/register", registerValidator, userController.register);
+router.get("/signin", userController.signIn);
+router.post("/login", loginValidator, userController.login);
+router.get("/activate/:id/:token", userController.activate);
 // home page
 router.get("/home", home);
 

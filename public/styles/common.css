@@ -7,3 +7,6 @@
 body {
   text-align: center;
 }
+input[type="submit"] {
+  cursor: pointer;
+}
