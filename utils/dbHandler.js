@@ -66,7 +66,9 @@ export const updateSlot = async (slotTime) =>{
 
 export const deleteSlot = async (slotId) =>{
   try {
-    let query = `UPDATE salot_master set is deleted = 1 where id`
+    let query = `UPDATE salot_master set is deleted = 1 where id = ?`
+    let results = await (await conn()).query(query,[slotId])
+    return results[0]
   } catch (error) {
     return {error}
   }
