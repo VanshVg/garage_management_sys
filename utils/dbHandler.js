@@ -88,7 +88,7 @@ export const updateUserById = async (userInfo) => {
 
 export const findAddressById = async (userId) => {
   try {
-    let query = `SELECT * FROM address_master WHERE resident_id = ?`
+    let query = `SELECT * FROM user_address WHERE user_id = ?`
     let [results] = await (await conn()).query(query, [userId]);
     let address = results[0];
     return address;
@@ -99,7 +99,17 @@ export const findAddressById = async (userId) => {
 
 export const insertAddress = async (userInfo) => {
   try {
-    let query = `INSERT INTO address_master (resident_id, city_id, area, pincode) VALUES (?)`
+    let query = `INSERT INTO address_master (city_id, area, pincode) VALUES (?)`
+    let results = await (await conn()).query(query, [userInfo]);
+    return results[0].insertId;
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const insertUserAddress = async (userInfo) => {
+  try {
+    let query = `INSERT INTO user_address (user_id, address_id) VALUES (?)`
     let results = await (await conn()).query(query, [userInfo]);
     return results[0].insertId;
   } catch (error) {
@@ -109,13 +119,14 @@ export const insertAddress = async (userInfo) => {
 
 export const updateAddressById = async (userInfo) => {
   try {
-    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE resident_id = ?`
+    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = ?`
     let results = await (await conn()).query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
     return { error }
   }
 }
+
 
 // garage insert
 export const insertGarage = async (garageInfo) => {
@@ -170,5 +181,16 @@ export const deleteGarage = async (garageId) => {
     let result = await (await conn()).query(query, [garageId]);
   } catch (error) {
     return { error };
+  }
+}
+
+export const insertService = async (serviceInfo) => {
+  try {
+    let query = `INSERT INTO service_master (name, description, price) VALUES (?)`
+    let result = await (await conn()).query(query, [serviceInfo]);
+    return result[0].insertId;
+  } catch (error) {
+    console.log(error);
+    return { error }
   }
 }
