@@ -6,6 +6,8 @@ import passport from 'passport';
 import {
   registerValidator,
   loginValidator,
+  forgotPasswordValidator,
+  resetValidator,
 } from "../validators/userValidation.js";
 import { slotValidator } from '../validators/slotValidation.js';
 import { slotBooking, slotDelete, slotUpdate } from '../controllers/slotBookingController.js';
@@ -23,6 +25,10 @@ router.post("/register", registerValidator, userController.register);
 router.get("/signin", userController.signIn);
 router.post("/login", loginValidator, userController.login);
 router.get("/activate/:id/:token", userController.activate);
+router.get('/forgotPassword', userController.forgot);
+router.post('/forgotPassword', forgotPasswordValidator, userController.forget);
+router.get('/resetPassword', userController.resetPassword);
+router.post('/resetPassword', resetValidator, userController.reset);
 // home page
 router.get("/home", home);
 
@@ -37,7 +43,7 @@ router.get('/profile', passport.authenticate("jwt", {
 router.use("/profile", profileRoutes)
 
 // slot routes
-router.post('/slotinsert',slotBooking)
-router.post('/slotupdate',slotUpdate)
-router.post('/slotdelete',slotDelete)
+router.post('/slotinsert', slotBooking)
+router.post('/slotupdate', slotUpdate)
+router.post('/slotdelete', slotDelete)
 export default router;

@@ -39,5 +39,6 @@ export const garageValidator = [
   body("openTime").matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('provide valide open time'),
   body("closeTime").matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('provide valide open time')
 ]
-export const forgotPasswordValidator = () => { };
+export const forgotPasswordValidator = [];
+export const resetValidator = [];
 export const forgotEmailValidator = () => { };

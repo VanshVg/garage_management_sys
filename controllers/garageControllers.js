@@ -14,14 +14,11 @@ export const garageAdd = async (req, res) => {
   }
   else {
     let result = await insertGarageAddress([residentId, cityId, area, pincode]);
-    console.log(result);
     if (!result.error) {
       let garageId = await insertGarage([garageName, contactNumber, email, thumbnail, openTime, closeTime, description, result]);
-      console.log(garageId);
       if (!garageId.error) {
         result = await insertGarageOwner([garageId, userId]);
         if (!result.error) {
-          // console.log(result);
           res.status(200).json({ success: true, message: "garage registered successfully." })
         }
       } else {
@@ -36,7 +33,6 @@ export const garageAdd = async (req, res) => {
 export const garageUpdate = async (req, res) => {
   const { garageName } = req.body;
   let result = await updateGarage();
-  console.log(result);
   if (!garageName) {
     res.status(500).json({ success: false, message: "Please provide garage name" })
   } else {
@@ -47,7 +43,6 @@ export const garageUpdate = async (req, res) => {
 export const garageDelete = async (req, res) => {
   const { garageName } = req.body;
   let result = await deleteGarage();
-  console.log(result);
   if (!garageName) {
     res.status(500).json({ success: false, message: "Please provide garage name" })
   } else {

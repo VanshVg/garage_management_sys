@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { activateUser, findOne, findOneById, insert } from '../utils/dbHandler.js';
+import { activateUser, findOne, findOneById, insert, updatePassword } from '../utils/dbHandler.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -9,7 +9,6 @@ export const signUp = (req, res) => {
 
 export const register = async (req, res) => {
   const { role_id, name, email, password } = req.body;
-  console.log(name);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(301).json({ success: false, errors: errors.array() });
@@ -107,6 +106,48 @@ export const login = async (req, res) => {
     }
   }
 };
+
+export const forgot = async (req, res) => {
+  res.render('auth/forgotPassword', { title: "Forgot Password" });
+}
+
+export const forget = async (req, res) => {
+  const email = req.body.email;
+  let result = await findOne(email);
+  if (!result[0]) {
+    return res.status(301).json({
+      success: false,
+      message: "Invalid email address",
+    });
+  }
+  return res.status(200).json({
+    success: true,
+    email: email
+  });
+}
+
+export const resetPassword = async (req, res) => {
+  res.render('auth/resetPassword', { title: "Reset Password" })
+}
+
+export const reset = async (req, res) => {
+  const { email, password } = req.body;
+  let result = await findOne(email);
+  if (!result[0]) {
+    return res.status(301).json({
+      success: false,
+      message: "Invalid email address",
+    });
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  result = await updatePassword(result[0].id, hashedPassword);
+  return res.status(200).json({
+    success: true,
+    message: "password updated successfully"
+  });
+}
 
 export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
