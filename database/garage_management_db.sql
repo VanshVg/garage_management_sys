@@ -470,6 +470,7 @@ CREATE TABLE `slot_master` (
   `start_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `end_time` timestamp NOT NULL,
   `availability_status` tinyint(1) DEFAULT '0',
+  `is_deleted` tinyint(1) DEFAULT '0',
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

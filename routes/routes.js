@@ -7,6 +7,9 @@ import {
   registerValidator,
   loginValidator,
 } from "../validators/userValidation.js";
+import { slotValidator } from '../validators/slotValidation.js';
+import { slotBooking, slotDelete, slotUpdate } from '../controllers/slotBookingController.js';
+
 // garage route file
 import profileRoutes from "./profileRoutes.js"
 import { applyPassportStrategy } from '../auth/auth.js';
@@ -33,4 +36,8 @@ router.get('/profile', passport.authenticate("jwt", {
 
 router.use("/profile", profileRoutes)
 
+// slot routes
+router.post('/slotinsert',slotBooking)
+router.post('/slotupdate',slotUpdate)
+router.post('/slotdelete',slotDelete)
 export default router;
