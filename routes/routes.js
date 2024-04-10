@@ -12,6 +12,7 @@ import { slotBooking, slotDelete, slotUpdate } from '../controllers/slotBookingC
 
 // garage route file
 import profileRoutes from "./profileRoutes.js"
+import serviceRoutes from "./serviceRoutes.js"
 import { applyPassportStrategy } from '../auth/auth.js';
 import { validateRole } from '../roleServices.js';
 
@@ -40,4 +41,6 @@ router.use("/profile", profileRoutes)
 router.post('/slotinsert',slotBooking)
 router.post('/slotupdate',slotUpdate)
 router.post('/slotdelete',slotDelete)
+
+router.use("/service", serviceRoutes)
 export default router;
