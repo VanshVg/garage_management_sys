@@ -2,15 +2,16 @@ import express from 'express';
 import { home, userProfile } from '../controllers/staticControllers.js';
 import * as userController from "../controllers/userControllers.js";
 import * as garageRoutes from "./garageRoutes.js";
+import passport from 'passport';
 import {
   registerValidator,
   loginValidator,
 } from "../validators/userValidation.js";
-// garage route file
-
+import { applyPassportStrategy } from '../auth/auth.js';
+import { validateRole } from '../roleServices.js';
 
 const router = express.Router();
-
+applyPassportStrategy();
 // auth routes
 router.get('/', userController.signUp);
 router.post('/register', registerValidator, userController.register);
@@ -23,6 +24,9 @@ router.get("/home", home);
 // garage routes
 // router.use('/garage', garageRoutes);
 
-router.get('/profile', userProfile);
+router.get('/profile', passport.authenticate("jwt", {
+  session: false,
+  failureRedirect: "/signIn"
+}), validateRole(1), userProfile);
 
 export default router;
