@@ -8,6 +8,8 @@ import {
   loginValidator,
 } from "../validators/userValidation.js";
 // garage route file
+import * as garageRoutes from "./garageRoutes.js";
+import profileRoutes from "./profileRoutes.js"
 import garageRoutes from "./garageRoutes.js";
 import { applyPassportStrategy } from '../auth/auth.js';
 import { validateRole } from '../roleServices.js';
@@ -30,5 +32,7 @@ router.get('/profile', passport.authenticate("jwt", {
   session: false,
   failureRedirect: "/signIn"
 }), validateRole(1), userProfile);
+
+router.use("/profile", profileRoutes)
 
 export default router;

@@ -10,7 +10,7 @@ export const findOne = async (email) => {
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const findOneById = async (userId) => {
   try {
@@ -21,7 +21,7 @@ export const findOneById = async (userId) => {
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const activateUser = async (userId) => {
   try {
@@ -32,18 +32,60 @@ export const activateUser = async (userId) => {
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const insert = async (UserInfo) => {
   try {
-    console.log(UserInfo)
+    console.log(UserInfo);
     let query = `INSERT INTO users ( role_id, name, email, password, activate_link) values (?)`;
     let results = await (await conn()).query(query, [UserInfo]);
     return results[0].insertId;
   } catch (error) {
     return { error };
   }
+};
+
+export const updateUserById = async (userInfo) => {
+  try {
+    let query = `UPDATE users SET name = ?, email = ? WHERE id = ?`;
+    let results = await (await conn()).query(query, userInfo);
+    return results[0].affectedRows
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const findAddressById = async (userId) => {
+  try {
+    let query = `SELECT * FROM address_master WHERE resident_id = ?`
+    let [results] = await (await conn()).query(query, [userId]);
+    let address = results[0];
+    return address;
+  } catch (error) {
+    return { error }
+  }
 }
+
+export const insertAddress = async (userInfo) => {
+  try {
+    let query = `INSERT INTO address_master (resident_id, city_id, area, pincode) VALUES (?)`
+    let results = await (await conn()).query(query, [userInfo]);
+    return results[0].insertId;
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const updateAddressById = async (userInfo) => {
+  try {
+    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE resident_id = ?`
+    let results = await (await conn()).query(query, userInfo);
+    return results[0].affectedRows;
+  } catch (error) {
+    return { error }
+  }
+}
+
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
@@ -58,7 +100,7 @@ export const insertGarage = async (garageInfo) => {
   }
 }
 // owner has garage insert
-export const insetGargeOwner = async (ownerInfo) => {
+export const insetGarageOwner = async (ownerInfo) => {
   try {
     let query = `INSERT INTO owner_has_garages (owner_id, garage_id) values (?)`;
     let result = await (await conn()).query(query, [ownerInfo]);
