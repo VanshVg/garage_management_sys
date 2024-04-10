@@ -11,12 +11,11 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
+app.use(cookieParser());
+app.use(passport.initialize());
 app.use(routes);
 
-app.use(passport.initialize());
-app.use(cookieParser());
 
-applyPassportStrategy(passport);
 
 const port = process.env.PORT || 3000;
 
