@@ -26,18 +26,16 @@ DROP TABLE IF EXISTS `address_master`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address_master` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `resident_id` int NOT NULL,
   `city_id` int NOT NULL,
   `area` varchar(255) NOT NULL,
   `pincode` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `city_id` (`city_id`),
-  KEY `resident_id` (`resident_id`),
   CONSTRAINT `address_master_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city_master` (`id`),
-  CONSTRAINT `address_master_ibfk_2` FOREIGN KEY (`resident_id`) REFERENCES `users` (`id`),
   CONSTRAINT `address_master_chk_1` CHECK ((length(`pincode`) > 6))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -64,6 +62,7 @@ CREATE TABLE `appointment_payments` (
   `type` varchar(50) NOT NULL,
   `status` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `appointment_id` (`appointment_id`),
   CONSTRAINT `appointment_payments_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`)
@@ -90,6 +89,7 @@ CREATE TABLE `appointment_services` (
   `id` int NOT NULL AUTO_INCREMENT,
   `service_id` int DEFAULT NULL,
   `appointment_id` int DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `service_id` (`service_id`),
   KEY `appointment_id` (`appointment_id`),
@@ -120,6 +120,7 @@ CREATE TABLE `appointments` (
   `customer_id` int DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   `comment` varchar(50) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -144,6 +145,7 @@ CREATE TABLE `city_master` (
   `id` int NOT NULL AUTO_INCREMENT,
   `sid` int DEFAULT NULL,
   `city_name` varchar(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `sid` (`sid`),
@@ -197,6 +199,7 @@ CREATE TABLE `feedbacks` (
   `feedback` varchar(255) NOT NULL,
   `ratings` decimal(10,2) DEFAULT '3.00',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `garage_id` (`garage_id`),
   KEY `customer_id` (`customer_id`),
@@ -212,6 +215,68 @@ CREATE TABLE `feedbacks` (
 LOCK TABLES `feedbacks` WRITE;
 /*!40000 ALTER TABLE `feedbacks` DISABLE KEYS */;
 /*!40000 ALTER TABLE `feedbacks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `garage_address`
+--
+
+DROP TABLE IF EXISTS `garage_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `garage_address` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address_id` int NOT NULL,
+  `garage_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `address_id` (`address_id`),
+  KEY `garage_id` (`garage_id`),
+  CONSTRAINT `garage_address_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address_master` (`id`),
+  CONSTRAINT `garage_address_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `garage_address`
+--
+
+LOCK TABLES `garage_address` WRITE;
+/*!40000 ALTER TABLE `garage_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `garage_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `garage_has_sevices`
+--
+
+DROP TABLE IF EXISTS `garage_has_sevices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `garage_has_sevices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `garage_id` int NOT NULL,
+  `services_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `services_id` (`services_id`),
+  KEY `garage_id` (`garage_id`),
+  CONSTRAINT `garage_has_sevices_ibfk_1` FOREIGN KEY (`services_id`) REFERENCES `service_master` (`id`),
+  CONSTRAINT `garage_has_sevices_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `garage_has_sevices`
+--
+
+LOCK TABLES `garage_has_sevices` WRITE;
+/*!40000 ALTER TABLE `garage_has_sevices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `garage_has_sevices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -233,6 +298,7 @@ CREATE TABLE `garage_master` (
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   CONSTRAINT `garage_master_chk_1` CHECK ((length(`contact_number`) = 10))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -286,6 +352,7 @@ CREATE TABLE `owner_has_garages` (
   `garage_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -309,7 +376,8 @@ DROP TABLE IF EXISTS `password_change_logs`;
 CREATE TABLE `password_change_logs` (
   `user_id` int DEFAULT NULL,
   `password` varchar(256) NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -339,6 +407,7 @@ CREATE TABLE `payment_master` (
   `status` tinyint(1) DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `appointment_id` (`appointment_id`),
   CONSTRAINT `payment_master_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`)
@@ -366,6 +435,7 @@ CREATE TABLE `permissions` (
   `name` varchar(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -392,6 +462,7 @@ CREATE TABLE `role_has_permissions` (
   `permission_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`role_id`,`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -417,6 +488,7 @@ CREATE TABLE `roles` (
   `name` varchar(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -444,6 +516,7 @@ CREATE TABLE `service_master` (
   `description` varchar(150) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `availability_status` tinyint(1) DEFAULT '0',
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -474,7 +547,7 @@ CREATE TABLE `slot_master` (
   `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -483,6 +556,7 @@ CREATE TABLE `slot_master` (
 
 LOCK TABLES `slot_master` WRITE;
 /*!40000 ALTER TABLE `slot_master` DISABLE KEYS */;
+INSERT INTO `slot_master` VALUES (1,1,'2001-01-01 10:55:23','2001-01-01 11:55:23',0,1,'2024-04-10 09:08:40','2024-04-10 09:48:17');
 /*!40000 ALTER TABLE `slot_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,6 +570,7 @@ DROP TABLE IF EXISTS `state_master`;
 CREATE TABLE `state_master` (
   `id` int NOT NULL AUTO_INCREMENT,
   `state_name` varchar(255) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -508,6 +583,37 @@ CREATE TABLE `state_master` (
 LOCK TABLES `state_master` WRITE;
 /*!40000 ALTER TABLE `state_master` DISABLE KEYS */;
 /*!40000 ALTER TABLE `state_master` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_address`
+--
+
+DROP TABLE IF EXISTS `user_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_address` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `address_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `address_id` (`address_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_address_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address_master` (`id`),
+  CONSTRAINT `user_address_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_address`
+--
+
+LOCK TABLES `user_address` WRITE;
+/*!40000 ALTER TABLE `user_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -524,6 +630,7 @@ CREATE TABLE `user_has_vehicles` (
   `register_plate_number` varchar(250) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `user_has_vehicles_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
@@ -560,6 +667,7 @@ CREATE TABLE `users` (
   `is_verified` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -571,7 +679,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,0,'Shaileshbhai Chaudhari',NULL,'shailesh93602@gmail.com','shailesh','skafjs','2024-04-19 06:56:56','2024-04-09 08:56:56',1,0,'2024-04-09 06:56:56',NULL);
+INSERT INTO `users` VALUES (1,0,'Shaileshbhai Chaudhari',NULL,'shailesh93602@gmail.com','shailesh','skafjs','2024-04-19 06:56:56','2024-04-09 08:56:56',1,0,'2024-04-09 06:56:56',NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -587,6 +695,7 @@ CREATE TABLE `vehicle_condition` (
   `condition_image` varchar(255) NOT NULL,
   `description` varchar(250) DEFAULT NULL,
   `vehicle_id` int NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `vehicle_id` (`vehicle_id`),
   CONSTRAINT `vehicle_condition_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle_master` (`id`)
@@ -617,6 +726,7 @@ CREATE TABLE `vehicle_master` (
   `year` year DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `type_id` (`type_id`),
   CONSTRAINT `vehicle_master_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `vehicle_types` (`id`)
@@ -642,6 +752,7 @@ DROP TABLE IF EXISTS `vehicle_types`;
 CREATE TABLE `vehicle_types` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(250) NOT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -654,6 +765,14 @@ LOCK TABLES `vehicle_types` WRITE;
 /*!40000 ALTER TABLE `vehicle_types` DISABLE KEYS */;
 /*!40000 ALTER TABLE `vehicle_types` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'garage_management_db'
+--
+
+--
+-- Dumping routines for database 'garage_management_db'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -664,4 +783,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-09 12:37:38
+-- Dump completed on 2024-04-10 18:39:08
