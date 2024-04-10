@@ -3,6 +3,7 @@
   </head>
 
   <body>
+    <toast></toast>
     <div class="section">
       <div class="container">
         <div class="logo">
@@ -10,10 +11,14 @@
         </div>
         <p class="projectTitle">Garage Management System</p>
         <div class="imgContainer">
-          <label for="customer"><img src="/assets/Group 35.png" alt="car image"></label>
           <input type="radio" name="role_id" id="customer" value="0" checked>
-          <label for="owner"><img src="/assets/Group 15.png" alt="owner image"></label>
+          <label for="customer"><img src="/icons/vehicle.svg" alt="car image">
+            <p>customer</p>
+          </label>
           <input type="radio" name="role_id" id="owner" value="1">
+          <label for="owner"><img src="/icons/owner.svg" alt="owner image">
+            <p>owner</p>
+          </label>
         </div>
         <form method="post" onsubmit="Validation.validateAll(event,'register')">
           <div class="formContainer">
@@ -49,12 +54,20 @@
                   <img src="/icons/lock.svg" alt="l" class="icons">
                 </div>
 
+              </div>
+
+              <div class="pageInputs">
+                <div class="pageIcons">
+                  <box-icon class="icons" color="white" name='lock-open-alt'></box-icon>
+                </div>
+
                 <input type="password" name="conformPassword" id="conformPassword" placeholder="* * * * * * * *"
                   tabindex="4" validation="require length8" oninput="Validation.isValid(this)">
 
               </div>
-
-              <input type="submit" class="registerButton" id="registerButton" value="REGISTER" tabindex="5">
+              <div class="btn-container">
+                <input type="submit" class="registerButton" id="registerButton" value="REGISTER" tabindex="5">
+              </div>
               <div class="createAccount">
                 already have account ? <a id="registerLogin" href="/signin" tabindex="6">login</a>
               </div>

@@ -31,7 +31,6 @@ export const garageValidator = [
     .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
   body("email").isByteLength({ min: 6 }).withMessage("Please provide a valid email address").isEmail().withMessage("Invalid email...!!").normalizeEmail(),
   body("cityId").isBoolean().withMessage("provide city id"),
-  body("residentId").isBoolean().withMessage("provide resident id"),
   body("area").isLength({ min: 3 }).withMessage('area contains aleast 3 character'),
   body("pincode").isAlphanumeric().withMessage('pincode must contain number only').isLength({ min: 7, max: 7 }).withMessage("pincode must contain six digit only"),
   // body("description").isLength({ min: 1 }).withMessage('please provide description'),

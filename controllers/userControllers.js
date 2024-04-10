@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { activateUser, findOne, findOneById, insert, updatePassword } from '../utils/dbHandler.js';
+import { activateUser, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updateUserById } from '../utils/dbHandler.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -154,17 +154,19 @@ export const updateProfile = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, errors: errors.array() });
   }
-  let { name, email, area, pincode } = req.body
+  let { name, email, area, pincode, addressId } = req.body
   let { userId } = req.params
 
   let user = await findOneById(userId);
-  if (!user) {
+  if (user.length == 0) {
     return res.status(301).json({ success: false, message: "User doesn't exist" });
   }
 
   let userEmail = await findOne(email);
-  if (!userEmail) {
-    return res.status(301).json({ success: false, message: "Email already taken" });
+  if (userEmail.length > 0) {
+    if (userEmail[0].id != userId) {
+      return res.status(301).json({ success: false, message: "Email already taken" });
+    }
   }
 
   let userResult = await updateUserById([name, email, userId]);
@@ -174,16 +176,20 @@ export const updateProfile = async (req, res) => {
 
   let address = await findAddressById(userId);
   if (!address) {
-    let result = await insertAddress([userId, 2, area, pincode]);
+    let result = await insertAddress([1, area, pincode]);
     if (!result) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     } else {
+      let userAddressResult = await insertUserAddress([userId, result]);
+      if (!userAddressResult) {
+        return res.status(301).json({ success: false, message: "Something went wrong!" });
+      }
       return res.status(201).json({ success: true, message: "User updated successfully" });
     }
   }
 
-  let addressResult = await updateAddressById([2, area, pincode, userId]);
-  if (addressResult != 1) {
+  let updateAddress = await updateAddressById([1, area, pincode, addressId]);
+  if (updateAddress != 1) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 

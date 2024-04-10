@@ -1,0 +1,10 @@
+<%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="/styles/ownerDashboard.css">
+    </head>
+
+    <body>
+        <div class="dashboard">
+            <%- include('./partials/sidebar',{active:'Dashboard'}) %>
+                <%- include('./partials/dashboard.ejs') %>
+        </div>
+        <%- include('./partials/foot') %>

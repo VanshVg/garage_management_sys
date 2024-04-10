@@ -26,22 +26,27 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
-                <div class="module-wrapper">
-                    <div class="row">
-                        <div class="col">
-                            <%- include('header') %>
-                        </div>
-                        <div class="col">
-                            <%- include('dashboard') %>
-                        </div>
-                    </div>
-                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="menus">
+                <ul>
+                    <li id="Dashboard"><i></i><label>Dashboard</label></li>
+                    <li id="Profile"><i></i><label>Profile</label></li>
+                    <li id="Garages"><i></i><label>garages</label></li>
+                    <li id="Services"><i></i><label>Services</label></li>
+                    <li id="Slots"><i></i><label>Manage Slots</label></li>
+                    <li id="Appointment"><i></i><label>Appointment</label></li>
+                    <li id="Inventory"><i></i><label>Inventory</label></li>
+                    <li id="Invoice"><i></i><label>Invoice</label></li>
+                    <li id="Logout"><i></i><label>Logout</label></li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.querySelector(`li[id=<%= active %>]`).style.color = '#fff'
-</script>
+    <script>
+        document.querySelector(`li[id=<%= active %>]`).style.color = '#fff'
+    </script>
+</div>
