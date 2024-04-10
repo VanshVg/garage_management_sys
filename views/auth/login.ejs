@@ -5,28 +5,29 @@
   </head>
 
   <body>
+    <toast></toast>
     <div class="section">
       <div class="container">
         <div class="logo">
           <img src="/assets/logo.png" alt="logo page">
         </div>
         <p class="projectTitle">Garage Management System</p>
-        <form action="/login" method="post">
+        <form method="post" onsubmit="Validation.validateAll(event,'login')">
           <div class="formContainer">
             <div class="pageInputs">
               <div class="pageIcons">
                 <box-icon class="icons" color="white" name='mail-send'></box-icon>
               </div>
-
-              <input type="text" name="email" id="email" placeholder="abc@pqr.xyz" tabindex="1">
-
+              <input type="text" name="email" id="email" placeholder="abc@pqr.xyz" tabindex="1"
+                validation="require email" oninput="Validation.isValid(this)">
             </div>
             <div class="pageInputs">
               <div class="pageIcons">
                 <box-icon class="icons" color="white" name='lock-open-alt'></box-icon>
               </div>
 
-              <input type="password" name="password" id="password" placeholder="* * * * * * * *" tabindex="2">
+              <input type="password" name="password" id="password" placeholder="* * * * * * * *" tabindex="2"
+                validation="require length8" oninput="Validation.isValid(this)">
 
             </div>
             <div class="forgotPassword">
@@ -35,12 +36,12 @@
           </div>
 
 
-          <input type="button" class="submitButton" id="submitButton" value="LOGIN" tabindex="3">
+          <input type="submit" class="submitButton" id="submitButton" value="LOGIN" tabindex="3">
           <div class="createAccount">
             don’t have account ?<a href="/" tabindex="4"> create account</a>
           </div>
         </form>
       </div>
     </div>
-
+    <script src="/scripts/validation.js"></script>
     <%- include('../partials/foot.ejs') %>
