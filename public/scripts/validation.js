@@ -57,7 +57,6 @@ const Validation = {
   },
   validateAll: async (e, form) => {
     e.preventDefault();
-    console.log("welcome");
     document.querySelectorAll(`input[validation]`).forEach((ele) => {
       Validation.isValid(ele);
     });
@@ -75,7 +74,6 @@ const Validation = {
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
         ).value;
-      console.log(formProps);
       let response = await fetch(`/${form}`, {
         method: "POST",
         headers: {
@@ -102,7 +100,6 @@ const Validation = {
           throw data.message;
         }
       } catch (error) {
-        console.log(error);
         if (error == undefined) {
           error = "Something wen't wrong..!!";
         }
