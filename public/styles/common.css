@@ -1,3 +1,10 @@
+:root {
+  --dark: #152533;
+  --blue: #355364;
+  --white: #FFFFFF;
+  --light: #D9D9D9;
+  --lightorange: burlywood;
+}
 * {
   margin: 0;
   padding: 0;
@@ -6,4 +13,94 @@
 
 body {
   text-align: center;
+  background-color: #D7E0E7;
+}
+
+.section2{
+  background-color: #182B3B;
+  color: aliceblue;
+  font-weight: bolder;
+  height: 100%;
+  width:20rem;
+  position: fixed;
+  background-repeat: repeat-y;
+}
+
+.section2 .row{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.section2 .col{
+  margin: 0 auto;
+}
+
+/* .section2 .col .module-wrapper.section1{
+  float: top left;
+} */
+
+.section2 .brand{
+  padding: 5px;
+}
+
+.brand .brand-img img{
+  width: 100px;
+  height: 100px;
+}
+
+.section2 .col ul li{
+  list-style: none;
+}
+
+.section2 .col .menus{
+    text-align: left;
+    margin-left: 6px;
+    margin-top: 20px;
+}
+
+.section2 .col .menus li{
+  margin-top: 10px;
+  color: rgba(217, 217, 217, 0.6);
+}
+
+.section2 .col .module-wrapper .section1 .header{
+  display: inline-flex;
+  float: right;
+  top: 0;
+  align-items: center;
+  margin: 10px;
+  padding: 0px 30px;
+  position: fixed;
+  margin-left: 200px;
+}
+
+.section1 .header .module-title{
+  margin-right: 550px;
+  font-weight: bolder;
+  color: var(--dark);
+}
+
+.section1 .header .header-profile{
+  background-color: #DFE7EC;
+  align-items: center;
+  display: inline-flex;
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: 1px solid #bcc0c2;
+  border-radius: 50px;
+}
+
+.section1 .header .header-profile .header-title{
+  padding: 0 10px 0 0;
+  font-weight: bold;
+  color: var(--dark);
+}
+
+.section1 .header .header-notification img{
+  border: 1px solid #DBE3E8;
+  border-radius: 50%;
+}
+
+.section3 .wrapper{
+    background-color: #355364;
 }

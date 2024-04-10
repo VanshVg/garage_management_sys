@@ -1,6 +1,7 @@
 import conn from "../config/dbConfig.js";
 
 export const findOne = async (email) => {
+  console.log(email);
   try {
     let query = "SELECT * FROM users WHERE email = ?";
     let [results] = await (await conn()).query(query, [email]);
