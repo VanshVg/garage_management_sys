@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="section2">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -12,21 +12,34 @@
                 </div>
                 <div class="menus">
                     <ul>
-                        <li><i><a>Dashboard</a></i></li>
-                        <li><i><a>Profile</a></i></li>
-                        <li><i><a>garages</a></i></li>
-                        <li><i><a>Services</a></i></li>
-                        <li><i><a>Manage Slots</a></i></li>
-                        <li><i><a>Appointment</a></i></li>
-                        <li><i><a>Inventory</a></i></li>
-                        <li><i><a>Invoice</a></i></li>
-                        <li><i><a>Logout</a></i></li>
+                        <li id="Dashboard"><i></i><label>Dashboard</label></li>
+                        <li id="Profile"><i></i><label>Profile</label></li>
+                        <li id="Garages"><i></i><label>garages</label></li>
+                        <li id="Services"><i></i><label>Services</label></li>
+                        <li id="Slots"><i></i><label>Manage Slots</label></li>
+                        <li id="Appointment"><i></i><label>Appointment</label></li>
+                        <li id="Inventory"><i></i><label>Inventory</label></li>
+                        <li id="Invoice"><i></i><label>Invoice</label></li>
+                        <li id="Logout"><i></i><label>Logout</label></li>
                     </ul>
                 </div>
             </div>
             <div class="col">
-
+                <div class="module-wrapper">
+                    <div class="row">
+                        <div class="col">
+                            <%- include('header') %>
+                        </div>
+                        <div class="col">
+                            <%- include('dashboard') %>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector(`li[id=<%= active %>]`).style.color='#fff'
+</script>
