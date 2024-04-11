@@ -52,4 +52,5 @@ router.post('/slotupdate', slotUpdate)
 router.post('/slotdelete', slotDelete)
 
 router.use("/service", serviceRoutes)
+
 export default router;

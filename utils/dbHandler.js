@@ -213,9 +213,31 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
   }
 }
 
+export const findService = async (serviceInfo) => {
+  try {
+    let query = `SELECT * FROM service_master WHERE name = ?`
+    let result = await (await conn()).query(query, [serviceInfo]);
+    return result[0];
+  } catch (error) {
+    console.log(error);
+    return { error }
+  }
+}
+
+
 export const insertService = async (serviceInfo) => {
   try {
-    let query = `INSERT INTO service_master (name, description, price) VALUES (?)`
+    let query = `INSERT INTO service_master (name, description, price, availability_status) VALUES (?)`
+    let result = await (await conn()).query(query, [serviceInfo]);
+    return result[0].insertId;
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const insertGarageService = async (serviceInfo) => {
+  try {
+    let query = `INSERT INTO garage_has_services (garage_id, services_id) VALUES (?)`
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
