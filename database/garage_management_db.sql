@@ -249,13 +249,13 @@ LOCK TABLES `garage_address` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `garage_has_sevices`
+-- Table structure for table `garage_has_services`
 --
 
-DROP TABLE IF EXISTS `garage_has_sevices`;
+DROP TABLE IF EXISTS `garage_has_services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `garage_has_sevices` (
+CREATE TABLE `garage_has_services` (
   `id` int NOT NULL AUTO_INCREMENT,
   `garage_id` int NOT NULL,
   `services_id` int NOT NULL,
@@ -265,18 +265,18 @@ CREATE TABLE `garage_has_sevices` (
   PRIMARY KEY (`id`),
   KEY `services_id` (`services_id`),
   KEY `garage_id` (`garage_id`),
-  CONSTRAINT `garage_has_sevices_ibfk_1` FOREIGN KEY (`services_id`) REFERENCES `service_master` (`id`),
-  CONSTRAINT `garage_has_sevices_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+  CONSTRAINT `garage_has_services_ibfk_1` FOREIGN KEY (`services_id`) REFERENCES `service_master` (`id`),
+  CONSTRAINT `garage_has_services_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `garage_has_sevices`
+-- Dumping data for table `garage_has_services`
 --
 
-LOCK TABLES `garage_has_sevices` WRITE;
-/*!40000 ALTER TABLE `garage_has_sevices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `garage_has_sevices` ENABLE KEYS */;
+LOCK TABLES `garage_has_services` WRITE;
+/*!40000 ALTER TABLE `garage_has_services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `garage_has_services` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
