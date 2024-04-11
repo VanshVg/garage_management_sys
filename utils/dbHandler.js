@@ -139,8 +139,7 @@ export const updateAddressById = async (userInfo) => {
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
-    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description,address_id) values (?)`;
-
+    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
     let result = await (await conn()).query(query, [garageInfo]);
     return result[0].insertId;
   } catch (error) {
@@ -197,7 +196,6 @@ export const updateGarageAddress = async (addressInfo) => {
     return { error };
   }
 }
-
 // garage delete
 export const deleteGarage = async (garageId, addressId, referenceID) => {
   try {
@@ -212,6 +210,16 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
     return { error };
   }
 }
+// display garage details
+export const displayGarage = async (garageId) => {
+  try {
+    let query = `SELECT * FROM garage_master  WHERE id= ?`;
+    let result = await (await conn()).query(query, [garageId]);
+    return result[0];
+  } catch (error) {
+    return { error }
+  }
+}
 
 export const findService = async (serviceInfo) => {
   try {
@@ -222,6 +230,7 @@ export const findService = async (serviceInfo) => {
     return { error }
   }
 }
+
 
 export const insertService = async (serviceInfo) => {
   try {

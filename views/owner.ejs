@@ -7,35 +7,35 @@
             <div class="dashboard-container">
                 <%- include('./partials/sidebar',{active}) %>
                     <div class="page-container" style="display: none;" id="dashboard-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Dashboard"})%>
                             <%- include(`./partials/dashboard.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="profile-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Profile"})%>
                             <%- include(`./partials/profile.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="garages-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
                             <%- include(`./partials/garages.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="services-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Services"})%>
                             <%- include(`./partials/services.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="slots-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Slots"})%>
                             <%- include(`./partials/slots.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="appointment-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
                             <%- include(`./partials/appointments.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="inventory-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Inventory"})%>
                             <%- include(`./partials/inventory.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="invoice-screen">
-                        <%- include(`./partials/topBar.ejs`,{active})%>
+                        <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
                             <%- include(`./partials/invoice.ejs`) %>
                     </div>
             </div>
