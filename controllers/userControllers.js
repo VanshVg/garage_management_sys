@@ -27,6 +27,7 @@ export const register = async (req, res) => {
       result = await insert([role_id, name, email, hashedPassword, token]);
       if (!result.length)
         res.status(201).json({
+          success: true,
           message: "User registered successfully",
           userId: result,
           token,
