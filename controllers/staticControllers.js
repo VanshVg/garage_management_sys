@@ -13,3 +13,8 @@ export const customerHome = (req, res) => {
 export const notFound = (req, res) => {
   res.render('404', { title: "404 Not Found!" });
 }
+// garage form display 
+export const garageForm = (req, res) => {
+  let data = [{}];
+  res.render('garage/garageModule', { title: "Garage Form", data })
+}
