@@ -224,7 +224,6 @@ export const findService = async (serviceInfo) => {
   }
 }
 
-
 export const insertService = async (serviceInfo) => {
   try {
     let query = `INSERT INTO service_master (name, description, price, availability_status) VALUES (?)`
@@ -241,7 +240,16 @@ export const insertGarageService = async (serviceInfo) => {
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
-    console.log(error);
+    return { error }
+  }
+}
+
+export const deleteGarageService = async (serviceInfo) => {
+  try {
+    let query = `UPDATE garage_has_services SET is_deleted = 1 WHERE garage_id = ? AND services_id = ?`;
+    let result = await (await conn()).query(query, serviceInfo);
+    return result[0].affectedRows;
+  } catch (error) {
     return { error }
   }
 }
