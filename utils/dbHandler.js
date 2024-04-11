@@ -1,7 +1,6 @@
 import conn from "../config/dbConfig.js";
 
 export const findOne = async (email) => {
-  console.log(email);
   try {
     let query = "SELECT * FROM users WHERE email = ?";
     let [results] = await (await conn()).query(query, [email]);
@@ -25,7 +24,6 @@ export const findOneById = async (userId) => {
 
 export const activateUser = async (userId) => {
   try {
-    console.log(userId);
     let query = "UPDATE users SET is_verified = 1 where id = ?";
     let [results] = await (await conn()).query(query, [userId]);
     let User = results[0];
@@ -35,9 +33,19 @@ export const activateUser = async (userId) => {
   }
 };
 
+export const updatePassword = async (userId, password) => {
+  try {
+    let query = "UPDATE users SET password = ? where id = ?";
+    let [results] = await (await conn()).query(query, [password, userId]);
+    let User = results[0];
+    return User;
+  } catch (err) {
+    return { err };
+  }
+};
+
 export const insert = async (UserInfo) => {
   try {
-    console.log(UserInfo);
     let query = `INSERT INTO users ( role_id, name, email, password, activate_link) values (?)`;
     let results = await (await conn()).query(query, [UserInfo]);
     return results[0].insertId;
@@ -59,7 +67,7 @@ export const insertSlot = async (slotTime) => {
 export const updateSlot = async (slotTime) => {
   try {
     let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
-    let results = await (await conn()).query(query,[slotTime[0],slotTime[1],slotTime[2]]);
+    let results = await (await conn()).query(query, [slotTime[0], slotTime[1], slotTime[2]]);
     return results[0];
   } catch (error) {
     return { error }
@@ -69,7 +77,7 @@ export const updateSlot = async (slotTime) => {
 export const deleteSlot = async (slotId) => {
   try {
     let query = `UPDATE slot_master set is_deleted = 1 where id = ?`
-    let results = await (await conn()).query(query,[slotId])
+    let results = await (await conn()).query(query, [slotId])
     return results[0]
   } catch (error) {
     return { error }
@@ -131,13 +139,11 @@ export const updateAddressById = async (userInfo) => {
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
-    console.log(garageInfo);
-    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
+    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description,address_id) values (?)`;
+
     let result = await (await conn()).query(query, [garageInfo]);
-    console.log(result);
     return result[0].insertId;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -148,7 +154,6 @@ export const insertGarageOwner = async (ownerInfo) => {
     let result = await (await conn()).query(query, [ownerInfo]);
     return result[0].affectedRows;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -159,7 +164,6 @@ export const insertGarageAddress = async (addressInfo) => {
     let result = await (await conn()).query(query, [addressInfo]);
     return result[0].insertId;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -199,7 +203,6 @@ export const updateGarageAddress = async (addressInfo) => {
 // garage delete
 export const deleteGarage = async (garageId, addressId, referenceID) => {
   try {
-    console.log(garageId);
     let query = `UPDATE garage_master SET is_delete = 1 WHERE id = ?`;
     let query2 = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
     let query3 = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
