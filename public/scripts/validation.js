@@ -70,10 +70,15 @@ const Validation = {
       btn.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" height="20px" />`;
       const formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
-      if (form == "register")
+      if (form == "u/register")
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
         ).value;
+      if (form == 'u/resetPassword') {
+        let href = location.pathname;
+        href = href.slice(href.lastIndexOf('/') + 1);
+        formProps["email"] = href;
+      }
       let response = await fetch(`/${form}`, {
         method: "POST",
         headers: {
@@ -85,17 +90,49 @@ const Validation = {
       try {
         data = await response.json();
         if (data.success) {
-          Swal.fire({
-            title: "Good job!",
-            text: "Welcome To Your Dashboard",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 1500,
-            allowOutsideClick: false,
-          });
-          setTimeout(() => {
-            location.href = "/home";
-          }, 1500);
+          if (form == 'u/login') {
+            Swal.fire({
+              title: "Good job!",
+              text: "Welcome To Your Dashboard",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+              allowOutsideClick: false,
+            });
+            setTimeout(() => {
+              if (data.role_id == 'owner') location.pathname = "/owner/home";
+              else location.pathname = "/customer/home";
+            }, 1500);
+          }
+          else if (form == 'u/register') {
+            const activate = document.getElementById('activate');
+            let href = document.createElement('a');
+            let text = `${location}/activate/${data.userId}/${data.token}`;
+            href.setAttribute('href', text);
+            href.append(text);
+            activate.innerHTML = href;
+          }
+          else if (form == 'u/forgotPassword') {
+            const activate = document.getElementById('activate');
+            let href = document.createElement('a');
+            let text = `${location.origin}/u/resetPassword/${data.email}`;
+            href.setAttribute('href', text);
+            href.append(text);
+            activate.innerHTML = href;
+          }
+          else if (form == 'u/resetPassword') {
+            Swal.fire({
+              title: "Good job!",
+              text: "Password Updated successfully",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+              allowOutsideClick: false,
+            });
+            setTimeout(() => {
+              location.pathname = "u/signIn";
+            }, 1500);
+          }
         } else {
           throw data.message;
         }

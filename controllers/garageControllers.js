@@ -1,6 +1,13 @@
 import { validationResult } from 'express-validator';
-import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage } from "../utils/dbHandler.js";
+import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage } from "../utils/dbHandler.js";
 import { fileUpload } from '../helpers/fileUploads.js';
+
+// display garage with data
+export const garageDisplay = async (req, res) => {
+  let garageId = 1;
+  let data = await displayGarage(garageId);
+  res.render('garage/garageModule', { title: "Garage Form", data });
+}
 // garage add 
 export const garageAdd = async (req, res) => {
   let { garageName, contactNumber, email, openTime, closeTime, cityId, description, area, pincode } = req.body;
@@ -9,8 +16,7 @@ export const garageAdd = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
-  }
-  else {
+  } else {
     let addressId = await insertGarageAddress([cityId, area, pincode]);
     console.log(addressId);
     if (addressId) {
@@ -57,7 +63,6 @@ export const garageUpdate = async (req, res) => {
 
   }
 }
-
 // garage delete
 export const garageDelete = async (req, res) => {
   let garageId = 1;
