@@ -1,41 +1,49 @@
 <%- include('../partials/head.ejs') %>
-  <link rel="stylesheet" href="/styles/ownerDashboard.css">
+  <link rel="stylesheet" href="/styles/ownerProfile.css">
   </head>
 
   <body>
-    <div class="dashboard">
+    <!-- <div class="dashboard">
       <%- include('../partials/sidebar',{active:'Profile'}) %>
-    </div>
+    </div> -->
 
-    <div class="container">
-      <h1>Profile</h1>
-      <div class="right">
-        <div class="profile">
-          <h2>Name</h2>
-          <img src="/icons/profile.svg" alt="p">
-        </div>
-        <img src="/icons/notification.svg" alt="n">
-      </div>
-      <div class="card-container">
+    <div class="card-container">
+      <div class="left">
+
         <div class="card">
           <div class="photo">
-            photo
+            <img src="/assets/profile.webp" alt="image" class="profile-image">
           </div>
-          <h2>name</h2>
-          <p>(designation)</p>
+          <h2>Shailesh Chaudhari</h2>
+          <p>(Owner)</p>
         </div>
         <div class="card">
           <h3>Contact details</h3>
-          <img src="/icons/pencil.svg" alt="p">
           <div class="email">
-            <img src="/icons/mail.svg" alt="e">
+            <img src="/icons/mail.svg" alt="e" class="icons">
             <p>abcd@example.com</p>
           </div>
           <div class="location">
-            i
+            <img src="/icons/location.svg" alt="l" class="icons">
             <p>lorem ipsum</p>
           </div>
         </div>
       </div>
+      <div class="right">
+        <div class="card">
+
+          <h3>Bio</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ad tenetur odit amet officia magnam
+            cupiditate. Adipisci commodi accusamus quae unde a, eos, vero eaque necessitatibus ea iste quidem quod
+            exercitationem maiores libero corporis?</p>
+        </div>
+      </div>
+      <img src="/icons/pencil.svg" alt="p" class="icons pencil" id="edit">
     </div>
+
+    <script>
+      document.getElementById('edit').addEventListener('click', () => {
+        location.href = "/profile/edit";
+      })
+    </script>
     <%- include('../partials/foot') %>

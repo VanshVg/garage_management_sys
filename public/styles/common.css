@@ -17,6 +17,10 @@ body {
   background-color: #D7E0E7;
 }
 
+.flex {
+  display: flex;
+}
+
 .section2 {
   background-color: #182B3B;
   color: aliceblue;

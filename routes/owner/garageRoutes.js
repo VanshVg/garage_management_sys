@@ -1,6 +1,6 @@
 import express from "express";
-import { garageAdd, garageDelete, garageUpdate } from "../controllers/garageControllers.js";
-import { garageValidator } from "../validators/userValidation.js";
+import { garageAdd, garageDelete, garageUpdate } from "../../controllers/garageControllers.js";
+import { garageValidator } from "../../validators/userValidation.js";
 const router = express.Router();
 
 router.post("/add", garageValidator, garageAdd);

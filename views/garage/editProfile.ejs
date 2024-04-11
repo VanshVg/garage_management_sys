@@ -1,7 +1,8 @@
-<%- include('./partials/head.ejs') %>
-    <link rel="stylesheet" href="./styles/styles.css" />
-    <link rel="stylesheet" href="./styles/profile.css" />
+<%- include('../partials/head.ejs') %>
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <link rel="stylesheet" href="/styles/profile.css" />
   </head>
+
   <body>
     <div class="profile-container">
       <form>
@@ -11,7 +12,9 @@
             <label for="photo" class="block text-sm font-medium leading-6">Profile Pic</label>
             <div class="mt-2 flex items-center gap-x-3">
               <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+                <path fill-rule="evenodd"
+                  d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                  clip-rule="evenodd" />
               </svg>
               <input type="file" id="file" hidden />
               <label for="file" class="rounded-md px-2.5 py-1.5 text-sm font-semibold change-button">Choose File</label>
@@ -22,28 +25,33 @@
               <div class="sm:col-span-4">
                 <label for="name" class="block text-sm font-medium leading-6">Name</label>
                 <div class="mt-2">
-                  <input type="text" name="name" id="name" autocomplete="given-name" value="John" class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 sm:text-sm sm:leading-6" />
+                  <input type="text" name="name" id="name" autocomplete="given-name" value="John"
+                    class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 sm:text-sm sm:leading-6" />
                 </div>
               </div>
 
               <div class="sm:col-span-4">
                 <label for="email" class="block text-sm font-medium leading-6">Email address</label>
                 <div class="mt-2">
-                  <input id="email" name="email" type="email" autocomplete="email" value="john@doe.com" class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6" />
+                  <input id="email" name="email" type="email" autocomplete="email" value="john@doe.com"
+                    class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 focus:ring-2 sm:text-sm sm:leading-6" />
                 </div>
               </div>
 
               <div class="sm:col-span-4">
                 <label for="Address" class="block text-sm font-medium leading-6">Area</label>
                 <div class="mt-2">
-                  <input type="text" name="area" id="area" autocomplete="given-area" value="177A Bleecker Street, New York City, NY 10012-1406" class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 sm:text-sm sm:leading-6 area" />
+                  <input type="text" name="area" id="area" autocomplete="given-area"
+                    value="177A Bleecker Street, New York City, NY 10012-1406"
+                    class="block w-full rounded-md border-0 py-1.5 placeholder:text-gray-400 sm:text-sm sm:leading-6 area" />
                 </div>
               </div>
 
               <div class="sm:col-span-2">
                 <label for="state" class="block text-sm font-medium leading-6">State</label>
                 <div class="mt-2">
-                  <select id="state" name="state" autocomplete="state-name" class="block w-full rounded-md border-0 py-1.5 sm:max-w-xs sm:text-sm sm:leading-6">
+                  <select id="state" name="state" autocomplete="state-name"
+                    class="block w-full rounded-md border-0 py-1.5 sm:max-w-xs sm:text-sm sm:leading-6">
                     <option>Gujarat</option>
                     <option>Maharashtra</option>
                     <option>Rajashthan</option>
@@ -54,7 +62,8 @@
               <div class="sm:col-span-2">
                 <label for="city" class="block text-sm font-medium leading-6">City</label>
                 <div class="mt-2">
-                  <select id="city" name="city" autocomplete="city-name" class="block w-full rounded-md border-0 py-1.5 sm:max-w-xs sm:text-sm sm:leading-6">
+                  <select id="city" name="city" autocomplete="city-name"
+                    class="block w-full rounded-md border-0 py-1.5 sm:max-w-xs sm:text-sm sm:leading-6">
                     <option>Ahmedabad</option>
                     <option>Mumbai</option>
                     <option>Jaipur</option>
@@ -73,4 +82,4 @@
         </div>
       </form>
     </div>
-    <%- include('./partials/foot.ejs') %>
+    <%- include('../partials/foot.ejs') %>

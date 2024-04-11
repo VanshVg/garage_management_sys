@@ -147,6 +147,10 @@ export const reset = async (req, res) => {
   });
 }
 
+export const editProfile = (req, res) => {
+  res.render("garage/editProfile", { title: "Edit Profile" });
+}
+
 export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -192,4 +196,9 @@ export const updateProfile = async (req, res) => {
   }
 
   return res.status(201).json({ success: true, message: "User updated successfully" });
+}
+
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect('/signIn');
 }
