@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { activateUser, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updateUserById } from '../utils/dbHandler.js';
+import { activateUser, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword, updateUserById } from '../utils/dbHandler.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -25,6 +25,7 @@ export const register = async (req, res) => {
       let token = Math.random().toString(36).slice(2);
 
       result = await insert([role_id, name, email, hashedPassword, token]);
+      console.log(result);
       if (!result.length)
         res.status(201).json({
           success: true,
@@ -53,10 +54,7 @@ export const activate = async (req, res) => {
       });
     } else {
       let result = activateUser(id);
-      res.status(201).json({
-        success: true,
-        message: "Your account is activated please login to continue",
-      });
+      res.render('auth/success', { success: true, message: "Your account is activated please login to continue" });
     }
   } catch (err) {
     res.status(301).json({ success: false, message: err.message });
@@ -150,6 +148,10 @@ export const reset = async (req, res) => {
   });
 }
 
+export const editProfile = (req, res) => {
+  res.render("garage/editProfile", { title: "Edit Profile" });
+}
+
 export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -195,4 +197,9 @@ export const updateProfile = async (req, res) => {
   }
 
   return res.status(201).json({ success: true, message: "User updated successfully" });
+}
+
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect('/u/signIn');
 }

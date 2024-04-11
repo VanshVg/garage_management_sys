@@ -4,7 +4,6 @@ import routes from './routes/routes.js'
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import { applyPassportStrategy } from './auth/auth.js';
 
 config();
 const app = express();
