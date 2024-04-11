@@ -4,7 +4,6 @@ import * as serviceController from "../controllers/serviceControllers.js";
 
 const router = express.Router();
 
-router.get("/:garageId")
 router.post("/:garageId", serviceValidator, serviceController.addService);
 router.delete("/:garageId", serviceValidator, serviceController.deleteService);
 

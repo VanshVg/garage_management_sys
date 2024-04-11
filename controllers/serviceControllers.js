@@ -1,15 +1,6 @@
 import { validationResult } from 'express-validator';
 import { deleteGarageService, findGarageService, findService, insertGarageService, insertService, updateGarageService } from '../utils/dbHandler.js';
 
-
-export const getService = async(req, res) => {
-  try {
-    
-  } catch (err) {
-    return res.status(301).json({ success: false, message: err.message });
-  }
-}
-
 export const addService = async(req, res) => {
   try {
     const errors = validationResult(req);
