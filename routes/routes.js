@@ -1,5 +1,5 @@
 import express from "express";
-import { home, userProfile } from "../controllers/staticControllers.js";
+import { home } from "../controllers/staticControllers.js";
 import * as userController from "../controllers/userControllers.js";
 import garageRoutes from "./garageRoutes.js";
 import passport from "passport";
@@ -32,7 +32,7 @@ router.post("/login", loginValidator, userController.login);
 router.get("/activate/:id/:token", userController.activate);
 router.get('/forgotPassword', userController.forgot);
 router.post('/forgotPassword', forgotPasswordValidator, userController.forget);
-router.get('/resetPassword', userController.resetPassword);
+router.get('/resetPassword/:email', userController.resetPassword);
 router.post('/resetPassword', resetValidator, userController.reset);
 // home page
 router.get("/home", home);
@@ -40,17 +40,15 @@ router.get("/home", home);
 // garage routes
 router.use("/garage", garageRoutes);
 
-router.get(
+router.use(
   "/profile",
   passport.authenticate("jwt", {
     session: false,
     failureRedirect: "/signIn",
   }),
   validateRole(1),
-  userProfile
+  profileRoutes
 );
-
-router.use("/profile", profileRoutes);
 
 // slot routes
 router.post('/slotinsert', slotBooking)

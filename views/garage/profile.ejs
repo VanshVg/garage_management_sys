@@ -1,7 +1,12 @@
-<%- include('../partials/head') %>
+<%- include('../partials/head.ejs') %>
+  <link rel="stylesheet" href="/styles/ownerDashboard.css">
   </head>
 
   <body>
+    <div class="dashboard">
+      <%- include('../partials/sidebar',{active:'Profile'}) %>
+    </div>
+
     <div class="container">
       <h1>Profile</h1>
       <div class="right">
