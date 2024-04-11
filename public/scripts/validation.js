@@ -107,10 +107,10 @@ const Validation = {
           else if (form == 'u/register') {
             const activate = document.getElementById('activate');
             let href = document.createElement('a');
-            let text = `${location}u/activate/${data.userId}/${data.token}`;
+            let text = `${location}/activate/${data.userId}/${data.token}`;
             href.setAttribute('href', text);
             href.append(text);
-            activate.appendChild(href);
+            activate.innerHTML = href;
           }
           else if (form == 'u/forgotPassword') {
             const activate = document.getElementById('activate');
@@ -118,7 +118,7 @@ const Validation = {
             let text = `${location.origin}/u/resetPassword/${data.email}`;
             href.setAttribute('href', text);
             href.append(text);
-            activate.appendChild(href);
+            activate.innerHTML = href;
           }
           else if (form == 'u/resetPassword') {
             Swal.fire({
