@@ -5,3 +5,11 @@ export const home = (req, res) => {
 export const userProfile = (req, res) => {
   res.render('garage/profile', { title: "Profile" });
 }
+
+export const customerHome = (req, res) => {
+  res.render('customer', { title: "Home" });
+}
+
+export const notFound = (req, res) => {
+  res.render('404', { title: "404 Not Found!" });
+}

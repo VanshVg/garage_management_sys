@@ -70,11 +70,11 @@ const Validation = {
       btn.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" height="20px" />`;
       const formData = new FormData(e.target);
       const formProps = Object.fromEntries(formData);
-      if (form == "register")
+      if (form == "u/register")
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
         ).value;
-      if (form == 'resetPassword') {
+      if (form == 'u/resetPassword') {
         let href = location.pathname;
         href = href.slice(href.lastIndexOf('/') + 1);
         formProps["email"] = href;
@@ -90,7 +90,7 @@ const Validation = {
       try {
         data = await response.json();
         if (data.success) {
-          if (form == 'login') {
+          if (form == 'u/login') {
             Swal.fire({
               title: "Good job!",
               text: "Welcome To Your Dashboard",
@@ -100,26 +100,27 @@ const Validation = {
               allowOutsideClick: false,
             });
             setTimeout(() => {
-              location.href = "/home";
+              if (data.role_id == 'owner') location.pathname = "/owner/home";
+              else location.pathname = "/customer/home";
             }, 1500);
           }
-          else if (form == 'register') {
+          else if (form == 'u/register') {
             const activate = document.getElementById('activate');
             let href = document.createElement('a');
-            let text = `${location}activate/${data.userId}/${data.token}`;
+            let text = `${location}u/activate/${data.userId}/${data.token}`;
             href.setAttribute('href', text);
             href.append(text);
             activate.appendChild(href);
           }
-          else if (form == 'forgotPassword') {
+          else if (form == 'u/forgotPassword') {
             const activate = document.getElementById('activate');
             let href = document.createElement('a');
-            let text = `${location.origin}/resetPassword/${data.email}`;
+            let text = `${location.origin}/u/resetPassword/${data.email}`;
             href.setAttribute('href', text);
             href.append(text);
             activate.appendChild(href);
           }
-          else if (form == 'resetPassword') {
+          else if (form == 'u/resetPassword') {
             Swal.fire({
               title: "Good job!",
               text: "Password Updated successfully",
@@ -129,7 +130,7 @@ const Validation = {
               allowOutsideClick: false,
             });
             setTimeout(() => {
-              location.href = "/signIn";
+              location.pathname = "u/signIn";
             }, 1500);
           }
         } else {

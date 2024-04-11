@@ -1,8 +1,9 @@
 :root {
   --dark: #152533;
   --blue: #355364;
-  --white: #FFFFFF;
-  --light: #D9D9D9;
+  --white: #ffffff;
+  --light: #d9d9d9;
+  --light-bg: #d7e0e7;
   --lightorange: burlywood;
 }
 
@@ -14,7 +15,7 @@
 
 body {
   text-align: center;
-  background-color: #D7E0E7;
+  background-color: #d7e0e7;
 }
 
 .flex {
@@ -22,7 +23,7 @@ body {
 }
 
 .section2 {
-  background-color: #182B3B;
+  background-color: #182b3b;
   color: aliceblue;
   font-weight: bolder;
   height: 100%;
@@ -86,7 +87,7 @@ body {
 }
 
 .section1 .header .header-profile {
-  background-color: #DFE7EC;
+  background-color: #dfe7ec;
   align-items: center;
   display: inline-flex;
   margin-right: 5px;
@@ -102,7 +103,7 @@ body {
 }
 
 .section1 .header .header-notification img {
-  border: 1px solid #DBE3E8;
+  border: 1px solid #dbe3e8;
   border-radius: 50%;
 }
 

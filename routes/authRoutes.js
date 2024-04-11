@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 router.get("/", userController.signUp);
 router.post("/register", registerValidator, userController.register);
-router.get("/signin", userController.signIn);
+router.get("/signIn", userController.signIn);
 router.post("/login", loginValidator, userController.login);
 router.get("/activate/:id/:token", userController.activate);
 router.get('/forgotPassword', userController.forgot);
