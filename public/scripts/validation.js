@@ -100,7 +100,7 @@ const Validation = {
               allowOutsideClick: false,
             });
             setTimeout(() => {
-              if (data.role_id == 'owner') location.pathname = "/owner/home";
+              if (data.role_id == '1') location.pathname = "/owner/home";
               else location.pathname = "/customer/home";
             }, 1500);
           }
