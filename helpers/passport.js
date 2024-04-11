@@ -18,7 +18,8 @@ export const applyPassportStrategy = () => {
   options.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
   passport.use(
     new Strategy(options, async (payload, done) => {
-      const result = await findOne([payload.email]);
+      let result = await findOne([payload.email]);
+      result = result[0];
       if (result) {
         return done(null, {
           role_id: result.role_id

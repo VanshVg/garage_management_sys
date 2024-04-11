@@ -1,5 +1,6 @@
 <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/styles/ownerDashboard.css">
+    <link rel="stylesheet" href="/styles/ownerProfile.css">
     </head>
     <% let active='dashboard' ; %>
 
@@ -52,8 +53,9 @@
                             icon: "question"
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.href = "/"
+                                location.href = "/logout"
                             }
+                            else location = location;
                         });
                     }
                     document.querySelectorAll('li').forEach(li => { li.classList.remove('active') })
