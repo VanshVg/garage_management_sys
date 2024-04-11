@@ -110,6 +110,9 @@ body {
 .section3 .wrapper {
   background-color: #355364;
 }
-input[type="submit"] {
+input[type="submit"],
+button {
   cursor: pointer;
+  outline: none;
+  border: none;
 }
