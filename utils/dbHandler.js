@@ -33,6 +33,17 @@ export const activateUser = async (userId) => {
   }
 };
 
+export const updatePassword = async (userId, password) => {
+  try {
+    let query = "UPDATE users SET password = ? where id = ?";
+    let [results] = await (await conn()).query(query, [password, userId]);
+    let User = results[0];
+    return User;
+  } catch (err) {
+    return { err };
+  }
+};
+
 export const insert = async (UserInfo) => {
   try {
     let query = `INSERT INTO users ( role_id, name, email, password, activate_link) values (?)`;
@@ -56,7 +67,7 @@ export const insertSlot = async (slotTime) => {
 export const updateSlot = async (slotTime) => {
   try {
     let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
-    let results = await (await conn()).query(query,[slotTime[0],slotTime[1],slotTime[2]]);
+    let results = await (await conn()).query(query, [slotTime[0], slotTime[1], slotTime[2]]);
     return results[0];
   } catch (error) {
     return { error }
@@ -66,7 +77,7 @@ export const updateSlot = async (slotTime) => {
 export const deleteSlot = async (slotId) => {
   try {
     let query = `UPDATE slot_master set is_deleted = 1 where id = ?`
-    let results = await (await conn()).query(query,[slotId])
+    let results = await (await conn()).query(query, [slotId])
     return results[0]
   } catch (error) {
     return { error }
@@ -128,7 +139,8 @@ export const updateAddressById = async (userInfo) => {
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
-    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
+    let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description,address_id) values (?)`;
+
     let result = await (await conn()).query(query, [garageInfo]);
     return result[0].insertId;
   } catch (error) {

@@ -6,6 +6,8 @@ import passport from "passport";
 import {
   registerValidator,
   loginValidator,
+  forgotPasswordValidator,
+  resetValidator,
 } from "../validators/userValidation.js";
 import { slotValidator } from "../validators/slotValidation.js";
 import {
@@ -28,6 +30,10 @@ router.post("/register", registerValidator, userController.register);
 router.get("/signin", userController.signIn);
 router.post("/login", loginValidator, userController.login);
 router.get("/activate/:id/:token", userController.activate);
+router.get('/forgotPassword', userController.forgot);
+router.post('/forgotPassword', forgotPasswordValidator, userController.forget);
+router.get('/resetPassword', userController.resetPassword);
+router.post('/resetPassword', resetValidator, userController.reset);
 // home page
 router.get("/home", home);
 
