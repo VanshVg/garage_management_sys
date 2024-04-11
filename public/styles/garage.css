@@ -60,17 +60,17 @@
     color: #182B3B;
     margin: 0 7px;
     font-size: 14px;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .grid .grid-container .wrapper .row .col .card .card-containt .card-columns .card-description{
     display: flex;
     justify-content: flex-start;
-    align-items:center;
     text-align: left;
+    align-content: center;
 }
 
-.grid .grid-container .wrapper .row .col .card .card-containt .card-columns .card-description img{
+.grid .grid-container .wrapper .row .col .card .card-containt .card-columns .card-description svg{
     margin-right: 8px;
-    background-color: #51738f;
+    fill: #182B3B;
 }
