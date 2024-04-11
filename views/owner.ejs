@@ -1,10 +1,74 @@
 <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/styles/ownerDashboard.css">
     </head>
+    <% let active='dashboard' ; %>
 
-    <body>
-        <div class="dashboard">
-            <%- include('./partials/sidebar',{active:'Dashboard'}) %>
-                <%- include('./partials/dashboard.ejs') %>
-        </div>
-        <%- include('./partials/foot') %>
+        <body>
+            <div class="dashboard-container">
+                <%- include('./partials/sidebar',{active}) %>
+                    <div class="page-container" style="display: none;" id="dashboard-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Dashboard"})%>
+                            <%- include(`./partials/dashboard.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="profile-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Profile"})%>
+                            <%- include(`./partials/profile.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="garages-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
+                            <%- include(`./partials/garages.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="services-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Services"})%>
+                            <%- include(`./partials/services.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="slots-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Slots"})%>
+                            <%- include(`./partials/slots.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="appointment-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
+                            <%- include(`./partials/appointments.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="inventory-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Inventory"})%>
+                            <%- include(`./partials/inventory.ejs`) %>
+                    </div>
+                    <div class="page-container" style="display: none;" id="invoice-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
+                            <%- include(`./partials/invoice.ejs`) %>
+                    </div>
+            </div>
+            <script>
+                const setActive = (activated) => {
+                    if (activated == 'logout') {
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "really you want to logout..",
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: "Yes",
+                            denyButtonText: `No`,
+                            icon: "question"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = "/"
+                            }
+                        });
+                    }
+                    document.querySelectorAll('li').forEach(li => { li.classList.remove('active') })
+                    let active = document.querySelector(`.menus ul li[id=${activated}]`);
+                    active.classList.add('active');
+                    document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
+                    let screen = document.querySelector(`#${activated}-screen`);
+                    screen.style.display = 'flex'
+                }
+                setActive('<%= active %>');
+                document.querySelectorAll('li').forEach(li => {
+                    li.addEventListener('click', () => {
+                        setActive(li.id)
+                    })
+                });
+            </script>
+
+            <%- include('./partials/foot') %>
