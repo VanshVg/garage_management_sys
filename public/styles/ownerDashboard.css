@@ -5,7 +5,7 @@
   --card2-bg: rgba(225, 246, 247, 0.5);
   --card2-text: #34cdd0;
   --card3-bg: rgba(252, 226, 225, 0.5);
-  --card3-text: #DF5E5E;
+  --card3-text: #df5e5e;
   --card4-bg: rgba(237, 231, 251, 0.5);
   --card4-text: #9a78ea;
 }
@@ -157,8 +157,8 @@ body {
     :first-child {
       .card {
         background: var(--card1-bg);
-        svg{
-          fill:var(--card1-text);
+        svg {
+          fill: var(--card1-text);
         }
         p {
           color: var(--card1-text);
@@ -171,18 +171,18 @@ body {
         p {
           color: var(--card2-text);
         }
-    }
+      }
     }
     :nth-child(3) {
       .card {
         background: var(--card3-bg);
-        svg{
+        svg {
           fill: var(--card3-text);
         }
         p {
           color: var(--card3-text);
         }
-    }
+      }
     }
     :nth-child(4) {
       .card {
@@ -190,7 +190,15 @@ body {
         p {
           color: var(--card4-text);
         }
+      }
     }
-    }
+  }
 }
+.graph {
+  width: 50%;
+  height: 280px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 1px 1px gray, inset 1px 1px rgb(255, 255, 255, 0.3);
+  border-radius: 5px;
 }

@@ -46,6 +46,32 @@
         </div>
     </div>
     <div class="graph">
-
+        <canvas id="myChart"></canvas>
     </div>
 </div>
+<script>
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Rejected', 'Approved'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19],
+                borderWidth: 1
+            }],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Appointment Status'
+                }
+            }
+        },
+    });
+</script>

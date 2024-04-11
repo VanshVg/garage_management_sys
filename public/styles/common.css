@@ -106,3 +106,6 @@ body {
 .section3 .wrapper {
   background-color: #355364;
 }
+input[type="submit"] {
+  cursor: pointer;
+}
