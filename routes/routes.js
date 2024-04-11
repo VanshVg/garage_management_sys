@@ -15,9 +15,10 @@ import {
 } from "../controllers/slotBookingController.js";
 
 // garage route file
-import profileRoutes from "./profileRoutes.js";
-import { applyPassportStrategy } from "../auth/auth.js";
-import { validateRole } from "../roleServices.js";
+import profileRoutes from "./profileRoutes.js"
+import serviceRoutes from "./serviceRoutes.js"
+import { applyPassportStrategy } from '../auth/auth.js';
+import { validateRole } from '../roleServices.js';
 
 const router = express.Router();
 applyPassportStrategy();
@@ -46,11 +47,9 @@ router.get(
 router.use("/profile", profileRoutes);
 
 // slot routes
-router.post("/slotinsert", slotBooking);
-router.post("/slotupdate", slotUpdate);
-router.post("/slotdelete", slotDelete);
+router.post('/slotinsert', slotBooking)
+router.post('/slotupdate', slotUpdate)
+router.post('/slotdelete', slotDelete)
 
-router.all("*", (req, res) => {
-  res.send("404");
-});
+router.use("/service", serviceRoutes)
 export default router;
