@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { deleteGarageService, findService, insertGarageService, insertService } from '../utils/dbHandler.js';
+import { deleteGarageService, findGarageService, findService, insertGarageService, insertService, updateGarageService } from '../utils/dbHandler.js';
 
 export const addService = async(req, res) => {
   try {
@@ -14,11 +14,23 @@ export const addService = async(req, res) => {
     if (result.length!=1) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
+
+    let serviceResult = await findGarageService([garageId, result[0].id]);
+    if(serviceResult.length>0) {
+      if(serviceResult[0].is_deleted==0) {
+        return res.status(301).json({ success: false, message: "Service has already been added" });
+      }
+      let garageUpdateResult = await updateGarageService([garageId, result[0].id])
+      if(garageUpdateResult) {
+        return res.status(200).json({ success: true, message: "Service added successfully" }); 
+      }
+    }
+
     let garageResult = await insertGarageService([garageId, result[0].id]);
     if(!garageResult) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
-    return res.status(201).json({ success: true, message: "Service added successfully" }); 
+    return res.status(200).json({ success: true, message: "Service added successfully" }); 
   } catch (err) {
     return res.status(301).json({ success: false, message: err.message });
   }
@@ -42,7 +54,7 @@ export const deleteService = async (req, res) => {
     if(!garageResult) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
-    return res.status(201).json({ success: true, message: "Service deleted successfully" }); 
+    return res.status(200).json({ success: true, message: "Service deleted successfully" }); 
   } catch (err) {
     return res.status(301).json({ success: false, message: err.message });
   }
