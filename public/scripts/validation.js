@@ -12,9 +12,9 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-            errorMessage: "password must be at least 8 character..",
-            valid: false,
-          }
+          errorMessage: "password must be at least 8 character..",
+          valid: false,
+        }
         : { valid: true },
     email: (value) =>
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
