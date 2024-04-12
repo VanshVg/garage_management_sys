@@ -3,13 +3,13 @@
     <link rel="stylesheet" href="/styles/ownerProfile.css">
     <link rel="stylesheet" href="/styles/garageForm.css">
     </head>
-    <% let active='dashboard' ; %>
+    <% var active=active || 'dashboard' ; %>
 
         <body>
             <div class="dashboard-container">
-                <%- include('./partials/sidebar',{active}) %>
+                <%- include('./partials/sidebar', {active}) %>
                     <div class="page-container" style="display: none;" id="dashboard-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Dashboard"})%>
+                        <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>
                             <%- include(`./partials/dashboard.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="profile-screen">
@@ -43,22 +43,6 @@
             </div>
             <script>
                 const setActive = (activated) => {
-                    if (activated == 'logout') {
-                        Swal.fire({
-                            title: "Are you sure?",
-                            text: "really you want to logout..",
-                            showDenyButton: true,
-                            showCancelButton: false,
-                            confirmButtonText: "Yes",
-                            denyButtonText: `No`,
-                            icon: "question"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.href = "/logout"
-                            }
-                            else location = location;
-                        });
-                    }
                     document.querySelectorAll('li').forEach(li => { li.classList.remove('active') })
                     let active = document.querySelector(`.menus ul li[id=${activated}]`);
                     active.classList.add('active');
@@ -69,7 +53,24 @@
                 setActive('<%= active %>');
                 document.querySelectorAll('li').forEach(li => {
                     li.addEventListener('click', () => {
+                    if (li.id == 'logout') {
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "really you want to logout..",
+                                showDenyButton: true,
+                                showCancelButton: false,
+                                confirmButtonText: "Yes",
+                                denyButtonText: `No`,
+                                icon: "question"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = "/logout"
+                                }
+                            });
+                            return
+                        }
                         setActive(li.id)
+                        history.pushState(null,null,li.id=="dashboard"? "home" :li.id)
                     })
                 });
             </script>

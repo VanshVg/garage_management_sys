@@ -43,16 +43,7 @@ h4 {
   align-items: center;
 }
 
-.grid
-  .grid-container
-  .wrapper
-  .row
-  .col
-  .card
-  .card-containt
-  .card-heading
-  .card-btn
-  button {
+.grid .grid-container .wrapper .row .col .card .card-containt .card-heading .card-btn button {
   background-color: #038117;
   color: #ffffff;
   font-weight: 500;
@@ -67,31 +58,14 @@ h4 {
   padding-top: 15px;
 }
 
-.grid
-  .grid-container
-  .wrapper
-  .row
-  .col
-  .card
-  .card-containt
-  .card-columns
-  .card-description {
+.grid .grid-container .wrapper .row .col .card .card-containt .card-columns .card-description {
   display: flex;
   justify-content: flex-start;
   text-align: left;
   align-content: center;
 }
 
-.grid
-  .grid-container
-  .wrapper
-  .row
-  .col
-  .card
-  .card-containt
-  .card-columns
-  .card-description
-  svg {
+.grid .grid-container .wrapper .row .col .card .card-containt .card-columns .card-description svg {
   margin-right: 8px;
   fill: #182b3b;
 }

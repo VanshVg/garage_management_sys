@@ -1,7 +1,7 @@
 import express from "express";
 
 import authRoutes from './authRoutes.js';
-import { notFound, landingPage } from '../controllers/staticControllers.js';
+import { notFound, landingPage, sessionEnd } from '../controllers/staticControllers.js';
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import { logout } from '../controllers/userControllers.js';
 import ownerRoutes from './ownerRoutes.js';
@@ -14,14 +14,15 @@ const router = express.Router();
 router.get('/', landingPage);
 router.use('/owner', passport.authenticate("jwt", {
   session: false,
-  failureRedirect: "/u/signIn",
+  failureRedirect: "/sessionEnd",
 }), validateRole(1), ownerRoutes);
 
 router.use('/customer', passport.authenticate("jwt", {
   session: false,
-  failureRedirect: "/u/signIn",
+  failureRedirect: "/sessionEnd",
 }), validateRole(0), customerRoutes);
 
+router.get('/sessionEnd', sessionEnd);
 router.get('/logout', logout);
 router.use('/u', isAlreadyLoggedIn, authRoutes);
 router.all('*', notFound);
