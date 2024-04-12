@@ -135,7 +135,6 @@ export const updateAddressById = async (userInfo) => {
   }
 }
 
-
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
@@ -233,7 +232,6 @@ export const findService = async (serviceInfo) => {
   }
 }
 
-
 export const insertService = async (serviceInfo) => {
   try {
     let query = `INSERT INTO service_master (name, description, price, availability_status) VALUES (?)`
@@ -283,3 +281,24 @@ export const deleteGarageService = async (serviceInfo) => {
     return { error }
   }
 }
+
+export const selectByTableName = async (tableName) => {
+  try {
+    let query = "SELECT * FROM " + tableName + ";";
+    let [results] = await (await conn()).query(query);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}
+
+export const selectById = async (tableName, id) => {
+  try {
+    let query = "SELECT * FROM " + tableName + "WHERE id = ?";
+    let [results] = await (await conn()).query(query, [id]);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}
+

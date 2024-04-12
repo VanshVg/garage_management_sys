@@ -767,6 +767,39 @@ LOCK TABLES `vehicle_types` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `garage_events`
+--
+
+DROP TABLE IF EXISTS `garage_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `garage_events` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `garage_id` int,
+  `date` date NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(150),
+  `is_deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `garage_events_ibfk_1` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+) ENGINE=InnoDB ;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `garage_events`
+--
+
+LOCK TABLES `garage_events` WRITE;
+/*!40000 ALTER TABLE `garage_events` DISABLE KEYS */;
+/*!40000 ALTER TABLE `garage_events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+CREATE TRIGGER user_trigger BEFORE INSERT ON users 
+FOR EACH ROW SET
+    NEW.password_exp = TIMESTAMPADD(DAY, 10, CURRENT_TIMESTAMP),
+    NEW.link_exp = TIMESTAMPADD(HOUR, 2, CURRENT_TIMESTAMP);
+    
+--
 -- Dumping events for database 'garage_management_db'
 --
 
