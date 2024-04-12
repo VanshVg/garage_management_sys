@@ -156,7 +156,7 @@ export const updateProfile = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, errors: errors.array() });
   }
-  let { name, email, area, pincode, addressId } = req.body
+  let { name, email, area, cityId, pincode } = req.body
   let { userId } = req.params
 
   let user = await findOneById(userId);
@@ -178,7 +178,7 @@ export const updateProfile = async (req, res) => {
   
   let address = await findAddressById(userId);
   if (!address) {
-    let result = await insertAddress([1, area, pincode]);
+    let result = await insertAddress([cityId, area, pincode]);
     if (!result) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     } else {
@@ -186,16 +186,16 @@ export const updateProfile = async (req, res) => {
       if (!userAddressResult) {
         return res.status(301).json({ success: false, message: "Something went wrong!" });
       }
-      return res.status(201).json({ success: true, message: "User updated successfully" });
+      return res.status(200).json({ success: true, message: "User updated successfully" });
     }
   }
-  
-  let updateAddress = await updateAddressById([7, area, pincode, 1]);
+
+  let updateAddress = await updateAddressById([cityId, area, pincode, address.address_id]);
   if (updateAddress != 1) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 
-  return res.status(201).json({ success: true, message: "User updated successfully" });
+  return res.status(200).json({ success: true, message: "User updated successfully" });
 }
 
 export const logout = (req, res) => {
