@@ -222,6 +222,17 @@ export const displayGarage = async (garageId) => {
   }
 }
 
+// get all garage details
+export const getGarageList = async ()=>{
+  try {
+    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master`
+    let result = await(await conn()).query(query);
+    return result[0]
+  } catch (error) {
+    return{error}
+  }
+}
+
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`
