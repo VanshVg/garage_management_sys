@@ -23,9 +23,6 @@ router.use('/customer', passport.authenticate("jwt", {
 }), validateRole(0), customerRoutes);
 
 router.get('/logout', logout);
-router.get("/", (req, res) => {
-  res.render("landing.ejs")
-})
 router.use('/u', isAlreadyLoggedIn, authRoutes);
 router.all('*', notFound);
 export default router;

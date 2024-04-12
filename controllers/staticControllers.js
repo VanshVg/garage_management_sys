@@ -1,6 +1,6 @@
 // landing page
 export const landingPage = (req, res) => {
-  res.render('landingPage', { title: "Garage Management System" });
+  res.render('landing', { title: "Garage Management System" });
 }
 
 export const home = (req, res) => {
