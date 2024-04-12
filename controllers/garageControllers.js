@@ -81,5 +81,6 @@ export const garageDelete = async (req, res) => {
 //getting garage Details
 
 export const garageList = (req,res)=>{
+  
   res.render('garage/garageList.ejs')
 }
