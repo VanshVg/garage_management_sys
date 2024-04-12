@@ -1,7 +1,7 @@
 import express from "express";
 
 import authRoutes from './authRoutes.js';
-import { notFound, sessionEnd } from '../controllers/staticControllers.js';
+import { notFound, sessionEnd, landingPage } from '../controllers/staticControllers.js';
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import { logout } from '../controllers/userControllers.js';
 import ownerRoutes from './ownerRoutes.js';
@@ -10,7 +10,8 @@ import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
 
 const router = express.Router();
-
+// landing page
+router.get('/', landingPage);
 router.use('/owner', passport.authenticate("jwt", {
   session: false,
   failureRedirect: "/sessionEnd",

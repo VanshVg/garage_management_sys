@@ -182,6 +182,7 @@ export const updateGarage = async (garageInfo) => {
     let result = await (await conn()).query(query, garageInfo);
     return result[0].affectedRows;
   } catch (error) {
+    console.log(error);
     return { error };
   }
 }
@@ -192,6 +193,7 @@ export const updateGarageAddress = async (addressInfo) => {
     let result = await (await conn()).query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
+    console.log(error);
     return { error };
   }
 }
@@ -212,7 +214,7 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
 // display garage details
 export const displayGarage = async (garageId) => {
   try {
-    let query = `SELECT * FROM garage_master  WHERE id= ?`;
+    let query = `SELECT * FROM garage_master gm JOIN garage_addresses ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id `;
     let result = await (await conn()).query(query, [garageId]);
     return result[0];
   } catch (error) {
