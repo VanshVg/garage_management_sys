@@ -1,7 +1,6 @@
-<div class="container">
-    saas
+<div id="container">
     <div class="activity">
-        <div class="card-container">
+        <div class="card-wraper">
             <div class="card">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -14,7 +13,7 @@
                 <p>Garages</p>
             </div>
         </div>
-        <div class="card-container">
+        <div class="card-wraper">
             <div class="card">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
                     <path style="fill:var(--card2-text)"
@@ -24,7 +23,7 @@
                 <p>Customers</p>
             </div>
         </div>
-        <div class="card-container">
+        <div class="card-wraper">
             <div class="card">
                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.48 122.88">
                     <title>mechanical-engineering</title>
@@ -35,7 +34,7 @@
                 <p>Staff Members</p>
             </div>
         </div>
-        <div class="card-container">
+        <div class="card-wraper">
             <div class="card">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                     <path fill="var(--card4-text)"
@@ -47,6 +46,32 @@
         </div>
     </div>
     <div class="graph">
-
+        <canvas id="myChart"></canvas>
     </div>
 </div>
+<script>
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Rejected', 'Approved'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19],
+                borderWidth: 1
+            }],
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Appointment Status'
+                }
+            }
+        },
+    });
+</script>
