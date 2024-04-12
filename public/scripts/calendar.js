@@ -13,18 +13,21 @@ let clicked = null;
 events = JSON.parse(events);
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-function loadCalendar() {
+const loadCalendar = () => {
   const date = new Date();
 
   if (navigation != 0) {
     date.setMonth(new Date().getMonth() + navigation);
   }
+
   const day = date.getDate();
   const month = date.getMonth();
   const year = date.getFullYear();
+
   monthBanner.innerText = `${date.toLocaleDateString("en-us", {
     month: "long",
   })} ${year}`;
+
   calendar.innerHTML = "";
   const dayInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1);
@@ -79,7 +82,8 @@ function loadCalendar() {
     calendar.append(dayBox);
   }
 }
-function buttons() {
+
+const buttons = () => {
   const btnBack = document.querySelector("#btnBack");
   const btnNext = document.querySelector("#btnNext");
   const btnDelete = document.querySelector("#btnDelete");
@@ -91,21 +95,25 @@ function buttons() {
     navigation--;
     loadCalendar();
   });
+
   btnNext.addEventListener("click", () => {
     navigation++;
     loadCalendar();
   });
+
   modal.addEventListener("click", closeModal);
+
   closeButtons.forEach((btn) => {
     btn.addEventListener("click", closeModal);
   });
-  btnDelete.addEventListener("click", function () {
+
+  btnDelete.addEventListener("click", () => {
     events = events.filter((e) => e.date !== clicked);
     localStorage.setItem("events", JSON.stringify(events));
     closeModal();
   });
 
-  btnSave.addEventListener("click", function () {
+  btnSave.addEventListener("click", () => {
     if (txtTitle.value) {
       txtTitle.classList.remove("error");
       events.push({
@@ -125,7 +133,7 @@ const modal = document.querySelector("#modal");
 const viewEventForm = document.querySelector("#viewEvent");
 const addEventForm = document.querySelector("#addEvent");
 
-function showModal(dateText) {
+const showModal = (dateText) => {
   clicked = dateText;
   const eventOfTheDay = events.find((e) => e.date == dateText);
   if (eventOfTheDay) {
@@ -140,7 +148,7 @@ function showModal(dateText) {
 }
 
 //Close Modal
-function closeModal() {
+const closeModal = () => {
   viewEventForm.style.display = "none";
   addEventForm.style.display = "none";
   modal.style.display = "none";
