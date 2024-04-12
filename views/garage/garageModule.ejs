@@ -1,96 +1,90 @@
 <%- include('../partials/head') %>
-  <link rel="stylesheet" href="/styles/garageForm.css">
-  </head>
-  <!-- garage form  -->
-  <div class="container">
-    <span id="message"></span>
-    <h2 class="heading-main dark">New Garage</h2>
-    <form action="#" method="post" id="garageAdd">
-      <div class="tab">
-        <h3 class="info-text dark">Garage Information</h3>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Name</p>
-            <input type="text" name="garageName" id="garageName" class="input" tabindex="1"
-              value="<%= data[0].garage_name %>" Validation="required ">
+  <div class="grid">
+    <div class="container">
+      <span id="message"></span>
+      <h2 class="heading-main dark">New Garage</h2>
+      <form action="#" method="post" id="garageAdd">
+        <div class="tab">
+          <h3 class="info-text dark">Garage Information</h3>
+          <div class="input-main">
+            <div class="input-content">
+              <p class="dark input-text">Name</p>
+              <input type="text" name="garageName" id="garageName" class="input" tabindex="1" Validation="required ">
+            </div>
+            <div class="input-content">
+              <p class="dark input-text">Contact No</p>
+              <input type="text" name="contactNumber" id="contactNumber" class="input" tabindex="2"
+                Validation="required contactNumber">
+            </div>
           </div>
-          <div class="input-content">
-            <p class="dark input-text">Contact No</p>
-            <input type="text" name="contactNumber" id="contactNumber" class="input" tabindex="2"
-              value="<%= data[0].contact_number %>" Validation="required contactNumber">
+          <div class="input-main">
+            <div class="input-content">
+              <p class="dark input-text">Email</p>
+              <input type="text" name="email" id="email" class="input" tabindex="3" Validation="required email">
+            </div>
+            <div class="input-content">
+              <p class="dark input-text">Thumbnail</p>
+              <input type="text" name="thumbnail" id="thumbnail" class="input" tabindex="4">
+            </div>
           </div>
+          <div class="input-main">
+            <div class="input-content">
+              <p class="dark input-text">Open Time</p>
+              <input type="text" name="openTime" id="openTime" class="input" tabindex="5" Validation="required time">
+            </div>
+            <div class="input-content">
+              <p class="dark input-text">Close Time</p>
+              <input type="text" name="closeTime" id="closeTime" class="input" tabindex="6" Validation="required time">
+            </div>
+          </div>
+          <div class="input-main">
+            <div class="input-content-desc">
+              <p class="dark input-text" id="desc">Description</p>
+              <textarea name="description" id="description" cols="30" rows="10" class="input-description"></textarea>
+            </div>
+          </div>
+          <input type="button" name="nextButton" class="nextButton" id="nextButton" value="Next" onclick="nextPage()">
         </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Email</p>
-            <input type="text" name="email" id="email" class="input" tabindex="3" value="<%= data[0].email %>"
-              Validation="required email">
+        <div class="tab">
+          <h3 class="info-text dark">Address Information</h3>
+          <div class="input-main">
+            <div class="input-content">
+              <p class="dark input-text">area</p>
+              <input type="text" name="area" class="input" Validation="required">
+            </div>
+            <div class="input-content">
+              <p class="dark input-text">State</p>
+              <select name="state" id="state" class="input">
+                <option value=" " selected></option>
+                <option value="gujarat">Gujarat</option>
+              </select>
+            </div>
           </div>
-          <div class="input-content">
-            <p class="dark input-text">Thumbnail</p>
-            <input type="text" name="thumbnail" id="thumbnail" class="input" tabindex="4">
+          <div class="input-main">
+            <div class="input-content">
+              <p class="dark input-text">City</p>
+              <select name="cityId" id="cityId" class="input">
+                <option value=" " selected></option>
+                <option value="1">Gandhinagar</option>
+              </select>
+            </div>
+            <div class="input-content">
+              <p class="dark input-text">Pincode</p>
+              <input type="text" name="pincode" class="input" Validation="required pincode">
+            </div>
           </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Open Time</p>
-            <input type="text" name="openTime" id="openTime" class="input" tabindex="5" value="<%=data[0].open_time %>"
-              Validation="required time">
+          <div class="upload">
+            <img class="upload-image" src="/assets/Group 83.svg" alt="upload image">
           </div>
-          <div class="input-content">
-            <p class="dark input-text">Close Time</p>
-            <input type="text" name="closeTime" id="closeTime" class="input" tabindex="6"
-              value="<%= data[0].close_time %>" Validation="required time">
+          <div class="button-group">
+            <input type="button" name="previousButton" id="previousButton" value="Previous" class="previousButton"
+              onclick="prevPage()">
+            <input type="button" name="add" id="addGarage" value="+ Add" class="addGarage" onclick="handleGarage()">
           </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content-desc">
-            <p class="dark input-text" id="desc">Description</p>
-            <textarea name="description" id="description" cols="30" rows="10"
-              class="input-description"><%= data[0].description %></textarea>
-          </div>
-        </div>
-        <input type="button" name="nextButton" class="nextButton" id="nextButton" value="Next" onclick="nextPage()">
-      </div>
-      <div class="tab">
-        <h3 class="info-text dark">Address Information</h3>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">area</p>
-            <input type="text" name="area" class="input" Validation="required">
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">State</p>
-            <select name="state" id="state" class="input">
-              <option value=" " selected></option>
-              <option value="gujarat">Gujarat</option>
-            </select>
-          </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">City</p>
-            <select name="cityId" id="cityId" class="input">
-              <option value=" " selected></option>
-              <option value="1">Gandhinagar</option>
-            </select>
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">Pincode</p>
-            <input type="text" name="pincode" class="input" Validation="required pincode">
-          </div>
-        </div>
-        <div class="upload">
-          <img class="upload-image" src="Group 83.svg" alt="upload image">
-        </div>
-        <div class="button-group">
-          <input type="button" name="previousButton" id="previousButton" value="Previous" class="previousButton"
-            onclick="prevPage()">
-          <input type="button" name="add" id="addGarage" value="+ Add" class="addGarage" onclick="handleGarage()">
-        </div>
 
-      </div>
-    </form>
+        </div>
+      </form>
+    </div>
+    <script src="/scripts/garageForm.js"></script>
   </div>
-  <script src="/scripts/garageForm.js"></script>
   <%- include('../partials/foot') %>
