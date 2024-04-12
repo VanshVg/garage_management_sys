@@ -1,0 +1,122 @@
+<div class="grid">
+    <div class="profile-container">
+        <div class="container-heading">
+            <h3>Profile</h3>
+            <h4>Profile Information</h4>
+            <hr> 
+        </div>
+  
+        <form method="put" id="updateOwner">
+          <div class="wrapper">
+              <div class="row">
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-input-container">
+                              <div class="form-label">
+                                  <label for="name">Name</label>
+                              </div>
+                              <div class="form-input">
+                                  <input type="text" id="name" name="name" Validation = "require and email(for example validation for email)" placeholder="">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-input-container">
+                              <div class="form-label">
+                                  <label for="email">email</label>
+                              </div>
+                              <div class="form-input">
+                                  <input type="text" id="email" name="email" Validation = "require and email(for example validation for email)" placeholder="">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-input-container">
+                              <div class="form-label">
+                                  <label for="state">state</label>
+                              </div>
+                              <div class="form-input">
+                                  <select id="state" Validation = "require and email(for example validation for email)">
+                                      <option>Select State</option>
+                                      <option value="gujrat">S-Gujrat</option>
+                                      <option value="maharastra">S-Maharastra</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-input-container">
+                              <div class="form-label">
+                                  <label for="city">city</label>
+                              </div>
+                              <div class="form-input">
+                                  <select id="city" Validation = "require and email(for example validation for email)">
+                                      <option>Select City</option>
+                                      <option value="ahmedabad">C-Ahmedabad</option>
+                                      <option value="mumbai">C-Mumbai</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+  
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-input-container">
+                              <div class="form-label">
+                                  <label for="area">Area</label>
+                              </div>
+                              <div class="form-input">
+                                  <div class="form-input">
+                                      <input type="text" id="area" name="area" placeholder="" Validation = "require and email(for example validation for email)">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+  
+                  <div class="col">
+                    <div class="form-handler">
+                      <div class="form-input-container">
+                          <div class="form-label">
+                              <label for="pincode">Pincode</label>
+                          </div>
+                          <div class="form-input">
+                              <div class="form-input">
+                                  <input type="text" id="pincode" name="pincode" placeholder="" Validation = "require and email(for example validation for email)">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+  
+                  <div class="col">
+  
+                  </div>
+                  <div class="col">
+                      <div class="form-handler">
+                          <div class="form-button">
+                              <input type="button" value="Update" onclick="handleUpdateForm()">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </form>
+    </div>
+  </div>
+  
+  <script src="/scripts/updateForm.js"></script>
+  
+    <!-- <script>
+      document.getElementById('edit').addEventListener('click', () => {
+        location.href = "/owner/profile/edit";
+      })
+    </script>
+  </div> -->

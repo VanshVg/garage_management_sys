@@ -25,7 +25,6 @@ export const register = async (req, res) => {
       let token = Math.random().toString(36).slice(2);
 
       result = await insert([role_id, name, email, hashedPassword, token]);
-      console.log(result);
       if (!result.length)
         res.status(201).json({
           success: true,
@@ -101,7 +100,7 @@ export const login = async (req, res) => {
       res.cookie("token", token, { maxAge: 1 * 60 * 60 * 1000 });
       return res
         .status(201)
-        .json({ success: true, message: "Logged in successfully" });
+        .json({ success: true, role_id: user[0].role_id, message: "Logged in successfully" });
     }
   }
 };
@@ -176,7 +175,7 @@ export const updateProfile = async (req, res) => {
   if (userResult != 1) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-
+  
   let address = await findAddressById(userId);
   if (!address) {
     let result = await insertAddress([1, area, pincode]);
@@ -190,8 +189,8 @@ export const updateProfile = async (req, res) => {
       return res.status(201).json({ success: true, message: "User updated successfully" });
     }
   }
-
-  let updateAddress = await updateAddressById([1, area, pincode, addressId]);
+  
+  let updateAddress = await updateAddressById([7, area, pincode, 1]);
   if (updateAddress != 1) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
