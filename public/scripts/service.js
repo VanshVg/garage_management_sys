@@ -38,4 +38,14 @@ const addService = async () => {
   }
 };
 
+const showAddService = () => {
+  document.getElementsByClassName("add-service-container")[0].style.display = "block";
+  document.getElementsByClassName("service-container")[0].style.display = "none";
+}
+
+const showAllServices = () => {
+  document.getElementsByClassName("add-service-container")[0].style.display = "none";
+  document.getElementsByClassName("service-container")[0].style.display = "block";
+}
+
 showServices();
