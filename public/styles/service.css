@@ -122,6 +122,11 @@
   margin-bottom: 20px;
 }
 
+#error {
+  text-align: left;
+  margin-top: 5px;
+}
+
 .select-service {
   display: flex;
 }
