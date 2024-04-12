@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator';
 import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage } from "../utils/dbHandler.js";
 import { fileUpload } from '../helpers/fileUploads.js';
 
-// display garage with data
+// display garage form with data
 export const garageDisplay = async (req, res) => {
   let garageId = 1;
   let data = await displayGarage(garageId);
