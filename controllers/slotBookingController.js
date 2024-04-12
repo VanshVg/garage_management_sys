@@ -37,7 +37,6 @@ export const slotDelete = async (req, res) => {
     const { slotId } = req.body
     const errors = validationResult(req)
     const result = await deleteSlot([slotId])
-    console.log(result);
     if (result) {
         res.status(201).json({ message: "slot was deleted successfully" })
     } else {

@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage } from "../utils/dbHandler.js";
+import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage,getGarageList } from "../utils/dbHandler.js";
 import { fileUpload } from '../helpers/fileUploads.js';
 
 // display garage with data
@@ -18,15 +18,12 @@ export const garageAdd = async (req, res) => {
     res.status(500).json({ success: false, errors: errors.array() });
   } else {
     let addressId = await insertGarageAddress([cityId, area, pincode]);
-    console.log(addressId);
     if (addressId) {
       let garageId = await insertGarage([garageName, contactNumber, email, thumbnail, openTime, closeTime, description]);
-      console.log(garageId);
       if (garageId) {
         let result = await insertGarageOwner([userId, garageId]);
         let result2 = await insertGarageReference([addressId, garageId]);
         if (result && result2) {
-          // console.log(result);
           res.status(200).json({ success: true, message: "garage registered successfully." })
         }
       } else {
@@ -48,10 +45,8 @@ export const garageUpdate = async (req, res) => {
     res.status(500).json({ success: false, errors: errors.array() });
   } else {
     let result = await updateGarage([garageName, contactNumber, email, thumbnail, openTime, closeTime, description, garageId]);
-    console.log(result);
     if (result) {
       result = await updateGarageAddress([cityId, area, pincode, addressId]);
-      console.log(result);
       if (result) {
         res.status(200).json({ success: true, message: "garage updated" });
       } else {
@@ -69,7 +64,6 @@ export const garageDelete = async (req, res) => {
   let addressId = 2;
   let referenceId = 1;
   let result = await deleteGarage(garageId, addressId, referenceId);
-  console.log(result);
   if (result) {
     res.status(200).json({ success: true, message: "garage deleted" });
   } else {
@@ -80,7 +74,12 @@ export const garageDelete = async (req, res) => {
 
 //getting garage Details
 
-export const garageList = (req,res)=>{
-  
+export const garageList = (req, res) => {  
   res.render('garage/garageList.ejs')
+}
+
+export const getGarageListing = async (req,res)=>{
+  const result = await getGarageList()
+  console.log(result);
+  res.json({result:result})
 }
