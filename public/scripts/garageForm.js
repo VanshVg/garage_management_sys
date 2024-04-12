@@ -21,7 +21,6 @@ const addGarageDetails = async () => {
   let details = new FormData(formData);
   const params = new URLSearchParams(details);
   const garageData = await new Response(params).text();
-  console.log(garageData);
   let data = await fetch("http://localhost:3000/garage/add", {
     method: "POST",
     headers: {
@@ -32,7 +31,6 @@ const addGarageDetails = async () => {
   })
   let result = await data.json();
   document.getElementById("message").innerText = result.message;
-  console.log(result);
 }
 
 const updateGarage = async () => {
@@ -40,7 +38,6 @@ const updateGarage = async () => {
   let details = new FormData(formData);
   const params = new URLSearchParams(details);
   const garageData = await new Response(params).text();
-  console.log(garageData);
   let data = await fetch("http://localhost:3000/garage/update", {
     method: "POST",
     headers: {
@@ -51,7 +48,6 @@ const updateGarage = async () => {
   })
   let result = await data.json();
   document.getElementById("message").innerText = result.message;
-  console.log(result);
 }
 
 const handleGarage = () => {
