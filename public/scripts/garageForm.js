@@ -21,7 +21,7 @@ const addGarageDetails = async () => {
   let details = new FormData(formData);
   const params = new URLSearchParams(details);
   const garageData = await new Response(params).text();
-  let data = await fetch("http://localhost:3000/owner/garage/add", {
+  let data = await fetch("/owner/garage/add", {
     method: "POST",
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
