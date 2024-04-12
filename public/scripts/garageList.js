@@ -1,12 +1,15 @@
-const getData = async () => {
+const getData = async (page=1) => {
   const jsonData = await fetch(
-    "http://localhost:3000/owner/garage/getGarageList"
+    "http://localhost:3000/owner/garages/getGaragesList?page="+page
   );
   var data = await jsonData.json();
   return data.result;
 };
-const populateData = async () => {
-  var data = await getData();
+const populateData = async (pageNumber=1) => {
+  if () {
+    
+  }
+  var data = await getData(pageNumber);
   console.log(data);
   data.forEach((element) => {
     var tr = document.createElement("tr");
@@ -69,3 +72,22 @@ function createEditAndDelete() {
     hmMenu.appendChild(listCs)
     return hmMenu
 }
+
+var next = document.querySelector("#next")
+var prev = document.querySelector("#prev")
+next.addEventListener("click", () => {
+  var pid = parseInt(document.querySelector(".current").innerText);
+  var page = pid;
+  console.log(pid);
+  const pageNumber = pid + 1; // Get the current page number from the query parameters
+  const startIndex = (pageNumber - 1) * 10;
+  const endIndex = startIndex + 10;
+  populateData(pageNumber)
+  document.querySelector(".current").innerText = pid + 1;
+  if (pid == 9) {
+    next.disabled = true;
+  } else {
+    previous.disabled = false;
+    
+  }
+});

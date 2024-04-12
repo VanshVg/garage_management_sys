@@ -12,5 +12,6 @@ router.get("/garageUpdate", garageDisplay)
 router.post("/add", garageValidator, garageAdd);
 router.post("/update", garageValidator, garageUpdate);
 router.post("/delete", garageDelete);
-router.get("/garagelist",garageList)
+router.get("/garagelist",garageList);
+router.get("/getGaragesList",paginationMiddleware(10),getGarageListing)
 export default router;

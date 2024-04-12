@@ -79,7 +79,7 @@ export const garageList = (req, res) => {
 }
 
 export const getGarageListing = async (req,res)=>{
-  const result = await getGarageList()
-  console.log(result);
+ const {startIndex} =req.pagination
+  const result = await getGarageList(startIndex)
   res.json({result:result})
 }
