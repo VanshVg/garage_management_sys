@@ -135,7 +135,6 @@ export const updateAddressById = async (userInfo) => {
   }
 }
 
-
 // garage insert
 export const insertGarage = async (garageInfo) => {
   try {
@@ -183,6 +182,7 @@ export const updateGarage = async (garageInfo) => {
     let result = await (await conn()).query(query, garageInfo);
     return result[0].affectedRows;
   } catch (error) {
+    console.log(error);
     return { error };
   }
 }
@@ -193,6 +193,7 @@ export const updateGarageAddress = async (addressInfo) => {
     let result = await (await conn()).query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
+    console.log(error);
     return { error };
   }
 }
@@ -213,7 +214,7 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
 // display garage details
 export const displayGarage = async (garageId) => {
   try {
-    let query = `SELECT * FROM garage_master  WHERE id= ?`;
+    let query = `SELECT * FROM garage_master gm JOIN garage_addresses ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id `;
     let result = await (await conn()).query(query, [garageId]);
     return result[0];
   } catch (error) {
@@ -241,7 +242,6 @@ export const findService = async (serviceInfo) => {
     return { error }
   }
 }
-
 
 export const insertService = async (serviceInfo) => {
   try {
@@ -292,3 +292,24 @@ export const deleteGarageService = async (serviceInfo) => {
     return { error }
   }
 }
+
+export const selectByTableName = async (tableName) => {
+  try {
+    let query = "SELECT * FROM " + tableName + ";";
+    let [results] = await (await conn()).query(query);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}
+
+export const selectById = async (tableName, id) => {
+  try {
+    let query = "SELECT * FROM " + tableName + "WHERE id = ?";
+    let [results] = await (await conn()).query(query, [id]);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}
+

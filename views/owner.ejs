@@ -1,14 +1,15 @@
 <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/styles/ownerDashboard.css">
     <link rel="stylesheet" href="/styles/ownerProfile.css">
+    <link rel="stylesheet" href="/styles/garageForm.css">
     </head>
-    <% let active='dashboard' ; %>
+    <% var active=active || 'dashboard' ; %>
 
         <body>
             <div class="dashboard-container">
-                <%- include('./partials/sidebar',{active}) %>
+                <%- include('./partials/sidebar', {active}) %>
                     <div class="page-container" style="display: none;" id="dashboard-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Dashboard"})%>
+                        <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>
                             <%- include(`./partials/dashboard.ejs`) %>
                     </div>
                     <div class="page-container" style="display: none;" id="profile-screen">
@@ -68,7 +69,10 @@
                 setActive('<%= active %>');
                 document.querySelectorAll('li').forEach(li => {
                     li.addEventListener('click', () => {
-                        setActive(li.id)
+                        console.log(li.innerText);
+                        if (li.innerText == 'Dashboard') location.href = "/owner/home";
+                        else if (li.innerText == 'Logout') setActive(li.id);
+                        else location.href = "/owner/" + li.innerText.toLowerCase();
                     })
                 });
             </script>

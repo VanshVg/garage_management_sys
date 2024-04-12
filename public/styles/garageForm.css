@@ -4,6 +4,7 @@
   --white: #ffffff;
   --light: #d9d9d9;
   --lightorange: burlywood;
+  --lightblue: #D7E0E7;
 }
 
 body {
@@ -25,24 +26,22 @@ body {
 }
 
 .container {
-  max-width: 1000px;
+  padding: 20px;
+  height: 80vh;
+  width: 170vh;
   text-align: start;
-  margin-left: 40px;
-}
-
-.heading-main,
-.info-text {
-  margin-top: 20px;
+  background-color: var(--white);
+  border-radius: 7px;
 }
 
 .info-text {
   border-bottom: 1px solid var(--light);
-
+  width: 142vh;
 }
 
 .input-main {
   display: flex;
-  gap: 200px;
+  gap: 215px;
   margin: 20px 0px;
 }
 
@@ -59,11 +58,11 @@ body {
 .input-text {
   font-size: large;
   font-weight: bold;
-  width: 100px;
+  width: 150px;
 }
 
 .input {
-  font-size: 20px;
+  font-size: 17px;
   margin-left: 20px;
   height: 35px;
   border-radius: 5px;
@@ -76,19 +75,21 @@ textarea {
   outline: none;
 }
 
-#desc {
-  width: 150px;
-}
+/* #desc {
+  width: 120px;
+} */
 
 .input-description {
-  width: 800px;
-  height: 150px;
+  margin-left: 20px;
+  width: 120vh;
+  height: 100px;
   font-size: 15px;
+  border-radius: 7px;
 }
 
 .nextButton {
   margin: 10px;
-  margin-left: 85%;
+  margin-left: 130vh;
   background-color: var(--dark);
   color: var(--white);
   font-size: medium;
@@ -99,7 +100,7 @@ textarea {
 
 .addGarage {
   margin: 10px;
-  margin-left: 80%;
+  margin-left: 70%;
   background-color: var(--dark);
   color: var(--white);
   font-size: medium;
@@ -119,11 +120,11 @@ textarea {
 }
 
 .upload {
-  margin-top: 50px;
-  width: 1000px;
+  width: 142vh;
   position: relative;
   height: 150px;
-  background-color: var(--light);
+  background-color: var(--lightblue);
+  border-radius: 7px;
 }
 
 .upload-image {

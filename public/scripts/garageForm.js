@@ -21,7 +21,7 @@ const addGarageDetails = async () => {
   let details = new FormData(formData);
   const params = new URLSearchParams(details);
   const garageData = await new Response(params).text();
-  let data = await fetch("http://localhost:3000/garage/add", {
+  let data = await fetch("/owner/garage/add", {
     method: "POST",
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
@@ -38,7 +38,7 @@ const updateGarage = async () => {
   let details = new FormData(formData);
   const params = new URLSearchParams(details);
   const garageData = await new Response(params).text();
-  let data = await fetch("http://localhost:3000/garage/update", {
+  let data = await fetch("/owner/garage/update", {
     method: "POST",
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
@@ -51,7 +51,7 @@ const updateGarage = async () => {
 }
 
 const handleGarage = () => {
-  if (window.location.href == 'http://localhost:3000/garage/garageUpdate') {
+  if (window.location.href == 'http://localhost:3000/owner/garage/garageUpdate') {
     updateGarage();
   }
   else {
