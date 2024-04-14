@@ -15,7 +15,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", userController.signUp);
+router.get("/", userController.signIn);
 router.post("/register", registerValidator, userController.register);
 
 router.get("/signIn", userController.signIn);
