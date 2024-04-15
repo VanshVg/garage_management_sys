@@ -79,6 +79,7 @@ export const garageList = (req, res) => {
 }
 
 export const getGarageListing = async (req, res) => {
-  const result = await getGarageList();
+  const result = await getGarageList()
   res.json({ result: result })
 }
+

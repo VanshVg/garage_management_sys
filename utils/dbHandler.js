@@ -84,7 +84,19 @@ export const deleteSlot = async (slotId) => {
   }
 }
 
-export const updateUserByEmail = async (userInfo) => {
+export const getAllSlots = async (offset) => {
+  try {
+    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time, availability_status 
+                 FROM slot_master 
+                 LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id limit ?, 10;
+                 SELECT COUNT(id) as count FROM slot_master;`
+    let result = await (await conn()).query(query, offset);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+}
+export const updateUserById = async (userInfo) => {
   try {
     let query = `UPDATE users SET name = ? WHERE email = ?`;
     let results = await (await conn()).query(query, userInfo);
@@ -241,10 +253,10 @@ export const getServices = async () => {
   }
 }
 // get all garage details
-export const getGarageList = async () => {
+export const getGarageList = async (offset) => {
   try {
-    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master`
-    let result = await (await conn()).query(query);
+    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master limit ?,10`
+    let result = await (await conn()).query(query, offset);
     return result[0]
   } catch (error) {
     return { error }
