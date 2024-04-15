@@ -18,7 +18,6 @@ export const loginValidator = [
 export const profileValidator = [
   body("name").isLength({ min: 3 }).withMessage('Name must be of 3 characters long.')
     .matches(/^[A-Za-z\s]+$/).withMessage('Name must be alphabetic.'),
-  body("email").isByteLength({ min: 6 }).withMessage("Please provide a valid email address").isEmail().withMessage("Invalid email...!!").normalizeEmail(),
   body("area").notEmpty().withMessage('Please provide your area'),
   body("pincode")
     .notEmpty().withMessage('Please provide your pincode')
