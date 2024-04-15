@@ -47,5 +47,7 @@ export const slotDelete = async (req, res) => {
 export const getSlots = async(req,res) => {   
         const {startIndex,endIndex} =req.pagination
         const result = await getAllSlots(startIndex)
-        res.json({result:result[0],count:result[1][0].count,startIndex:startIndex,endIndex:endIndex})       
+        const totalPage = Math.ceil(result[1][0].count/10)
+        res.json({result:result[0],count:result[1][0].count,startIndex:startIndex,endIndex:result[0].length,totalPage:totalPage})
+
 }
