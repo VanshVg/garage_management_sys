@@ -8,7 +8,8 @@ const conn = async () => {
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    dateStrings: true
+    dateStrings: true,
+    multipleStatements:true
   });
 };
 export default conn;

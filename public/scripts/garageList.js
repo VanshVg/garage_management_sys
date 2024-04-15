@@ -1,23 +1,28 @@
-const getData = async (page=1) => {
+const getData = async (page = 1) => {
   const jsonData = await fetch(
-    "http://localhost:3000/owner/garages/getGaragesList?page="+page
+    "http://localhost:3000/owner/slots/getAllslots?page=" + page
   );
   var data = await jsonData.json();
-  return data.result;
+  console.log(data.count);
+  return [data.result, data.startIndex, data.endIndex,data.count];
 };
-const populateData = async (pageNumber=1) => {
-  // if () {
-    
-  // }
+const populateData = async (pageNumber = 1) => {
   var data = await getData(pageNumber);
-  console.log(data);
-  data.forEach((element) => {
+  const tableNode = document.getElementById("table");
+  while (tableNode.childNodes.length != 2) {
+    tableNode.removeChild(tableNode.lastChild);
+  }
+  data[0].forEach((element) => {
     var tr = document.createElement("tr");
     tr.classList.add("tr-class");
     tr.classList.add("font-family");
+    let i = 0;
     Object.keys(element).forEach((ele) => {
       var td = document.createElement("td");
-      if (ele == "status") {
+      td.classList.add("font-family");
+      
+      if (ele == "availability_status") {
+        td.classList.add("flex-status")
         var div = document.createElement("div");
         if (element[ele] == "1") {
           div.classList.add("active");
@@ -28,66 +33,94 @@ const populateData = async (pageNumber=1) => {
         }
         td.appendChild(div);
         tr.appendChild(td);
+      } else if (i == 2) {
+        var td2 = document.createElement("td");
+        td2.classList.add("font-family");
+        var date = element[ele];
+        td2.innerText = date.split(" ")[0];
+        tr.appendChild(td2);
+        td.innerText = date.split(" ")[1];
+        tr.appendChild(td);
+      } else if (i == 3) {
+        var time = element[ele];
+        td.innerText = time.split(" ")[1];
+        tr.appendChild(td);
       } else {
-          tr.appendChild(td);
-          td.innerText = element[ele];
+        tr.appendChild(td);
+        td.innerText = element[ele];
       }
+      i++;
     });
     var td = document.createElement("td");
-    td.appendChild(createEditAndDelete())
-    tr.appendChild(td)
+    td.appendChild(createEditAndDelete());
+    tr.appendChild(td);
     var table = document.getElementById("table");
     table.appendChild(tr);
   });
+  var text = document.querySelector(".pagination-text");
+  var max = data[1] + 1;
+
+  text.innerText = "Showing " + max + " to " + data[2] + " of "+ data[3] +" entries ";
+  // return[data[1],data[2]]
 };
 
 populateData();
 
 function createEditAndDelete() {
-    var hmMenu = document.createElement("div")
-    hmMenu.classList.add("hm-menu")
-    var threeDots = document.createElement("img")
-    threeDots.src = "/icons/threedots.svg"
-    var listCs = document.createElement("div")
-    listCs.classList.add("list-cs")
-    var listCsData1 = document.createElement("div")
-    listCsData1.classList.add("list-cs-data")
-    var edit = document.createElement("p")
-    edit.innerText = "Edit"
-    var editIcon = document.createElement("img")
-    editIcon.src = "/icons/edit.svg"
-    listCsData1.appendChild(editIcon)
-    listCsData1.appendChild(edit)
-    listCs.appendChild(listCsData1)
-    var listCsData2 = document.createElement("div")
-    listCsData2.classList.add("list-cs-data")
-    var edit = document.createElement("p")
-    edit.innerText = "Delete"
-    var editIcon = document.createElement("img")
-    editIcon.src = "/icons/delete.svg"
-    listCsData2.appendChild(editIcon)
-    listCsData2.appendChild(edit)
-    listCs.appendChild(listCsData2)
-    hmMenu.appendChild(threeDots)
-    hmMenu.appendChild(listCs)
-    return hmMenu
+  var hmMenu = document.createElement("div");
+  hmMenu.classList.add("hm-menu");
+  var threeDots = document.createElement("img");
+  threeDots.src = "/icons/threedots.svg";
+  var listCs = document.createElement("div");
+  listCs.classList.add("list-cs");
+  var listCsData1 = document.createElement("div");
+  listCsData1.classList.add("list-cs-data");
+  var edit = document.createElement("p");
+  edit.innerText = "Edit";
+  var editIcon = document.createElement("img");
+  editIcon.src = "/icons/edit.svg";
+  listCsData1.appendChild(editIcon);
+  listCsData1.appendChild(edit);
+  listCs.appendChild(listCsData1);
+  var listCsData2 = document.createElement("div");
+  listCsData2.classList.add("list-cs-data");
+  var edit = document.createElement("p");
+  edit.innerText = "Delete";
+  var editIcon = document.createElement("img");
+  editIcon.src = "/icons/delete.svg";
+  listCsData2.appendChild(editIcon);
+  listCsData2.appendChild(edit);
+  listCs.appendChild(listCsData2);
+  hmMenu.appendChild(threeDots);
+  hmMenu.appendChild(listCs);
+  return hmMenu;
 }
 
-var next = document.querySelector("#next")
-var prev = document.querySelector("#prev")
-next.addEventListener("click", () => {
+var next = document.querySelector("#next");
+var prev = document.querySelector("#prev");
+next.addEventListener("click", async () => {
   var pid = parseInt(document.querySelector(".current").innerText);
-  var page = pid;
-  console.log(pid);
-  const pageNumber = pid + 1; // Get the current page number from the query parameters
-  const startIndex = (pageNumber - 1) * 10;
-  const endIndex = startIndex + 10;
-  populateData(pageNumber)
+  const pageNumber = pid + 1;
+  await populateData(pageNumber);
+
   document.querySelector(".current").innerText = pid + 1;
+
   if (pid == 9) {
     next.disabled = true;
   } else {
-    previous.disabled = false;
-    
+    prev.disabled = false;
+  }
+});
+
+prev.addEventListener("click", async () => {
+  var pid = parseInt(document.querySelector(".current").innerText);
+  document.querySelector(".current").innerText = pid - 1;
+  const pageNumber = pid - 1;
+  populateData(pageNumber);
+
+  if (pid - 1 == 1) {
+    prev.disabled = true;
+  } else {
+    next.disabled = false;
   }
 });

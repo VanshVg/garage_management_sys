@@ -83,3 +83,4 @@ export const getGarageListing = async (req,res)=>{
   const result = await getGarageList(startIndex)
   res.json({result:result})
 }
+
