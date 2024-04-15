@@ -1,3 +1,4 @@
+<toast></toast>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -43,11 +44,12 @@
                             <%- include(`./partials/profile.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="profile-edit-screen">
+                        <<<<<<< HEAD=======id="profile-edit-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Profile/Edit"})%>
                             <%- include(`./garage/updateProfile.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;">
+                        >>>>>> e09fb67caf855800988ba80481abb361b9f18cfe
                         id="garages-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
                             <%- include(`./partials/garages.ejs`) %>
@@ -76,6 +78,11 @@
                         id="invoice-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
                             <%- include(`./partials/invoice.ejs`) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garage-add-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
+                            <%- include(`./garage/add.ejs`) %>
                     </div>
             </div>
             <script>

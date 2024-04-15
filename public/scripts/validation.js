@@ -12,9 +12,25 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-          errorMessage: "password must be at least 8 character..",
-          valid: false,
-        }
+            errorMessage: "password must be at least 8 character..",
+            valid: false,
+          }
+        : { valid: true },
+    digit10: (value) =>
+      !/^\d{10}$/.test(value)
+        ? { errorMessage: "only 10 digit allowed..", valid: false }
+        : { valid: true },
+    digit6: (value) =>
+      !/^\d{6}$/.test(value)
+        ? { errorMessage: "only 6 digit allowed..", valid: false }
+        : { valid: true },
+    mobile: (value) =>
+      !/^[6789]{1,}/.test(value)
+        ? { errorMessage: "mobile number start with 6,7,8,9..", valid: false }
+        : { valid: true },
+    multi_word: (value) =>
+      !/^[a-zA-Z_ ]*$/.test(value)
+        ? { errorMessage: "invalid data format..", valid: false }
         : { valid: true },
     email: (value) =>
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -24,7 +40,7 @@ const Validation = {
       return { errorMessage: "", valid: false };
     },
     none: () => {
-      valid: true;
+      return { valid: true };
     },
   },
   isValid: (control) => {
@@ -74,9 +90,9 @@ const Validation = {
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
         ).value;
-      if (form == 'u/resetPassword') {
+      if (form == "u/resetPassword") {
         let href = location.pathname;
-        href = href.slice(href.lastIndexOf('/') + 1);
+        href = href.slice(href.lastIndexOf("/") + 1);
         formProps["email"] = href;
       }
       let response = await fetch(`/${form}`, {
@@ -90,7 +106,7 @@ const Validation = {
       try {
         data = await response.json();
         if (data.success) {
-          if (form == 'u/login') {
+          if (form == "u/login") {
             Swal.fire({
               title: "Good job!",
               text: "Welcome To Your Dashboard",
@@ -99,28 +115,26 @@ const Validation = {
               timer: 1500,
               allowOutsideClick: false,
             });
+            localStorage.setItem("userId", data.userId);
             setTimeout(() => {
-              if (data.role_id == '1') location.pathname = "/owner/home";
+              if (data.role_id == "1") location.pathname = "/owner/home";
               else location.pathname = "/customer/home";
             }, 1500);
-          }
-          else if (form == 'u/register') {
-            const activate = document.getElementById('activate');
-            let href = document.createElement('a');
+          } else if (form == "u/register") {
+            const activate = document.getElementById("activate");
+            let href = document.createElement("a");
             let text = `${location.origin}/u/activate/${data.userId}/${data.token}`;
-            href.setAttribute('href', text);
+            href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;
-          }
-          else if (form == 'u/forgotPassword') {
-            const activate = document.getElementById('activate');
-            let href = document.createElement('a');
+          } else if (form == "u/forgotPassword") {
+            const activate = document.getElementById("activate");
+            let href = document.createElement("a");
             let text = `${location.origin}/u/resetPassword/${data.email}`;
-            href.setAttribute('href', text);
+            href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;
-          }
-          else if (form == 'u/resetPassword') {
+          } else if (form == "u/resetPassword") {
             Swal.fire({
               title: "Good job!",
               text: "Password Updated successfully",
