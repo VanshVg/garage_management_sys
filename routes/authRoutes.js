@@ -32,17 +32,4 @@ router.post('/resetPassword', resetValidator, userController.reset);
 //route control
 applyPassportStrategy();
 
-router.use('/owner',
-  passport.authenticate("jwt", {
-    session: false,
-    failureRedirect: "/u/signIn",
-  }), validateRole(1), ownerRoutes
-);
-
-router.use('/customer',
-  passport.authenticate("jwt", {
-    session: false,
-    failureRedirect: "/u/signIn",
-  }), validateRole(0), customerRoutes
-);
 export default router;

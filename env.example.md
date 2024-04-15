@@ -1,4 +1,4 @@
-### Required All Environment Veriable to Run this Project
+### All Required Environment Variables to Run this Project
 ```
 PORT = xxxx
 DB_HOST = xxxxxxxxx
