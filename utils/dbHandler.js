@@ -221,15 +221,14 @@ export const displayGarage = async (garageId) => {
     return { error }
   }
 }
-
 // get all garage details
-export const getGarageList = async ()=>{
+export const getGarageList = async () => {
   try {
     let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master`
-    let result = await(await conn()).query(query);
+    let result = await (await conn()).query(query);
     return result[0]
   } catch (error) {
-    return{error}
+    return { error }
   }
 }
 
