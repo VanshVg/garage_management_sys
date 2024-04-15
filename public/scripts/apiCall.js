@@ -7,11 +7,12 @@ const callAPI = async (endpoint, body, method) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body,
+          body: JSON.stringify(body),
         }
       : {}
   );
   try {
+    console.log(data);
     let jsonData = data.json();
     return jsonData;
   } catch (error) {

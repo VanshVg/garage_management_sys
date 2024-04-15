@@ -162,6 +162,7 @@ export const insertGarage = async (garageInfo) => {
   try {
     let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
     let result = await (await conn()).query(query, [garageInfo]);
+    console.log(result);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -190,7 +191,7 @@ export const insertGarageAddress = async (addressInfo) => {
 // garage addres reference
 export const insertGarageReference = async (references) => {
   try {
-    let query = `INSERT INTO garage_addresses (address_id, garage_id) values (?)`;
+    let query = `INSERT INTO garage_address (address_id, garage_id) values (?)`;
     let result = await (await conn()).query(query, [references]);
     return result[0].affectedRows;
   } catch (error) {

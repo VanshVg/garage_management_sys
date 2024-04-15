@@ -1,7 +1,18 @@
-import { validationResult } from 'express-validator';
-import { activateUser, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword, updateUserById } from '../utils/dbHandler.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
+import {
+  activateUser,
+  findAddressById,
+  findOne,
+  findOneById,
+  insert,
+  insertAddress,
+  insertUserAddress,
+  updateAddressById,
+  updatePassword,
+  updateUserById,
+} from "../utils/dbHandler.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -53,7 +64,10 @@ export const activate = async (req, res) => {
       });
     } else {
       let result = activateUser(id);
-      res.render('auth/success', { success: true, message: "Your account is activated please login to continue" });
+      res.render("auth/success", {
+        success: true,
+        message: "Your account is activated please login to continue",
+      });
     }
   } catch (err) {
     res.status(301).json({ success: false, message: err.message });
@@ -98,16 +112,19 @@ export const login = async (req, res) => {
         }
       );
       res.cookie("token", token, { maxAge: 1 * 60 * 60 * 1000 });
-      return res
-        .status(201)
-        .json({ success: true, role_id: user[0].role_id, message: "Logged in successfully" });
+      return res.status(201).json({
+        success: true,
+        role_id: user[0].role_id,
+        userId: user[0].id,
+        message: "Logged in successfully",
+      });
     }
   }
 };
 
 export const forgot = async (req, res) => {
-  res.render('auth/forgotPassword', { title: "Forgot Password" });
-}
+  res.render("auth/forgotPassword", { title: "Forgot Password" });
+};
 
 export const forget = async (req, res) => {
   const email = req.body.email;
@@ -120,13 +137,13 @@ export const forget = async (req, res) => {
   }
   return res.status(200).json({
     success: true,
-    email: email
+    email: email,
   });
-}
+};
 
 export const resetPassword = async (req, res) => {
-  res.render('auth/resetPassword', { title: "Reset Password" })
-}
+  res.render("auth/resetPassword", { title: "Reset Password" });
+};
 
 export const reset = async (req, res) => {
   const { email, password } = req.body;
@@ -143,62 +160,83 @@ export const reset = async (req, res) => {
   result = await updatePassword(result[0].id, hashedPassword);
   return res.status(200).json({
     success: true,
-    message: "password updated successfully"
+    message: "password updated successfully",
   });
-}
+};
 
 export const editProfile = (req, res) => {
   res.render("garage/editProfile", { title: "Edit Profile" });
-}
+};
 
 export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, errors: errors.array() });
   }
-  let { name, email, area, cityId, pincode } = req.body
-  let { userId } = req.params
+  let { name, email, area, cityId, pincode } = req.body;
+  let { userId } = req.params;
 
   let user = await findOneById(userId);
   if (user.length == 0) {
-    return res.status(301).json({ success: false, message: "User doesn't exist" });
+    return res
+      .status(301)
+      .json({ success: false, message: "User doesn't exist" });
   }
 
   let userEmail = await findOne(email);
   if (userEmail.length > 0) {
     if (userEmail[0].id != userId) {
-      return res.status(301).json({ success: false, message: "Email already taken" });
+      return res
+        .status(301)
+        .json({ success: false, message: "Email already taken" });
     }
   }
 
   let userResult = await updateUserById([name, email, userId]);
   if (userResult != 1) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
-  
+
   let address = await findAddressById(userId);
   if (!address) {
     let result = await insertAddress([cityId, area, pincode]);
     if (!result) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
     } else {
       let userAddressResult = await insertUserAddress([userId, result]);
       if (!userAddressResult) {
-        return res.status(301).json({ success: false, message: "Something went wrong!" });
+        return res
+          .status(301)
+          .json({ success: false, message: "Something went wrong!" });
       }
-      return res.status(200).json({ success: true, message: "User updated successfully" });
+      return res
+        .status(200)
+        .json({ success: true, message: "User updated successfully" });
     }
   }
 
-  let updateAddress = await updateAddressById([cityId, area, pincode, address.address_id]);
+  let updateAddress = await updateAddressById([
+    cityId,
+    area,
+    pincode,
+    address.address_id,
+  ]);
   if (updateAddress != 1) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
 
-  return res.status(200).json({ success: true, message: "User updated successfully" });
-}
+  return res
+    .status(200)
+    .json({ success: true, message: "User updated successfully" });
+};
 
 export const logout = (req, res) => {
   res.clearCookie("token");
-  res.redirect('/u/signIn');
-}
+  res.redirect("/u/signIn");
+};

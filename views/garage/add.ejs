@@ -23,17 +23,20 @@
       <div class="flex items-center mb-2">
         <label for="name" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
         <input type="text" id="name" name="name" placeholder="garage name"
-          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+          Validation="require multi_word" oninput="Validation.isValid(this)">
       </div>
       <div class="flex items-center mb-2">
         <label for="email" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Email</label>
-        <input type="email" id="email" name="email" placeholder="abc@abcmail.com"
-          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        <input type="text" id="email" name="email" placeholder="abc@abcmail.com"
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+          Validation="require email" oninput="Validation.isValid(this)">
       </div>
       <div class="flex items-center mb-2">
         <label for="contact" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
-        <input type="number" id="contact" name="contact" placeholder="1234567890"
-          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        <input type="text" id="contact" name="contact" placeholder="1234567890"
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+          Validation="require digit10 mobile" oninput="Validation.isValid(this)">
       </div>
     </div>
   </div>
@@ -41,12 +44,14 @@
     <div class="flex items-center mb-3 w-1/2 mr-4">
       <label for="openTime" class="text-sm  mr-2 text-left font-medium text-dark">Open Time</label>
       <input type="time" id="openTime" name="openTime"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+        Validation="require" oninput="Validation.isValid(this)">
     </div>
     <div class="flex items-center mb-4 w-1/2">
       <label for="closeTime" class="text-sm  mr-2 text-left font-medium text-dark">Close Time</label>
       <input type="time" id="closeTime" name="closeTime"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+        Validation="require" oninput="Validation.isValid(this)">
     </div>
   </div>
   <h3 class="text-dark font-semibold text-left my-2">Address Information</h3>
@@ -55,127 +60,42 @@
     <div class="flex items-center mb-4 w-1/2 mr-4">
       <label for="area" class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">Area</label>
       <input type="text" id="area" name="area" placeholder="00,xyz"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+        Validation="none">
     </div>
     <div class="flex items-center mb-4 w-1/2">
       <label for="state" class="text-sm  mr-2 text-left font-medium w-[80px] text-left text-dark">State</label>
       <select id="state" name="state"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"></select>
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+        Validation="require"></select>
     </div>
   </div>
   <div class="input-group flex w-full">
     <div class="flex items-center mb-4 w-1/2 mr-4">
       <label for="city" class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">City</label>
       <select id="city" name="city"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+        Validation="none">
       </select>
     </div>
     <div class="flex items-center mb-4 w-1/2">
       <label for="pincode" class="text-sm  mr-2 text-left font-medium w-[80px] text-left text-dark">Pincode</label>
       <input type="number" id="pincode" name="pincode" placeholder="123456"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue">
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+        Validation="require digit6" oninput="Validation.isValid(this)">
     </div>
   </div>
   <label for="description" class="text-sm font-bold mr-2 text-left text-dark">Description</label>
   <div class="flex items-center mb-4">
     <textarea id="description" name="description" rows="5"
       class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-      placeholder="type here.."></textarea>
+      placeholder="type here.." Validation="none"></textarea>
   </div>
   <div class="w-full flex justify-end">
     <button type="submit" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4">+
       Add</button>
   </div>
 </form>
+<script src="/scripts/validation.js"></script>
 <script src="/scripts/apiCall.js"></script>
 <script src="/scripts/garageForm.js"></script>
-
-<!-- invoices
-<div class="grid">
-  <div class="container">
-    <span id="message"></span>
-    <h2 class="heading-main dark">New Garage</h2>
-    <form action="#" method="post" id="garageAdd">
-      <div class="tab">
-        <h3 class="info-text dark">Garage Information</h3>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Name</p>
-            <input type="text" name="garageName" id="garageName" class="input" tabindex="1" Validation="required ">
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">Contact No</p>
-            <input type="text" name="contactNumber" id="contactNumber" class="input" tabindex="2"
-              Validation="required contactNumber">
-          </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Email</p>
-            <input type="text" name="email" id="email" class="input" tabindex="3" Validation="required email">
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">Thumbnail</p>
-            <input type="text" name="thumbnail" id="thumbnail" class="input" tabindex="4">
-          </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">Open Time</p>
-            <input type="text" name="openTime" id="openTime" class="input" tabindex="5" Validation="required time">
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">Close Time</p>
-            <input type="text" name="closeTime" id="closeTime" class="input" tabindex="6" Validation="required time">
-          </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content-desc">
-            <p class="dark input-text" id="desc">Description</p>
-            <textarea name="description" id="description" cols="30" rows="10" class="input-description"></textarea>
-          </div>
-        </div>
-        <input type="button" name="nextButton" class="nextButton" id="nextButton" value="Next" onclick="nextPage()">
-      </div>
-      <div class="tab">
-        <h3 class="info-text dark">Address Information</h3>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">area</p>
-            <input type="text" name="area" class="input" Validation="required">
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">State</p>
-            <select name="state" id="state" class="input">
-              <option value=" " selected></option>
-              <option value="gujarat">Gujarat</option>
-            </select>
-          </div>
-        </div>
-        <div class="input-main">
-          <div class="input-content">
-            <p class="dark input-text">City</p>
-            <select name="cityId" id="cityId" class="input">
-              <option value=" " selected></option>
-              <option value="1">Gandhinagar</option>
-            </select>
-          </div>
-          <div class="input-content">
-            <p class="dark input-text">Pincode</p>
-            <input type="text" name="pincode" class="input" Validation="required pincode">
-          </div>
-        </div>
-        <div class="upload">
-          <img class="upload-image" src="/assets/Group 83.svg" alt="upload image">
-        </div>
-        <div class="button-group">
-          <input type="button" name="previousButton" id="previousButton" value="Previous" class="previousButton"
-            onclick="prevPage()">
-          <input type="button" name="add" id="addGarage" value="+ Add" class="addGarage" onclick="handleGarage()">
-        </div>
-
-      </div>
-    </form>
-  </div>
-  <script src="/scripts/garageForm.js"></script>
-</div> -->
