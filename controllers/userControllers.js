@@ -1,18 +1,7 @@
-import { validationResult } from "express-validator";
-import {
-  activateUser,
-  findAddressById,
-  findOne,
-  findOneById,
-  insert,
-  insertAddress,
-  insertUserAddress,
-  updateAddressById,
-  updatePassword,
-  updateUserById,
-} from "../utils/dbHandler.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { validationResult } from 'express-validator';
+import { activateUser, deleteUserAddress, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword } from '../utils/dbHandler.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -22,7 +11,7 @@ export const register = async (req, res) => {
   const { role_id, name, email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(301).json({ success: false, errors: errors.array() });
+    res.status(301).json({ success: false, message: "Invalid payload" });
   } else {
     let result = await findOne(email);
     if (result.length) {
@@ -171,43 +160,28 @@ export const editProfile = (req, res) => {
 export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(301).json({ success: false, errors: errors.array() });
+    return res.status(301).json({ success: false, message: "Invalid payload" });
   }
-  let { name, email, area, cityId, pincode } = req.body;
-  let { userId } = req.params;
+  let { name, city, area, pincode } = req.body;
 
-  let user = await findOneById(userId);
-  if (user.length == 0) {
-    return res
-      .status(301)
-      .json({ success: false, message: "User doesn't exist" });
-  }
-
-  let userEmail = await findOne(email);
-  if (userEmail.length > 0) {
-    if (userEmail[0].id != userId) {
-      return res
-        .status(301)
-        .json({ success: false, message: "Email already taken" });
-    }
-  }
-
-  let userResult = await updateUserById([name, email, userId]);
+  let userResult = await updateUserByEmail([name, req.user.email]);
   if (userResult != 1) {
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });
   }
 
-  let address = await findAddressById(userId);
+  let user = await findOne(req.user.email);
+  let address = await findAddressById(user[0].id);
   if (!address) {
-    let result = await insertAddress([cityId, area, pincode]);
+    let result = await insertAddress([user[0].id, city, area, pincode]);
     if (!result) {
       return res
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     } else {
-      let userAddressResult = await insertUserAddress([userId, result]);
+      await deleteUserAddress([user[0].id]);
+      let userAddressResult = await insertUserAddress([user[0].id, city, area, pincode]);
       if (!userAddressResult) {
         return res
           .status(301)

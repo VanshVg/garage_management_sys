@@ -78,4 +78,4 @@ export const garageValidator = [
 ];
 export const forgotPasswordValidator = [];
 export const resetValidator = [];
-export const forgotEmailValidator = () => {};
+export const forgotEmailValidator = () => { };

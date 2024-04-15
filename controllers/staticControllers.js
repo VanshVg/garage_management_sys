@@ -1,13 +1,15 @@
+import { findOne, getServices, selectByFieldName, selectById, selectByTableName } from "../utils/dbHandler.js";
+
 // landing page
 export const landingPage = (req, res) => {
   res.render('landing', { title: "Garage Management System" });
 }
 
-export const home = (req, res) => {
+export const home = async (req, res) => {
   res.render('index', { title: "Home", active: 'dashboard' });
 }
 
-export const userProfile = (req, res) => {
+export const userProfile = async (req, res) => {
   res.render('index', { title: "Profile", active: 'profile' });
 }
 
@@ -52,4 +54,25 @@ export const calendar = (req, res) => {
 
 export const sessionEnd = (req, res) => {
   res.render('sessionEnd');
+}
+
+export const getStates = async (req, res) => {
+  const states = await selectByTableName("state_master");
+  res.status(201).json({ states });
+}
+
+export const getCities = async (req, res) => {
+  const cities = await selectByFieldName("city_master", 'sid', req.params.state_id);
+  res.status(201).json({ cities });
+}
+
+export const getUserDetails = async (req, res) => {
+  const user = await findOne(req.user.email);
+  const address = await selectByFieldName('address_master', 'user_id', user[0].id);
+  res.status(201).json({ user: user[0], address: address[0] });
+}
+
+export const allServices = async (req, res) => {
+  const services = await getServices();
+  res.status(201).json({ services });
 }

@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/', userProfile);
 router.get('/edit', userController.editProfile);
-router.put("/:userId", profileValidator, userController.updateProfile);
+router.put("/update", profileValidator, userController.updateProfile);
 
 export default router;

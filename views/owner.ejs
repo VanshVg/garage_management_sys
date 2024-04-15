@@ -44,6 +44,12 @@
                             <%- include(`./partials/profile.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        <<<<<<< HEAD=======id="profile-edit-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Profile/Edit"})%>
+                            <%- include(`./garage/updateProfile.ejs`) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;">
+                        >>>>>> e09fb67caf855800988ba80481abb361b9f18cfe
                         id="garages-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
                             <%- include(`./partials/garages.ejs`) %>
@@ -81,10 +87,12 @@
             </div>
             <script>
                 const setActive = (activated) => {
-                    document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') })
-                    let active = document.querySelector(`.menus ul li[id=${activated}]`);
-                    active.classList.add('bg-blue');
-                    active.classList.remove('opacity-50');
+                    document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
+                    if (activated != 'profile-edit') {
+                        let active = document.querySelector(`.menus ul li[id=${activated}]`);
+                        active.classList.add('bg-blue');
+                        active.classList.remove('opacity-50');
+                    }
                     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex'
