@@ -42,7 +42,7 @@ h1{
 .title-value{
 font-family: Kadwa, serif;
 font-size: 30px;
-font-weight: 700;
+font-weight: 500;
 letter-spacing: 0.02em;
 text-align: center;
 }
@@ -54,7 +54,7 @@ text-align: center;
 .font-family{
 font-family: Kadwa, serif;
 font-size: 15px;
-font-weight: 700;
+font-weight: 300;
 letter-spacing: 0.02em;
 }
 .title{
@@ -101,9 +101,10 @@ color: black;
     border-bottom: 1px solid black;
 }
 .tr-class:hover {background-color: #D7E0E7;}
+
 .active{
     color: var(--white);
-    background-color: rgb(106, 222, 106);
+    background-color: rgb(67, 142, 67);
     padding: 5px;
     border-radius: 10px;
     margin: 10px;
