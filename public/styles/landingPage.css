@@ -1,0 +1,96 @@
+:root {
+  --dark: #152533;
+  --blue: #355364;
+  --white: #ffffff;
+  --light: #d9d9d9;
+  --lightorange: burlywood;
+  --lightblue: #D7E0E7;
+}
+
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: none;
+}
+
+a {
+  color: var(--white);
+}
+
+body {
+  background-color: var(--white);
+}
+
+.section {
+  height: 700px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 80%;
+  margin-top: 50px;
+  text-align: start;
+}
+
+.dark {
+  color: var(--dark);
+}
+
+.flex {
+  display: flex;
+}
+
+.col-1 {
+  width: 50%;
+}
+
+.col-2 {
+  width: 30%;
+  margin: auto auto;
+}
+
+.garage-logo {
+  background-color: var(--dark);
+}
+
+.heading {
+  font-size: 50px;
+  margin: 30px 0px;
+}
+
+.para-1 {
+  color: var(--blue);
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.button {
+  margin: 50px 0px;
+  background-color: var(--dark);
+  font-weight: bold;
+  font-size: 20px;
+  width: 300px;
+  height: 50px;
+  border-radius: 7px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-data {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px;
+  width: 20%;
+  height: 250px;
+  background-color: var(--dark);
+  font-size: 30px;
+  color: var(--white);
+  border-radius: 7px;
+}

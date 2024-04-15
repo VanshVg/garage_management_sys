@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Garage List</title>
+    <link rel="stylesheet" href="/styles/garegeList.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="title">
+          <div class="title-value">Garage List</div>
+        </div>
+        <div class="serachbar-div">
+          <input
+            class="searchbar font-family"
+            type="text"
+            name="searchValue"
+            id="searchValue"
+            placeholder="Search here"
+          />
+        </div>
+        <div class="table">
+          <table id="table">
+            <tr class="table-head font-family">
+              <th>Sr. No</th>
+              <th>Garage Name</th>
+              <th>Contact Number</th>
+              <th>Open Time</th>
+              <th>Close Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </table>
+        </div>
+        <div class="pagination font-family">
+          <div class="font-family">Showing 1 to 8 of 8 entries</div>
+          <div class="page-buttons button-group">
+            <input class="font-family buttons" type="button" value="Prev" id="prev"/>
+            <div class="current" id="pid">1</div>
+            <input class="font-family buttons" type="button" value="Next" id="next" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/scripts/garageList.js"></script>
+  </body>
+</html>

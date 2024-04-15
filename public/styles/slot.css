@@ -1,0 +1,69 @@
+.grid-slot{
+    margin-left: 50px;
+    margin-top: 20px;
+    display: flex;
+    width: 120vh;
+    height: 80vh;
+    background-color: white;
+    border-radius:10px;
+}
+
+.grid-slot .grid-slot-container{
+    margin: 30px 0px 30px 40px;
+}
+
+.grid-slot .grid-slot-container h3,h4{
+    color: #182B3B;
+}
+
+.grid-slot .container-heading hr{
+    color: #182B3B;
+    margin-top: -20px;
+    width: 100dvh;
+}
+
+.grid-slot .grid-slot-container .wrapper{
+    max-width: 100dvh;
+}
+
+.grid-slot .grid-slot-container .wrapper .row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9%;
+}
+
+.grid-slot .grid-slot-container .wrapper .row .col{
+    width: calc(90%/2);
+}
+
+.grid-slot .grid-slot-container .wrapper .form-handler{
+    margin-top: 30px;
+}
+
+.grid-slot .grid-slot-container .wrapper .form-handler .form-input-container{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.grid-slot .grid-slot-container .wrapper .form-handler .form-input-container label{
+    color: #182B3B;
+    font-weight: bold;
+}
+
+.grid-slot .grid-slot-container .wrapper .form-handler .form-input-container input{
+    border-radius: 4px;
+    border: 1px solid rgba(24, 43, 59, 0.5);
+}
+
+.grid-slot .grid-slot-container .wrapper .form-button{
+    float:right;
+}
+
+.grid-slot .grid-slot-container .wrapper .form-button input{
+    padding: 6px 14px;
+    background-color: #182B3B;
+    font-weight: bold;
+    color: #FFFFFF;
+    border-radius: 7px;
+}
