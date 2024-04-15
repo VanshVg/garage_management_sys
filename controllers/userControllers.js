@@ -175,7 +175,7 @@ export const updateProfile = async (req, res) => {
   if (userResult != 1) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-
+  
   let address = await findAddressById(userId);
   if (!address) {
     let result = await insertAddress([cityId, area, pincode]);
