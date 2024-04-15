@@ -84,9 +84,9 @@ export const deleteSlot = async (slotId) => {
   }
 }
 
-export const updateUserById = async (userInfo) => {
+export const updateUserByEmail = async (userInfo) => {
   try {
-    let query = `UPDATE users SET name = ?, email = ? WHERE id = ?`;
+    let query = `UPDATE users SET name = ? WHERE email = ?`;
     let results = await (await conn()).query(query, userInfo);
     return results[0].affectedRows
   } catch (error) {
@@ -107,7 +107,7 @@ export const findAddressById = async (userId) => {
 
 export const insertAddress = async (userInfo) => {
   try {
-    let query = `INSERT INTO address_master (city_id, area, pincode) VALUES (?)`
+    let query = `INSERT INTO address_master (user_id, city_id, area, pincode) VALUES (?)`
     let results = await (await conn()).query(query, [userInfo]);
     return results[0].insertId;
   } catch (error) {
@@ -128,6 +128,16 @@ export const insertUserAddress = async (userInfo) => {
 export const updateAddressById = async (userInfo) => {
   try {
     let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = ?`
+    let results = await (await conn()).query(query, userInfo);
+    return results[0].affectedRows;
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const deleteUserAddress = async (userInfo) => {
+  try {
+    let query = `DELETE FROM address_master WHERE user_id = ?`;
     let results = await (await conn()).query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
@@ -182,7 +192,6 @@ export const updateGarage = async (garageInfo) => {
     let result = await (await conn()).query(query, garageInfo);
     return result[0].affectedRows;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -193,7 +202,6 @@ export const updateGarageAddress = async (addressInfo) => {
     let result = await (await conn()).query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -222,14 +230,24 @@ export const displayGarage = async (garageId) => {
   }
 }
 
+export const getServices = async () => {
+  try {
+    let query = "SELECT * FROM service_master;";
+    let result = await (await conn()).query(query);
+    return result[0];
+  }
+  catch (err) {
+    return { err };
+  }
+}
 // get all garage details
-export const getGarageList = async ()=>{
+export const getGarageList = async () => {
   try {
     let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master`
-    let result = await(await conn()).query(query);
+    let result = await (await conn()).query(query);
     return result[0]
   } catch (error) {
-    return{error}
+    return { error }
   }
 }
 
@@ -245,7 +263,7 @@ export const findService = async (serviceInfo) => {
 
 export const insertService = async (serviceInfo) => {
   try {
-    let query = `INSERT INTO service_master (name, description, price, availability_status) VALUES (?)`
+    let query = `INSERT INTO service_master (name, description) VALUES (?)`
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
@@ -255,7 +273,7 @@ export const insertService = async (serviceInfo) => {
 
 export const insertGarageService = async (serviceInfo) => {
   try {
-    let query = `INSERT INTO garage_has_services (garage_id, services_id) VALUES (?)`
+    let query = `INSERT INTO garage_has_services (garage_id, services_id, price) VALUES (?)`
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
@@ -305,7 +323,7 @@ export const selectByTableName = async (tableName) => {
 
 export const selectById = async (tableName, id) => {
   try {
-    let query = "SELECT * FROM " + tableName + "WHERE id = ?";
+    let query = "SELECT * FROM " + tableName + " WHERE id = ?;";
     let [results] = await (await conn()).query(query, [id]);
     return results;
   } catch (err) {
@@ -313,3 +331,12 @@ export const selectById = async (tableName, id) => {
   }
 }
 
+export const selectByFieldName = async (tableName, fieldName, value) => {
+  try {
+    let query = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = ?;";
+    let [results] = await (await conn()).query(query, [value]);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}

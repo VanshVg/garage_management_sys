@@ -22,7 +22,8 @@ export const applyPassportStrategy = () => {
       result = result[0];
       if (result) {
         return done(null, {
-          role_id: result.role_id
+          role_id: result.role_id,
+          email: payload.email
         });
       }
       return done(null, false);

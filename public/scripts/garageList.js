@@ -7,7 +7,6 @@ const getData = async () => {
 };
 const populateData = async () => {
   var data = await getData();
-  console.log(data);
   data.forEach((element) => {
     var tr = document.createElement("tr");
     tr.classList.add("tr-class");
