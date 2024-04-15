@@ -12,6 +12,7 @@ import ownerRoutes from "./ownerRoutes.js";
 import customerRoutes from "./customerRoutes.js";
 import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
+import { cityList, stateList } from "../controllers/addressControllers.js";
 
 const router = express.Router();
 // landing page
@@ -39,5 +40,9 @@ router.get("/sessionEnd", sessionEnd);
 router.get("/logout", logout);
 router.use("/u", isAlreadyLoggedIn, authRoutes);
 router.get("/", isAlreadyLoggedIn, landingPage);
+
+//address related
+router.get("/address/state", stateList);
+router.get("/address/city/:stateId", cityList);
 router.all("*", notFound);
 export default router;

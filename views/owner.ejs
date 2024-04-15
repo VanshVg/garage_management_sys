@@ -8,7 +8,7 @@
                     blue: '#355364',
                     white: '#FFFFFF',
                     light: '#D9D9D9',
-                    lightbg:"#d7e0e7",
+                    lightbg: "#d7e0e7",
                     lightorange: 'burlywood',
                     card1bg: 'rgba(255, 225, 200, 0.5)',
                     card1text: '#e96a00',
@@ -32,42 +32,55 @@
         <body class="overlow-hidden">
             <div class="dashboard-container h-screen w-screen flex">
                 <%- include('./partials/sidebar', {active}) %>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="dashboard-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="dashboard-screen">
                         <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>
                             <%- include(`./partials/dashboard.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="profile-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="profile-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Profile"})%>
                             <%- include(`./partials/profile.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="garages-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garages-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
                             <%- include(`./partials/garages.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="services-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="services-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Services"})%>
                             <%- include(`./partials/services.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="slots-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="slots-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Slots"})%>
                             <%- include(`./partials/slots.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="appointment-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="appointment-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
                             <%- include(`./partials/appointments.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="inventory-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="inventory-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Inventory"})%>
                             <%- include(`./partials/inventory.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;" id="invoice-screen">
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="invoice-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
                             <%- include(`./partials/invoice.ejs`) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garage-add-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
+                            <%- include(`./garage/add.ejs`) %>
                     </div>
             </div>
             <script>
                 const setActive = (activated) => {
-                    document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue');li.classList.add('opacity-50') })
+                    document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') })
                     let active = document.querySelector(`.menus ul li[id=${activated}]`);
                     active.classList.add('bg-blue');
                     active.classList.remove('opacity-50');
@@ -75,10 +88,15 @@
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex'
                 }
+                const activeSub = (activated) => {
+                    document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
+                    let screen = document.querySelector(`#${activated}-screen`);
+                    screen.style.display = 'flex';
+                }
                 setActive('<%= active %>');
                 document.querySelectorAll('li').forEach(li => {
                     li.addEventListener('click', () => {
-                    if (li.id == 'logout') {
+                        if (li.id == 'logout') {
                             Swal.fire({
                                 title: "Are you sure?",
                                 text: "really you want to logout..",
@@ -95,7 +113,7 @@
                             return
                         }
                         setActive(li.id)
-                        history.pushState(null,null,li.id=="dashboard"? "home" :li.id)
+                        history.pushState(null, null, li.id == "dashboard" ? "home" : li.id)
                     })
                 });
             </script>
