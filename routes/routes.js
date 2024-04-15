@@ -11,7 +11,6 @@ import { validateRole } from "../services/roleServices.js";
 
 const router = express.Router();
 // landing page
-router.get('/', landingPage);
 router.use('/owner', passport.authenticate("jwt", {
   session: false,
   failureRedirect: "/sessionEnd",
@@ -25,5 +24,6 @@ router.use('/customer', passport.authenticate("jwt", {
 router.get('/sessionEnd', sessionEnd);
 router.get('/logout', logout);
 router.use('/u', isAlreadyLoggedIn, authRoutes);
+router.get('/', isAlreadyLoggedIn, landingPage);
 router.all('*', notFound);
 export default router;

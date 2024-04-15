@@ -1,6 +1,6 @@
 // landing page
 export const landingPage = (req, res) => {
-  res.render('landingPage', { title: "Garage Management System" });
+  res.render('landing', { title: "Garage Management System" });
 }
 
 export const home = (req, res) => {
@@ -26,7 +26,13 @@ export const slots = (req, res) => {
 export const appointments = (req, res) => {
   res.render('index', { title: "Appointments", active: 'appointment' });
 }
+export const inventory = (req, res) => {
+  res.render('index', { title: "Inventory", active: 'inventory' });
+}
 
+export const invoice = (req, res) => {
+  res.render('index', { title: "Invoice", active: 'invoice' });
+}
 export const customerHome = (req, res) => {
   res.render('customer', { title: "Home" });
 }
