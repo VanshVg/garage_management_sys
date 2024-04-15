@@ -4,7 +4,7 @@ const getData = async (page = 1) => {
   );
   var data = await jsonData.json();
   console.log(data.count);
-  return [data.result, data.startIndex, data.endIndex,data.count];
+  return [data.result, data.startIndex, data.endIndex, data.count];
 };
 const populateData = async (pageNumber = 1) => {
   var data = await getData(pageNumber);
@@ -20,7 +20,7 @@ const populateData = async (pageNumber = 1) => {
     Object.keys(element).forEach((ele) => {
       var td = document.createElement("td");
       td.classList.add("font-family");
-      
+
       if (ele == "availability_status") {
         td.classList.add("flex-status")
         var div = document.createElement("div");
@@ -60,7 +60,7 @@ const populateData = async (pageNumber = 1) => {
   var text = document.querySelector(".pagination-text");
   var max = data[1] + 1;
 
-  text.innerText = "Showing " + max + " to " + data[2] + " of "+ data[3] +" entries ";
+  text.innerText = "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
   // return[data[1],data[2]]
 };
 

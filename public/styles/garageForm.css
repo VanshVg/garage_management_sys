@@ -27,7 +27,7 @@ body {
 
 .container {
   padding: 20px;
-  height: 80vh;
+  height: 70vh;
   width: 170vh;
   text-align: start;
   background-color: var(--white);
@@ -36,13 +36,13 @@ body {
 
 .info-text {
   border-bottom: 1px solid var(--light);
-  width: 142vh;
+  width: 130vh;
 }
 
 .input-main {
   display: flex;
-  gap: 215px;
-  margin: 20px 0px;
+  gap: 100px;
+  margin: 10px 0px;
 }
 
 .input-content {
@@ -58,7 +58,7 @@ body {
 .input-text {
   font-size: large;
   font-weight: bold;
-  width: 150px;
+  width: 120px;
 }
 
 .input {
@@ -66,7 +66,7 @@ body {
   margin-left: 20px;
   height: 35px;
   border-radius: 5px;
-  width: 250px;
+  width: 200px;
   background-color: var(--white);
 }
 
@@ -81,7 +81,8 @@ textarea {
 
 .input-description {
   margin-left: 20px;
-  width: 120vh;
+  margin-top: 10px;
+  width: 108vh;
   height: 100px;
   font-size: 15px;
   border-radius: 7px;
@@ -89,7 +90,7 @@ textarea {
 
 .nextButton {
   margin: 10px;
-  margin-left: 130vh;
+  margin-left: 690px;
   background-color: var(--dark);
   color: var(--white);
   font-size: medium;
@@ -120,7 +121,7 @@ textarea {
 }
 
 .upload {
-  width: 142vh;
+  width: 130vh;
   position: relative;
   height: 150px;
   background-color: var(--lightblue);

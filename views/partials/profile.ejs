@@ -2,7 +2,7 @@
     <div class="absolute top-0 right-0 flex items-center mr-4 mt-4">
         <button type="button" class="bg-dark focus:outline-none rounded-full h-full w-full">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                style="fill: rgba(255, 255, 255, 1);">
+                style="fill: rgba(255, 255, 255, 1);" onclick="activeSub('profile-edit')">
                 <path
                     d="M4 21a1 1 0 0 0 .24 0l4-1a1 1 0 0 0 .47-.26L21 7.41a2 2 0 0 0 0-2.82L19.42 3a2 2 0 0 0-2.83 0L4.3 15.29a1.06 1.06 0 0 0-.27.47l-1 4A1 1 0 0 0 3.76 21 1 1 0 0 0 4 21zM18 4.41 19.59 6 18 7.59 16.42 6zM5.91 16.51 15 7.41 16.59 9l-9.1 9.1-2.11.52z">
                 </path>
@@ -15,7 +15,7 @@
                 style="max-height: 500px;">
             <div
                 class="absolute bottom-0 flex flex-col justify-end  items-center w-full bg-gradient-to-t from-black backdrop-filter h-full p-5">
-                <h2 class="text-xl font-bold text-white">Mohan Bhagat</h2>
+                <h2 class="text-xl font-bold text-white" id="name"></h2>
                 <p class="text-gray-600">(owner)</p>
             </div>
         </div>
@@ -25,16 +25,14 @@
                 <div class="bg-dark h-[30px] min-w-[30px] flex justify-center items-center m-2 rounded-full">
                     <img src="/icons/mail.svg" alt="Mail Icon" class="h-5 w-5">
                 </div>
-                <a href="#" class="text-[15px]">@abcd@px.ai</a>
+                <a href="#" class="text-[15px]" id="email"></a>
             </div>
             <div class="flex">
                 <div class="flex items-center">
                     <div class="bg-dark h-[30px] min-w-[30px] flex justify-center items-center m-2 rounded-full">
                         <img src="/icons/location.svg" alt="Mail Icon" class="h-5 w-5">
                     </div>
-                    <address class="text-xs not-italic">Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s.</address>
+                    <address class="text-xs not-italic" id="address"></address>
                 </div>
             </div>
 
@@ -44,10 +42,23 @@
         <h3 class="text-lg font-semibold mb-1  border-b-2 border-blue pb-1 inline-block">Bio</h3>
         <p class="word-wrap flex-wrap text-sm mt-2">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-        industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-        electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-        Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
-        Aldus PageMaker including versions of Lorem Ipsum.</p>
+            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+            Aldus PageMaker including versions of Lorem Ipsum.</p>
     </div>
 </div>
+
+<script>
+    const updateDetails = async () => {
+        const userDetails = await fetch('/userDetails');
+        const userJson = await userDetails.json();
+        const user = userJson.user;
+        const address = userJson.address;
+        document.getElementById('name').innerHTML = user.name;
+        document.getElementById('email').innerHTML = user.email;
+        document.getElementById('address').innerHTML = address;
+    }
+    updateDetails();
+</script>

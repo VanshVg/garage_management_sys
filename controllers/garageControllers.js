@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage,getGarageList } from "../utils/dbHandler.js";
+import { insertGarage, insertGarageAddress, insertGarageOwner, insertGarageReference, updateGarage, updateGarageAddress, deleteGarage, displayGarage, getGarageList } from "../utils/dbHandler.js";
 import { fileUpload } from '../helpers/fileUploads.js';
 
 // display garage form with data
@@ -74,13 +74,12 @@ export const garageDelete = async (req, res) => {
 
 //getting garage Details
 
-export const garageList = (req, res) => {  
+export const garageList = (req, res) => {
   res.render('garage/garageList.ejs')
 }
 
-export const getGarageListing = async (req,res)=>{
- const {startIndex} =req.pagination
-  const result = await getGarageList(startIndex)
-  res.json({result:result})
+export const getGarageListing = async (req, res) => {
+  const result = await getGarageList()
+  res.json({ result: result })
 }
 
