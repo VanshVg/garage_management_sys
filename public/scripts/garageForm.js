@@ -50,7 +50,8 @@ const updateGarage = async () => {
   document.getElementById("message").innerText = result.message;
 }
 
-const handleGarage = () => {
+const handleGarage = (e) => {
+  e.preventDefault()
   if (window.location.href == 'http://localhost:3000/owner/garage/garageUpdate') {
     updateGarage();
   }
