@@ -6,9 +6,9 @@ const getData = async (page=1) => {
   return data.result;
 };
 const populateData = async (pageNumber=1) => {
-  if () {
+  // if () {
     
-  }
+  // }
   var data = await getData(pageNumber);
   console.log(data);
   data.forEach((element) => {
