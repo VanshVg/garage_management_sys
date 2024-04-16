@@ -1,4 +1,4 @@
-import { countAppointments, countByFieldName, countServices, findOne, getServices, selectByFieldName, selectById, selectByTableName } from "../utils/dbHandler.js";
+import { countAppointments, countByFieldName, countServices, findOne, getOwnerService, getServices, selectByFieldName, selectByTableName } from "../utils/dbHandler.js";
 
 // landing page
 export const landingPage = (req, res) => {
@@ -93,4 +93,10 @@ export const getAppointmentCount = async (req, res) => {
   const user = await findOne([req.user.email]);
   const { totalCount, successCount } = await countAppointments(user.id);
   res.status(201).json({ success: true, totalCount, successCount });
+}
+
+export const findOwnerService = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const services = await getOwnerService(user[0].id);
+  res.status(201).json({ success: true, services });
 }

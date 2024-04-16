@@ -326,6 +326,16 @@ export const findGarageService = async (serviceInfo) => {
   }
 };
 
+export const getOwnerService = async (ownerId) => {
+  try {
+    let query = `SELECT c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE a.owner_id = ?;`;
+    let result = await (await conn()).query(query, [ownerId]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const updateGarageService = async (serviceInfo) => {
   try {
     let query = `UPDATE garage_has_services SET is_deleted = 0 WHERE garage_id = ? AND services_id = ?`;
