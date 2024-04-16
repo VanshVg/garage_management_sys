@@ -255,7 +255,7 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
 // display garage details
 export const displayGarage = async (garageId) => {
   try {
-    let query = `SELECT * FROM garage_master gm JOIN garage_addresses ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id WHERE gm.id = ?`;
+    let query = `SELECT * FROM garage_master gm JOIN garage_address ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id WHERE gm.id = ? `;
     let result = await (await conn()).query(query, [garageId]);
     return result[0];
   } catch (error) {
@@ -400,6 +400,16 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
     return results;
   } catch (err) {
     return { err };
+  }
+};
+//garage wise service listing
+export const serviceListing = async (garageId) => {
+  try {
+    let query = `SELECT * FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
+    let [results] = await (await conn()).query(query, [garageId]);
+    return results;
+  } catch (error) {
+    return { error };
   }
 };
 

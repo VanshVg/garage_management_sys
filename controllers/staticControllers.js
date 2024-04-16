@@ -1,4 +1,13 @@
 import {
+  displayGarage,
+  findOne,
+  getServices,
+  selectByFieldName,
+  selectById,
+  selectByTableName,
+  serviceListing,
+} from "../utils/dbHandler.js";
+import {
   countAppointments,
   countByFieldName,
   countServices,
@@ -96,6 +105,16 @@ export const getUserDetails = async (req, res) => {
 export const allServices = async (req, res) => {
   const services = await getServices();
   res.status(201).json({ services });
+};
+
+export const servicesListing = async (req, res) => {
+  let garageId = 1;
+  const servicesList = await serviceListing([garageId]);
+  const garageDetails = await displayGarage([garageId]);
+  res.render("customerServices", {
+    data: servicesList,
+    garageData: garageDetails,
+  });
 };
 
 export const getGarageCount = async (req, res) => {
