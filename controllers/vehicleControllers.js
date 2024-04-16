@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { insertData, selectByFieldName, selectByFieldNames, selectByTableName } from "../utils/dbHandler.js";
+import { findVehicleData, insertData, selectByFieldName, selectByFieldNames, selectByTableName } from "../utils/dbHandler.js";
 
 export const addVehicle = async (req, res) => {
   try {
@@ -71,3 +71,19 @@ export const addVehicle = async (req, res) => {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+
+export const getAddVehicle = async (req, res) => {
+  try {
+    let user = await selectByFieldName("users", "email", req.user.email);
+    if (user.length < 1) {
+      return res.status(301).json({ success: false, message: "something went wrong" });
+    }
+
+    let vehicleData = await findVehicleData(user[0].id)
+    return res.render("partials/addVehicle.ejs", {vehicleData})
+  } catch (error) {
+    console.log(error);
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+}

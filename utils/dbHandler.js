@@ -415,3 +415,14 @@ export const insertData = async (tableName, fields, values) => {
     return { err };
   }
 }
+
+export const findVehicleData = async (ownerId) => {
+  try {
+    let query = `SELECT vehicle_master.brand, vehicle_master.model, vehicle_master.year, vehicle_condition.condition_image from vehicle_master JOIN user_has_vehicles ON vehicle_master.id = user_has_vehicles.vehicle_id JOIN vehicle_condition ON vehicle_condition.vehicle_id = user_has_vehicles.id WHERE user_has_vehicles.owner_id = ?;`
+    let [result] = await (await conn()).query(query, [ownerId]);
+    return result;
+  } catch (error) {
+    console.log(err);
+    return { err }
+  }
+}

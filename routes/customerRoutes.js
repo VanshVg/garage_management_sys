@@ -6,6 +6,7 @@ import { vehicleValidator } from "../validators/vehicleValidation.js";
 const router = express.Router();
 
 router.get("/home", customerHome);
+router.get("/addVehicle", vehicleController.getAddVehicle);
 router.post("/addVehicle", vehicleValidator, vehicleController.addVehicle);
 
 export default router;
