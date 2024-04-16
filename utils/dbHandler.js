@@ -375,3 +375,34 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
     return { err };
   }
 }
+export const countByFieldName = async (tableName, fieldName, value) => {
+  try {
+    let query = "SELECT COUNT(*) as count FROM " + tableName + " WHERE " + fieldName + " = ?;";
+    let [results] = await (await conn()).query(query, [value]);
+    return results[0].count;
+  } catch (err) {
+    return { err };
+  }
+}
+export const countServices = async (ownerId) => {
+  try {
+    let query = "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN garage_has_services AS b ON a.garage_id = b.garage_id WHERE a.owner_id = ?;";
+    let [results] = await (await conn()).query(query, [ownerId]);
+    return results[0].count;
+  } catch (err) {
+    return { err };
+  }
+}
+export const countAppointments = async (ownerId) => {
+  try {
+    let query = "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ?;";
+    let [results] = await (await conn()).query(query, [ownerId]);
+    query = query.replace(';', ' AND c.status = 1');
+    let [results2] = await (await conn()).query(query, [ownerId]);
+    let totalCount = results[0].count;
+    let successCount = results2[0].count;
+    return { totalCount, successCount };
+  } catch (err) {
+    return { err };
+  }
+}

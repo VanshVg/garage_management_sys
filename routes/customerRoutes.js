@@ -4,5 +4,4 @@ const router = express.Router();
 
 router.get('/home', customerHome);
 
-
 export default router;

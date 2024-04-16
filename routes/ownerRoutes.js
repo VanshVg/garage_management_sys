@@ -2,6 +2,7 @@ import express from "express";
 import {
   appointments,
   calendar,
+  getAppointmentCount,
   home,
   inventory,
   invoice,
@@ -36,5 +37,7 @@ router.get("/appointment", appointments);
 router.get("/inventory", inventory);
 
 router.get("/invoice", invoice);
+
+router.get("/appointmentCount", getAppointmentCount);
 
 export default router;
