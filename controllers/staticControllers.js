@@ -1,4 +1,4 @@
-import { findOne, getServices, selectByFieldName, selectById, selectByTableName } from "../utils/dbHandler.js";
+import { findOne, getServices, selectByFieldName, selectById, selectByTableName, serviceListing } from "../utils/dbHandler.js";
 
 // landing page
 export const landingPage = (req, res) => {
@@ -75,4 +75,10 @@ export const getUserDetails = async (req, res) => {
 export const allServices = async (req, res) => {
   const services = await getServices();
   res.status(201).json({ services });
+}
+
+export const servicesListing = async (req, res) => {
+  const serviesList = await serviceListing();
+  res.status(200).json({ serviesList });
+  // res.render('customerServices');
 }
