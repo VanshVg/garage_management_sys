@@ -91,14 +91,14 @@ export const getAllSlots = async (offset) => {
     let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time, availability_status 
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id limit ?, 10;
-                 SELECT COUNT(id) as count FROM slot_master;`
+                 SELECT COUNT(id) as count FROM slot_master;`;
     let result = await (await conn()).query(query, offset);
     return result[0];
   } catch (error) {
     return { error };
   }
-}
-export const updateUserById = async (userInfo) => {
+};
+export const updateUserByEmail = async (userInfo) => {
   try {
     let query = `UPDATE users SET name = ? WHERE email = ?`;
     let results = await (await conn()).query(query, userInfo);
@@ -175,9 +175,9 @@ export const deleteUserAddress = async (userInfo) => {
     let results = await (await conn()).query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
-    return { error }
+    return { error };
   }
-}
+};
 
 // garage insert
 export const insertGarage = async (garageInfo) => {
@@ -270,19 +270,18 @@ export const getServices = async () => {
     let query = "SELECT * FROM service_master;";
     let result = await (await conn()).query(query);
     return result[0];
-  }
-  catch (err) {
+  } catch (err) {
     return { err };
   }
-}
+};
 // get all garage details
 export const getGarageList = async (offset) => {
   try {
-    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master limit ?,10`
+    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master limit ?,10`;
     let result = await (await conn()).query(query, offset);
-    return result[0]
+    return result[0];
   } catch (error) {
-    return { error }
+    return { error };
   }
 };
 
@@ -298,7 +297,7 @@ export const findService = async (serviceInfo) => {
 
 export const insertService = async (serviceInfo) => {
   try {
-    let query = `INSERT INTO service_master (name, description) VALUES (?)`
+    let query = `INSERT INTO service_master (name, description) VALUES (?)`;
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
@@ -308,7 +307,7 @@ export const insertService = async (serviceInfo) => {
 
 export const insertGarageService = async (serviceInfo) => {
   try {
-    let query = `INSERT INTO garage_has_services (garage_id, services_id, price) VALUES (?)`
+    let query = `INSERT INTO garage_has_services (garage_id, services_id, price) VALUES (?)`;
     let result = await (await conn()).query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
@@ -364,7 +363,7 @@ export const selectById = async (tableName, id) => {
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const selectByFieldName = async (tableName, fieldName, value) => {
   try {
@@ -374,4 +373,4 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
   } catch (err) {
     return { err };
   }
-}
+};

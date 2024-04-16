@@ -1,7 +1,5 @@
 const getData = async (page = 1) => {
-  const jsonData = await fetch(
-    "http://localhost:3000/owner/slots/getAllslots?page=" + page
-  );
+  const jsonData = await fetch("/owner/slots/getAllslots?page=" + page);
   var data = await jsonData.json();
   console.log(data.count);
   return [data.result, data.startIndex, data.endIndex, data.count];
@@ -22,7 +20,7 @@ const populateData = async (pageNumber = 1) => {
       td.classList.add("font-family");
 
       if (ele == "availability_status") {
-        td.classList.add("flex-status")
+        td.classList.add("flex-status");
         var div = document.createElement("div");
         if (element[ele] == "1") {
           div.classList.add("active");
@@ -60,7 +58,8 @@ const populateData = async (pageNumber = 1) => {
   var text = document.querySelector(".pagination-text");
   var max = data[1] + 1;
 
-  text.innerText = "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
+  text.innerText =
+    "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
   // return[data[1],data[2]]
 };
 
