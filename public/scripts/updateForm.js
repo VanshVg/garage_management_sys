@@ -1,46 +1,39 @@
-const handleUpdateForm = async () => {
-  let formData = document.getElementById("updateOwner");
-  let details = new FormData(formData);
-  const params = new URLSearchParams(details);
-  let data = await fetch("/owner/profile/update", {
-    method: "PUT",
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded'
-    },
-    body: params
-  })
-  let result = await data.json();
-  alert(result.message);
+const handleUpdateForm = async (e) => {
+  e.preventDefault();
+  Validation.allValid = true;
+  document.querySelectorAll(`input[Validation]`).forEach((ele) => {
+    if (!Validation.isValid(ele)) Validation.allValid = false;
+  });
+  if (!document.querySelector("#updateOwner error")) {
+    const formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    console.log(document.querySelector('#updateOwner #dropzone-file').files);
+    formProps["profilePic"] = document.querySelector('#updateOwner #dropzone-file').files;
+    formProps["userId"] = localStorage.getItem("userId");
+    let response = await callAPI("/owner/profile/update", formProps, "PUT");
+    toast.show(response.success ? "success" : "error", response.message);
+    if (response.success)
+      setTimeout(() => {
+        location.href = "/owner/profile";
+      }, 3000);
+  }
   myFetch();
-}
+};
 
 const myFetch = async () => {
-  const userDetails = await fetch('/userDetails');
-  const userJson = await userDetails.json();
-  const user = userJson.user;
-  document.getElementById('nameInput').value = user.name;
-  const state = document.getElementById('state');
-  const states = await fetch('/states');
-  const json = await states.json();
-  state.innerHTML = "";
-  json.states.forEach(s => {
-    const option = document.createElement('option');
-    option.setAttribute('value', s.id);
-    option.innerText = s.state_name;
-    state.appendChild(option);
-  });
-  state.addEventListener('change', async (e) => {
-    const cities = await fetch('/cities/' + e.target.value);
-    const json = await cities.json();
-    const city = document.getElementById('city');
-    city.innerHTML = "";
-    json.cities.forEach(c => {
-      const option = document.createElement('option');
-      option.setAttribute('value', c.city_name);
-      option.innerText = c.city_name;
-      city.appendChild(option);
-    });
-  });
-}
+  const userDetails = await callAPI("/userDetails");
+  const user = userDetails.user;
+  await loadAddress("updateOwner");
+  document.querySelector("#updateOwner #name").value = user.name;
+  document.querySelector("#updateOwner #bio").value = user.bio || "";
+  const address = userDetails.address;
+  if (address) {
+    document.querySelector('#updateOwner #state').value = address.stateId;
+    await loadCity('updateOwner');
+    document.querySelector('#updateOwner #city').value = address.cityId;
+    document.querySelector('#updateOwner #area').value = address.area;
+    document.querySelector('#updateOwner #pincode').value = address.pincode;
+  }
+};
 
 myFetch();
