@@ -1,4 +1,4 @@
-const callAPI = async (endpoint, body, method) => {
+const callAPI = async (endpoint, body = {}, method = "GET") => {
   let data = await fetch(
     endpoint,
     method != "GET"
@@ -12,7 +12,6 @@ const callAPI = async (endpoint, body, method) => {
       : {}
   );
   try {
-    console.log(data);
     let jsonData = data.json();
     return jsonData;
   } catch (error) {

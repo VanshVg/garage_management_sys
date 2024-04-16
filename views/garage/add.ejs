@@ -1,101 +1,243 @@
-<form class="flex flex-col w-full h-full  rounded shadow-md p-4 bg-white" method="post" id="garageAdd"
+<!--LeafLet Css-->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+<form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id="garageAdd"
   onsubmit="handleGarage(event)">
   <h2 class="text-2xl font-bold mb-2 text-left text-dark">New Garage</h2>
-  <h3 class="text-dark font-semibold text-left mb-2">Garage Information</h3>
-  <hr>
-  <div class="w-full flex my-4">
-    <div class="flex items-center justify-center w-1/4 h-46 mr-5">
-      <label for="dropzone-file"
-        class="flex flex-col items-center justify-center w-full h-full  border-2  border-dashed rounded-lg cursor-pointer bg-light  dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-          </svg>
-          <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
-        </div>
-        <input id="dropzone-file" type="file" class="hidden" />
-      </label>
-    </div>
+  <div class="w-full f-full" id='garageDetails'>
+    <h3 class="text-dark font-semibold text-left mb-2">Garage Information</h3>
+    <hr>
+    <div class="w-full flex my-4">
+      <div class="flex items-center justify-center w-1/4 h-46 mr-5 relative">
+        <label for="dropzone-file"
+          class="relative flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-lg cursor-pointer bg-light dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+            </svg>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
+          </div>
+          <input id="dropzone-file" type="file" class="hidden" accept="image/*" />
+          <button id="remove-image"
+            class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
+            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M14.293 5.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 1 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 1 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 1 1 1.414-1.414L10 8.586l4.293-4.293z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+          <img id="image-preview" class="hidden w-full  h-full absolute top-0 left-0 " />
+        </label>
+      </div>
 
-    <div class="input-group w-3/4 mt-2">
-      <div class="flex items-center mb-2">
-        <label for="name" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
-        <input type="text" id="name" name="name" placeholder="garage name"
+
+
+      <div class="input-group w-3/4 mt-2">
+        <div class="flex items-center mb-2">
+          <label for="name" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
+          <input type="text" id="name" name="name" placeholder="garage name"
+            class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+            Validation="require multi_word" oninput="Validation.isValid(this)">
+        </div>
+        <div class="flex items-center mb-2">
+          <label for="email" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Email</label>
+          <input type="text" id="email" name="email" placeholder="abc@abcmail.com"
+            class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+            Validation="require email" oninput="Validation.isValid(this)">
+        </div>
+        <div class="flex items-center mb-2">
+          <label for="contact" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
+          <input type="text" id="contact" name="contact" placeholder="1234567890"
+            class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+            Validation="require digit10 mobile" oninput="Validation.isValid(this)">
+        </div>
+      </div>
+    </div>
+    <div class="input-group flex w-full">
+      <div class="flex items-center mb-3 w-1/2 mr-4">
+        <label for="openTime" class="text-sm  mr-2 text-left font-medium text-dark">Open Time</label>
+        <input type="time" id="openTime" name="openTime"
           class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-          Validation="require multi_word" oninput="Validation.isValid(this)">
+          Validation="require" oninput="Validation.isValid(this)">
+      </div>
+      <div class="flex items-center mb-4 w-1/2">
+        <label for="closeTime" class="text-sm  mr-2 text-left font-medium text-dark">Close Time</label>
+        <input type="time" id="closeTime" name="closeTime"
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
+          Validation="require" oninput="Validation.isValid(this)">
+      </div>
+    </div>
+    <h3 class="text-dark font-semibold text-left my-2">Address Information</h3>
+    <hr>
+    <div class="input-group flex w-full mt-2">
+      <div class="flex items-center mb-4 w-1/2 mr-4">
+        <label for="area"
+          class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">Area</label>
+        <input type="text" id="area" name="area" placeholder="00,xyz"
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+          Validation="none">
+      </div>
+      <div class="flex items-center mb-4 w-1/2">
+        <label for="state" class="text-sm  mr-2 text-left font-medium w-[80px] text-left text-dark">State</label>
+        <select id="state" name="state"
+          class="state flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+          Validation="require"></select>
+      </div>
+    </div>
+    <div class="input-group flex w-full">
+      <div class="flex items-center mb-4 w-1/2 mr-4">
+        <label for="city"
+          class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">City</label>
+        <select id="city" name="city"
+          class="city flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+          Validation="none">
+        </select>
+      </div>
+      <div class="flex items-center mb-4 w-1/2">
+        <label for="pincode" class="text-sm  mr-2 font-medium w-[80px] text-left text-dark">Pincode</label>
+        <input type="number" id="pincode" name="pincode" placeholder="123456"
+          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+          Validation="require digit6" oninput="Validation.isValid(this)">
+      </div>
+    </div>
+    <label for="description" class="text-sm font-bold mr-2 text-left text-dark">Description</label>
+    <div class="flex items-center mb-4">
+      <textarea id="description" name="description" rows="5"
+        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
+        placeholder="type here.." Validation="none"></textarea>
+    </div>
+    <div class="w-full flex justify-end">
+      <button type="button" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4"
+        onclick="changeStep('garageDetails','mapContainer')">
+        Next</button>
+    </div>
+  </div>
+  <div id="mapContainer" class="w-full h-full hidden">
+    <div class="w-full flex justify-start items-end flex-col">
+      <div id="map" class="w-full" style="height: 400px;"></div>
+      <div class="flex items-center my-2">
+        <label for="latitude" class="mr-2">Latitude:</label>
+        <input type="text" id="latitude" disabled class="bg-gray-100 px-2 py-1 rounded" Validation="none">
       </div>
       <div class="flex items-center mb-2">
-        <label for="email" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Email</label>
-        <input type="text" id="email" name="email" placeholder="abc@abcmail.com"
-          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-          Validation="require email" oninput="Validation.isValid(this)">
-      </div>
-      <div class="flex items-center mb-2">
-        <label for="contact" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
-        <input type="text" id="contact" name="contact" placeholder="1234567890"
-          class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-          Validation="require digit10 mobile" oninput="Validation.isValid(this)">
+        <label for="longitude" class="mr-2">Longitude:</label>
+        <input type="text" id="longitude" disabled class="bg-gray-100 px-2 py-1 rounded" Validation="none">
       </div>
     </div>
-  </div>
-  <div class="input-group flex w-full">
-    <div class="flex items-center mb-3 w-1/2 mr-4">
-      <label for="openTime" class="text-sm  mr-2 text-left font-medium text-dark">Open Time</label>
-      <input type="time" id="openTime" name="openTime"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-        Validation="require" oninput="Validation.isValid(this)">
-    </div>
-    <div class="flex items-center mb-4 w-1/2">
-      <label for="closeTime" class="text-sm  mr-2 text-left font-medium text-dark">Close Time</label>
-      <input type="time" id="closeTime" name="closeTime"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-        Validation="require" oninput="Validation.isValid(this)">
+    <div class="w-full flex justify-between items-end">
+      <button type="button" class="bg-dark text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4"
+        onclick="changeStep('mapContainer','garageDetails')">
+        Previous
+      </button>
+      <button type="submit" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4">+
+        Add</button>
     </div>
   </div>
-  <h3 class="text-dark font-semibold text-left my-2">Address Information</h3>
-  <hr>
-  <div class="input-group flex w-full mt-2">
-    <div class="flex items-center mb-4 w-1/2 mr-4">
-      <label for="area" class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">Area</label>
-      <input type="text" id="area" name="area" placeholder="00,xyz"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-        Validation="none">
-    </div>
-    <div class="flex items-center mb-4 w-1/2">
-      <label for="state" class="text-sm  mr-2 text-left font-medium w-[80px] text-left text-dark">State</label>
-      <select id="state" name="state"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-        Validation="require"></select>
-    </div>
+
   </div>
-  <div class="input-group flex w-full">
-    <div class="flex items-center mb-4 w-1/2 mr-4">
-      <label for="city" class="text-sm font-mediu mr-2 text-left font-medium w-[80px] text-left text-dark">City</label>
-      <select id="city" name="city"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-        Validation="none">
-      </select>
-    </div>
-    <div class="flex items-center mb-4 w-1/2">
-      <label for="pincode" class="text-sm  mr-2 text-left font-medium w-[80px] text-left text-dark">Pincode</label>
-      <input type="number" id="pincode" name="pincode" placeholder="123456"
-        class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-        Validation="require digit6" oninput="Validation.isValid(this)">
-    </div>
-  </div>
-  <label for="description" class="text-sm font-bold mr-2 text-left text-dark">Description</label>
-  <div class="flex items-center mb-4">
-    <textarea id="description" name="description" rows="5"
-      class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-      placeholder="type here.." Validation="none"></textarea>
-  </div>
-  <div class="w-full flex justify-end">
-    <button type="submit" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4">+
-      Add</button>
-  </div>
+  <!-- <div class="w-full flex justify-end">
+  </div> -->
 </form>
-<script src="/scripts/validation.js"></script>
-<script src="/scripts/apiCall.js"></script>
 <script src="/scripts/garageForm.js"></script>
+<script>
+
+  loadAddress("garageAdd");
+  const dropzoneFileInput = document.getElementById('dropzone-file');
+  const removeImageButton = document.getElementById('remove-image');
+  const imagePreview = document.getElementById('image-preview');
+
+  dropzoneFileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageUrl = e.target.result;
+        // Display the selected image
+        imagePreview.src = imageUrl;
+        imagePreview.classList.remove('hidden');
+        removeImageButton.classList.remove('hidden');
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removeImageButton.addEventListener('click', function () {
+    // Clear the file input
+    dropzoneFileInput.value = '';
+    // Hide the remove button
+    removeImageButton.classList.add('hidden');
+    // Hide the displayed image
+    imagePreview.src = '';
+    imagePreview.classList.add('hidden');
+  });
+</script>
+
+<script>
+  /*Map */
+  const position = [22.684282675883896, 72.88051636361853];
+  const map = L.map('map').setView(position, 8);
+
+  // Google layer (HTTPS URL)
+  const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+  }).addTo(map);
+
+  // OSM Layer
+  const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  });
+
+  // Esri Layers (HTTPS URL)
+  const Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  });
+
+  const Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+    maxZoom: 16
+  });
+
+  // Google Hybrid Layer (HTTPS URL)
+  const googleHybrid = L.tileLayer('https://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+  });
+
+  /*My Location Icon*/
+  const myIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/Makwana-Bharat/pathdarshak/main/assest/Images/Location.png',
+    iconSize: [50, 50],
+  });
+
+  const MyLoc = L.marker(position, { icon: myIcon, draggable: true }).addTo(map);
+
+  MyLoc.on('dragend', function (event) {
+    const position = MyLoc.getLatLng();
+    document.getElementById('latitude').value = position.lat;
+    document.getElementById('longitude').value = position.lng;
+  });
+
+  // Set initial values of inputs
+  document.getElementById('latitude').value = position[0];
+  document.getElementById('longitude').value = position[1];
+
+  /* Layer Management*/
+  const base = {
+    "Google Street": googleStreets,
+    "OSM": osm,
+    "Google": Esri_WorldImagery,
+    "Netro": Esri_NatGeoWorldMap,
+    "Hybrid": googleHybrid
+  };
+  const overlayMaps = {
+    "Marker": MyLoc
+  };
+  L.control.layers(base, overlayMaps).addTo(map);
+
+</script>

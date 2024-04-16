@@ -1,4 +1,4 @@
-import { findOne, getServices, selectByFieldName, selectById, selectByTableName } from "../utils/dbHandler.js";
+import { countAppointments, countByFieldName, countServices, findOne, getOwnerService, getServices, getUserAddress, selectByFieldName, selectByTableName } from "../utils/dbHandler.js";
 
 // landing page
 export const landingPage = (req, res) => {
@@ -68,11 +68,38 @@ export const getCities = async (req, res) => {
 
 export const getUserDetails = async (req, res) => {
   const user = await findOne(req.user.email);
-  const address = await selectByFieldName('address_master', 'user_id', user[0].id);
+  if (!user) {
+    return res.status(301).json({ success: false, message: "user not found" });
+  }
+  const address = await getUserAddress(user[0].id);
   res.status(201).json({ user: user[0], address: address[0] });
 }
 
 export const allServices = async (req, res) => {
   const services = await getServices();
   res.status(201).json({ services });
+}
+
+export const getGarageCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const garageCount = await countByFieldName('owner_has_garages', 'owner_id', user[0].id);
+  res.status(201).json({ success: true, garageCount });
+}
+
+export const getServiceCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const serviceCount = await countServices(user[0].id);
+  res.status(201).json({ success: true, serviceCount });
+}
+
+export const getAppointmentCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const { totalCount, successCount } = await countAppointments(user.id);
+  res.status(201).json({ success: true, totalCount, successCount });
+}
+
+export const findOwnerService = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const services = await getOwnerService(user[0].id);
+  res.status(201).json({ success: true, services });
 }

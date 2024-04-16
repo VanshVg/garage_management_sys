@@ -1,3 +1,5 @@
+<script src="/scripts/apiCall.js"></script>
+<script src="/scripts/loadAddress.js"></script>
 <toast></toast>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -44,12 +46,11 @@
                             <%- include(`./partials/profile.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        <<<<<<< HEAD=======id="profile-edit-screen">
+                        id="profile-edit-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Profile/Edit"})%>
                             <%- include(`./garage/updateProfile.ejs`) %>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;">
-                        >>>>>> e09fb67caf855800988ba80481abb361b9f18cfe
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garages-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
                             <%- include(`./partials/garages.ejs`) %>
