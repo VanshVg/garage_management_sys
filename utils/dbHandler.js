@@ -184,7 +184,6 @@ export const insertGarage = async (garageInfo) => {
   try {
     let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
     let result = await (await conn()).query(query, [garageInfo]);
-    console.log(result);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -257,7 +256,7 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
 // display garage details
 export const displayGarage = async (garageId) => {
   try {
-    let query = `SELECT * FROM garage_master gm JOIN garage_addresses ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id `;
+    let query = `SELECT * FROM garage_master gm JOIN garage_address ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id WHERE gm.id = ? `;
     let result = await (await conn()).query(query, [garageId]);
     return result[0];
   } catch (error) {

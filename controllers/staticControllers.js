@@ -1,4 +1,4 @@
-import { findOne, getServices, selectByFieldName, selectById, selectByTableName, serviceListing } from "../utils/dbHandler.js";
+import { displayGarage, findOne, getServices, selectByFieldName, selectById, selectByTableName, serviceListing } from "../utils/dbHandler.js";
 
 // landing page
 export const landingPage = (req, res) => {
@@ -78,7 +78,8 @@ export const allServices = async (req, res) => {
 }
 
 export const servicesListing = async (req, res) => {
-  const serviesList = await serviceListing();
-  res.status(200).json({ serviesList });
-  // res.render('customerServices');
+  let garageId = 1;
+  const servicesList = await serviceListing([garageId]);
+  const garageDetails = await displayGarage([garageId]);
+  res.render('customerServices', { data: servicesList, garageData: garageDetails });
 }
