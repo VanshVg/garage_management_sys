@@ -1,5 +1,6 @@
 import { findOne, getServices, selectByFieldName, selectById, selectByTableName } from "../utils/dbHandler.js";
 
+
 // landing page
 export const landingPage = (req, res) => {
   res.render('landing', { title: "Garage Management System" });
@@ -39,6 +40,10 @@ export const customerHome = (req, res) => {
   res.render('customer', { title: "Home" });
 }
 
+export const customerProfile = (req,res) => {
+  res.render('partials/customerProfile',{title:"profile"});
+}
+
 export const notFound = (req, res) => {
   res.render('404', { title: "404 Not Found!" });
 }
@@ -76,3 +81,4 @@ export const allServices = async (req, res) => {
   const services = await getServices();
   res.status(201).json({ services });
 }
+
