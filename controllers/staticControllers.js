@@ -1,4 +1,4 @@
-import { countAppointments, countByFieldName, countServices, findOne, getOwnerService, getServices, selectByFieldName, selectByTableName } from "../utils/dbHandler.js";
+import { countAppointments, countByFieldName, countServices, findOne, getOwnerService, getServices, getUserAddress, selectByFieldName, selectByTableName } from "../utils/dbHandler.js";
 
 // landing page
 export const landingPage = (req, res) => {
@@ -68,7 +68,10 @@ export const getCities = async (req, res) => {
 
 export const getUserDetails = async (req, res) => {
   const user = await findOne(req.user.email);
-  const address = await selectByFieldName('address_master', 'user_id', user[0].id);
+  if (!user) {
+    return res.status(301).json({ success: false, message: "user not found" });
+  }
+  const address = await getUserAddress(user[0].id);
   res.status(201).json({ user: user[0], address: address[0] });
 }
 
@@ -85,7 +88,7 @@ export const getGarageCount = async (req, res) => {
 
 export const getServiceCount = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const serviceCount = await countServices(user.id);
+  const serviceCount = await countServices(user[0].id);
   res.status(201).json({ success: true, serviceCount });
 }
 

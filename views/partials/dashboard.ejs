@@ -57,41 +57,44 @@
 </div>
 <script src="/scripts/apiCall.js"></script>
 <script>
-    const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Rejected', 'Approved'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19],
-                borderWidth: 1
-            }],
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Appointment Status'
-                }
-            }
-        },
-    });
-</script>
-<script>
-    const myFunction = async () => {
+    var positive = 12;
+    var negative = 19;
+    const getOwnerData = async () => {
         const garages = await callAPI('/owner/garages/count');
         animateNumber(garages.garageCount, 2, "garageCount");
         const services = await callAPI('/owner/services/count');
         animateNumber(services.serviceCount, 2, "serviceCount");
         const appointments = await callAPI('/owner/appointmentCount');
-        console.log(appointments);
-    }
-    myFunction();
+        positive = appointments.successCount;
+        negative = appointments.totalCount - appointments.successCount;
+    };
+    (async () => {
+        await getOwnerData();
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Rejected', 'Approved'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [positive, negative],
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Appointment Status'
+                    }
+                }
+            },
+        });
+    })();
     function animateNumber(targetNumber, durationSeconds, elementId) {
         var startNumber = 0; // Initial number
         var durationMilliseconds = durationSeconds * 100; // Convert seconds to milliseconds
@@ -99,7 +102,7 @@
         var countElement = document.getElementById(elementId);
         var currentNumber = startNumber;
 
-        function animate() {
+        const animate = () => {
             currentNumber += increment;
             countElement.textContent = currentNumber;
             if (currentNumber < targetNumber) {

@@ -1,7 +1,19 @@
-import { validationResult } from 'express-validator';
-import { activateUser, deleteUserAddress, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword } from '../utils/dbHandler.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
+import {
+  activateUser,
+  deleteUserAddress,
+  findAddressById,
+  findOne,
+  findOneById,
+  insert,
+  insertAddress,
+  insertUserAddress,
+  updateAddressById,
+  updatePassword,
+  updateUserByEmail,
+} from "../utils/dbHandler.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -162,9 +174,9 @@ export const updateProfile = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, message: "Invalid payload" });
   }
-  let { name, city, area, pincode } = req.body;
+  let { name, city, area, pincode, bio } = req.body;
 
-  let userResult = await updateUserByEmail([name, req.user.email]);
+  let userResult = await updateUserByEmail([name, bio, req.user.email]);
   if (userResult != 1) {
     return res
       .status(301)
@@ -181,7 +193,12 @@ export const updateProfile = async (req, res) => {
         .json({ success: false, message: "Something went wrong!" });
     } else {
       await deleteUserAddress([user[0].id]);
-      let userAddressResult = await insertUserAddress([user[0].id, city, area, pincode]);
+      let userAddressResult = await insertUserAddress([
+        user[0].id,
+        city,
+        area,
+        pincode,
+      ]);
       if (!userAddressResult) {
         return res
           .status(301)
@@ -194,7 +211,7 @@ export const updateProfile = async (req, res) => {
   }
 
   let updateAddress = await updateAddressById([
-    cityId,
+    city,
     area,
     pincode,
     address.address_id,
