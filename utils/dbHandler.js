@@ -3,9 +3,8 @@ import conn from "../config/dbConfig.js";
 export const findOne = async (email) => {
   try {
     let query = "SELECT * FROM users WHERE email = ?";
-    let [results] = await (await conn()).query(query, [email]);
-    let User = results;
-    return User;
+    let [result] = await (await conn()).query(query, [email]);
+    return result;
   } catch (err) {
     return { err };
   }

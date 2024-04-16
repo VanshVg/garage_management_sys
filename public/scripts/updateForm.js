@@ -29,7 +29,7 @@ const myFetch = async () => {
   const address = userDetails.address;
   if (address) {
     document.querySelector('#updateOwner #state').value = address.stateId;
-    loadCity('updateOwner');
+    await loadCity('updateOwner');
     document.querySelector('#updateOwner #city').value = address.cityId;
     document.querySelector('#updateOwner #area').value = address.area;
     document.querySelector('#updateOwner #pincode').value = address.pincode;
