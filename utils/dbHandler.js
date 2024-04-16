@@ -375,3 +375,43 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
     return { err };
   }
 }
+
+export const selectByFieldNames = async (tableName, fields) => {
+  try {
+    let query = "SELECT * FROM " + tableName + " WHERE "
+    let i = 0;
+    let keys = Object.keys(fields);
+    keys.forEach((element) => {
+      if(i!=keys.length-1) {
+        query += `${element} = "${fields[element]}" AND `
+      } else {
+        query += `${element} = "${fields[element]}";`
+      }
+      i++;
+    })
+    let [results] = await (await conn()).query(query);
+    return results;
+  } catch (err) {
+    return { err };
+  }
+}
+
+export const insertData = async (tableName, fields, values) => {
+  try {
+    let query = `INSERT INTO ` + tableName + `(`;
+    let i=0;
+    fields.forEach((element) => {
+      if(i!=fields.length-1) {
+        query += `${element.replaceAll('"',"")}, `;
+      } else {
+        query += `${element.replaceAll('"',"")}) `;
+      }
+      i++;
+    })
+    query += `VALUES (?)`;
+    let [result] = await (await conn()).query(query, [values]);
+    return result;
+  } catch (err) {
+    return { err };
+  }
+}
