@@ -120,3 +120,6 @@ button {
   outline: none;
   border: none;
 }
+.page-container {
+  overflow-y: auto;
+}

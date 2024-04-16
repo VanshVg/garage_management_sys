@@ -1,6 +1,6 @@
 const loadCity = async (form) => {
   let stateId = document.querySelector(`#${form} .state`).selectedOptions[0].id;
-  let city = document.querySelector(".city");
+  let city = document.querySelector(`#${form} .city`);
   let response = await callAPI(`/address/city/${stateId}`);
   let cityOption = ``;
   response.city.forEach((city) => {

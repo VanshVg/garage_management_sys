@@ -1,6 +1,17 @@
 const changeStep = (hide, show) => {
-  document.getElementById(hide).classList.add("hidden");
-  document.getElementById(show).classList.remove("hidden");
+  document.querySelectorAll("error").forEach((er) => er.remove());
+  document
+    .querySelectorAll(
+      `#${hide} input[Validation],#${hide} select[Validation],#${hide} textarea[Validation]`
+    )
+    .forEach((ele) => {
+      console.log(ele);
+      Validation.isValid(ele);
+    });
+  if (!document.querySelectorAll("error").length) {
+    document.getElementById(hide).classList.add("hidden");
+    document.getElementById(show).classList.remove("hidden");
+  }
 };
 
 const handleGarage = async (e) => {
@@ -12,7 +23,7 @@ const handleGarage = async (e) => {
     .forEach((ele) => {
       Validation.isValid(ele);
     });
-  if (!document.querySelector("error")) {
+  if (!document.querySelectorAll("#garageAdd error").length) {
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
     //renaming column
@@ -24,7 +35,6 @@ const handleGarage = async (e) => {
     delete formProps["city"];
     delete formProps["contact"];
     delete formProps["state"];
-
     let response = await callAPI(`/owner/garages/add`, formProps, "POST");
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)

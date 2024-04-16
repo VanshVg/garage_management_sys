@@ -32,7 +32,11 @@ export const garageAdd = async (req, res) => {
     area,
     pincode,
     userId,
+    latitude,
+    longitude,
   } = req.body;
+  console.log(latitude);
+  console.log(longitude);
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
   let thumbnail = fileUpload();
@@ -60,7 +64,12 @@ export const garageAdd = async (req, res) => {
       ]);
       if (garageId) {
         let result = await insertGarageOwner([userId, garageId]);
-        let result2 = await insertGarageReference([addressId, garageId]);
+        let result2 = await insertGarageReference([
+          addressId,
+          garageId,
+          latitude,
+          longitude,
+        ]);
         if (result && result2) {
           res.status(200).json({
             success: true,
