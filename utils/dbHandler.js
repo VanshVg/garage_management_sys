@@ -408,8 +408,28 @@ export const getCustomerNames = async (garageId) => {
     let query =
       "SELECT users.name, users.email, appointments.status, slot_master.garage_id FROM appointments LEFT JOIN users ON appointments.customer_id = users.id LEFT JOIN slot_master ON appointments.slot_id = slot_master.id WHERE slot_master.garage_id = ?";
     const result = await (await conn()).query(query, [garageId]);
+    return result[0];
   } catch (error) {
     return { error };
+  }
+};
+export const selectByFieldNames = async (tableName, fields) => {
+  try {
+    let query = "SELECT * FROM " + tableName + " WHERE ";
+    let i = 0;
+    let keys = Object.keys(fields);
+    keys.forEach((element) => {
+      if (i != keys.length - 1) {
+        query += `${element} = "${fields[element]}" AND `;
+      } else {
+        query += `${element} = "${fields[element]}";`;
+      }
+      i++;
+    });
+    let [results] = await (await conn()).query(query);
+    return results;
+  } catch (err) {
+    return { err };
   }
 };
 export const countByFieldName = async (tableName, fieldName, value) => {
@@ -422,6 +442,26 @@ export const countByFieldName = async (tableName, fieldName, value) => {
       " = ?;";
     let [results] = await (await conn()).query(query, [value]);
     return results[0].count;
+  } catch (err) {
+    return { err };
+  }
+};
+
+export const insertData = async (tableName, fields, values) => {
+  try {
+    let query = `INSERT INTO ` + tableName + `(`;
+    let i = 0;
+    fields.forEach((element) => {
+      if (i != fields.length - 1) {
+        query += `${element.replaceAll('"', "")}, `;
+      } else {
+        query += `${element.replaceAll('"', "")}) `;
+      }
+      i++;
+    });
+    query += `VALUES (?)`;
+    let [result] = await (await conn()).query(query, [values]);
+    return result;
   } catch (err) {
     return { err };
   }
@@ -451,6 +491,16 @@ export const countAppointments = async (ownerId) => {
   }
 };
 
+export const findVehicleData = async (ownerId) => {
+  try {
+    let query = `SELECT vehicle_master.brand, vehicle_master.model, vehicle_master.year, vehicle_condition.condition_image from vehicle_master JOIN user_has_vehicles ON vehicle_master.id = user_has_vehicles.vehicle_id JOIN vehicle_condition ON vehicle_condition.vehicle_id = user_has_vehicles.id WHERE user_has_vehicles.owner_id = ?;`;
+    let [result] = await (await conn()).query(query, [ownerId]);
+    return result;
+  } catch (error) {
+    console.log(err);
+    return { err };
+  }
+};
 export const getUserAddress = async (userId) => {
   try {
     let query =
