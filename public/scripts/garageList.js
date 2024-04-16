@@ -3,7 +3,6 @@ const getData = async (page = 1) => {
     "http://localhost:3000/owner/slots/getAllslots?page=" + page
   );
   var data = await jsonData.json();
-  console.log(data.count);
   return [data.result, data.startIndex, data.endIndex, data.count];
 };
 const populateData = async (pageNumber = 1) => {

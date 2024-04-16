@@ -184,7 +184,6 @@ export const insertGarage = async (garageInfo) => {
   try {
     let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
     let result = await (await conn()).query(query, [garageInfo]);
-    console.log(result);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -305,6 +304,17 @@ export const insertService = async (serviceInfo) => {
     return { error };
   }
 };
+
+export const deleteFromService = async (serviceId) => {
+  try {
+    let query = "DELETE FROM service_master where id = ?;";
+    let result = await (await conn()).query(query, [serviceId]);
+    return result[0].insertId;
+  }
+  catch (error) {
+    return { error };
+  }
+}
 
 export const insertGarageService = async (serviceInfo) => {
   try {
