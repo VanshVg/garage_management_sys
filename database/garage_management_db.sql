@@ -37,7 +37,7 @@ CREATE TABLE `address_master` (
   KEY `city_id` (`city_id`),
   CONSTRAINT `address_master_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city_master` (`id`),
   CONSTRAINT `address_master_chk_1` CHECK ((length(`pincode`) = 6))
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `address_master` (
 
 LOCK TABLES `address_master` WRITE;
 /*!40000 ALTER TABLE `address_master` DISABLE KEYS */;
-INSERT INTO `address_master` VALUES (1,70,'fdfjdjf','544221','2024-04-15 12:54:35',NULL,0),(2,70,'hjhjkjkh','544221','2024-04-15 12:57:16',NULL,0),(3,70,'hjhjkjkh','544221','2024-04-15 12:58:43',NULL,0),(4,70,'jtflgdfkf','544221','2024-04-15 13:01:03',NULL,0),(5,70,'jtflgdfkf','544221','2024-04-15 13:13:27',NULL,0),(6,70,'jtflgdfkf','544221','2024-04-15 13:19:00',NULL,0),(7,70,'alkjdjlksjlkdsj','544221','2024-04-15 13:22:11',NULL,0),(8,70,'abcd','544221','2024-04-15 13:27:39',NULL,0),(9,87,'jtflgdfkf','544221','2024-04-15 13:28:32',NULL,0),(10,70,'cfdli','544221','2024-04-15 13:36:56',NULL,0),(11,70,'djsjsdhds','544221','2024-04-15 13:41:37',NULL,0),(12,70,'abcd','544221','2024-04-15 13:53:37',NULL,0),(13,70,'hjhjkjkh','544221','2024-04-15 13:54:38',NULL,0),(14,70,'jtflgdfkf','544221','2024-04-15 13:56:55',NULL,0),(15,70,'jtflgdfkf','544221','2024-04-15 13:58:20',NULL,0);
+INSERT INTO `address_master` VALUES (1,70,'fdfjdjf','544221','2024-04-15 12:54:35',NULL,0),(2,70,'hjhjkjkh','544221','2024-04-15 12:57:16',NULL,0),(3,70,'hjhjkjkh','544221','2024-04-15 12:58:43',NULL,0),(4,70,'jtflgdfkf','544221','2024-04-15 13:01:03',NULL,0),(5,70,'jtflgdfkf','544221','2024-04-15 13:13:27',NULL,0),(6,70,'jtflgdfkf','544221','2024-04-15 13:19:00',NULL,0),(7,70,'alkjdjlksjlkdsj','544221','2024-04-15 13:22:11',NULL,0),(8,70,'abcd','544221','2024-04-15 13:27:39',NULL,0),(9,87,'jtflgdfkf','544221','2024-04-15 13:28:32',NULL,0),(10,70,'cfdli','544221','2024-04-15 13:36:56',NULL,0),(11,70,'djsjsdhds','544221','2024-04-15 13:41:37',NULL,0),(12,70,'abcd','544221','2024-04-15 13:53:37',NULL,0),(13,70,'hjhjkjkh','544221','2024-04-15 13:54:38',NULL,0),(14,70,'jtflgdfkf','544221','2024-04-15 13:56:55',NULL,0),(15,70,'jtflgdfkf','544221','2024-04-15 13:58:20',NULL,0),(16,70,'jtflgdfkf','544221','2024-04-16 12:00:49',NULL,0),(17,70,'hjkjkh','544221','2024-04-16 12:14:22',NULL,0),(18,70,'jtflgdfkf','544221','2024-04-16 12:19:35',NULL,0),(19,70,'jtflgdfkf','544221','2024-04-16 12:22:15',NULL,0),(20,70,'abcd','544221','2024-04-16 12:23:58',NULL,0),(21,70,'abcd','544221','2024-04-16 12:27:56',NULL,0),(22,70,'djsjsdhds','544221','2024-04-16 12:30:49',NULL,0),(23,70,'hjhjkjkh','544221','2024-04-16 12:51:57',NULL,0);
 /*!40000 ALTER TABLE `address_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,12 +228,14 @@ CREATE TABLE `garage_address` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` tinyint(1) DEFAULT '0',
+  `latitude` varchar(25) DEFAULT NULL,
+  `longitude` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `address_id` (`address_id`),
   KEY `garage_id` (`garage_id`),
   CONSTRAINT `garage_address_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address_master` (`id`),
   CONSTRAINT `garage_address_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +244,7 @@ CREATE TABLE `garage_address` (
 
 LOCK TABLES `garage_address` WRITE;
 /*!40000 ALTER TABLE `garage_address` DISABLE KEYS */;
-INSERT INTO `garage_address` VALUES (1,11,1,'2024-04-15 13:41:37',NULL,0),(2,12,2,'2024-04-15 13:53:37',NULL,0),(3,13,3,'2024-04-15 13:54:38',NULL,0),(4,14,4,'2024-04-15 13:56:55',NULL,0),(5,15,5,'2024-04-15 13:58:20',NULL,0);
+INSERT INTO `garage_address` VALUES (11,22,12,'2024-04-16 12:30:49',NULL,0,'22.684282675883896','72.88051636361853'),(12,23,13,'2024-04-16 12:51:57',NULL,0,'22.684282675883896','72.88051636361853');
 /*!40000 ALTER TABLE `garage_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +269,7 @@ CREATE TABLE `garage_master` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `garage_master_chk_1` CHECK ((length(`contact_number`) = 10))
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +278,7 @@ CREATE TABLE `garage_master` (
 
 LOCK TABLES `garage_master` WRITE;
 /*!40000 ALTER TABLE `garage_master` DISABLE KEYS */;
-INSERT INTO `garage_master` VALUES (1,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-15 13:45:00','2024-03-15 13:44:00',1,'jdflksdjskdjs','2024-04-15 13:41:37',NULL),(2,'Murari','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-15 13:56:00','2024-03-15 14:00:00',1,'sasasasas','2024-04-15 13:53:37',NULL),(3,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-15 13:56:00','2024-03-15 13:56:00',1,'asklaslaksl','2024-04-15 13:54:38',NULL),(4,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-15 13:59:00','2024-03-15 14:00:00',1,'dl;sksd dshsdh','2024-04-15 13:56:55',NULL),(5,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-15 14:00:00','2024-03-15 14:00:00',1,'gnjhhbg c ghgh','2024-04-15 13:58:20',NULL);
+INSERT INTO `garage_master` VALUES (12,'Sahayak Garage','8234567890','sahayak.garage@gmail.com','/assets/garage.png','2024-03-16 15:30:00','2024-03-16 12:32:00',1,'sahayak garage is available for 24 X 7 in your service. we provide multiple services that will increase your vehicle’s health','2024-04-16 12:30:49','2024-04-16 12:47:30'),(13,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-16 12:57:00','2024-03-16 12:56:00',1,'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard\ndummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen\nbook.','2024-04-16 12:51:57','2024-04-16 13:34:05');
 /*!40000 ALTER TABLE `garage_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +322,7 @@ CREATE TABLE `owner_has_garages` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -329,7 +331,7 @@ CREATE TABLE `owner_has_garages` (
 
 LOCK TABLES `owner_has_garages` WRITE;
 /*!40000 ALTER TABLE `owner_has_garages` DISABLE KEYS */;
-INSERT INTO `owner_has_garages` VALUES (1,2,1,'2024-04-15 13:41:37',NULL),(2,2,2,'2024-04-15 13:53:37',NULL),(3,2,3,'2024-04-15 13:54:38',NULL),(4,2,4,'2024-04-15 13:56:55',NULL),(5,2,5,'2024-04-15 13:58:20',NULL);
+INSERT INTO `owner_has_garages` VALUES (1,2,1,'2024-04-15 13:41:37',NULL),(2,2,2,'2024-04-15 13:53:37',NULL),(3,2,3,'2024-04-15 13:54:38',NULL),(4,2,4,'2024-04-15 13:56:55',NULL),(5,2,5,'2024-04-15 13:58:20',NULL),(6,2,6,'2024-04-16 12:00:49',NULL),(7,2,7,'2024-04-16 12:14:22',NULL),(8,2,8,'2024-04-16 12:19:35',NULL),(9,2,9,'2024-04-16 12:22:15',NULL),(10,2,10,'2024-04-16 12:23:58',NULL),(11,2,11,'2024-04-16 12:27:56',NULL),(12,2,12,'2024-04-16 12:30:49',NULL),(13,2,13,'2024-04-16 12:51:57',NULL);
 /*!40000 ALTER TABLE `owner_has_garages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -755,4 +757,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-16 15:33:07
+-- Dump completed on 2024-04-16 19:16:04
