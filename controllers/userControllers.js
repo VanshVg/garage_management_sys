@@ -93,7 +93,7 @@ export const login = async (req, res) => {
       .status(301)
       .json({ success: false, message: "Invalid email or password!" });
   } else {
-    const isPassword = await bcrypt.compare(password, user[0]?.password);
+    const isPassword = await bcrypt.compare(password, user[0].password);
     if (!isPassword) {
       return res
         .status(301)
@@ -170,14 +170,13 @@ export const editProfile = (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  console.log(req.body, req.user);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, message: "Invalid payload" });
   }
-  let { name, city, area, pincode } = req.body;
+  let { name, city, area, pincode, bio } = req.body;
 
-  let userResult = await updateUserByEmail([name, req.user.email]);
+  let userResult = await updateUserByEmail([name, bio, req.user.email]);
   if (userResult != 1) {
     return res
       .status(301)

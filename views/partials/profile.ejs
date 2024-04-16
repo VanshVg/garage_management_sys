@@ -40,7 +40,7 @@
     </div>
     <div class="w-2/3 pl-6 text-left p-6">
         <h3 class="text-lg font-semibold mb-1  border-b-2 border-blue pb-1 inline-block">Bio</h3>
-        <p class="word-wrap flex-wrap text-sm mt-2">
+        <p class="word-wrap flex-wrap text-sm mt-2" id="bio">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
             industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
             scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
@@ -52,13 +52,13 @@
 
 <script>
     const updateDetails = async () => {
-        const userDetails = await fetch('/userDetails');
-        const userJson = await userDetails.json();
-        const user = userJson.user;
-        const address = userJson.address;
+        const userDetails = await callAPI('/userDetails');
+        const user = userDetails.user;
         document.getElementById('name').innerHTML = user.name;
         document.getElementById('email').innerHTML = user.email;
-        document.getElementById('address').innerHTML = address;
+        document.getElementById('bio').innerHTML = user.bio || "";
+        const address = userDetails.address;
+        document.getElementById('address').innerHTML = address.cityName + ", " + address.stateName;
     }
     updateDetails();
 </script>
