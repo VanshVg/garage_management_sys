@@ -22,7 +22,7 @@
           />
         </div>
         <div class="table">
-          <table>
+          <table id="table">
             <tr class="table-head font-family">
               <th>Sr. No</th>
               <th>Garage Name</th>
@@ -32,63 +32,18 @@
               <th>Status</th>
               <th>Action</th>
             </tr>
-            <tr class="tr-class font-family">
-              <td>1</td>
-              <td>kalyan Garage</td>
-              <td>1234567890</td>
-              <td>10:00</td>
-              <td>21:00</td>
-              <td><div class="active">Active</div></td>
-              <td>
-                <div class="hm-menu">
-                  <img src="/icons/threedots.svg" />
-                  <div class="list-cs">
-                    <div class="list-cs-data">
-                      <img src="/icons/delete.svg" alt="" srcset="" />
-                      <a href="#">Edit</a>
-                    </div>
-                    <div class="list-cs-data">
-                        <img src="/icons/edit.svg" alt="" srcset="" />
-                      <a href="#">Delete</a>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr class="tr-class font-family">
-              <td>1</td>
-              <td>kalyan Garage</td>
-              <td>1234567890</td>
-              <td>10:00</td>
-              <td>21:00</td>
-              <td><div class="deactive">Deactive</div></td>
-              <td>
-                <div class="hm-menu">
-                  <img src="/icons/threedots.svg" />
-                  <div class="list-cs">
-                    <div class="list-cs-data">
-                      <img src="/icons/delete.svg" alt="" srcset="" />
-                      <a href="#">Edit</a>
-                    </div>
-                    <div class="list-cs-data">
-                        <img src="/icons/edit.svg" alt="" srcset="" />
-                      <a href="#">Delete</a>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
           </table>
         </div>
         <div class="pagination font-family">
           <div class="font-family">Showing 1 to 8 of 8 entries</div>
           <div class="page-buttons button-group">
-            <input class="font-family buttons" type="button" value="Prev" />
-            <div class="current">1</div>
-            <input class="font-family buttons" type="button" value="Next" />
+            <input class="font-family buttons" type="button" value="Prev" id="prev"/>
+            <div class="current" id="pid">1</div>
+            <input class="font-family buttons" type="button" value="Next" id="next" />
           </div>
         </div>
       </div>
     </div>
+    <script src="/scripts/garageList.js"></script>
   </body>
 </html>

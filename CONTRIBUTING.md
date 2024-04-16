@@ -46,7 +46,7 @@ set responsibility (if any)
 ```
 -give proper commit like:
     fix: api calling bug fixed (if you resolve any bug)
-    init: initalizing index.js (if you creating any files)
+    init: initializing index.js (if you creating any files)
     improve: function chain calling to synchronous (any improvement rather then use of update)
     bug:email validation (any bug related)
     modify: file changes

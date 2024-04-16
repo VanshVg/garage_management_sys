@@ -43,6 +43,5 @@ The Garage Management System (GMS) is a comprehensive software solution designed
 - MySQL
 - POSTMAN
 - GITLAB
-- TAILWINDCSS | BOOTSTRAP 
 - FIGMA
 

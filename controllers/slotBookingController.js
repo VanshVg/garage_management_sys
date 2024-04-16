@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, insertSlot, updateSlot } from "../utils/dbHandler.js";
+import { deleteSlot, getAllSlots, insertSlot, updateSlot } from "../utils/dbHandler.js";
 
 
 export const slotBooking = async (req, res) => {
@@ -42,4 +42,10 @@ export const slotDelete = async (req, res) => {
     } else {
         res.status(301).json({ message: "slot was not deleted" })
     }
+}
+
+export const getSlots = async(req,res) => {   
+        const {startIndex,endIndex} =req.pagination
+        const result = await getAllSlots(startIndex)
+        res.json({result:result[0],count:result[1][0].count,startIndex:startIndex,endIndex:endIndex})       
 }
