@@ -212,8 +212,9 @@ export const insertGarageAddress = async (addressInfo) => {
 };
 // garage addres reference
 export const insertGarageReference = async (references) => {
+  console.log(references);
   try {
-    let query = `INSERT INTO garage_address (address_id, garage_id) values (?)`;
+    let query = `INSERT INTO garage_address (address_id, garage_id,latitude,longitude) values (?)`;
     let result = await (await conn()).query(query, [references]);
     return result[0].affectedRows;
   } catch (error) {
@@ -275,9 +276,9 @@ export const getServices = async () => {
   }
 };
 // get all garage details
-export const getGarageList = async (offset) => {
+export const getGarageList = async (offset = 0) => {
   try {
-    let query = `SELECT id, garage_name, contact_number, open_time, close_time, status from garage_master limit ?,10`;
+    let query = `SELECT id,email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master limit ?,10`;
     let result = await (await conn()).query(query, offset);
     return result[0];
   } catch (error) {

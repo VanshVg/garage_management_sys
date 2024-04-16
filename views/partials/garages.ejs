@@ -4,16 +4,25 @@
             onclick="activeSub('garage-add')">Add
             Garage</button>
     </div>
-    <div class="w-full flex-grow  mt-2">
-        <!-- Garages -->
-        <div class="max-w-sm  border border-gray-200 rounded-lg shadow">
+    <div class="w-full flex-grow  mt-2 -m-2 flex" id="garage-container">
+
+    </div>
+</div>
+<script>
+    const fillGarages = async () => {
+        let garages = await callAPI("/owner/garages/getGaragesList");
+        console.log(garages);
+        let garageList = ``
+        garages.result.forEach(garage => {
+            garageList += `
+            <div class="w-[30%] m-2  border border-gray-200 rounded-lg shadow" id='${garage.id}'>
             <a href="#" class="mb-4">
-                <img class="rounded-t-lg" src="/assets/garage.png" alt="" />
+                <img class="rounded-t-lg w-full" src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" />
             </a>
             <div class="p-5">
                 <div class="flex justify-between mb-2">
-                    <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">Sahayak Garage</h5>
-                    <tag class="bg-[#038117] w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">OPEN</tag>
+                    <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">${garage.garage_name}</h5>
+                    <tag class="${garage.status ? 'bg-[#038117]' : 'bg-[#ff5f5f]'} w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${garage.status ? 'OPEN' : 'CLOSE'}</tag>
                 </div>
                 <div class="flex items-center mt-2">
                     <icon class="bg-dark p-1 rounded-full mr-2">
@@ -25,7 +34,7 @@
                             <path d="M2 12h7v2H2zm2 3h6v2H4zm3 3h4v2H7z"></path>
                         </svg>
                     </icon>
-                    <p class="text-dark font-semibold text-sm">sahayak.garage@gmail.com</p>
+                    <p class="text-dark font-semibold text-sm">${garage.email}</p>
                 </div>
                 <div class="flex items-center mt-2">
                     <icon class="bg-dark p-1 rounded-full mr-2">
@@ -37,7 +46,7 @@
                             <path d="M13 8c2.1 0 3 .9 3 3h2c0-3.22-1.78-5-5-5z"></path>
                         </svg>
                     </icon>
-                    <p class="text-dark font-semibold text-sm">+91 91234567890</p>
+                    <p class="text-dark font-semibold text-sm">+91 ${garage.contact_number}</p>
                 </div>
                 <div class="flex items-center mt-2">
                     <icon class="bg-dark p-1 rounded-full mr-2">
@@ -49,7 +58,7 @@
                             </path>
                         </svg>
                     </icon>
-                    <p class="text-dark font-semibold text-sm">10:00 a.m to 9:00 p.m</p>
+                    <p class="text-dark font-semibold text-sm">${garage.open_time.split(" ")[1]} a.m to ${garage.close_time.split(" ")[1]}</p>
                 </div>
                 <div class="flex mt-2">
                     <icon class="bg-dark p-1 rounded-full mr-2 h-max">
@@ -67,13 +76,14 @@
                             </g>
                         </svg>
                     </icon>
-                    <p class="text-dark font-semibold text-left text-sm">sahayak garage is available for 24 X 7 in your
-                        service. we provide multiple services that will increase your vehicle’s
-                        health</p>
+                    <p class="text-dark font-semibold text-left text-sm">${garage.description.substring(0, 150)}...</p>
                 </div>
 
             </div>
         </div>
-
-    </div>
-</div>
+            `
+        });
+        document.getElementById('garage-container').innerHTML = garageList;
+    }
+    fillGarages();
+</script>
