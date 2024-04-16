@@ -1,6 +1,7 @@
 import { body } from "express-validator";
 
 export const vehicleValidator = [
+  body("vehicleImage").notEmpty().withMessage("Please select image"),
   body("brand").notEmpty().withMessage("Please enter brand name"),
   body("model").notEmpty().withMessage("Please enter model name"),
   body("year").notEmpty().withMessage("Please enter model year").isLength({ max: 4 }),
