@@ -1,4 +1,4 @@
-const callAPI = async (endpoint, body, method) => {
+const callAPI = async (endpoint, body = {}, method = "GET") => {
   let data = await fetch(
     endpoint,
     method != "GET"
