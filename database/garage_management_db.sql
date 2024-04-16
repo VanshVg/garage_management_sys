@@ -36,7 +36,7 @@ CREATE TABLE `address_master` (
   UNIQUE KEY `id` (`id`),
   KEY `city_id` (`city_id`),
   CONSTRAINT `address_master_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `city_master` (`id`),
-  CONSTRAINT `address_master_chk_1` CHECK ((length(`pincode`) > 6))
+  CONSTRAINT `address_master_chk_1` CHECK ((length(`pincode`) = 6))
 ) ENGINE=InnoDB ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

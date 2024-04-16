@@ -20,7 +20,7 @@ const populateData = async (pageNumber = 1) => {
     Object.keys(element).forEach((ele) => {
       var td = document.createElement("td");
       td.classList.add("font-family");
-      
+
       if (ele == "availability_status") {
         td.classList.add("flex-status")
         var div = document.createElement("div");
