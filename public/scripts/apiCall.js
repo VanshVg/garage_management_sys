@@ -12,7 +12,6 @@ const callAPI = async (endpoint, body, method) => {
       : {}
   );
   try {
-    console.log(data);
     let jsonData = data.json();
     return jsonData;
   } catch (error) {

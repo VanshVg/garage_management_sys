@@ -76,12 +76,12 @@ export const login = async (req, res) => {
   }
   let { email, password } = req.body;
   let user = await findOne(email);
-  if (user.length == 0) {
+  if (!user || user?.length == 0) {
     return res
       .status(301)
       .json({ success: false, message: "Invalid email or password!" });
   } else {
-    const isPassword = await bcrypt.compare(password, user[0].password);
+    const isPassword = await bcrypt.compare(password, user[0]?.password);
     if (!isPassword) {
       return res
         .status(301)

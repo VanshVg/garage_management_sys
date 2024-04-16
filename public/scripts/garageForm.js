@@ -1,3 +1,11 @@
+const changeStep = (hide, show) => {
+
+  console.log(document.getElementById(hide));
+  console.log(document.getElementById(show));
+  document.getElementById(hide).classList.add('hidden');
+  document.getElementById(show).classList.remove('hidden');
+}
+
 const handleGarage = async (e) => {
   e.preventDefault();
   document
