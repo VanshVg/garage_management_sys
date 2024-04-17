@@ -531,5 +531,28 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
   } catch (error) {
     return { error };
   }
+}
 
+export const getVehicleAssociatedServices  = async(userId) =>{
+  try {
+    let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
+    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
+    FROM appointments 
+    LEFT JOIN appointment_services 
+    ON appointments.id = appointment_services.appointment_id
+    LEFT JOIN service_master 
+    ON appointment_services.service_id = service_master.id
+    LEFT JOIN slot_master 
+    ON appointments.slot_id = slot_master.id
+    LEFT JOIN user_has_vehicles 
+    ON appointments.vehicle_id = user_has_vehicles.vehicle_id
+    LEFT JOIN vehicle_master
+    ON user_has_vehicles.vehicle_id = vehicle_master.id
+    LEFT JOIN vehicle_types
+    ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`
+    const result = await (await conn()).query(query,[userId])
+    return result[0]
+  } catch (error) {
+    return {error}
+  }
 }

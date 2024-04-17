@@ -1,8 +1,9 @@
 import express from "express";
 import {
+  customer,
   garageForm,
   garageListing,
-  getGarageCount,
+  getGarageCount
 } from "../../controllers/staticControllers.js";
 import {
   garageAdd,
@@ -26,4 +27,5 @@ router.post("/delete", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", paginationMiddleware(10), getGarageListing);
 router.get("/count", getGarageCount);
+router.get("/customerList",customer);
 export default router;
