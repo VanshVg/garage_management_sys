@@ -55,7 +55,6 @@
         <canvas id="myChart"></canvas>
     </div>
 </div>
-<script src="/scripts/apiCall.js"></script>
 <script>
     let positive = 12;
     let negative = 19;
@@ -63,7 +62,6 @@
         const garages = await callAPI('/owner/garages/count');
         animateNumber(garages.garageCount, 2, "garageCount");
         const services = await callAPI('/owner/services/count');
-        console.log(services);
         animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const appointments = await callAPI('/owner/appointmentCount');
         positive = appointments.successCount;

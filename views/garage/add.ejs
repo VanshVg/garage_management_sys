@@ -12,10 +12,11 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<script src="/scripts/imageSelection.js"></script>
 <form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id="garageAdd"
   onsubmit="handleGarage(event)" enctype="multipart/form-data">
-  <h2 class="text-2xl font-bold mb-2 text-left text-dark">New Garage</h2>
+  <h2 class="text-2xl font-bold mb-2 text-left text-dark">
+    <%= title%> Garage
+  </h2>
   <div class="w-full f-full" id='garageDetails'>
     <h3 class="text-dark font-semibold text-left mb-2">Garage Information</h3>
     <hr>
@@ -40,7 +41,7 @@
                 clip-rule="evenodd" />
             </svg>
           </button>
-          <img id="image-preview" class="hidden w-full  h-full absolute top-0 left-0 " />
+          <img id="image-preview" class="hidden w-full  h-full absolute top-0 left-0 " dataBound="garagePic" />
         </label>
       </div>
 
@@ -51,19 +52,19 @@
           <label for="garageName" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
           <input type="text" id="garageName" name="garageName" placeholder="garage name"
             class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-            Validation="require multi_word" oninput="Validation.isValid(this)">
+            Validation="require multi_word" oninput="Validation.isValid(this)" dataBound="garageName">
         </div>
         <div class="flex items-center mb-2">
           <label for="email" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Email</label>
           <input type="text" id="email" name="email" placeholder="abc@abcmail.com"
             class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-            Validation="require email" oninput="Validation.isValid(this)">
+            Validation="require email" oninput="Validation.isValid(this)" dataBound="garageEmail">
         </div>
         <div class="flex items-center mb-2">
           <label for="contactNumber" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
           <input type="text" id="contactNumber" name="contactNumber" placeholder="1234567890"
             class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-            Validation="require digit10 mobile" oninput="Validation.isValid(this)">
+            Validation="require digit10 mobile" oninput="Validation.isValid(this)" dataBound="garageContact">
         </div>
       </div>
     </div>
@@ -72,13 +73,13 @@
         <label for="openTime" class="text-sm  mr-2 text-left font-medium text-dark">Open Time</label>
         <input type="time" id="openTime" name="openTime"
           class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-          Validation="require" oninput="Validation.isValid(this)">
+          Validation="require" oninput="Validation.isValid(this)" dataBound="garageOpenTime">
       </div>
       <div class="flex items-center mb-4 w-1/2">
         <label for="closeTime" class="text-sm  mr-2 text-left font-medium text-dark">Close Time</label>
         <input type="time" id="closeTime" name="closeTime"
           class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
-          Validation="require" oninput="Validation.isValid(this)">
+          Validation="require" oninput="Validation.isValid(this)" dataBound="garageCloseTime">
       </div>
     </div>
     <h3 class="text-dark font-semibold text-left my-2">Address Information</h3>
@@ -94,7 +95,7 @@
         <label for="state" class="text-sm  mr-2 text-left font-medium w-[80px]  text-dark">State</label>
         <select id="state" name="state"
           class="state flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-          Validation="require"></select>
+          Validation="require" dataBound="garageState"></select>
       </div>
     </div>
     <div class="input-group flex w-full">
@@ -102,14 +103,14 @@
         <label for="cityId" class="text-sm font-mediu mr-2 text-left font-medium w-[80px]  text-dark">City</label>
         <select id="cityId" name="cityId"
           class="city flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-          Validation="none">
+          Validation="none" dataBound="garageCity">
         </select>
       </div>
       <div class="flex items-center mb-4 w-1/2">
         <label for="pincode" class="text-sm  mr-2 font-medium w-[80px] text-left text-dark">Pincode</label>
         <input type="text" id="pincode" name="pincode" placeholder="123456"
           class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-          Validation="require digit6" oninput="Validation.isValid(this)">
+          Validation="require digit6" oninput="Validation.isValid(this)" dataBound="garagePincode">
       </div>
     </div>
     <div class="w-full flex justify-start">
@@ -118,7 +119,7 @@
     <div class="flex items-center mb-4">
       <textarea id="description" name="description" rows="5"
         class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
-        placeholder="type here.." Validation="none"></textarea>
+        placeholder="type here.." Validation="none" dataBound="garageDescription"></textarea>
     </div>
     <div class="w-full flex justify-end">
       <button type="button" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4"
@@ -149,10 +150,6 @@
         Add</button>
     </div>
   </div>
-
-  </div>
-  <!-- <div class="w-full flex justify-end">
-  </div> -->
 </form>
 <script src="/scripts/garageForm.js"></script>
 
