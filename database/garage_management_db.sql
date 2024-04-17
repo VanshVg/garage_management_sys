@@ -267,6 +267,7 @@ CREATE TABLE `garage_master` (
   `description` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` bool DEFAULT 0,
   PRIMARY KEY (`id`),
   CONSTRAINT `garage_master_chk_1` CHECK ((length(`contact_number`) = 10))
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -278,8 +279,37 @@ CREATE TABLE `garage_master` (
 
 LOCK TABLES `garage_master` WRITE;
 /*!40000 ALTER TABLE `garage_master` DISABLE KEYS */;
-INSERT INTO `garage_master` VALUES (12,'Sahayak Garage','8234567890','sahayak.garage@gmail.com','/assets/garage.png','2024-03-16 15:30:00','2024-03-16 12:32:00',1,'sahayak garage is available for 24 X 7 in your service. we provide multiple services that will increase your vehicle’s health','2024-04-16 12:30:49','2024-04-16 12:47:30'),(13,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-16 12:57:00','2024-03-16 12:56:00',1,'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard\ndummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen\nbook.','2024-04-16 12:51:57','2024-04-16 13:34:05');
+INSERT INTO `garage_master` VALUES (1,'sasta garage','7894561230','temp@gmail.com',NULL,'2024-04-15 04:30:00','2024-04-15 12:30:00',1,NULL,'2024-04-15 12:56:17',NULL,0), (12,'Sahayak Garage','8234567890','sahayak.garage@gmail.com','/assets/garage.png','2024-03-16 15:30:00','2024-03-16 12:32:00',1,'sahayak garage is available for 24 X 7 in your service. we provide multiple services that will increase your vehicle’s health','2024-04-16 12:30:49','2024-04-16 12:47:30', 0),(13,'Jayraj','8234567890','dsd@sdd.dsd','https://pics:art/demo.png','2024-03-16 12:57:00','2024-03-16 12:56:00',1,'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry`s standard\ndummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen\nbook.','2024-04-16 12:51:57','2024-04-16 13:34:05', 0);
 /*!40000 ALTER TABLE `garage_master` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `garage_events`
+--
+
+DROP TABLE IF EXISTS `garage_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `garage_events` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(150) DEFAULT NULL,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  `garage_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `garage_id` (`garage_id`),
+  CONSTRAINT `garage_events_ibfk_1` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `garage_events`
+--
+
+LOCK TABLES `garage_events` WRITE;
+/*!40000 ALTER TABLE `garage_events` DISABLE KEYS */;
+/*!40000 ALTER TABLE `garage_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -331,7 +361,7 @@ CREATE TABLE `owner_has_garages` (
 
 LOCK TABLES `owner_has_garages` WRITE;
 /*!40000 ALTER TABLE `owner_has_garages` DISABLE KEYS */;
-INSERT INTO `owner_has_garages` VALUES (1,2,1,'2024-04-15 13:41:37',NULL),(2,2,2,'2024-04-15 13:53:37',NULL),(3,2,3,'2024-04-15 13:54:38',NULL),(4,2,4,'2024-04-15 13:56:55',NULL),(5,2,5,'2024-04-15 13:58:20',NULL),(6,2,6,'2024-04-16 12:00:49',NULL),(7,2,7,'2024-04-16 12:14:22',NULL),(8,2,8,'2024-04-16 12:19:35',NULL),(9,2,9,'2024-04-16 12:22:15',NULL),(10,2,10,'2024-04-16 12:23:58',NULL),(11,2,11,'2024-04-16 12:27:56',NULL),(12,2,12,'2024-04-16 12:30:49',NULL),(13,2,13,'2024-04-16 12:51:57',NULL);
+INSERT INTO `owner_has_garages` VALUES (14,3,1,'2024-04-16 08:22:11',NULL), (1,2,1,'2024-04-15 13:41:37',NULL),(2,2,2,'2024-04-15 13:53:37',NULL),(3,2,3,'2024-04-15 13:54:38',NULL),(4,2,4,'2024-04-15 13:56:55',NULL),(5,2,5,'2024-04-15 13:58:20',NULL),(6,2,6,'2024-04-16 12:00:49',NULL),(7,2,7,'2024-04-16 12:14:22',NULL),(8,2,8,'2024-04-16 12:19:35',NULL),(9,2,9,'2024-04-16 12:22:15',NULL),(10,2,10,'2024-04-16 12:23:58',NULL),(11,2,11,'2024-04-16 12:27:56',NULL),(12,2,12,'2024-04-16 12:30:49',NULL),(13,2,13,'2024-04-16 12:51:57',NULL);
 /*!40000 ALTER TABLE `owner_has_garages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,8 +508,7 @@ CREATE TABLE `service_master` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(150) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `availability_status` tinyint(1) DEFAULT '0',
+  `is_deleted` bool DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -490,9 +519,38 @@ CREATE TABLE `service_master` (
 
 LOCK TABLES `service_master` WRITE;
 /*!40000 ALTER TABLE `service_master` DISABLE KEYS */;
+INSERT INTO `service_master` VALUES (1,'washing','washing your vehicle with clean water and soap',0),(2,'washing','washing your vehicle with clean water and soap',0),(3,'washing','washing your vehicle with clean water and soap',0),(4,'something','something',0),(5,'testing','just testing',0),(6,'my test','my test success',0),(7,'car destroy','completely destory your car',0),(8,'s ss ss ss ss ss ','nathi available',0),(9,'dasf','dasfsd',0),(10,'sdafsdf','dsafdsfasdf',0),(11,'qwerw','wefsadasdfas',0),(12,'testing delete','testing delete',0),(13,'testing delete','testing delete',0),(14,'123432','3414213',0),(15,'123432','3414213',0),(16,'dasfsdfsadfasd','asdfasdfasdfsadfasd',0),(17,'dasfsdfsadfasd','asdfasdfasdfsadfasd',0),(19,'service','description',0);
 /*!40000 ALTER TABLE `service_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `garage_has_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `garage_has_services` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `garage_id` int NOT NULL,
+  `services_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` tinyint(1) DEFAULT '0',
+  `price` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `services_id` (`services_id`),
+  KEY `garage_id` (`garage_id`),
+  CONSTRAINT `garage_has_services_ibfk_1` FOREIGN KEY (`services_id`) REFERENCES `service_master` (`id`),
+  CONSTRAINT `garage_has_services_ibfk_2` FOREIGN KEY (`garage_id`) REFERENCES `garage_master` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `garage_has_services`
+--
+
+LOCK TABLES `garage_has_services` WRITE;
+/*!40000 ALTER TABLE `garage_has_services` DISABLE KEYS */;
+INSERT INTO `garage_has_services` VALUES (1,1,1,'2024-04-15 13:01:09',NULL,0,45),(2,1,2,'2024-04-15 13:03:45',NULL,0,45),(3,1,3,'2024-04-15 13:04:01',NULL,0,20),(4,1,6,'2024-04-15 13:28:10',NULL,0,100),(5,1,4,'2024-04-15 13:45:17',NULL,0,45),(6,1,5,'2024-04-16 04:38:50',NULL,0,20),(7,1,7,'2024-04-16 08:40:34',NULL,0,100),(8,1,8,'2024-04-16 09:14:52',NULL,0,12),(9,1,12,'2024-04-16 09:26:46',NULL,0,453134242),(10,1,15,'2024-04-16 09:33:09',NULL,0,45),(11,1,19,'2024-04-16 09:36:31',NULL,0,10);
+/*!40000 ALTER TABLE `garage_has_services` ENABLE KEYS */;
+UNLOCK TABLES;
 --
 -- Table structure for table `slot_master`
 --
@@ -518,6 +576,7 @@ CREATE TABLE `slot_master` (
 
 LOCK TABLES `slot_master` WRITE;
 /*!40000 ALTER TABLE `slot_master` DISABLE KEYS */;
+INSERT INTO `slot_master` VALUES (1,1,'2001-01-01 10:55:23','2001-01-01 11:55:23',1,'2024-04-10 09:08:40','2024-04-10 09:48:17'),(2,1,'2020-01-01 03:30:00','2020-01-01 11:30:00',0,'2024-04-16 09:42:20',NULL);
 /*!40000 ALTER TABLE `slot_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,6 +633,7 @@ CREATE TABLE `user_address` (
 
 LOCK TABLES `user_address` WRITE;
 /*!40000 ALTER TABLE `user_address` DISABLE KEYS */;
+INSERT INTO `user_address` VALUES (1,1,3,'2024-04-17 10:59:56', NULL, 0);
 /*!40000 ALTER TABLE `user_address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -639,7 +699,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,0,'Shaileshbhai Chaudhari',NULL,'shailesh93602@gmail.com','shailesh','skafjs','2024-04-19 06:56:56','2024-04-09 08:56:56',1,0,'2024-04-09 06:56:56',NULL,NULL),(2,1,'mohan',NULL,'bharat@gmail.com','$2b$10$.JNj1yD3LdwUJeq97li.wO/2NTRolwxbjtpaie7TIcqQtxoWl1692','weu6q880k2','2024-04-20 07:03:37','2024-04-10 09:03:37',1,1,'2024-04-10 07:03:37','2024-04-16 09:50:26',NULL);
+INSERT INTO `users` VALUES (3,1,'Shailesh Chaudhari',NULL,'shailesh@gmail.com','$2b$10$lmPYTCW2.HUayZSFQS333.CmvUlhZS0YfLC6GRSDIuYfMV/hUxQae','e4fzgh2tcyo','2024-04-22 05:00:01','2024-04-12 07:00:01',1,1,'2024-04-12 05:00:01','2024-04-16 13:38:44','Software Engineer @eSparkBiz Technologies Private Limited'), (2,1,'mohan',NULL,'bharat@gmail.com','$2b$10$.JNj1yD3LdwUJeq97li.wO/2NTRolwxbjtpaie7TIcqQtxoWl1692','weu6q880k2','2024-04-20 07:03:37','2024-04-10 09:03:37',1,1,'2024-04-10 07:03:37','2024-04-16 09:50:26',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;

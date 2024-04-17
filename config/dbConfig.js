@@ -9,6 +9,6 @@ const conn = mysql.createConnection({
     password: process.env.DB_PASSWORD,
     dateStrings: true,
     multipleStatements:true
-  }).promise()
+}).promise()
 
 export default conn;
