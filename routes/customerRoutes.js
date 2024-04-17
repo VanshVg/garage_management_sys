@@ -6,10 +6,9 @@ import {
 } from "../controllers/staticControllers.js";
 import * as vehicleController from "../controllers/vehicleControllers.js";
 import { vehicleValidator } from "../validators/vehicleValidation.js";
-import {
-  customeVehicleSlection,
-  getAllCustomers,
-} from "../controllers/customerControllers.js";
+import { customeVehicleSlection, getAllCustomers,} from "../controllers/customerControllers.js";
+import {  getGarageListing } from "../controllers/garageControllers.js";
+
 const router = express.Router();
 
 router.get("/home", customerHome);
@@ -20,5 +19,7 @@ router.get("/home", customerHome);
 router.get("/vehicleSelection", customeVehicleSlection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
+
+router.get("/garages",getGarageListing);
 
 export default router;

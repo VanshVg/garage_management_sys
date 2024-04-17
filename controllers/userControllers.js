@@ -87,6 +87,7 @@ export const login = async (req, res) => {
       .json({ success: false, message: "Invalid credentials" });
   }
   let { email, password } = req.body;
+
   let user = await findOne(email);
   if (!user || user?.length == 0) {
     return res

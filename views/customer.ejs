@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,28 +41,59 @@
 <body>
 
     <div id="container" class="flex h-screen overflow-hidden w-full">
-        <div class="h-screen w-[75%] bg-[url('/assets/map.png')] bg-no-repeat bg-cover">
-                <div class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end relative">
-                    <div class="brand-logo">
-                        <img src="/assets/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px">
-                    </div>
-                </div>
-            <div>
+
+        <div class="h-screen w-[5%] bg-dark">
+            <div class="brand-logo top-0 left-0 m-2">
+                <img src="/assets/logo.png" alt="logo" class=" w-[50px] h-[50px]">
             </div>
-            <div class="absolute bottom-0 left-0 m-3 p-2">
-                <img src="/assets/profile.webp" class="rounded-full w-[45px] h-[45px] border-4 border-dark" alt="user">
+            <div class="brand">
+                <p
+                    class="-mt-10 break-words text-center font-bold text-2xl capitalize text-slate-300 tracking-widest whitespace-break-spaces">
+                    G<br>a<br>r<br>a<br>g<br>e<br>G<br>u<br>r<br>u</p>
+            </div>
+            <div class="absolute bottom-0 left-0 m-2">
+                <img src="/assets/profile.webp" class="rounded-full w-[45px] h-[45px] border-4 border-blueborder" alt="user">
             </div>
         </div>
+
+
+        <div class="h-screen w-[70%]">
+            <div class="h-[100%] bg-no-repeat bg-cover" id="map">
+            </div>
+
+            <div class="h-[4%] bottom-0 bg-lightbg justify-center items-center flex hidden">
+                    <input type="button" class="bg-dark mx-3 px-2 rounded-lg text-white font-medium" name="left" value="<<">
+                    <input type="button" class="bg-dark mx-3 px-2 rounded-lg text-white font-medium" name="right" value=">>">
+            </div>
+        </div>
+
+
         <div class="h-screen w-[25%] bg-dark">
             <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Nearest Garages</h3>
-            <div class="mt-6 overflow-y-auto h-full px-4">
+            <div class="card-wrapper mt-6 overflow-y-auto h-full px-4" id="card-wrapper">
                 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex">
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/apiCall.js"></script>
+
+    <script>
+
+        const fillGarages = async () => {
+
+            let garages = await callAPI("/customer/garages");
+            console.log(garages);
+            let garageList = ``
+
+            garages.result.forEach(garage => {
+
+                garageList += `<div class="bg-light max-w-fit  mt-5 rounded-lg flex">
                     <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
+                        <img src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full bg-cover" alt="garage" class="object-cover">
                     </div>
                     <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
+                        <h3 class="font-medium text-xl text-center" id="garageName">${garage.garage_name}</h3>
                         <div class="rating mt-2 flex justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
@@ -68,112 +106,85 @@
                         </div>
                         
                     </div>
-                </div>
+                </div>`
 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex">
-                    <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
-                    </div>
-                    <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
-                        <div class="rating mt-2 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        </div>
-                        <div class="flex pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                            <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
-                        </div>
-                        
-                    </div>
-                </div>
+            });
 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex">
-                    <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
-                    </div>
-                    <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
-                        <div class="rating mt-2 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        </div>
-                        <div class="flex pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                            <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
-                        </div>
-                        
-                    </div>
-                </div>
+            document.getElementById('card-wrapper').innerHTML = garageList;
+        }
 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex">
-                    <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
-                    </div>
-                    <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
-                        <div class="rating mt-2 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        </div>
-                        <div class="flex pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                            <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
-                        </div>
-                        
-                    </div>
-                </div>
+        fillGarages()
 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex    ">
-                    <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
-                    </div>
-                    <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
-                        <div class="rating mt-2 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        </div>
-                        <div class="flex pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                            <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
-                        </div>
-                        
-                    </div>
-                </div>
+    </script>
 
-                <div class="bg-light max-w-fit  mt-5 rounded-lg flex">
-                    <div class="garage-icon border-2 w-3/4">
-                        <img src="/assets/garage.png" class="h-full bg-cover" alt="garage" class="object-cover">
-                    </div>
-                    <div class="garage-info max-w-fit p-2">
-                        <h3 class="font-medium text-xl text-center">sahayak garage</h3>
-                        <div class="rating mt-2 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        </div>
-                        <div class="flex pt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                            <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<script>
+    // loadAddress("garageAdd");
+    // imageSelection("garageAdd");
+    /*Map */
+    const position = [22.684282675883896, 72.88051636361853];
+    const map = L.map('map').setView(position, 8);
+  
+    // Google layer (HTTPS URL)
+    const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+  
+    // OSM Layer
+    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+  
+    // Esri Layers (HTTPS URL)
+    const Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    });
+  
+    const Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+      maxZoom: 16
+    });
+  
+    // Google Hybrid Layer (HTTPS URL)
+    const googleHybrid = L.tileLayer('https://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+  
+    /*My Location Icon*/
+    const myIcon = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/Makwana-Bharat/pathdarshak/main/assest/Images/Location.png',
+      iconSize: [50, 50],
+    });
+  
+    const MyLoc = L.marker(position, { icon: myIcon, draggable: true }).addTo(map);
+  
+    MyLoc.on('dragend', function (event) {
+      const position = MyLoc.getLatLng();
+      document.getElementById('latitude').value = position.lat;
+      document.getElementById('longitude').value = position.lng;
+    });
+  
+    // Set initial values of inputs
+    document.getElementById('latitude').value = position[0];
+    document.getElementById('longitude').value = position[1];
+  
+    /* Layer Management*/
+    const base = {
+      "Google Street": googleStreets,
+      "OSM": osm,
+      "Google": Esri_WorldImagery,
+      "Netro": Esri_NatGeoWorldMap,
+      "Hybrid": googleHybrid
+    };
+    const overlayMaps = {
+      "Marker": MyLoc
+    };
+    L.control.layers(base, overlayMaps).addTo(map);
+  
+  </script>
+
+
 </body>
 
 </html>
