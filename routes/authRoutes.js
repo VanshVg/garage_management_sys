@@ -1,11 +1,6 @@
 import express from "express";
-import passport from "passport";
-
 import { applyPassportStrategy } from "../middlewares/passport.js";
 import * as userController from "../controllers/userControllers.js";
-import { validateRole } from "../services/roleServices.js";
-import ownerRoutes from "./ownerRoutes.js";
-import customerRoutes from "./customerRoutes.js";
 import {
   registerValidator,
   loginValidator,
