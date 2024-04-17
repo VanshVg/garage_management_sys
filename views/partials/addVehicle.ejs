@@ -7,24 +7,54 @@
   <title>Document</title>
   <link rel="stylesheet" href="/styles/output.css" />
 </head>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          dark: "#152533",
+          lightBlue: "#D9D9D9",
+          blue: "#355364",
+          white: "#FFFFFF",
+          light: "#D9D9D9",
+          lightbg: "#d7e0e7",
+          lightorange: "burlywood",
+          card1bg: "rgba(255, 225, 200, 0.5)",
+          card1text: "#e96a00",
+          card2bg: "rgba(225, 246, 247, 0.5)",
+          card2text: "#34cdd0",
+          card3bg: "rgba(252, 226, 225, 0.5)",
+          card3text: "#df5e5e",
+          card4bg: "rgba(237, 231, 251, 0.5)",
+          card4text: "#9a78ea",
+          red: "#ff0000"
+        },
+      },
+    },
+  };
+</script>
 
 <body>
-  <div class="flex overflow-y-hidden">
+  <div class="flex overflow-y-hidden mx-auto">
     <div class=" fixed bg-lightbg h-screen w-full overflow-y-hidden">
       <div class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end relative">
         <img src="/assets/logo.png" class="rotate-45" alt="logo" height="80px" width="80px">
       </div>
-      <div class="bg-white ml-16 pt-10 pb-4 rounded mr-96"
+      <div class="bg-white -mt-8 ml-24 pt-10 pb-4 rounded w-[850px]" id="vehicle-form"
         style="box-shadow: 1px 1px 1px  grey, inset 1px 1px rgba(1,1,1,.1);">
         <h2 class="block mb-5 ml-80 text-3xl text-dark">Add new vehicle</h2>
         <div style="background-color: black; height: 1px; max-width: 700px" class="mb-10 ml-24"></div>
         <div class="flex">
           <div class="flex">
-            <label for="vehicle-file"
+            <label for="vehicle-file" id="vehicle-image"
+              class="-mt-10 ml-56 rounded hover:cursor-pointer max-w-32 max-h-40 py-11 text-center text-white hidden"></label>
+            <label for="vehicle-file" id="vehicle-upload"
               class="bg-dark ml-56 rounded hover:cursor-pointer block max-w-32 max-h-40 py-11 text-center text-white"><img
-                class="m-auto" style="height: 30px;" alt="upload" src="/icons/upload-white.svg"></img> Click here to upload
+                class="m-auto" style="height: 30px;" alt="upload" src="/icons/upload-white.svg"></img> Click here to
+              upload
               pic</label>
-            <input type="file" id="vehicle-file" name="vehicleImage" hidden />
+            <input type="file" id="vehicle-file" name="vehicleImage" onchange="changeVehicleImage()" hidden />
           </div>
           <div class="ml-10">
             <div class="flex flex-col ml-10">
@@ -40,6 +70,8 @@
                 class="bg-white h-[35px] rounded mb-7 pl-2 placeholder:text-dark placeholder:opacity-45"
                 placeholder="Enter vehicle model year" name="year"
                 style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+              <input name="type" value="<%=type%>" hidden />
+              <input name="typeId" value="<%=typeId%>" hidden />
             </div>
           </div>
         </div>
@@ -50,32 +82,51 @@
           <input type="text" class="bg-white h-[35px] rounded mb-7 pl-2 placeholder:text-dark placeholder:opacity-45"
             placeholder="Enter vehicle description" name="description"
             style="width: 430px; box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
-          <p class="p-5 py-2 rounded bg-dark max-w-20 hover:cursor-pointer text-white" style="margin-left: 350px;">Save
+          <p class="hidden text-red" id="vehicle-error"></p>
+          <p class="p-5 py-2 rounded bg-dark max-w-20 hover:cursor-pointer text-white" style="margin-left: 350px;"
+            onclick="addVehicle()">Save
           </p>
         </div>
       </div>
       <div></div>
     </div>
   </div>
-  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full">
+  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full w-[300px] pr-[6px]">
     <h2 class="text-white text-3xl">Vehicles List</h2>
-    <p class="bg-white mt-5 max-w-24 text-center py-2 rounded text-lg ml-32 hover:cursor-pointer">Next</p>
-    <% for(let i=0; i<vehicleData.length; i++) {%>
-      <div class="bg-light h-28 w-56 mt-5 rounded hover:cursor-pointer flex">
-        <div>
-          <img src="<%=vehicleData[i].condition_image%>" style="height: 112px; width: 130px; margin-left: -2px;" alt="vehicle" class="ml-3" style="height: 90px;">
-        </div>
-        <div>
-          <h3 class="ml-2 pt-2"><%=vehicleData[i].brand%></h3>
-          <div class="ml-2 mt-5 justify-between">
-            <p><%=vehicleData[i].model%></p>
-            <p class="mr-1"><%=vehicleData[i].year%></p>
+    <% if(vehicleData.length!=0) {%>
+      <p class="bg-white mt-5 max-w-20 text-center py-1 rounded text-lg ml-[156px] hover:cursor-pointer">Next</p>
+      <% for(let i=0; i<vehicleData.length; i++) {%>
+        <input type="radio" name="vehicle" id="vehicle<%=i+1%>" value="<%=vehicleData[i].id%>" onchange="selectVehicle()">
+        <label for="vehicle<%=i+1%>">
+          <div class="bg-light h-40 w-64 -ml-4 mt-5 rounded hover:cursor-pointer flex"  name="vehicle<%=i+1%>">
+            <div>
+              <img src="<%=vehicleData[i].condition_image%>" style="height: 156px; width: 130px; margin-left: 0px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; margin-top: 1px;"
+                alt="vehicle" class="ml-3" style="height: 90px;">
+            </div>
+            <div>
+              <p class="ml-2 mt-2">
+                <%=vehicleData[i].register_plate_number%>
+              </p>
+              <div class="ml-2 mt-5 justify-between">
+                <h3 class="ml pt-2">
+                  <%=vehicleData[i].brand%>
+                </h3>
+                <p>
+                  <%=vehicleData[i].model%>
+                </p>
+                <p class="mr-1">
+                  <%=vehicleData[i].year%>
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    <%}%>
+        </label>
+        <%}%>
+          <%} else {%>
+            <p class="text-red mt-10 text-lg">Please Add vehicle</p>
+            <%}%>
   </div>
-  </div>
+  <script src="/scripts/vehicle.js"></script>
 </body>
 
 </html>
