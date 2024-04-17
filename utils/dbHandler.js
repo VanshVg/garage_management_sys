@@ -5,8 +5,8 @@ export const findOne = async (email) => {
     let query = "SELECT * FROM users WHERE email = ?";
     let [result] = await (await conn()).query(query, [email]);
     return result;
-  } catch (err) {
-    return { err };
+  } catch (error) {
+    return { error };
   }
 };
 
@@ -273,10 +273,10 @@ export const getServices = async () => {
   }
 };
 // get all garage details
-export const getGarageList = async (offset = 0) => {
+export const getGarageList = async (ownerId) => {
   try {
-    let query = `SELECT id,email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master limit ?,10`;
-    let result = await (await conn()).query(query, offset);
+    let query = `SELECT a.id, a.email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master as a join owner_has_garages as b where b.owner_id = ?`;
+    let result = await (await conn()).query(query, [ownerId]);
     return result[0];
   } catch (error) {
     return { error };
@@ -520,6 +520,17 @@ export const getUserAddress = async (userId) => {
     return { error };
   }
 };
+
+export const getAppointments = async (ownerDetails) => {
+  try {
+    let query = "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
+    let result = await (await conn()).query(query, ownerDetails);
+    return result[0];
+  }
+  catch (error) {
+    return { error };
+  }
+}
 // fetching garage wise slots at customer side
 export const customerSlotListing = async (garageId, startDate, endDate) => {
   try {
