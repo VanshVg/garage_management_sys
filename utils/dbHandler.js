@@ -210,7 +210,6 @@ export const insertGarageAddress = async (addressInfo) => {
 };
 // garage addres reference
 export const insertGarageReference = async (references) => {
-  console.log(references);
   try {
     let query = `INSERT INTO garage_address (address_id, garage_id,latitude,longitude) values (?)`;
     let result = await (await conn()).query(query, [references]);
@@ -508,7 +507,6 @@ export const findVehicleData = async (ownerId) => {
     let [result] = await (await conn()).query(query, [ownerId]);
     return result;
   } catch (error) {
-    console.log(err);
     return { err };
   }
 };

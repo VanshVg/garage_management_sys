@@ -10,7 +10,7 @@ import {
   displayGarage,
   getGarageList,
 } from "../utils/dbHandler.js";
-import { fileUpload } from "../helpers/fileUploads.js";
+import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -35,11 +35,9 @@ export const garageAdd = async (req, res) => {
     latitude,
     longitude,
   } = req.body;
-  console.log(latitude);
-  console.log(longitude);
+  let thumbnail = req.file.filename;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
-  let thumbnail = fileUpload();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
