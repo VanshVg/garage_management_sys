@@ -3,6 +3,7 @@ import {
   appointments,
   calendar,
   findOwnerService,
+  getAllCustomers,
   getAppointmentCount,
   home,
   inventory,
@@ -12,6 +13,7 @@ import garageRoutes from "./owner/garageRoutes.js";
 import slotRoutes from "./owner/slotRoutes.js";
 import profileRoutes from "./owner/profileRoutes.js";
 import serviceRoutes from "./owner/serviceRoutes.js";
+
 
 const router = express.Router();
 
@@ -42,5 +44,9 @@ router.get("/invoice", invoice);
 router.get("/appointmentCount", getAppointmentCount);
 
 router.get('/ownerServices', findOwnerService);
+
+router.get("/getCustomerList",getAllCustomers)
+
+
 
 export default router;
