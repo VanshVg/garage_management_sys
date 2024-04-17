@@ -11,7 +11,6 @@
 <script>
     const fillGarages = async () => {
         let garages = await callAPI("/owner/garages/getGaragesList");
-        console.log(garages);
         let garageList = ``
         garages.result.forEach(garage => {
             garageList += `

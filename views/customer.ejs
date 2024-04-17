@@ -83,12 +83,11 @@
         const fillGarages = async () => {
 
             let garages = await callAPI("/customer/garages");
-            console.log(garages);
             let garageList = ``
 
             garages.result.forEach(garage => {
 
-                garageList += `<div class="bg-light max-w-fit  mt-5 rounded-lg flex">
+                garageList += `<div class="bg-light max-w-fit h-1/5 mt-5 rounded-lg flex">
                     <div class="garage-icon border-2 w-3/4">
                         <img src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full bg-cover" alt="garage" class="object-cover">
                     </div>
