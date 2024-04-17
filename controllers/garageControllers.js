@@ -10,7 +10,7 @@ import {
   displayGarage,
   getGarageList,
 } from "../utils/dbHandler.js";
-import { fileUpload } from "../helpers/fileUploads.js";
+import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -35,16 +35,18 @@ export const garageAdd = async (req, res) => {
     latitude,
     longitude,
   } = req.body;
-  console.log(latitude);
-  console.log(longitude);
+  console.log(req.file);
+  let thumbnail = req.file.path;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
-  let thumbnail = fileUpload();
   const errors = validationResult(req);
+  console.log(req.body);
   if (!errors.isEmpty()) {
+    console.log(errors.array());
     res.status(500).json({ success: false, errors: errors.array() });
   } else {
     let addressId;
+    console.log(addressId, "...............");
     try {
       addressId = await insertGarageAddress([cityId, area, pincode]);
     } catch (error) {

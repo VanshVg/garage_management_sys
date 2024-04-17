@@ -14,14 +14,14 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="/scripts/imageSelection.js"></script>
 <form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id="garageAdd"
-  onsubmit="handleGarage(event)">
+  onsubmit="handleGarage(event)" enctype="multipart/form-data">
   <h2 class="text-2xl font-bold mb-2 text-left text-dark">New Garage</h2>
   <div class="w-full f-full" id='garageDetails'>
     <h3 class="text-dark font-semibold text-left mb-2">Garage Information</h3>
     <hr>
     <div class="w-full flex my-4">
       <div class="flex items-center justify-center w-1/4 h-46 mr-5 relative">
-        <label for="dropzone-file"
+        <label for="thumbnail"
           class="relative flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-lg cursor-pointer bg-light dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -31,7 +31,7 @@
             </svg>
             <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
           </div>
-          <input id="dropzone-file" type="file" class="hidden" accept="image/*" onclick="imageSelection('garageAdd')" />
+          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" required />
           <button id="remove-image"
             class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -48,8 +48,8 @@
 
       <div class="input-group w-3/4 mt-2">
         <div class="flex items-center mb-2">
-          <label for="name" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
-          <input type="text" id="name" name="name" placeholder="garage name"
+          <label for="garageName" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>
+          <input type="text" id="garageName" name="garageName" placeholder="garage name"
             class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
             Validation="require multi_word" oninput="Validation.isValid(this)">
         </div>
@@ -60,8 +60,8 @@
             Validation="require email" oninput="Validation.isValid(this)">
         </div>
         <div class="flex items-center mb-2">
-          <label for="contact" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
-          <input type="text" id="contact" name="contact" placeholder="1234567890"
+          <label for="contactNumber" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Contact</label>
+          <input type="text" id="contactNumber" name="contactNumber" placeholder="1234567890"
             class="flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue mr-2"
             Validation="require digit10 mobile" oninput="Validation.isValid(this)">
         </div>
@@ -99,8 +99,8 @@
     </div>
     <div class="input-group flex w-full">
       <div class="flex items-center mb-4 w-1/2 mr-4">
-        <label for="city" class="text-sm font-mediu mr-2 text-left font-medium w-[80px]  text-dark">City</label>
-        <select id="city" name="city"
+        <label for="cityId" class="text-sm font-mediu mr-2 text-left font-medium w-[80px]  text-dark">City</label>
+        <select id="cityId" name="cityId"
           class="city flex-grow rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-blue"
           Validation="none">
         </select>

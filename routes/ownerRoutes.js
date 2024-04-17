@@ -41,6 +41,6 @@ router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
 
-router.get('/ownerServices', findOwnerService);
+router.get("/ownerServices", findOwnerService);
 
 export default router;

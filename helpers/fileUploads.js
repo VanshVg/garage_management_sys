@@ -1,4 +1,14 @@
-export const fileUpload = () => {
-  let dummyUrl = 'https://pics:art/demo.png';
-  return dummyUrl;
-}
+import path from "path";
+import multer from "multer";
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function (req, file, cb) {
+    req.body.thumbnail =
+      req.user.email + Date.now() + path.extname(file.originalname);
+    cb(null, req.user.email + Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage: storage });
+export default upload;

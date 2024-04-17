@@ -24,18 +24,34 @@ const handleGarage = async (e) => {
       Validation.isValid(ele);
     });
   if (!document.querySelectorAll("#garageAdd error").length) {
-    const formData = new FormData(e.target);
-    const formProps = Object.fromEntries(formData);
-    //renaming column
-    formProps["garageName"] = formProps["name"];
-    formProps["cityId"] = formProps["city"];
-    formProps["contactNumber"] = formProps["contact"];
-    formProps["userId"] = localStorage.getItem("userId");
-    delete formProps["name"];
-    delete formProps["city"];
-    delete formProps["contact"];
-    delete formProps["state"];
-    let response = await callAPI(`/owner/garages/add`, formProps, "POST");
+    const formData = new FormData();
+    let fileds = [
+      "garageName",
+      "email",
+      "cityId",
+      "area",
+      "pincode",
+      "contactNumber",
+      "openTime",
+      "closeTime",
+      "latitude",
+      "longitude",
+    ];
+    fileds.forEach((filed) => {
+      formData.append(
+        filed,
+        document.querySelector(`#garageAdd #${filed}`).value
+      );
+    });
+    formData.append(
+      "thumbnail",
+      document.querySelector("#garageAdd #thumbnail").files[0]
+    );
+    formData.append("userId", localStorage.getItem("userId"));
+    let response = await fetch(`/owner/garages/add`, {
+      method: "POST",
+      body: formData,
+    });
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {
