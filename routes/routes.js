@@ -5,8 +5,6 @@ import {
   notFound,
   sessionEnd,
   landingPage,
-  getStates,
-  getCities,
   getUserDetails,
   allServices,
 } from "../controllers/staticControllers.js";
