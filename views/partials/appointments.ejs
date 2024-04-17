@@ -8,7 +8,8 @@
       <script>
         let events = `<%- JSON.stringify(events) %>`;
       </script>
-      <div class="dashboard-container">
+      <div class=" bg-white w-full min-h-full h-max rounded-md p-4 
+      container w-full h-full and other required remove dashboard css" style="display: none;">
         <div class="container">
           <div class="header">
             <div id="month"></div>
@@ -44,6 +45,64 @@
         </div>
 
       </div>
+      <div class="select-container flex">
+        <select name="garage" id="garageList">
+          <option value="1">garage 1</option>
+          <option value="2">garage 2</option>
+        </select>
+      </div>
+      <div class=" bg-white w-full min-h-full h-max rounded-md p-4 
+      container w-full h-full and other required remove dashboard css">
+        <table>
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Date</th>
+              <th>Time Slot</th>
+            </tr>
+          </thead>
+          <tbody id="appointments-table-body">
+            <tr>
+              <td>John Doe</td>
+              <td>Apr 18, 2024</td>
+              <td>9:00 AM - 11:00 AM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <script src="js/script.js"></script>
       <script src="/scripts/calendar.js"></script>
+      <script>
+        const updateTable = (appointments) => {
+          let table = "";
+          appointments.forEach(appointment => {
+            table += `<tr>
+              <td>${appointment.customerName}</td>
+              <td>${appointment.date}</td>
+              <td>${appointment.startTime} - ${appointment.endTime}</td>
+            </tr>`;
+          });
+          document.getElementById('appointments-table-body').innerHTML = table;
+        }
+        const garageChange = async (e) => {
+          const appointmentsDetails = await callAPI('/owner/appointmentsList/' + e.target.value);
+          const appointments = appointmentsDetails.appointments;
+          updateTable(appointments);
+        }
+        (async () => {
+          const appointmentsDetails = await callAPI('/owner/appointmentsList');
+          const appointments = appointmentsDetails.appointments;
+          updateTable(appointments);
+
+          const garageList = await callAPI('/owner/garages/getGaragesList');
+          const garages = garageList.garages;
+          let options = "";
+          garages.forEach(garage => {
+            options += `<option value=${garage.id}>${garage.garage_name}</option>`;
+          });
+          let select = document.getElementById('garageList');
+          select.innerHTML = options;
+          select.addEventListener('change', garageChange);
+        })()
+      </script>
       <%- include('./foot') %>
