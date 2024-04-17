@@ -16,7 +16,6 @@ router.get("/home", customerHome);
 router.get("/serviceslist", servicesListing);
 router.get("/addVehicle", vehicleController.getAddVehicle);
 router.post("/addVehicle", vehicleValidator, vehicleController.addVehicle);
-router.get("/home", customerHome);
 router.get("/vehicleSelection", customeVehicleSlection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
