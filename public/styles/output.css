@@ -804,6 +804,10 @@ video {
   margin-top: 1.5rem;
 }
 
+.ml-36 {
+  margin-left: 9rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1065,6 +1069,14 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[300px\] {
+  width: 300px;
+}
+
+.w-\[290px\] {
+  width: 290px;
 }
 
 .min-w-\[250px\] {

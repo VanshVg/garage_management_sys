@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.get("/home", customerHome);
 router.get("/servicesList", servicesListing);
-router.get("/addVehicle", vehicleController.getAddVehicle);
+router.get("/addVehicle/:type", vehicleController.getAddVehicle);
 router.post("/addVehicle", vehicleValidator, vehicleController.addVehicle);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);

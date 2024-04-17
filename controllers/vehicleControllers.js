@@ -81,7 +81,7 @@ export const getAddVehicle = async (req, res) => {
     }
 
     let vehicleData = await findVehicleData(user[0].id)
-    return res.render("partials/addVehicle.ejs", { vehicleData })
+    return res.render("partials/addVehicle.ejs", { vehicleData, type: req.params.type })
   } catch (error) {
     console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });

@@ -1,192 +1,160 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              dark: "#152533",
-              blue: "#355364",
-              white: "#FFFFFF",
-              light: "#D9D9D9",
-              lightbg: "#d7e0e7",
-              lightorange: "burlywood",
-              card1bg: "rgba(255, 225, 200, 0.5)",
-              card1text: "#e96a00",
-              card2bg: "rgba(225, 246, 247, 0.5)",
-              card2text: "#34cdd0",
-              card3bg: "rgba(252, 226, 225, 0.5)",
-              card3text: "#df5e5e",
-              card4bg: "rgba(237, 231, 251, 0.5)",
-              card4text: "#9a78ea",
-            },
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: "#152533",
+            blue: "#355364",
+            white: "#FFFFFF",
+            light: "#D9D9D9",
+            lightbg: "#d7e0e7",
+            lightorange: "burlywood",
+            card1bg: "rgba(255, 225, 200, 0.5)",
+            card1text: "#e96a00",
+            card2bg: "rgba(225, 246, 247, 0.5)",
+            card2text: "#34cdd0",
+            card3bg: "rgba(252, 226, 225, 0.5)",
+            card3text: "#df5e5e",
+            card4bg: "rgba(237, 231, 251, 0.5)",
+            card4text: "#9a78ea",
+            red: "#ff0000"
           },
         },
-      };
-    </script>
-    <style>
-      [type="radio"] {
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
+      },
+    };
+  </script>
+  <style>
+    [type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
 
-      /* IMAGE STYLES */
-      [type="radio"] + img {
-        cursor: pointer;
-      }
+    /* IMAGE STYLES */
+    [type="radio"]+img {
+      cursor: pointer;
+    }
 
-      /* CHECKED STYLES */
-      [type="radio"]:checked + img {
-        border: 4px solid #76c254;
-      }
-    </style>
-  </head>
+    /* CHECKED STYLES */
+    [type="radio"]:checked+img {
+      border: 4px solid #76c254;
+    }
+  </style>
+</head>
 
-  <body>
-    <div class="flex h-screen overflow-hidden">
-      <div class="h-screen w-[75%] bg-no-repeat bg-cover bg-lightbg">
-        <div
-          class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end relative"
-        >
-          <div class="brand-logo">
-            <img
-              src="/assets/logo.png"
-              class="rotate-[45deg]"
-              alt="logo"
-              height="80px"
-              width="80px"
-            />
-          </div>
-        </div>
-        <div></div>
-        <div
-          class="max-h-fit m-auto max-w-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-        >
-          <a href="#">
-            <img height="50px" src="/assets/garage.png" alt="garageimage" />
-          </a>
-          <div class="p-5">
-            <a href="#">
-              <h5
-                class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white"
-              >
-                Jay Ambe Garage
-              </h5>
-            </a>
-            <p
-              class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400"
-            >
-              Jay ambe garage has total 15 years of experience in this field.It
-              provides an excellent user experience and super fast service
-            </p>
-            <p
-              class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400"
-            >
-              Address:250-2nd floore orbit mall kudasan , near reliance chokadi
-              , Gandhinagar
-            </p>
-          </div>
-        </div>
-        <div class="absolute bottom-0 left-0 m-3 p-2">
-          <img
-            src="/assets/profile.webp"
-            class="rounded-full w-[45px] h-[45px] border-4 border-dark"
-            alt="user"
-          />
+<body>
+  <div class="flex h-screen overflow-hidden">
+    <div class="h-screen w-[75%] bg-no-repeat bg-cover bg-lightbg">
+      <div class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end relative">
+        <div class="brand-logo">
+          <img src="/assets/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px" />
         </div>
       </div>
-      <div class="h-screen w-[25%] bg-dark">
-        <div class="mt-6 h-5/6 px-4 flex flex-col">
-          <p class="my-2 text-white font-bold border-b-2 max-w-fit">
-            Please Choose Type Of Your Vehicle
+      <div></div>
+      <div
+        class="max-h-fit m-auto max-w-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <a href="#">
+          <img height="50px" src="/assets/garage.png" alt="garageimage" />
+        </a>
+        <div class="p-5">
+          <a href="#">
+            <h5 class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white">
+              Jay Ambe Garage
+            </h5>
+          </a>
+          <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
+            Jay ambe garage has total 15 years of experience in this field.It
+            provides an excellent user experience and super fast service
           </p>
-          <div class="mt-5 flex flex-row text-white g-3 justify-between">
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="car" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/car.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">CAR</p>
-            </div>
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="bicycle" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/bicycle.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">BICYCLE</p>
-            </div>
+          <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
+            Address:250-2nd floore orbit mall kudasan , near reliance chokadi
+            , Gandhinagar
+          </p>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 m-3 p-2">
+        <img src="/assets/profile.webp" class="rounded-full w-[45px] h-[45px] border-4 border-dark" alt="user" />
+      </div>
+    </div>
+    <div class="h-screen w-[25%] bg-dark overflow-y-auto">
+      <div class="mt-6 h-5/6 px-4 flex flex-col">
+        <p class="my-2 text-white font-bold border-b-2 max-w-fit">
+          Please Choose Type Of Your Vehicle
+        </p>
+        <div class="mt-5 flex flex-row text-white g-3 justify-between">
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="car" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/car.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">CAR</p>
           </div>
-          <div class="mt-5 flex flex-row text-white g-3 justify-between">
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="truck" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/truck.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">TRUCK</p>
-            </div>
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="bus" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/bus.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">BUS</p>
-            </div>
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="bicycle" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/bicycle.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">BICYCLE</p>
           </div>
-          <div class="mt-5 flex flex-row text-white g-3 justify-between">
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="van" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/van.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">VAN</p>
-            </div>
-            <div class="flex flex-col items-center content-between">
-              <label>
-                <input type="radio" name="vehicle" value="bike" />
-                <img
-                  class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle"
-                  src="/assets/bike.png"
-                  alt="Option 1"
-                />
-              </label>
-              <p class="text-l">BIKE</p>
-            </div>
+        </div>
+        <div class="mt-5 flex flex-row text-white g-3 justify-between">
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="truck" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/truck.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">TRUCK</p>
           </div>
-          <div class="mt-10 flex flex-row justify-center">
-            <button
-  type="button"
-  class="inline-block rounded-full bg-neutral-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong  w-full">
-  Move to Next
-</button>
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="bus" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/bus.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">BUS</p>
           </div>
+        </div>
+        <div class="mt-5 flex flex-row text-white g-3 justify-between">
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="van" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/van.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">VAN</p>
+          </div>
+          <div class="flex flex-col items-center content-between">
+            <label>
+              <input type="radio" name="vehicle" value="bike" />
+              <img class="box-border h-32 w-32 p-4 border-4 bg-white justify-between vehicle" src="/assets/bike.png"
+                alt="Option 1" />
+            </label>
+            <p class="text-l">BIKE</p>
+          </div>
+        </div>
+        <div class="mt-10 justify-center">
+          <p class="text-red text-center mb-2 hidden" id="vehicle-type-error">Please select the type of vehicle</p>
+          <button type="button"
+            onclick="vehicleSelectionNext()"
+            class="inline-block rounded-full bg-neutral-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong  w-full">
+            Move to Next
+          </button>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+  <script src="/scripts/vehicleSelection.js"></script>
+</body>
+
 </html>

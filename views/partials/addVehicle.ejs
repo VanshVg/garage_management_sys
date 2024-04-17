@@ -7,6 +7,33 @@
   <title>Document</title>
   <link rel="stylesheet" href="/styles/output.css" />
 </head>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          dark: "#152533",
+          lightBlue: "#D9D9D9",
+          blue: "#355364",
+          white: "#FFFFFF",
+          light: "#D9D9D9",
+          lightbg: "#d7e0e7",
+          lightorange: "burlywood",
+          card1bg: "rgba(255, 225, 200, 0.5)",
+          card1text: "#e96a00",
+          card2bg: "rgba(225, 246, 247, 0.5)",
+          card2text: "#34cdd0",
+          card3bg: "rgba(252, 226, 225, 0.5)",
+          card3text: "#df5e5e",
+          card4bg: "rgba(237, 231, 251, 0.5)",
+          card4text: "#9a78ea",
+          red: "#ff0000"
+        },
+      },
+    },
+  };
+</script>
 
 <body>
   <div class="flex overflow-y-hidden mx-auto">
@@ -41,6 +68,7 @@
                 class="bg-white h-[35px] rounded mb-7 pl-2 placeholder:text-dark placeholder:opacity-45"
                 placeholder="Enter vehicle model year" name="year"
                 style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                <input name="type" value="<%=type%>" hidden/>
             </div>
           </div>
         </div>
@@ -58,7 +86,7 @@
       <div></div>
     </div>
   </div>
-  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full w-[280px]">
+  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full w-[300px]">
     <h2 class="text-white text-3xl">Vehicles List</h2>
     <% if(vehicleData.length!=0) {%>
       <p class="bg-white mt-5 max-w-24 text-center py-2 rounded text-lg ml-32 hover:cursor-pointer">Next</p>
@@ -83,9 +111,9 @@
           </div>
         </div>
         <%}%>
-      <%} else {%>
-          <p class="text-red mt-10 text-lg">Please Add vehicle</p>
-        <%}%>
+          <%} else {%>
+            <p class="text-red mt-10 text-lg">Please Add vehicle</p>
+            <%}%>
   </div>
 </body>
 
