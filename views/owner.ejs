@@ -1,5 +1,7 @@
 <script src="/scripts/apiCall.js"></script>
 <script src="/scripts/loadAddress.js"></script>
+<script src="/scripts/updateDetails.js"></script>
+<script src="/scripts/timeConverter.js"></script>
 <toast></toast>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -93,6 +95,7 @@
                     </div>
             </div>
             <script>
+                updateDetails(["name", "email", "bio", "address"]);
                 const setActive = (activated) => {
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {

@@ -10,4 +10,5 @@ router.post("/:garageId", serviceValidator, serviceController.addService);
 router.delete("/:garageId", serviceValidator, serviceController.deleteService);
 router.get('/count', getServiceCount);
 
+
 export default router;

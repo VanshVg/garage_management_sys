@@ -55,15 +55,14 @@
         <canvas id="myChart"></canvas>
     </div>
 </div>
-<script src="/scripts/apiCall.js"></script>
 <script>
-    var positive = 12;
-    var negative = 19;
+    let positive = 12;
+    let negative = 19;
     const getOwnerData = async () => {
         const garages = await callAPI('/owner/garages/count');
         animateNumber(garages.garageCount, 2, "garageCount");
         const services = await callAPI('/owner/services/count');
-        animateNumber(services.serviceCount, 2, "serviceCount");
+        animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const appointments = await callAPI('/owner/appointmentCount');
         positive = appointments.successCount;
         negative = appointments.totalCount - appointments.successCount;
