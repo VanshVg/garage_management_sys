@@ -1,15 +1,14 @@
 import {
-  displayGarage,
   findOne,
-  getServices,
-  selectByFieldName,
-  selectByTableName,
-  serviceListing,
   countAppointments,
   countByFieldName,
   countServices,
   getOwnerService,
   getUserAddress,
+  selectByFieldName,
+  selectByTableName,
+  displayGarage,
+  serviceListing,
 } from "../utils/dbHandler.js";
 
 // landing page
