@@ -9,6 +9,7 @@ import {
   selectByTableName,
   displayGarage,
   serviceListing,
+  getServices
 } from "../utils/dbHandler.js";
 
 // landing page

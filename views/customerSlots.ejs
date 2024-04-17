@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/scripts/slotDisplay.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -46,23 +47,14 @@
       <div
         class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end absolute top-0 left-0">
         <div class="brand-logo">
-          <img src="/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px">
+          <img src="/assets/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px">
         </div>
       </div>
+
     </div>
     <div class="h-screen w-1/4 bg-dark overflow-scroll flex-col text-center items-center">
       <h3 class="m-5 font-semibold text-white text-4xl  dark:text-white">Slots</h3>
-      <label class="rounded-lg w-68 h-14 m-5 bg-lightorange text-xl flex items-center justify-center"
-        onclick="handleSlots()">
-        <input class="test" type="radio" name="test" value="slot1">
-        <p> 10:00 AM - 11:00
-          AM</p>
-      </label>
-      <label class="rounded-lg w-68 h-14 m-5 bg-lightorange text-xl flex items-center justify-center"
-        onclick="handleSlots()">
-        <input class="test" type="radio" name="test" value="slot2">
-        <p>11:00 AM - 12:00 PM</p>
-      </label>
+      <div id="slotDisplay"></div>
 
       <button type="button"
         class="bg-gray-800 w-32 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-light hover:text-blue px-3 mt-5 ml-56">
@@ -78,16 +70,6 @@
 
     </div>
   </div>
-  <script>
-    const handleSlots = () => {
-      let labels = document.querySelectorAll("label");
-      labels.forEach(element => {
-        element.style.backgroundColor = 'burlywood';
-      });
-      let value = document.querySelector('.test:checked');
-      value.parentNode.style.backgroundColor = 'green';
-    }
-  </script>
 </body>
 
 </html>

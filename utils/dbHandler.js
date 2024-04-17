@@ -522,3 +522,14 @@ export const getUserAddress = async (userId) => {
     return { error };
   }
 };
+// fetching garage wise slots at customer side
+export const customerSlotListing = async (garageId, startDate, endDate) => {
+  try {
+    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ?;`
+    const result = await (await conn()).query(query, [garageId, startDate, endDate]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+
+}
