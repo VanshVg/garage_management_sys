@@ -17,7 +17,7 @@ const addVehicle = async () => {
   let vehicleData = {};
   let fields = document.querySelectorAll("*");
   fields.forEach((element) => {
-    if (element.tagName == "INPUT" && element.value!="") {
+    if (element.tagName == "INPUT" && element.value != "") {
       if (element.type == "file") {
         vehicleData[element.name] = element.files[0].name;
       } else {
@@ -33,11 +33,11 @@ const addVehicle = async () => {
     body: JSON.stringify(vehicleData),
   });
   let response = await add.json();
-  if(response.success) {
-    window.location.href = `/customer/addVehicle/${vehicleData.type}`
+  if (response.success) {
+    window.location.href = `/customer/addVehicle/${vehicleData.type}`;
   } else {
     let error = document.getElementById("vehicle-error");
-    error.style.display = "block"
+    error.style.display = "block";
     error.textContent = response.message;
   }
 };
@@ -60,5 +60,21 @@ const changeVehicleImage = () => {
     document.getElementById("vehicle-upload").style.display = "none";
     document.getElementById("vehicle-image").style.display = "block";
     document.getElementById("vehicle-image").appendChild(image);
+  });
+};
+
+const selectVehicle = () => {
+  let j = 0;
+  let fields = document.getElementsByName("vehicle");
+  for (let i = 0; i < fields.length; i++) {
+    console.log(`vehicle${i+1}`);
+    document.getElementsByName(`vehicle${i+1}`)[0].style.border = "none"
+    j++;
+  }
+  fields.forEach((element) => {
+    if (element.checked) {
+      document.getElementsByName(element.id)[0].style.border = "2px solid";
+      document.getElementsByName(element.id)[0].style.borderColor = "green";
+    }
   });
 };
