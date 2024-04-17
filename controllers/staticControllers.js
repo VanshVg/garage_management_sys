@@ -6,17 +6,11 @@ import {
   selectById,
   selectByTableName,
   serviceListing,
-} from "../utils/dbHandler.js";
-import {
   countAppointments,
   countByFieldName,
   countServices,
-  findOne,
   getOwnerService,
-  getServices,
   getUserAddress,
-  selectByFieldName,
-  selectByTableName,
 } from "../utils/dbHandler.js";
 
 // landing page
