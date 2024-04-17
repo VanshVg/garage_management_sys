@@ -9,6 +9,7 @@ import {
   deleteGarage,
   displayGarage,
   getGarageList,
+  findOne,
 } from "../utils/dbHandler.js";
 import { fileUpload } from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -152,6 +153,7 @@ export const garageList = (req, res) => {
 };
 
 export const getGarageListing = async (req, res) => {
-  const result = await getGarageList();
-  res.json({ result: result });
+  const user = await findOne([req.user.email]);
+  const result = await getGarageList([user[0].id]);
+  res.json({ garages: result });
 };

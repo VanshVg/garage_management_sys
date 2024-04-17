@@ -10,10 +10,10 @@
 </div>
 <script>
     const fillGarages = async () => {
-        let garages = await callAPI("/owner/garages/getGaragesList");
-        console.log(garages);
+        let garageDetails = await callAPI("/owner/garages/getGaragesList");
+        const garages = garageDetails.garages;
         let garageList = ``
-        garages.result.forEach(garage => {
+        garages.forEach(garage => {
             garageList += `
             <div class="w-[30%] m-2  border border-gray-200 rounded-lg shadow" id='${garage.id}'>
             <a href="#" class="mb-4">
@@ -76,7 +76,7 @@
                             </g>
                         </svg>
                     </icon>
-                    <p class="text-dark font-semibold text-left text-sm">${garage.description.substring(0, 150)}...</p>
+                    <p class="text-dark font-semibold text-left text-sm">${garage.description?.substring(0, 150)}...</p>
                 </div>
 
             </div>
