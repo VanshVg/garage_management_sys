@@ -11,7 +11,8 @@ import {
   getServices,
   selectById,
   getCustomerNames,
-  getVehicleAssociatedServices
+  getVehicleAssociatedServices,
+  findOne,
 } from "../utils/dbHandler.js";
 
 // landing page
