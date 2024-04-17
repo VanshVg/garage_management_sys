@@ -36,6 +36,7 @@ const handleGarage = async (e) => {
       "closeTime",
       "latitude",
       "longitude",
+      "description",
     ];
     fileds.forEach((filed) => {
       formData.append(
@@ -52,6 +53,7 @@ const handleGarage = async (e) => {
       method: "POST",
       body: formData,
     });
+    response = response.json();
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

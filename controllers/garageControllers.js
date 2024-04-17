@@ -35,18 +35,14 @@ export const garageAdd = async (req, res) => {
     latitude,
     longitude,
   } = req.body;
-  console.log(req.file);
-  let thumbnail = req.file.path;
+  let thumbnail = req.file.filename;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
   const errors = validationResult(req);
-  console.log(req.body);
   if (!errors.isEmpty()) {
-    console.log(errors.array());
     res.status(500).json({ success: false, errors: errors.array() });
   } else {
     let addressId;
-    console.log(addressId, "...............");
     try {
       addressId = await insertGarageAddress([cityId, area, pincode]);
     } catch (error) {
