@@ -3,7 +3,7 @@ import conn from "../config/dbConfig.js";
 export const findOne = async (email) => {
   try {
     let query = "SELECT * FROM users WHERE email = ?";
-    let [result] = await (await conn()).query(query, [email]);
+    let [result] = await conn.query(query, [email]);
     return result;
   } catch (err) {
     return { err };
@@ -13,7 +13,7 @@ export const findOne = async (email) => {
 export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
-    let [results] = await (await conn()).query(query, [userId]);
+    let [results] = await conn.query(query, [userId]);
     let User = results;
     return User;
   } catch (err) {
@@ -24,7 +24,7 @@ export const findOneById = async (userId) => {
 export const activateUser = async (userId) => {
   try {
     let query = "UPDATE users SET is_verified = 1 where id = ?";
-    let [results] = await (await conn()).query(query, [userId]);
+    let [results] = await conn.query(query, [userId]);
     let User = results[0];
     return User;
   } catch (err) {
@@ -35,7 +35,7 @@ export const activateUser = async (userId) => {
 export const updatePassword = async (userId, password) => {
   try {
     let query = "UPDATE users SET password = ? where id = ?";
-    let [results] = await (await conn()).query(query, [password, userId]);
+    let [results] = await conn.query(query, [password, userId]);
     let User = results[0];
     return User;
   } catch (err) {
@@ -46,7 +46,7 @@ export const updatePassword = async (userId, password) => {
 export const insert = async (UserInfo) => {
   try {
     let query = `INSERT INTO users ( role_id, name, email, password, activate_link) values (?)`;
-    let results = await (await conn()).query(query, [UserInfo]);
+    let results = await conn.query(query, [UserInfo]);
     return results[0].insertId;
   } catch (error) {
     return { error };
@@ -56,7 +56,7 @@ export const insert = async (UserInfo) => {
 export const insertSlot = async (slotTime) => {
   try {
     let query = `INSERT INTO slot_master (garage_id,start_time,end_time) values (?)`;
-    let results = await (await conn()).query(query, [slotTime]);
+    let results = await conn.query(query, [slotTime]);
     return results[0].insertId;
   } catch (error) {
     return { error };
@@ -66,9 +66,7 @@ export const insertSlot = async (slotTime) => {
 export const updateSlot = async (slotTime) => {
   try {
     let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
-    let results = await (
-      await conn()
-    ).query(query, [slotTime[0], slotTime[1], slotTime[2]]);
+    let results = await conn.query(query, [slotTime[0], slotTime[1], slotTime[2]]);
     return results[0];
   } catch (error) {
     return { error };
@@ -78,7 +76,7 @@ export const updateSlot = async (slotTime) => {
 export const deleteSlot = async (slotId) => {
   try {
     let query = `UPDATE slot_master set is_deleted = 1 where id = ?`;
-    let results = await (await conn()).query(query, [slotId]);
+    let results = await conn.query(query, [slotId]);
     return results[0];
   } catch (error) {
     return { error };
@@ -91,7 +89,7 @@ export const getAllSlots = async (offset) => {
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id limit ?, 10;
                  SELECT COUNT(id) as count FROM slot_master;`;
-    let result = await (await conn()).query(query, offset);
+    let result = await conn.query(query, offset);
     return result[0];
   } catch (error) {
     return { error };
@@ -100,7 +98,7 @@ export const getAllSlots = async (offset) => {
 export const updateUserByEmail = async (userInfo) => {
   try {
     let query = `UPDATE users SET name = ?, bio = ? WHERE email = ?`;
-    let results = await (await conn()).query(query, userInfo);
+    let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
     return { error };
@@ -110,7 +108,7 @@ export const updateUserByEmail = async (userInfo) => {
 export const getState = async () => {
   try {
     let query = `SELECT * FROM state_master`;
-    let [results] = await (await conn()).query(query);
+    let [results] = await conn.query(query);
     let state = results;
     return state;
   } catch (error) {
@@ -120,7 +118,7 @@ export const getState = async () => {
 export const getCity = async (stateId) => {
   try {
     let query = `SELECT * FROM city_master where sid=?`;
-    let [results] = await (await conn()).query(query, [stateId]);
+    let [results] = await conn.query(query, [stateId]);
     let city = results;
     return city;
   } catch (error) {
@@ -130,7 +128,7 @@ export const getCity = async (stateId) => {
 export const findAddressById = async (userId) => {
   try {
     let query = `SELECT * FROM user_address WHERE user_id = ?`;
-    let [results] = await (await conn()).query(query, [userId]);
+    let [results] = await conn.query(query, [userId]);
     let address = results[0];
     return address;
   } catch (error) {
@@ -141,7 +139,7 @@ export const findAddressById = async (userId) => {
 export const insertAddress = async (userInfo) => {
   try {
     let query = `INSERT INTO address_master (city_id, area, pincode) VALUES (?)`;
-    let results = await (await conn()).query(query, [userInfo]);
+    let results = await conn.query(query, [userInfo]);
     return results[0].insertId;
   } catch (error) {
     return { error };
@@ -151,7 +149,7 @@ export const insertAddress = async (userInfo) => {
 export const insertUserAddress = async (userInfo) => {
   try {
     let query = `INSERT INTO user_address (user_id, address_id) VALUES (?)`;
-    let results = await (await conn()).query(query, [userInfo]);
+    let results = await conn.query(query, [userInfo]);
     return results[0].insertId;
   } catch (error) {
     return { error };
@@ -161,7 +159,7 @@ export const insertUserAddress = async (userInfo) => {
 export const updateAddressById = async (userInfo) => {
   try {
     let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = ?`;
-    let results = await (await conn()).query(query, userInfo);
+    let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
     return { error };
@@ -171,7 +169,7 @@ export const updateAddressById = async (userInfo) => {
 export const deleteUserAddress = async (userInfo) => {
   try {
     let query = `DELETE FROM address_master WHERE user_id = ?`;
-    let results = await (await conn()).query(query, userInfo);
+    let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
     return { error };
@@ -182,7 +180,7 @@ export const deleteUserAddress = async (userInfo) => {
 export const insertGarage = async (garageInfo) => {
   try {
     let query = `INSERT INTO garage_master (garage_name, contact_number, email, thumbnail, open_time, close_time, description) values (?)`;
-    let result = await (await conn()).query(query, [garageInfo]);
+    let result = await conn.query(query, [garageInfo]);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -192,7 +190,7 @@ export const insertGarage = async (garageInfo) => {
 export const insertGarageOwner = async (ownerInfo) => {
   try {
     let query = `INSERT INTO owner_has_garages (owner_id, garage_id) values (?)`;
-    let result = await (await conn()).query(query, [ownerInfo]);
+    let result = await conn.query(query, [ownerInfo]);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -202,7 +200,7 @@ export const insertGarageOwner = async (ownerInfo) => {
 export const insertGarageAddress = async (addressInfo) => {
   try {
     let query = `INSERT INTO address_master (city_id, area, pincode) values (?)`;
-    let result = await (await conn()).query(query, [addressInfo]);
+    let result = await conn.query(query, [addressInfo]);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -213,7 +211,7 @@ export const insertGarageReference = async (references) => {
   console.log(references);
   try {
     let query = `INSERT INTO garage_address (address_id, garage_id,latitude,longitude) values (?)`;
-    let result = await (await conn()).query(query, [references]);
+    let result = await conn.query(query, [references]);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -223,7 +221,7 @@ export const insertGarageReference = async (references) => {
 export const updateGarage = async (garageInfo) => {
   try {
     let query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, thumbnail= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
-    let result = await (await conn()).query(query, garageInfo);
+    let result = await conn.query(query, garageInfo);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -233,7 +231,7 @@ export const updateGarage = async (garageInfo) => {
 export const updateGarageAddress = async (addressInfo) => {
   try {
     let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = ?`;
-    let result = await (await conn()).query(query, addressInfo);
+    let result = await conn.query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -245,9 +243,9 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
     let query = `UPDATE garage_master SET is_delete = 1 WHERE id = ?`;
     let query2 = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
     let query3 = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
-    let result = await (await conn()).query(query, [garageId]);
-    let result2 = await (await conn()).query(query2, [referenceID]);
-    let result3 = await (await conn()).query(query3, [addressId]);
+    let result = await conn.query(query, [garageId]);
+    let result2 = await conn.query(query2, [referenceID]);
+    let result3 = await conn.query(query3, [addressId]);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -257,7 +255,7 @@ export const deleteGarage = async (garageId, addressId, referenceID) => {
 export const displayGarage = async (garageId) => {
   try {
     let query = `SELECT * FROM garage_master gm JOIN garage_address ga ON gm.id = ga.garage_id JOIN address_master am ON ga.address_id = am.id WHERE gm.id = ? `;
-    let result = await (await conn()).query(query, [garageId]);
+    let result = await conn.query(query, [garageId]);
     return result[0];
   } catch (error) {
     return { error };
@@ -267,7 +265,7 @@ export const displayGarage = async (garageId) => {
 export const getServices = async () => {
   try {
     let query = "SELECT * FROM service_master;";
-    let result = await (await conn()).query(query);
+    let result = await conn.query(query);
     return result[0];
   } catch (err) {
     return { err };
@@ -277,7 +275,7 @@ export const getServices = async () => {
 export const getGarageList = async (offset = 0) => {
   try {
     let query = `SELECT id,email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master limit ?,10`;
-    let result = await (await conn()).query(query, offset);
+    let result = await conn.query(query, offset);
     return result[0];
   } catch (error) {
     return { error };
@@ -287,7 +285,7 @@ export const getGarageList = async (offset = 0) => {
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`;
-    let result = await (await conn()).query(query, [serviceInfo]);
+    let result = await conn.query(query, [serviceInfo]);
     return result[0];
   } catch (error) {
     return { error };
@@ -297,7 +295,7 @@ export const findService = async (serviceInfo) => {
 export const insertService = async (serviceInfo) => {
   try {
     let query = `INSERT INTO service_master (name, description) VALUES (?)`;
-    let result = await (await conn()).query(query, [serviceInfo]);
+    let result = await conn.query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -307,7 +305,7 @@ export const insertService = async (serviceInfo) => {
 export const deleteFromService = async (serviceId) => {
   try {
     let query = "DELETE FROM service_master where id = ?;";
-    let result = await (await conn()).query(query, [serviceId]);
+    let result = await conn.query(query, [serviceId]);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -317,7 +315,7 @@ export const deleteFromService = async (serviceId) => {
 export const insertGarageService = async (serviceInfo) => {
   try {
     let query = `INSERT INTO garage_has_services (garage_id, services_id, price) VALUES (?)`;
-    let result = await (await conn()).query(query, [serviceInfo]);
+    let result = await conn.query(query, [serviceInfo]);
     return result[0].insertId;
   } catch (error) {
     return { error };
@@ -327,7 +325,7 @@ export const insertGarageService = async (serviceInfo) => {
 export const findGarageService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM garage_has_services WHERE garage_id = ? AND services_id = ?`;
-    let result = await (await conn()).query(query, serviceInfo);
+    let result = await conn.query(query, serviceInfo);
     return result[0];
   } catch (error) {
     return { error };
@@ -337,7 +335,7 @@ export const findGarageService = async (serviceInfo) => {
 export const getOwnerService = async (ownerId) => {
   try {
     let query = `SELECT c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE a.owner_id = ?;`;
-    let result = await (await conn()).query(query, [ownerId]);
+    let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
     return { error };
@@ -347,7 +345,7 @@ export const getOwnerService = async (ownerId) => {
 export const getOwnerGarages = async (ownerId) => {
   try {
     let query = `SELECT c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE a.owner_id = ?;`;
-    let result = await (await conn()).query(query, [ownerId]);
+    let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
     return { error };
@@ -357,7 +355,7 @@ export const getOwnerGarages = async (ownerId) => {
 export const updateGarageService = async (serviceInfo) => {
   try {
     let query = `UPDATE garage_has_services SET is_deleted = 0 WHERE garage_id = ? AND services_id = ?`;
-    let result = await (await conn()).query(query, serviceInfo);
+    let result = await conn.query(query, serviceInfo);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -367,7 +365,7 @@ export const updateGarageService = async (serviceInfo) => {
 export const deleteGarageService = async (serviceInfo) => {
   try {
     let query = `UPDATE garage_has_services SET is_deleted = 1 WHERE garage_id = ? AND services_id = ?`;
-    let result = await (await conn()).query(query, serviceInfo);
+    let result = await conn.query(query, serviceInfo);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -377,7 +375,7 @@ export const deleteGarageService = async (serviceInfo) => {
 export const selectByTableName = async (tableName) => {
   try {
     let query = "SELECT * FROM " + tableName + ";";
-    let [results] = await (await conn()).query(query);
+    let [results] = await conn.query(query);
     return results;
   } catch (err) {
     return { err };
@@ -387,7 +385,7 @@ export const selectByTableName = async (tableName) => {
 export const selectById = async (tableName, id) => {
   try {
     let query = "SELECT * FROM " + tableName + " WHERE id = ?;";
-    let [results] = await (await conn()).query(query, [id]);
+    let [results] = await conn.query(query, [id]);
     return results;
   } catch (err) {
     return { err };
@@ -397,7 +395,7 @@ export const selectById = async (tableName, id) => {
 export const selectByFieldName = async (tableName, fieldName, value) => {
   try {
     let query = "SELECT * FROM " + tableName + " WHERE " + fieldName + " = ?;";
-    let [results] = await (await conn()).query(query, [value]);
+    let [results] = await conn.query(query, [value]);
     return results;
   } catch (err) {
     return { err };
@@ -407,7 +405,7 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 export const serviceListing = async (garageId) => {
   try {
     let query = `SELECT * FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
-    let [results] = await (await conn()).query(query, [garageId]);
+    let [results] = await conn.query(query, [garageId]);
     return results;
   } catch (error) {
     return { error };
@@ -418,7 +416,7 @@ export const getCustomerNames = async (garageId) => {
   try {
     let query =
       "SELECT users.name, users.email, appointments.status, slot_master.garage_id FROM appointments LEFT JOIN users ON appointments.customer_id = users.id LEFT JOIN slot_master ON appointments.slot_id = slot_master.id WHERE slot_master.garage_id = ?";
-    const result = await (await conn()).query(query, [garageId]);
+    const result = await conn.query(query, [garageId]);
     return result[0];
   } catch (error) {
     return { error };
@@ -437,7 +435,7 @@ export const selectByFieldNames = async (tableName, fields) => {
       }
       i++;
     });
-    let [results] = await (await conn()).query(query);
+    let [results] = await conn.query(query);
     return results;
   } catch (err) {
     return { err };
@@ -445,13 +443,8 @@ export const selectByFieldNames = async (tableName, fields) => {
 };
 export const countByFieldName = async (tableName, fieldName, value) => {
   try {
-    let query =
-      "SELECT COUNT(*) as count FROM " +
-      tableName +
-      " WHERE " +
-      fieldName +
-      " = ?;";
-    let [results] = await (await conn()).query(query, [value]);
+    let query = "SELECT COUNT(*) as count FROM " + tableName + " WHERE " + fieldName + " = ?;";
+    let [results] = await conn.query(query, [value]);
     return results[0].count;
   } catch (err) {
     return { err };
@@ -471,7 +464,7 @@ export const insertData = async (tableName, fields, values) => {
       i++;
     });
     query += `VALUES (?)`;
-    let [result] = await (await conn()).query(query, [values]);
+    let [result] = await conn.query(query, [values]);
     return result;
   } catch (err) {
     return { err };
@@ -481,7 +474,7 @@ export const countServices = async (ownerId) => {
   try {
     let query =
       "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN garage_has_services AS b ON a.garage_id = b.garage_id WHERE a.owner_id = ?;";
-    let [results] = await (await conn()).query(query, [ownerId]);
+    let [results] = await conn.query(query, [ownerId]);
     return results[0].count;
   } catch (err) {
     return { err };
@@ -491,9 +484,9 @@ export const countAppointments = async (ownerId) => {
   try {
     let query =
       "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ?;";
-    let [results] = await (await conn()).query(query, [ownerId]);
+    let [results] = await conn.query(query, [ownerId]);
     query = query.replace(";", " AND c.status = 1");
-    let [results2] = await (await conn()).query(query, [ownerId]);
+    let [results2] = await conn.query(query, [ownerId]);
     let totalCount = results[0].count;
     let successCount = results2[0].count;
     return { totalCount, successCount };
@@ -505,18 +498,19 @@ export const countAppointments = async (ownerId) => {
 export const findVehicleData = async (ownerId) => {
   try {
     let query = `SELECT vehicle_master.brand, vehicle_master.model, vehicle_master.year, vehicle_condition.condition_image from vehicle_master JOIN user_has_vehicles ON vehicle_master.id = user_has_vehicles.vehicle_id JOIN vehicle_condition ON vehicle_condition.vehicle_id = user_has_vehicles.id WHERE user_has_vehicles.owner_id = ?;`;
-    let [result] = await (await conn()).query(query, [ownerId]);
+    let [result] = await conn.query(query, [ownerId]);
     return result;
   } catch (error) {
     console.log(err);
     return { err };
   }
 };
+
 export const getUserAddress = async (userId) => {
   try {
     let query =
       "SELECT b.area AS area, b.pincode AS pincode, c.id AS cityId, c.city_name AS cityName, c.sid AS stateId, d.state_name as stateName from user_address as a join address_master as b join city_master as c join state_master as d on a.address_id = b.id and b.city_id = c.id and c.sid = d.id where a.user_id = ?;";
-    const result = await (await conn()).query(query, [userId]);
+    const result = await conn.query(query, [userId]);
     return result[0];
   } catch (error) {
     return { error };
