@@ -1,5 +1,5 @@
 const getData = async (page = 1) => {
-  const jsonData = await fetch("/owner/slots/getAllslots?page=" + page);
+  const jsonData = await fetch("/owner/slots/getAllSlots?page=" + page);
   var data = await jsonData.json();
   return [
     data.result,

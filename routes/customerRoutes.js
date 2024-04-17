@@ -7,16 +7,16 @@ import {
 import * as vehicleController from "../controllers/vehicleControllers.js";
 import { vehicleValidator } from "../validators/vehicleValidation.js";
 import {
-  customeVehicleSlection,
+  customerVehicleSelection,
   getAllCustomers,
 } from "../controllers/customerControllers.js";
 const router = express.Router();
 
 router.get("/home", customerHome);
-router.get("/serviceslist", servicesListing);
+router.get("/servicesList", servicesListing);
 router.get("/addVehicle", vehicleController.getAddVehicle);
 router.post("/addVehicle", vehicleValidator, vehicleController.addVehicle);
-router.get("/vehicleSelection", customeVehicleSlection);
+router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 

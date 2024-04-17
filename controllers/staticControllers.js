@@ -3,7 +3,6 @@ import {
   findOne,
   getServices,
   selectByFieldName,
-  selectById,
   selectByTableName,
   serviceListing,
   countAppointments,
