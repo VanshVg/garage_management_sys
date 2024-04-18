@@ -1,5 +1,4 @@
 import {
-  displayGarage,
   selectByFieldName,
   selectByTableName,
   serviceListing,
@@ -10,10 +9,10 @@ import {
   getUserAddress,
   getAppointments,
   getServices,
-  selectById,
   getCustomerNames,
   getVehicleAssociatedServices,
   findOne,
+  getGarageAddress,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -156,6 +155,12 @@ export const getAllCustomers = async (req, res) => {
   const result = await getCustomerNames(1)
   res.json({ result: result });
 }
+
+export const garageAddress = async (req, res) => {
+  const result = await getGarageAddress([req.params.garageId]);
+  res.status(201).json({ address: result });
+}
+
 export const selectServices = (req, res) => {
   res.render("customerServices");
 }

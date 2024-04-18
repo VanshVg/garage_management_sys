@@ -1,15 +1,15 @@
-const changeStep = (hide, show) => {
+const changeStep = (form, hide, show) => {
   document.querySelectorAll("error").forEach((er) => er.remove());
   document
     .querySelectorAll(
-      `#${hide} input[Validation],#${hide} select[Validation],#${hide} textarea[Validation]`
+      `#${form} #${hide} input[Validation],#${form} #${hide} select[Validation],#${form} #${hide} textarea[Validation]`
     )
     .forEach((ele) => {
       Validation.isValid(ele);
     });
   if (!document.querySelectorAll("error").length) {
-    document.getElementById(hide).classList.add("hidden");
-    document.getElementById(show).classList.remove("hidden");
+    document.querySelector(`#${form} #${hide}`).classList.add("hidden");
+    document.querySelector(`#${form} #${show}`).classList.remove("hidden");
   }
 };
 
@@ -22,9 +22,9 @@ const handleGarage = async (e) => {
     .forEach((ele) => {
       Validation.isValid(ele);
     });
-  if (!document.querySelectorAll("#garageAdd error").length) {
+  if (!document.querySelectorAll(`#${e.target.id} error`).length) {
     const formData = new FormData();
-    let fileds = [
+    let fields = [
       "garageName",
       "email",
       "cityId",
@@ -37,21 +37,30 @@ const handleGarage = async (e) => {
       "longitude",
       "description",
     ];
-    fileds.forEach((filed) => {
+    fields.forEach((field) => {
       formData.append(
-        filed,
-        document.querySelector(`#garageAdd #${filed}`).value
+        field,
+        document.querySelector(`#${e.target.id} #${field}`).value
       );
     });
     formData.append(
       "thumbnail",
-      document.querySelector("#garageAdd #thumbnail").files[0]
+      document.querySelector(`#${e.target.id} #thumbnail`).files[0]
     );
     formData.append("userId", localStorage.getItem("userId"));
-    let response = await fetch(`/owner/garages/add`, {
-      method: "POST",
-      body: formData,
-    });
+    let response;
+    if (e.target.id == 'addGarage') {
+      response = await fetch(`/owner/garages/add`, {
+        method: "POST",
+        body: formData,
+      });
+    }
+    else {
+      response = await fetch(`/owner/garages/update`, {
+        method: "POST",
+        body: formData,
+      });
+    }
     response = await response.json();
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)

@@ -8,11 +8,11 @@ import {
   updateGarageAddress,
   deleteGarage,
   displayGarage,
-  getGarageList,
   findOne,
+  getOwnerGarages,
+  garageSlotListing,
   getGaragesService
 } from "../utils/dbHandler.js";
-import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -103,7 +103,7 @@ export const garageUpdate = async (req, res) => {
   } = req.body;
   let garageId = 1;
   let addressId = 2;
-  let thumbnail = fileUpload();
+  let thumbnail = req.file?.filename;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
@@ -153,11 +153,17 @@ export const garageList = (req, res) => {
 
 export const getGarageListing = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const result = await getGarageList([user[0].id]);
+  const result = await getOwnerGarages([user[0].id]);
   res.json({ garages: result });
 };
 
-export const getGarages = async (req,res) => {
+
+export const getGarageSlots = async (req, res) => {
+  let { garageId, startDate, endDate } = req.body;
+  const result = await garageSlotListing(garageId, startDate, endDate);
+  res.json(result);
+}
+export const getGarages = async (req, res) => {
   const result = await getGaragesService();
-  res.json({result});
+  res.json({ result });
 }

@@ -67,7 +67,7 @@ const selectVehicle = () => {
   let j = 0;
   let fields = document.getElementsByName("vehicle");
   for (let i = 0; i < fields.length; i++) {
-    document.getElementsByName(`vehicle${i+1}`)[0].style.border = "none"
+    document.getElementsByName(`vehicle${i + 1}`)[0].style.border = "none"
     j++;
   }
   fields.forEach((element) => {
@@ -83,7 +83,7 @@ const selectVehicle = () => {
 const uncheckVehicle = () => {
   let radio = document.querySelectorAll("input");
   radio.forEach((element) => {
-    if(element.type == "radio") {
+    if (element.type == "radio") {
       element.checked = false
     }
   })

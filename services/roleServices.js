@@ -6,6 +6,6 @@ export const validateRole = (role_id) => (req, res, next) => {
     next();
   }
   else {
-    res.end("You are not allowed to access this route");
+    res.redirect("/");
   }
 }
