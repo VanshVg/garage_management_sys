@@ -1,6 +1,7 @@
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
+let slots;
 
 (async () => {
   const result = await callAPI('/owner/garages/getGaragesList');
@@ -41,26 +42,63 @@ const months = [
 ];
 
 const displaySlots = async (e) => {
-  const date = e.target.innerText;
-  let data = year + "-";
-  if (month < 10) data += 0;
-  data += month + "-";
-  if (date.length == 1) data += 0;
-  data += date;
+  if (e.target.id != "slotDiff") {
+    const date = e.target.innerText;
+    let startDate = year + "-";
+    if (month + 1 < 10) startDate += 0;
+    startDate += month + 1 + "-";
+    if (date.length == 1) startDate += 0;
+    startDate += date;
+    const time = new Date(startDate).getTime();
+    const tempDate = new Date(time + 24 * 60 * 60 * 1000);
+    const endYear = tempDate.getFullYear();
+    const endMonth = tempDate.getMonth();
+    const endDay = tempDate.getDate();
+    let endDate = endYear + "-";
+    if (endMonth + 1 < 10) endDate += 0;
+    endDate += endMonth + 1 + "-";
+    if (endDay.length == 1) endDate += 0;
+    endDate += endDay;
+    let formData = new FormData();
+    let index = document.getElementById('garage-select').value;
+    formData.append("garageId", garages[index].garage_id);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+
+    const slotDetails = await fetch('/owner/garages/slots', {
+      method: "POST",
+      body: new URLSearchParams(formData),
+    });
+    slots = await slotDetails.json();
+  }
 
   let slotListing = document.getElementById('slot-listing');
   slotListing.style.display = '';
   let slotBody = document.getElementById('slot-body');
   const index = document.getElementById('garage-select').value;
 
+  let interval = 1;
+  if (e.target.id == 'slotDiff') interval = e.target.value;
+  else document.getElementById('slotDiff').value = interval;
   const garage = garages[index];
   let startTime = new Date(garage.open_time).getTime();
   let endTime = new Date(garage.close_time).getTime();
-  let increment = 3600000;
+  let increment = 3600000 * interval;
 
   let str = "";
   while (startTime < endTime && startTime + increment < endTime) {
-    str += `<tr><td>${new Date(startTime).getHours()}:${new Date(startTime).getMinutes()} - ${new Date(startTime + increment).getHours()}:${new Date(startTime + increment).getMinutes()}</td><td>add</td></tr>`;
+    // let flag = false;
+    // slots.forEach(slot => {
+    //   let start = new Date(slot.startTime).getTime()
+    //   let end = new Date(slot.endTime).getTime()
+    //   console.log(start, startTime)
+    //   if (start > startTime && start < startTime + increment || end > startTime && end < startTime + increment) {
+    //     flag = true;
+    //     return;
+    //   }
+    // });
+    // if (flag) continue;
+    str += `<tr><td>${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td>add</td></tr>`;
     startTime += increment;
   }
   slotBody.innerHTML = str;

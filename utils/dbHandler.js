@@ -537,6 +537,17 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
   }
 }
 
+export const garageSlotListing = async (garageId, startDate, endDate) => {
+  try {
+    let query = "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
+    const result = await conn.query(query, [garageId, startDate, endDate]);
+    return result[0];
+  }
+  catch (error) {
+    return { error };
+  }
+}
+
 export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,

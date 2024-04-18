@@ -11,6 +11,7 @@ import {
   getGarageList,
   findOne,
   getOwnerGarages,
+  garageSlotListing,
 } from "../utils/dbHandler.js";
 import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -156,3 +157,10 @@ export const getGarageListing = async (req, res) => {
   const result = await getOwnerGarages([user[0].id]);
   res.json({ garages: result });
 };
+
+
+export const getGarageSlots = async (req, res) => {
+  let { garageId, startDate, endDate } = req.body;
+  const result = await garageSlotListing(garageId, startDate, endDate);
+  res.json(result);
+}
