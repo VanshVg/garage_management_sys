@@ -1,5 +1,4 @@
 const imageSelection = (form) => {
-  console.log(form);
   const imagePreview = document.querySelector(`#${form} #image-preview`);
   const file = this.files[0];
   if (file) {
