@@ -81,23 +81,27 @@ const displaySlots = async (e) => {
   if (e.target.id == 'slotDiff') interval = e.target.value;
   else document.getElementById('slotDiff').value = interval;
   const garage = garages[index];
-  let startTime = new Date(garage.open_time).getTime();
+  let startTime = new Date(garage.open_time);
+  startTime.setFullYear(year);
+  startTime.setMonth(month);
+  startTime.setDate(e.target.innerText);
+  startTime = startTime.getTime();
   let endTime = new Date(garage.close_time).getTime();
   let increment = 3600000 * interval;
 
   let str = "";
   while (startTime < endTime && startTime + increment < endTime) {
-    // let flag = false;
-    // slots.forEach(slot => {
-    //   let start = new Date(slot.startTime).getTime()
-    //   let end = new Date(slot.endTime).getTime()
-    //   console.log(start, startTime)
-    //   if (start > startTime && start < startTime + increment || end > startTime && end < startTime + increment) {
-    //     flag = true;
-    //     return;
-    //   }
-    // });
-    // if (flag) continue;
+    let flag = false;
+    slots.forEach(slot => {
+      let start = new Date(slot.startTime).getTime()
+      let end = new Date(slot.endTime).getTime()
+      console.log(start, startTime)
+      if (start > startTime && start < startTime + increment || end > startTime && end < startTime + increment) {
+        flag = true;
+        return;
+      }
+    });
+    if (flag) continue;
     str += `<tr><td>${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td>add</td></tr>`;
     startTime += increment;
   }
