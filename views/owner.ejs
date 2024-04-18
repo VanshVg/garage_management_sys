@@ -5,6 +5,7 @@
 <toast></toast>
 <script src="/scripts/toast.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="/scripts/imageSelection.js"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -98,9 +99,10 @@
                         <%- include(`./partials/topBar.ejs`,{active:"Garages/Edit"})%>
                             <%- include(`./garage/add.ejs`, { formType: 'editGarage' }) %>
                     </div>
+
             </div>
             <script>
-                updateDetails(["name", "email", "bio", "address"]);
+                updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {

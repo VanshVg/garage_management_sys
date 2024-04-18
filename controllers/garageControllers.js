@@ -38,6 +38,7 @@ export const garageAdd = async (req, res) => {
     longitude,
   } = req.body;
   let thumbnail = req.file.filename;
+  userId = (await findOne(req.user.email))[0].id || userId;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
   const errors = validationResult(req);

@@ -73,7 +73,6 @@ const selectVehicle = () => {
   fields.forEach((element) => {
     document.getElementsByName(element.id)[0].style.padding = "2px"
     if (element.checked) {
-      console.log(document.getElementsByName(element.id)[0]);
       document.getElementsByName(element.id)[0].style.border = "2px solid green";
       document.getElementsByName(element.id)[0].style.padding = "0"
     }

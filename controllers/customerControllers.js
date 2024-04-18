@@ -50,7 +50,6 @@ export const customerInvoice = async (req, res) => {
   try {
     fs.readFile("./views/partials/customerInvoice.ejs", "utf-8", async (err, data) => {
       if (err) {
-        console.log(err);
         return res.status(301).json({ success: false, message: "Something went wrong!" });
       } else {
         await generatePdf(data);

@@ -15,7 +15,7 @@
 <form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id=<%=formType %>
   onsubmit="handleGarage(event)" enctype="multipart/form-data">
   <h2 class="text-2xl font-bold mb-2 text-left text-dark">
-    <%= title%> Garage
+    <%= formType=='addGarage' ? 'New' : 'Update' %> Garage
   </h2>
   <div class="w-full f-full" id='garageDetails'>
     <h3 class="text-dark font-semibold text-left mb-2">Garage Information</h3>
@@ -32,8 +32,8 @@
             </svg>
             <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
           </div>
-          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" />
-          <button id="remove-image"
+          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" required
+            onchange="imageSelection(this,'<%=formType %>')" /> <button id="remove-image"
             class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd"
@@ -44,9 +44,6 @@
           <img id="image-preview" class="hidden w-full  h-full absolute top-0 left-0 " dataBound="garagePic" />
         </label>
       </div>
-
-
-
       <div class="input-group w-3/4 mt-2">
         <div class="flex items-center mb-2">
           <label for="garageName" class="text-md font-medium mr-2 w-[80px] text-left text-dark">Name</label>

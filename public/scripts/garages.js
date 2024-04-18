@@ -6,7 +6,7 @@ const fillGarages = async () => {
   let garageList = ``;
   let index = 0;
 
-  garages.forEach(garage => {
+  garages.forEach((garage) => {
     garageList += `
       <div class="w-1/3 p-2 h-[600px] relative">
       <div class="absolute top-0 right-0 flex items-center mr-4 mt-4">
@@ -19,14 +19,24 @@ const fillGarages = async () => {
       </svg>
   </button>
 </div>
-      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${garage.id}'>
+      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${
+        garage.id
+      }'>
       <a href="#" class="mb-4">
-          <img class="rounded-t-lg w-full" src="/uploads/${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" />
+          <img class="rounded-t-lg w-full h-[280px]" src="/uploads/${
+            garage.thumbnail
+          }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" />
       </a>
       <div class="p-5">
           <div class="flex justify-between mb-2">
-              <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">${garage.garage_name}</h5>
-              <tag class="${garage.status ? 'bg-[#038117]' : 'bg-[#ff5f5f]'} w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${garage.status ? 'OPEN' : 'CLOSE'}</tag>
+              <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">${
+                garage.garage_name
+              }</h5>
+              <tag class="${
+                garage.status ? "bg-[#038117]" : "bg-[#ff5f5f]"
+              } w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${
+      garage.status ? "OPEN" : "CLOSE"
+    }</tag>
           </div>
           <div class="flex items-center mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2">
@@ -50,7 +60,9 @@ const fillGarages = async () => {
                       <path d="M13 8c2.1 0 3 .9 3 3h2c0-3.22-1.78-5-5-5z"></path>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-sm">+91 ${garage.contact_number}</p>
+              <p class="text-dark font-semibold text-sm">+91 ${
+                garage.contact_number
+              }</p>
           </div>
           <div class="flex items-center mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2">
@@ -62,7 +74,9 @@ const fillGarages = async () => {
                       </path>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-sm">${formatTimeAMPM(garage.open_time.split(" ")[1])} to ${formatTimeAMPM(garage.close_time.split(" ")[1])}</p>
+              <p class="text-dark font-semibold text-sm">${formatTimeAMPM(
+                garage.open_time.split(" ")[1]
+              )} to ${formatTimeAMPM(garage.close_time.split(" ")[1])}</p>
           </div>
           <div class="flex mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2 h-max">
@@ -80,14 +94,16 @@ const fillGarages = async () => {
                       </g>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-left text-sm">${garage.description?.substring(0, 150) || ""}...</p>
+              <p class="text-dark font-semibold text-left text-sm">${
+                garage.description?.substring(0, 150) || ""
+              }...</p>
           </div>
 
       </div>
   </div>
   </div>
-      `
+      `;
   });
-  document.getElementById('garage-container').innerHTML = garageList;
-}
+  document.getElementById("garage-container").innerHTML = garageList;
+};
 fillGarages();

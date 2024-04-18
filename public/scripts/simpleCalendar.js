@@ -95,7 +95,6 @@ const displaySlots = async (e) => {
     slots.forEach(slot => {
       let start = new Date(slot.startTime).getTime()
       let end = new Date(slot.endTime).getTime()
-      console.log(start, startTime)
       if (start > startTime && start < startTime + increment || end > startTime && end < startTime + increment) {
         flag = true;
         return;
