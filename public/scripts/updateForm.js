@@ -22,13 +22,11 @@ const handleUpdateForm = async (e) => {
     );
     formData.append("userId", localStorage.getItem("userId"));
     formProps = Object.fromEntries(formData);
-    console.log(formProps);
     let response = await fetch("/owner/profile/update", {
       method: "PUT",
       body: formData,
     });
     response = await response.json();
-    console.log(response);
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

@@ -29,9 +29,6 @@
             }
         }
     </script>
-    <style>
-
-    </style>
 </head>
 
 <body>
@@ -56,25 +53,7 @@
         <div class="h-screen w-1/4 bg-dark overflow-scroll">
 
             <h3 class="m-5 font-semibold text-white text-4xl  dark:text-white">Services</h3>
-            <ul class="w-full text-sm font-medium text-white">
-                <% for (let i=0; i < data.length; i++) { %>
-                    <label>
-                        <li class="w-full h-20 bg-blue rounded-6 flex items-center rounded-lg my-5 relative">
-                            <div class="flex items-center ps-3 ">
-
-                                <input type="checkbox" name="test" value="checkbox"
-                                    class="w-5 h-5 absolute right-0 top-0">
-                                <img src="/assets/service.png" class="w-16 h-16 rounded-md" alt="Option 1">
-
-                                <div class="max-w-56">
-                                    <p class="font-medium text-sm ml-4">
-                                        <%= data[i].description %>
-                                    </p>
-                                </div>
-                            </div>
-                        </li>
-                    </label>
-                    <% } %>
+            <ul class="w-full text-sm font-medium text-white" id="serviceList">
             </ul>
             <button type="button"
                 class="bg-gray-800 w-32 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-light hover:text-blue px-3 absolute bottom-0 right-0">
@@ -90,6 +69,7 @@
 
         </div>
     </div>
+    <script src="/scripts/serviceList.js"></script>
 </body>
 
 </html>

@@ -49,8 +49,6 @@ router.get("/appointmentCount", getAppointmentCount);
 
 router.get("/ownerServices", findOwnerService);
 
-router.get("/getCustomerList",getAllCustomers)
-
-
+router.get("/getCustomerList", getAllCustomers)
 
 export default router;

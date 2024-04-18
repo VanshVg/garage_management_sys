@@ -13,6 +13,7 @@ import {
   garageDisplay,
   garageList,
   getGarageListing,
+  getGarageSlots,
 } from "../../controllers/garageControllers.js";
 import { garageValidator } from "../../validators/userValidation.js";
 import { paginationMiddleware } from "../../helpers/pagination.js";
@@ -31,4 +32,5 @@ router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
 router.get("/customerList", customer);
 router.get('/address/:garageId', garageAddress);
+router.post('/slots', getGarageSlots);
 export default router;
