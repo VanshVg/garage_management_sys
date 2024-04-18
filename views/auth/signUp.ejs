@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/styles/auth.css">
+<%- include('../partials/head.ejs') %>
+  <link rel="stylesheet" href="/styles/auth.css">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
           <p>owner</p>
         </label>
       </div>
-      <form method="post" onsubmit="Validation.validateAll(event,'u/register')">
+      <form  onsubmit="Validation.validateAll(event,'u/register')">
         <div class="formContainer">
           <div class="pageInputs">
             <div class="pageIcons">

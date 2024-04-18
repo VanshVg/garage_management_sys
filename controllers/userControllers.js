@@ -226,3 +226,47 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   res.redirect("/u/signIn");
 };
+
+
+// export const login = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ success: false, message: "Invalid credentials" });
+//     }
+
+//     const { email, password } = req.body;
+//     const user = await findOne(email);
+
+//     if (!user) {
+//       return res.status(400).json({ success: false, message: "Invalid email or password!" });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(400).json({ success: false, message: "Invalid email or password!" });
+//     }
+
+//     if (!user.is_verified) {
+//       return res.status(400).json({ success: false, message: "Your account is not activated. Please click the link to activate your account" });
+//     }
+
+//     const token = jwt.sign(
+//       { email: email },
+//       process.env.SECRET_KEY || "GarageManagementDB",
+//       { expiresIn: "1w" } // Change to 1 week
+//     );
+
+//     res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // Set cookie for 1 week
+
+//     return res.status(200).json({
+//       success: true,
+//       role_id: user.role_id,
+//       userId: user.id,
+//       message: "Logged in successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error in login:", error);
+//     return res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };

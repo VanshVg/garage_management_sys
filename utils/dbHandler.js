@@ -4,11 +4,13 @@ export const findOne = async (email) => {
   try {
     let query = "SELECT * FROM users WHERE email = ?";
     let [result] = await (await conn()).query(query, [email]);
-    return result;
+    return result.length ? result : null;
   } catch (err) {
-    return { err };
+    console.error("Error in findOne:", err);
+    throw err; // Re-throw the error to be handled by the caller
   }
 };
+
 
 export const findOneById = async (userId) => {
   try {

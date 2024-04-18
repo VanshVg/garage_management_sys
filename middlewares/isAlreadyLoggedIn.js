@@ -1,25 +1,34 @@
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { findOne } from '../utils/dbHandler.js';
+
 config();
 
 export const isAlreadyLoggedIn = async (req, res, next) => {
-  var flag = false;
-  if (req.cookies) {
-    if (req.cookies.token) {
-      let result = jwt.verify(req.cookies.token, process.env.SECRET_KEY);
-      if (!result.email) flag = true;
-      else {
-        result = await findOne(result.email);
-        if (result[0]) {
-          if (result[0].role_id == 0) res.redirect('/customer/home')
-          else res.redirect('/owner/home');
-        }
-        else flag = true;
-      }
+  try {
+    const token = req.cookies?.token;
+    if (!token) {
+      return next();
     }
-    else flag = true;
+
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const { email } = decodedToken;
+
+    if (!email) {
+      return next();
+    }
+
+    const user = await findOne(email);
+
+    if (!user || user.length === 0) {
+      return next();
+    }
+
+    const { role_id } = user[0];
+    const redirectUrl = role_id === 0 ? '/customer/home' : '/owner/home';
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error('Error in token verification:', error);
+    next();
   }
-  else flag = true;
-  if (flag) next();
-} 
+};
