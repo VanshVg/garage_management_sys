@@ -3,7 +3,9 @@
 <script src="/scripts/updateDetails.js"></script>
 <script src="/scripts/timeConverter.js"></script>
 <toast></toast>
+<script src="/scripts/toast.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="/scripts/imageSelection.js"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -85,11 +87,16 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garage-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
+                            <%- include(`./garage/add.ejs`,{title:'New'}) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garage-edit-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
                             <%- include(`./garage/add.ejs`) %>
                     </div>
             </div>
             <script>
-                updateDetails(["name", "email", "bio", "address"]);
+                updateDetails(["name", "email", "bio", "address", "thumbnail"]);
                 const setActive = (activated) => {
                     document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {

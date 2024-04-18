@@ -5,7 +5,6 @@ const changeStep = (hide, show) => {
       `#${hide} input[Validation],#${hide} select[Validation],#${hide} textarea[Validation]`
     )
     .forEach((ele) => {
-      console.log(ele);
       Validation.isValid(ele);
     });
   if (!document.querySelectorAll("error").length) {

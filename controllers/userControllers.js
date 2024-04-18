@@ -108,11 +108,10 @@ export const login = async (req, res) => {
       const token = jwt.sign(
         { email: email },
         process.env.SECRET_KEY || "GarageManagementDB",
-        {
-          expiresIn: "1h",
-        }
+        { expiresIn: "1w" } // Change to 1 week
       );
-      res.cookie("token", token, { maxAge: 1 * 60 * 60 * 1000 });
+
+      res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // Set cookie for 1 week
       return res.status(201).json({
         success: true,
         role_id: user[0].role_id,
@@ -170,13 +169,15 @@ export const editProfile = (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(301).json({ success: false, message: "Invalid payload" });
-  }
   let { name, city, area, pincode, bio } = req.body;
-
-  let userResult = await updateUserByEmail([name, bio, req.user.email]);
+  let thumbnail = req.file?.filename || "";
+  let userResult = await updateUserByEmail([
+    name,
+    bio,
+    thumbnail,
+    req.user.email,
+  ]);
+  console.log(userResult);
   if (userResult != 1) {
     return res
       .status(301)
@@ -226,7 +227,6 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   res.redirect("/u/signIn");
 };
-
 
 // export const login = async (req, res) => {
 //   try {

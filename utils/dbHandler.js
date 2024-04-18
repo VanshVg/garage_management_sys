@@ -11,7 +11,6 @@ export const findOne = async (email) => {
   }
 };
 
-
 export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
@@ -101,7 +100,10 @@ export const getAllSlots = async (offset) => {
 };
 export const updateUserByEmail = async (userInfo) => {
   try {
-    let query = `UPDATE users SET name = ?, bio = ? WHERE email = ?`;
+    let query =
+      userInfo.thumbnail == ""
+        ? `UPDATE users SET name = ?, bio = ? WHERE email = ?`
+        : `UPDATE users SET name = ?, bio = ?, profile_pic=?  WHERE email = ?`;
     let results = await (await conn()).query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
