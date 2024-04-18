@@ -71,9 +71,22 @@ const selectVehicle = () => {
     j++;
   }
   fields.forEach((element) => {
+    document.getElementsByName(element.id)[0].style.padding = "2px"
     if (element.checked) {
-      document.getElementsByName(element.id)[0].style.border = "2px solid";
-      document.getElementsByName(element.id)[0].style.borderColor = "green";
+      console.log(document.getElementsByName(element.id)[0]);
+      document.getElementsByName(element.id)[0].style.border = "2px solid green";
+      document.getElementsByName(element.id)[0].style.padding = "0"
     }
   });
 };
+
+const uncheckVehicle = () => {
+  let radio = document.querySelectorAll("input");
+  radio.forEach((element) => {
+    if(element.type == "radio") {
+      element.checked = false
+    }
+  })
+}
+
+uncheckVehicle();
