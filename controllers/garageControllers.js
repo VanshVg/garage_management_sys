@@ -10,6 +10,7 @@ import {
   displayGarage,
   getGarageList,
   findOne,
+  getOwnerGarages,
 } from "../utils/dbHandler.js";
 import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -102,7 +103,7 @@ export const garageUpdate = async (req, res) => {
   } = req.body;
   let garageId = 1;
   let addressId = 2;
-  let thumbnail = fileUpload();
+  let thumbnail = req.file?.filename;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
@@ -152,6 +153,6 @@ export const garageList = (req, res) => {
 
 export const getGarageListing = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const result = await getGarageList([user[0].id]);
+  const result = await getOwnerGarages([user[0].id]);
   res.json({ garages: result });
 };

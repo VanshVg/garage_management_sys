@@ -343,7 +343,8 @@ export const getOwnerService = async (ownerId) => {
 
 export const getOwnerGarages = async (ownerId) => {
   try {
-    let query = `SELECT c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE a.owner_id = ?;`;
+    let query = `SELECT a.garage_id, b.garage_name, b.thumbnail, b.status, b.email, b.contact_number, b.open_time, b.close_time, b.description
+    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE a.owner_id = 3;`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
@@ -536,7 +537,7 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
   }
 }
 
-export const getVehicleAssociatedServices  = async(userId) =>{
+export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
     slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
@@ -553,9 +554,19 @@ export const getVehicleAssociatedServices  = async(userId) =>{
     ON user_has_vehicles.vehicle_id = vehicle_master.id
     LEFT JOIN vehicle_types
     ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`
-    const result = await conn.query(query,[userId])
+    const result = await conn.query(query, [userId])
     return result[0]
   } catch (error) {
-    return {error}
+    return { error }
+  }
+}
+
+export const getGarageAddress = async (garageId) => {
+  try {
+    const query = "SELECT a.latitude as latitude, a.longitude as longitude, b.area as area, b.pincode as pincode, c.id as cityId, c.sid as stateId FROM garage_address as a join address_master as b join city_master as c on a.address_id = b.id and b.city_id = c.id WHERE a.garage_id = ?;";
+    const result = await conn.query(query, [garageId]);
+    return result[0];
+  } catch (error) {
+    return { error };
   }
 }

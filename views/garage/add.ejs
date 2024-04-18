@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id="garageAdd"
+<form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id=<%=formType %>
   onsubmit="handleGarage(event)" enctype="multipart/form-data">
   <h2 class="text-2xl font-bold mb-2 text-left text-dark">
     <%= title%> Garage
@@ -32,7 +32,7 @@
             </svg>
             <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
           </div>
-          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" required />
+          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" />
           <button id="remove-image"
             class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -123,7 +123,7 @@
     </div>
     <div class="w-full flex justify-end">
       <button type="button" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4"
-        onclick="changeStep('garageDetails','mapContainer')">
+        onclick="changeStep('<%= formType %>', 'garageDetails','mapContainer')">
         Next</button>
     </div>
   </div>
@@ -143,7 +143,7 @@
     </div>
     <div class="w-full flex justify-between items-end">
       <button type="button" class="bg-dark text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4"
-        onclick="changeStep('mapContainer','garageDetails')">
+        onclick="changeStep('<%= formType %>', 'mapContainer','garageDetails')">
         Previous
       </button>
       <button type="submit" class="bg-dark  text-white font-bold py-2 px-4 w-max rounded shadow-md mt-4">+
@@ -154,7 +154,7 @@
 <script src="/scripts/garageForm.js"></script>
 
 <script>
-  loadAddress("garageAdd");
+  loadAddress("addGarage");
   // imageSelection("garageAdd");
   /*Map */
   const position = [22.684282675883896, 72.88051636361853];
@@ -217,5 +217,30 @@
     "Marker": MyLoc
   };
   L.control.layers(base, overlayMaps).addTo(map);
+
+</script>
+
+<script>
+  const editGarage = async (index) => {
+    await loadAddress('editGarage');
+    activeSub('garage-edit');
+    const garage = garages[index];
+    document.querySelector('#editGarage #garageName').value = garage.garage_name;
+    document.querySelector('#editGarage #email').value = garage.email;
+    document.querySelector('#editGarage #contactNumber').value = garage.contact_number;
+    document.querySelector('#editGarage #openTime').value = garage.open_time.slice(11, 16);
+    document.querySelector('#editGarage #closeTime').value = garage.close_time.slice(11, 16);
+    document.querySelector('#editGarage #description').value = garage.description;
+
+    const addressDetails = await callAPI('/owner/garages/address/' + garage.id);
+    const address = addressDetails.address[0];
+    document.querySelector('#editGarage #area').value = address.area;
+    document.querySelector('#editGarage #state').value = address.stateId;
+    await loadCity('editGarage');
+    document.querySelector('#editGarage #cityId').value = address.cityId;
+    document.querySelector('#editGarage #pincode').value = address.pincode;
+    document.querySelector('#editGarage #latitude').value = address.latitude;
+    document.querySelector('#editGarage #longitude').value = address.longitude;
+  }
 
 </script>

@@ -2,7 +2,6 @@ import { config } from "dotenv";
 import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
 
 import routes from "./routes/routes.js";
 

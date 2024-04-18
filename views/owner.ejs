@@ -3,6 +3,7 @@
 <script src="/scripts/updateDetails.js"></script>
 <script src="/scripts/timeConverter.js"></script>
 <toast></toast>
+<script src="/scripts/toast.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
     tailwind.config = {
@@ -91,7 +92,12 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garage-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
-                            <%- include(`./garage/add.ejs`) %>
+                            <%- include(`./garage/add.ejs`, { formType: 'addGarage' }) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garage-edit-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages/Edit"})%>
+                            <%- include(`./garage/add.ejs`, { formType: 'editGarage' }) %>
                     </div>
             </div>
             <script>

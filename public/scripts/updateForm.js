@@ -7,7 +7,6 @@ const handleUpdateForm = async (e) => {
   if (!document.querySelector("#updateOwner error")) {
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    console.log(document.querySelector('#updateOwner #dropzone-file').files);
     formProps["profilePic"] = document.querySelector('#updateOwner #dropzone-file').files;
     formProps["userId"] = localStorage.getItem("userId");
     let response = await callAPI("/owner/profile/update", formProps, "PUT");

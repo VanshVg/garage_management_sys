@@ -1,6 +1,7 @@
 import express from "express";
 import {
   customer,
+  garageAddress,
   garageForm,
   garageListing,
   getGarageCount
@@ -23,10 +24,11 @@ router.get("/", garageListing);
 router.get("/garageForm", garageForm);
 router.get("/garageUpdate", garageDisplay);
 router.post("/add", upload.single("thumbnail"), garageAdd);
-router.post("/update", garageValidator, garageUpdate);
+router.post("/update", upload.single("thumbnail"), garageUpdate);
 router.post("/delete", garageDelete);
 router.get("/garageList", garageList);
-router.get("/getGaragesList", paginationMiddleware(10), getGarageListing);
+router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
-router.get("/customerList",customer);
+router.get("/customerList", customer);
+router.get('/address/:garageId', garageAddress);
 export default router;

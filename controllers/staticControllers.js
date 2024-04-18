@@ -14,6 +14,7 @@ import {
   getCustomerNames,
   getVehicleAssociatedServices,
   findOne,
+  getGarageAddress,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -41,8 +42,8 @@ export const slots = (req, res) => {
   res.render("index", { title: "Slots", active: "slots" });
 };
 
-export const customer = (req,res) => {
-  res.render("index", {title: "customer", active: "customer"})
+export const customer = (req, res) => {
+  res.render("index", { title: "customer", active: "customer" })
 }
 
 export const appointments = (req, res) => {
@@ -99,9 +100,9 @@ export const getUserDetails = async (req, res) => {
   if (!user) {
     return res.status(301).json({ success: false, message: "user not found" });
   }
-  const address = await getUserAddress(user[0].id); 
+  const address = await getUserAddress(user[0].id);
   const vehicleServices = await getVehicleAssociatedServices(user[0].id)
-  res.status(201).json({ user: user[0], address: address[0], vehicleServices:vehicleServices });
+  res.status(201).json({ user: user[0], address: address[0], vehicleServices: vehicleServices });
 };
 
 export const allServices = async (req, res) => {
@@ -158,7 +159,12 @@ export const appointmentsListing = async (req, res) => {
   });
   res.status(201).json({ success: true, appointments });
 }
-export const getAllCustomers = async(req,res)=>{
+export const getAllCustomers = async (req, res) => {
   const result = await getCustomerNames(1)
   res.json({ result: result });
+}
+
+export const garageAddress = async (req, res) => {
+  const result = await getGarageAddress([req.params.garageId]);
+  res.status(201).json({ address: result });
 }
