@@ -11,7 +11,7 @@ import { paginationMiddleware } from '../../helpers/pagination.js';
 const router = express.Router();
 
 router.get('/', slots);
-router.get('/getAllslots',paginationMiddleware(10), getSlots)
+router.get('/getAllSlots', paginationMiddleware(10), getSlots)
 router.post('/insert', slotBooking)
 router.post('/update', slotUpdate)
 router.post('/delete', slotDelete)

@@ -29,122 +29,58 @@
             }
         }
     </script>
+    <style>
+
+    </style>
 </head>
 
 <body>
 
-    <div class="flex max-h-screen overflow-hidden">
-        <div class="max-h-sm w-8/12 bg-blue">
-            <div class=" object-left-top">
-                <img class="logo h-20 w-20" src="/logo.png" alt="project logo">
-
-            </div>
+    <div class="flex h-screen overflow-hidden relative">
+        <div class="h-screen w-3/4 bg-lightbg flex bg-center bg-no-repeat bg-cover bg-[url('/assets/garage.png')] bg-blend-multiply"
+            style="background-image:linear-gradient(rgba(0, 0, 0, 0.9),rgba(0,0,0,0.1)),url('/assets/garage.png')">
             <div
-                class="max-h-fit m-auto max-w-md bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img height="50px" src="/garage.png" alt="garageimage" />
-                </a>
-                <div class="p-5">
-                    <a href="#">
-                        <h5 class="mb-2 text-sm font-bold tracking-tight text-gray-900 dark:text-white">Jay Ambe Garage
-                        </h5>
-                    </a>
-                    <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">Jay ambe garage has total 15
-                        years of
-                        experience in this field.It provides an excellent user experience and super fast service </p>
-                    <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">Address:250-2nd floore orbit
-                        mall
-                        kudasan , near reliance chokadi , Gandhinagar </p>
+                class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end absolute top-0 left-0">
+                <div class="brand-logo">
+                    <img src="/assets/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px">
                 </div>
             </div>
-
+            <div class="px-4 mx-auto max-w-screen-xl text-center">
+                <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
+                    Marvel Autos</h1>
+                <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Here at Flowbite we
+                    focus on markets where technology, innovation, and capital can unlock long-term value and drive
+                    economic growth.</p>
+            </div>
         </div>
-
-        <div class="max-h-screen w-4/12 bg-dark overflow-scroll">
+        <div class="h-screen w-1/4 bg-dark overflow-scroll">
 
             <h3 class="m-5 font-semibold text-white text-4xl  dark:text-white">Services</h3>
             <ul class="w-full text-sm font-medium text-white">
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="vue-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="vue-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-medium text-white dark:text-gray-300">Washing</label>
+                <% for (let i=0; i < data.length; i++) { %>
+                    <label>
+                        <li class="w-full h-20 bg-blue rounded-6 flex items-center rounded-lg my-5 relative">
+                            <div class="flex items-center ps-3 ">
 
-                    </div>
-                    <p w-full>Car washing will be done fully inside and outside</p>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="vue-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="vue-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-medium text-white dark:text-gray-300">Washing</label>
+                                <input type="checkbox" name="test" value="checkbox"
+                                    class="w-5 h-5 absolute right-0 top-0">
+                                <img src="/assets/service.png" class="w-16 h-16 rounded-md" alt="Option 1">
 
-                    </div>
-                    <p>Car washing will be done fully inside and outside</p>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="vue-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="vue-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-medium text-white dark:text-gray-300">Washing</label>
-
-                    </div>
-                    <p>Car washing will be done fully inside and outside</p>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="vue-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="vue-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-medium text-white dark:text-gray-300">Washing</label>
-
-                    </div>
-                    <p>Car washing will be done fully inside and outside</p>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="vue-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="vue-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-medium text-white dark:text-gray-300">Washing</label>
-
-                    </div>
-                    <p>Car washing will be done fully inside and outside</p>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="react-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="react-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-large text-white dark:text-gray-300">Oil
-                            Change</label>
-                    </div>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="angular-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="angular-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-large text-white  dark:text-gray-300">Tyres</label>
-                    </div>
-                </li>
-                <li class="w-full m-5 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                    <div class="flex items-center ps-3">
-                        <input id="laravel-checkbox" type="checkbox" value=""
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                        <label for="laravel-checkbox"
-                            class="w-full py-3 ms-2 text-lg font-large text-white  dark:text-gray-300">Accessories</label>
-                    </div>
-                </li>
+                                <div class="max-w-56">
+                                    <p class="font-medium text-sm ml-4">
+                                        <%= data[i].description %>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </label>
+                    <% } %>
             </ul>
             <button type="button"
-                class="bg-gray-800 m-6 w-44 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-red-700 hover:text-white px-3">
+                class="bg-gray-800 w-32 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-light hover:text-blue px-3 absolute bottom-0 right-0">
                 <div class="flex flex-row align-middle">
                     <span class="mr-2">Next</span>
-                    <svg class="w-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
                             clip-rule="evenodd"></path>
@@ -154,7 +90,6 @@
 
         </div>
     </div>
-
 </body>
 
 </html>

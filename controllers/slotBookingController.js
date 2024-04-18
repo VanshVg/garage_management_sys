@@ -35,7 +35,10 @@ export const slotUpdate = async (req, res) => {
 
 export const slotDelete = async (req, res) => {
     const { slotId } = req.body
-    const errors = validationResult(req)
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(301).json({ success: false, message: "Invalid payload" });
+    }
     const result = await deleteSlot([slotId])
     if (result) {
         res.status(201).json({ message: "slot was deleted successfully" })
@@ -44,8 +47,10 @@ export const slotDelete = async (req, res) => {
     }
 }
 
-export const getSlots = async(req,res) => {   
-        const {startIndex,endIndex} =req.pagination
-        const result = await getAllSlots(startIndex)
-        res.json({result:result[0],count:result[1][0].count,startIndex:startIndex,endIndex:endIndex})       
+export const getSlots = async (req, res) => {
+    const { startIndex, endIndex } = req.pagination
+    const result = await getAllSlots(startIndex)
+    const totalPage = Math.ceil(result[1][0].count / 10)
+    res.json({ result: result[0], count: result[1][0].count, startIndex: startIndex, endIndex: endIndex, totalPage: totalPage })
+
 }

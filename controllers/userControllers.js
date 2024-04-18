@@ -1,7 +1,19 @@
-import { validationResult } from 'express-validator';
-import { activateUser, deleteUserAddress, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword } from '../utils/dbHandler.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
+import {
+  activateUser,
+  deleteUserAddress,
+  findAddressById,
+  findOne,
+  findOneById,
+  insert,
+  insertAddress,
+  insertUserAddress,
+  updateAddressById,
+  updatePassword,
+  updateUserByEmail,
+} from "../utils/dbHandler.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -75,8 +87,9 @@ export const login = async (req, res) => {
       .json({ success: false, message: "Invalid credentials" });
   }
   let { email, password } = req.body;
+
   let user = await findOne(email);
-  if (user.length == 0) {
+  if (!user || user?.length == 0 || user.error) {
     return res
       .status(301)
       .json({ success: false, message: "Invalid email or password!" });
@@ -162,9 +175,9 @@ export const updateProfile = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(301).json({ success: false, message: "Invalid payload" });
   }
-  let { name, city, area, pincode } = req.body;
+  let { name, city, area, pincode, bio } = req.body;
 
-  let userResult = await updateUserByEmail([name, req.user.email]);
+  let userResult = await updateUserByEmail([name, bio, req.user.email]);
   if (userResult != 1) {
     return res
       .status(301)
@@ -174,14 +187,14 @@ export const updateProfile = async (req, res) => {
   let user = await findOne(req.user.email);
   let address = await findAddressById(user[0].id);
   if (!address) {
-    let result = await insertAddress([user[0].id, city, area, pincode]);
+    let result = await insertAddress([city, area, pincode]);
     if (!result) {
       return res
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     } else {
       await deleteUserAddress([user[0].id]);
-      let userAddressResult = await insertUserAddress([user[0].id, city, area, pincode]);
+      let userAddressResult = await insertUserAddress([user[0].id, result]);
       if (!userAddressResult) {
         return res
           .status(301)
@@ -194,7 +207,7 @@ export const updateProfile = async (req, res) => {
   }
 
   let updateAddress = await updateAddressById([
-    cityId,
+    city,
     area,
     pincode,
     address.address_id,
