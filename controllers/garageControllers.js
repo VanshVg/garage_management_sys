@@ -10,6 +10,7 @@ import {
   displayGarage,
   getGarageList,
   findOne,
+  getGaragesService
 } from "../utils/dbHandler.js";
 import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -155,3 +156,8 @@ export const getGarageListing = async (req, res) => {
   const result = await getGarageList([user[0].id]);
   res.json({ garages: result });
 };
+
+export const getGarages = async (req,res) => {
+  const result = await getGaragesService();
+  res.json({result});
+}

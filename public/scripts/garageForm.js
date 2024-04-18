@@ -5,7 +5,6 @@ const changeStep = (hide, show) => {
       `#${hide} input[Validation],#${hide} select[Validation],#${hide} textarea[Validation]`
     )
     .forEach((ele) => {
-      console.log(ele);
       Validation.isValid(ele);
     });
   if (!document.querySelectorAll("error").length) {
@@ -53,7 +52,7 @@ const handleGarage = async (e) => {
       method: "POST",
       body: formData,
     });
-    response = response.json();
+    response = await response.json();
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

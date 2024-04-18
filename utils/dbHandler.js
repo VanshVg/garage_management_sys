@@ -281,6 +281,16 @@ export const getGarageList = async (ownerId) => {
   }
 };
 
+export const getGaragesService = async () => {
+  try{
+    let query = `SELECT garage_name, contact_number,thumbnail from garage_master;`
+    let result = await conn.query(query);
+    return result[0];
+  }catch(err){
+    return {err};
+  }
+}
+
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`;

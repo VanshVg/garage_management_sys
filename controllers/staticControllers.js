@@ -55,9 +55,6 @@ export const inventory = (req, res) => {
 export const invoice = (req, res) => {
   res.render("index", { title: "Invoice", active: "invoice" });
 };
-export const customerHome = (req, res) => {
-  res.render("customer", { title: "Home" });
-};
 
 export const customerProfile = (req, res) => {
   res.render("partials/customerProfile", { title: "profile" });
