@@ -1,5 +1,4 @@
 import {
-  displayGarage,
   selectByFieldName,
   selectByTableName,
   serviceListing,
@@ -10,7 +9,6 @@ import {
   getUserAddress,
   getAppointments,
   getServices,
-  selectById,
   getCustomerNames,
   getVehicleAssociatedServices,
   findOne,
@@ -55,9 +53,6 @@ export const inventory = (req, res) => {
 
 export const invoice = (req, res) => {
   res.render("index", { title: "Invoice", active: "invoice" });
-};
-export const customerHome = (req, res) => {
-  res.render("customer", { title: "Home" });
 };
 
 export const customerProfile = (req, res) => {
@@ -111,13 +106,9 @@ export const allServices = async (req, res) => {
 };
 
 export const servicesListing = async (req, res) => {
-  let garageId = 1;
+  const { garageId } = req.body;
   const servicesList = await serviceListing([garageId]);
-  const garageDetails = await displayGarage([garageId]);
-  res.render("customerServices", {
-    data: servicesList,
-    garageData: garageDetails,
-  });
+  res.json(servicesList);
 };
 
 export const getGarageCount = async (req, res) => {
@@ -152,6 +143,7 @@ export const appointmentsListing = async (req, res) => {
   const user = await findOne([req.user.email]);
   let garage = req.params.garageId || 1;
   const appointments = await getAppointments([garage, user[0].id]);
+  console.log(appointments);
   appointments.forEach(appointment => {
     appointment.date = appointment.startTime.slice(0, 10);
     appointment.startTime = appointment.startTime.slice(11, 16);
@@ -167,4 +159,8 @@ export const getAllCustomers = async (req, res) => {
 export const garageAddress = async (req, res) => {
   const result = await getGarageAddress([req.params.garageId]);
   res.status(201).json({ address: result });
+}
+
+export const selectServices = (req, res) => {
+  res.render("customerServices");
 }

@@ -8,12 +8,11 @@ import {
   updateGarageAddress,
   deleteGarage,
   displayGarage,
-  getGarageList,
   findOne,
   getOwnerGarages,
   garageSlotListing,
+  getGaragesService
 } from "../utils/dbHandler.js";
-import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -163,4 +162,8 @@ export const getGarageSlots = async (req, res) => {
   let { garageId, startDate, endDate } = req.body;
   const result = await garageSlotListing(garageId, startDate, endDate);
   res.json(result);
+}
+export const getGarages = async (req, res) => {
+  const result = await getGaragesService();
+  res.json({ result });
 }
