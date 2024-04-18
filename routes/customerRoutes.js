@@ -7,6 +7,7 @@ import {
 import * as vehicleController from "../controllers/vehicleControllers.js";
 import { vehicleValidator } from "../validators/vehicleValidation.js";
 import {
+  customerInvoice,
   customerSlotSelection,
   customerVehicleSelection,
   getAllCustomers,
@@ -24,7 +25,7 @@ router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-
+router.get("/invoice", customerInvoice);
 router.get("/garages",getGarageListing);
 
 export default router;
