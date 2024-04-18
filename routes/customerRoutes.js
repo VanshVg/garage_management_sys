@@ -12,6 +12,8 @@ import {
   customerVehicleSelection,
   getAllCustomers,
   slotDisplay,
+  CustomerFeedback,
+  CustomerFeedbackPost
 } from "../controllers/customerControllers.js";
 import { getGarages, getGarageListing } from "../controllers/garageControllers.js";
 const router = express.Router();
@@ -28,8 +30,10 @@ router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 router.get("/slots", slotDisplay);
-router.post("/getSlots", customerSlotSelection);
-
+router.post("/getslots", customerSlotSelection);
+router.get("/feedback", CustomerFeedback)
 router.get("/garages", getGarageListing);
+router.post("/feedback", CustomerFeedbackPost);
+router.post("/getSlots", customerSlotSelection);
 
 export default router;
