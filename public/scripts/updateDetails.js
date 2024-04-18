@@ -4,7 +4,7 @@ const updateDetails = async (fieldList) => {
   user.address = `${userDetails?.address?.area},</br>${userDetails?.address?.cityName}-${userDetails?.address?.pincode},</br>${userDetails?.address?.stateName}`;
   fieldList.forEach((field) => {
     document.querySelectorAll(`[dataBound=${field}]`).forEach((control) => {
-      if (field == "thumbnail") {
+      if (field == "profile_pic") {
         control.src =
           user.profile_pic.trim() == ""
             ? "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg"

@@ -7,10 +7,10 @@ const changeStep = (hide, show) => {
     .forEach((ele) => {
       Validation.isValid(ele);
     });
-  if (!document.querySelectorAll("error").length) {
+  if (!document.querySelectorAll("#garageAdd error").length) {
     document.getElementById(hide).classList.add("hidden");
     document.getElementById(show).classList.remove("hidden");
-  }
+  } else console.log(Validation.allValid);
 };
 
 const handleGarage = async (e) => {
@@ -52,7 +52,8 @@ const handleGarage = async (e) => {
       method: "POST",
       body: formData,
     });
-    response = response.json();
+    response = await response.json();
+    console.log(response);
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

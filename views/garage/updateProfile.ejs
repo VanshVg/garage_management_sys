@@ -4,7 +4,7 @@
     <div class="flex flex-grow my-4">
         <div class="w-1/3 h-full">
             <div class="relative rounded overflow-hidden">
-                <label for="thumbnail"
+                <label for="profile_pic"
                     class="relative flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-lg cursor-pointer bg-light dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -14,7 +14,7 @@
                         </svg>
                         <p class="text-xs text-gray-500 dark:text-gray-400">Profile Pic</p>
                     </div>
-                    <input id="thumbnail" type="file" class="hidden" accept="image/*" name="thumbnail" multiple
+                    <input id="profile_pic" type="file" class="hidden" accept="image/*" name="profile_pic"
                         onchange="imageSelection(this,'updateOwner')" />
                     <button id="remove-image"
                         class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
@@ -25,7 +25,7 @@
                         </svg>
                     </button>
                     <div class="w-full  h-full absolute top-0 left-0 rounded-md overflow-hidden backdrop-blur-sm">
-                        <img id="image-preview" dataBound="thumbnail" alt="Profile Picture"
+                        <img id="image-preview" dataBound="profile_pic" alt="Profile Picture"
                             class="w-full h-full object-cover">
                         <div
                             class="absolute bottom-0 flex flex-col justify-center  items-center w-full bg-gradient-to-t from-black to-[rgba(0,0,0,.3)]  h-full p-5 backdrop-blur-[1px]">

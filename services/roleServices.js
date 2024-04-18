@@ -1,11 +1,10 @@
 export const validateRole = (role_id) => (req, res, next) => {
   if (!req.user) {
-    return res.redirect('/u/signIn');
+    return res.redirect("/u/signIn");
   }
   if (req.user.role_id == role_id) {
     next();
+  } else {
+    res.redirect("/");
   }
-  else {
-    res.end("You are not allowed to access this route");
-  }
-}
+};

@@ -66,18 +66,19 @@ const Validation = {
             errorElement.innerText =
               validateControls[control.name].errorMessage;
             control.insertAdjacentElement("afterend", errorElement);
-          }
+          } else control.nextSibling?.remove();
         }
       });
     Validation.allValid = document.querySelector("error") == null;
   },
-  validateAll: async (formId,form) => {
+  validateAll: async (formId, form) => {
     document.querySelectorAll(`input[validation]`).forEach((ele) => {
       Validation.isValid(ele);
     });
     if (Validation.allValid) {
       const formData = new FormData(document.querySelector(`#${formId}`));
       const formProps = Object.fromEntries(formData);
+      console.log(formProps);
       if (form == "u/register")
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
@@ -148,7 +149,7 @@ const Validation = {
           error = "Something wen't wrong..!!";
         }
         toast.show("error", error);
-      } 
+      }
     }
   },
   setDefault: () => {
@@ -348,4 +349,3 @@ const Validation = {
 //   }
 //   toast.show("error", error);
 // };
-

@@ -15,9 +15,10 @@ const handleUpdateForm = async (e) => {
         document.querySelector(`#updateOwner #${filed}`).value
       );
     });
+    formData.delete("profile_pic");
     formData.append(
       "thumbnail",
-      document.querySelector("#updateOwner #thumbnail").files[0]
+      document.getElementById("profile_pic").files[0] || ""
     );
     formData.append("userId", localStorage.getItem("userId"));
     formProps = Object.fromEntries(formData);

@@ -26,7 +26,7 @@ export const register = async (req, res) => {
     res.status(301).json({ success: false, message: "Invalid payload" });
   } else {
     let result = await findOne(email);
-    if (result.length) {
+    if (result) {
       res.status(301).json({
         success: false,
         message: "Email already exists please login to continue",
