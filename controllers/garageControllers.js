@@ -9,8 +9,9 @@ import {
   deleteGarage,
   displayGarage,
   getGarageList,
+  findOne,
 } from "../utils/dbHandler.js";
-import { fileUpload } from "../helpers/fileUploads.js";
+import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -35,11 +36,9 @@ export const garageAdd = async (req, res) => {
     latitude,
     longitude,
   } = req.body;
-  console.log(latitude);
-  console.log(longitude);
+  let thumbnail = req.file.filename;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
-  let thumbnail = fileUpload();
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
@@ -152,6 +151,7 @@ export const garageList = (req, res) => {
 };
 
 export const getGarageListing = async (req, res) => {
-  const result = await getGarageList();
-  res.json({ result: result });
+  const user = await findOne([req.user.email]);
+  const result = await getGarageList([user[0].id]);
+  res.json({ garages: result });
 };

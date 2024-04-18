@@ -1,6 +1,7 @@
 import express from "express";
 import {
   appointments,
+  appointmentsListing,
   calendar,
   findOwnerService,
   getAllCustomers,
@@ -37,13 +38,16 @@ router.use("/profile", profileRoutes);
 
 router.get("/appointment", appointments);
 
+router.get('/appointmentsList', appointmentsListing);
+router.get('/appointmentsList/:garageId', appointmentsListing);
+
 router.get("/inventory", inventory);
 
 router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
 
-router.get('/ownerServices', findOwnerService);
+router.get("/ownerServices", findOwnerService);
 
 router.get("/getCustomerList",getAllCustomers)
 

@@ -87,8 +87,9 @@ export const login = async (req, res) => {
       .json({ success: false, message: "Invalid credentials" });
   }
   let { email, password } = req.body;
+
   let user = await findOne(email);
-  if (!user || user?.length == 0) {
+  if (!user || user?.length == 0 || user.error) {
     return res
       .status(301)
       .json({ success: false, message: "Invalid email or password!" });
@@ -186,19 +187,14 @@ export const updateProfile = async (req, res) => {
   let user = await findOne(req.user.email);
   let address = await findAddressById(user[0].id);
   if (!address) {
-    let result = await insertAddress([user[0].id, city, area, pincode]);
+    let result = await insertAddress([city, area, pincode]);
     if (!result) {
       return res
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     } else {
       await deleteUserAddress([user[0].id]);
-      let userAddressResult = await insertUserAddress([
-        user[0].id,
-        city,
-        area,
-        pincode,
-      ]);
+      let userAddressResult = await insertUserAddress([user[0].id, result]);
       if (!userAddressResult) {
         return res
           .status(301)

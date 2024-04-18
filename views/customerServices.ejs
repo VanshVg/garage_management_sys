@@ -30,20 +30,7 @@
         }
     </script>
     <style>
-        [type=checkbox] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
 
-        [type=checkbox]+img {
-            cursor: pointer;
-        }
-
-        [type=checkbox]:checked+img {
-            outline: 2px solid blue;
-        }
     </style>
 </head>
 
@@ -71,19 +58,22 @@
             <h3 class="m-5 font-semibold text-white text-4xl  dark:text-white">Services</h3>
             <ul class="w-full text-sm font-medium text-white">
                 <% for (let i=0; i < data.length; i++) { %>
-                    <li class="w-full h-20">
-                        <div class="flex items-center ps-3">
-                            <label>
-                                <input type="checkbox" name="test" value="checkbox" checked>
+                    <label>
+                        <li class="w-full h-20 bg-blue rounded-6 flex items-center rounded-lg my-5 relative">
+                            <div class="flex items-center ps-3 ">
+
+                                <input type="checkbox" name="test" value="checkbox"
+                                    class="w-5 h-5 absolute right-0 top-0">
                                 <img src="/assets/service.png" class="w-16 h-16 rounded-md" alt="Option 1">
-                            </label>
-                            <div class="max-w-56">
-                                <p class="font-medium text-sm ml-4">
-                                    <%= data[i].description %>
-                                </p>
+
+                                <div class="max-w-56">
+                                    <p class="font-medium text-sm ml-4">
+                                        <%= data[i].description %>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    </label>
                     <% } %>
             </ul>
             <button type="button"
