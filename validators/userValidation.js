@@ -61,15 +61,15 @@ export const garageValidator = [
   body("contactNumber")
     .isAlphanumeric()
     .withMessage("contact number must contain numbers")
-    .isLength(10)
+    .isLength({ min: 10, max: 10 })
     .withMessage("contact number must be 10 digit"),
-  body("openTime")
-    .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
-    .withMessage("provide valid open time"),
-  body("closeTime")
-    .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
-    .withMessage("provide valid open time"),
 ];
+// body("openTime")
+//     .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+//     .withMessage("provide valid open time"),
+//   body("closeTime")
+//     .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+//     .withMessage("provide valid open time"),
 export const forgotPasswordValidator = [];
 export const resetValidator = [];
-export const forgotEmailValidator = () => {};
+export const forgotEmailValidator = () => { };

@@ -1,6 +1,7 @@
 <%- include('../partials/head.ejs') %>
-<link rel="stylesheet" href="/styles/auth.css">
+  <link rel="stylesheet" href="/styles/auth.css">
   </head>
+  <script src="/scripts/validation.js"></script>
 
   <body>
     <toast></toast>
@@ -32,13 +33,13 @@
               <a href="/u/forgotPassword">forgot password ?</a>
             </div>
           </div>
-          <input type="button" class="submitButton" id="submitButton" value="LOGIN" tabindex="3" onclick="Validation.validateAll('login','u/login')">
+          <input type="button" class="submitButton" id="submitButton" value="LOGIN" tabindex="3"
+            onclick="Validation.validateAll('login','u/login')">
           <div class="createAccount" style="margin-top: 20px;">
             don’t have account ?<a href="/u" tabindex="4"> create account</a>
           </div>
         </form>
       </div>
     </div>
-<script src="/scripts/validation.js"></script>
-<script src="/scripts/toast.js"></script>
+    <script src="/scripts/validation.js"></script>
     <%- include('../partials/foot.ejs') %>

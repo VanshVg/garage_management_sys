@@ -9,8 +9,9 @@ import {
   deleteGarage,
   displayGarage,
   getGarageList,
+  findOne,
+  getOwnerGarages,
 } from "../utils/dbHandler.js";
-import fileUpload from "../helpers/fileUploads.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -36,6 +37,7 @@ export const garageAdd = async (req, res) => {
     longitude,
   } = req.body;
   let thumbnail = req.file.filename;
+  userId = (await findOne(req.user.email))[0].id || userId;
   openTime = dateTimeConvertor(openTime);
   closeTime = dateTimeConvertor(closeTime);
   const errors = validationResult(req);
@@ -62,6 +64,7 @@ export const garageAdd = async (req, res) => {
       ]);
       if (garageId) {
         let result = await insertGarageOwner([userId, garageId]);
+        console.log(result);
         let result2 = await insertGarageReference([
           addressId,
           garageId,
@@ -101,7 +104,7 @@ export const garageUpdate = async (req, res) => {
   } = req.body;
   let garageId = 1;
   let addressId = 2;
-  let thumbnail = fileUpload();
+  let thumbnail = req.file?.filename;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
@@ -150,6 +153,7 @@ export const garageList = (req, res) => {
 };
 
 export const getGarageListing = async (req, res) => {
-  const result = await getGarageList();
-  res.json({ result: result });
+  const user = await findOne([req.user.email]);
+  const result = await getOwnerGarages([user[0].id]);
+  res.json({ garages: result });
 };

@@ -1,5 +1,10 @@
 import { validationResult } from "express-validator";
-import { findVehicleData, insertData, selectByFieldName, selectByFieldNames } from "../utils/dbHandler.js";
+import {
+  findVehicleData,
+  insertData,
+  selectByFieldName,
+  selectByFieldNames,
+} from "../utils/dbHandler.js";
 
 export const addVehicle = async (req, res) => {
   try {
@@ -7,10 +12,7 @@ export const addVehicle = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(301).json({ success: false, message: "Invalid payload" });
     }
-    const { type, vehicleImage, brand, model, year, numberPlate, description } = req.body;
-
-    let typeResult = await selectByFieldName("vehicle_types", "name", type);
-    let typeId = typeResult[0].id;
+    const { typeId, vehicleImage, brand, model, year, numberPlate, description } = req.body;
 
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
@@ -46,7 +48,6 @@ export const addVehicle = async (req, res) => {
       vehicleId = isVehicle[0].id;
     }
 
-
     let userVehicle = await insertData(
       "user_has_vehicles",
       ["owner_id", "vehicle_id", "register_plate_number"],
@@ -67,23 +68,27 @@ export const addVehicle = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Vehicle added successfully" });
   } catch (error) {
-    console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
 
-
 export const getAddVehicle = async (req, res) => {
   try {
-    let user = await selectByFieldName("users", "email", req.user.email);
-    if (user.length < 1) {
+    const { type } = req.params;
+
+    let typeResult = await selectByFieldName("vehicle_types", "name", type);
+    if (typeResult.length < 1) {
       return res.status(301).json({ success: false, message: "something went wrong" });
     }
+    let typeId = typeResult[0].id;
 
-    let vehicleData = await findVehicleData(user[0].id)
-    return res.render("partials/addVehicle.ejs", { vehicleData })
+    let user = await selectByFieldName("users", "email", req.user.email);
+    if (user.length < 1) {
+    }
+
+    let vehicleData = await findVehicleData(user[0].id);
+    return res.render("partials/addVehicle.ejs", { vehicleData, typeId, type });
   } catch (error) {
-    console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-}
+};

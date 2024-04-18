@@ -33,6 +33,7 @@
 <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/styles/ownerProfile.css">
     <link rel="stylesheet" href="/styles/garageForm.css">
+    <link rel="stylesheet" href="/styles/slot.css">
     </head>
     <% var active=active || 'dashboard' ; %>
 
@@ -70,6 +71,11 @@
                             <%- include(`./partials/slots.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="slot-add-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Slots/Edit"})%>
+                            <%- include(`./partials/addSlot`) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="appointment-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
                             <%- include(`./partials/appointments.ejs`) %>
@@ -87,14 +93,19 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garage-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
-                            <%- include(`./garage/add.ejs`,{title:'New'}) %>
+                            <%- include(`./garage/add.ejs`, { formType: 'addGarage' }) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="garage-edit-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"Garages/Edit"})%>
+                            <%- include(`./garage/add.ejs`, { formType: 'editGarage' }) %>
                     </div>
 
             </div>
             <script>
                 updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
-                    document.querySelectorAll('li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
+                    document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {
                         let active = document.querySelector(`.menus ul li[id=${activated}]`);
                         active.classList.add('bg-blue');
@@ -110,7 +121,7 @@
                     screen.style.display = 'flex';
                 }
                 setActive('<%= active %>');
-                document.querySelectorAll('li').forEach(li => {
+                document.querySelectorAll('#sidebar li').forEach(li => {
                     li.addEventListener('click', () => {
                         if (li.id == 'logout') {
                             Swal.fire({

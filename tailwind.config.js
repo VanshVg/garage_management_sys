@@ -19,6 +19,7 @@ export default {
       card3text: "#df5e5e",
       card4bg: "rgba(237, 231, 251, 0.5)",
       card4text: "#9a78ea",
+      red: "#ff0000"
     },
   },
   plugins: [],

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Kadwa:wght@400;700&display=swap");
+
 :root {
   --dark: #152533;
   --blue: #355364;
@@ -120,6 +121,23 @@ button {
   outline: none;
   border: none;
 }
+
 .page-container {
   overflow-y: auto;
+}
+
+#appointment-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  td,
+  th {
+    border: 1px solid black;
+  }
+
+  th {
+    background-color: #152533;
+    color: white;
+  }
 }
