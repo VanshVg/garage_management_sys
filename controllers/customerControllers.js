@@ -13,9 +13,6 @@ export const slotDisplay = async (req, res) => {
     res.render("customerSlots");
 }
 export const customerSlotSelection = async (req, res) => {
-    // let garageId = 1;
-    // let startDate = '2020-01-01';
-    // let endDate = '2020-01-02';
     let { garageId, startDate, endDate } = req.body;
     const result = await customerSlotListing(garageId, startDate, endDate);
 
