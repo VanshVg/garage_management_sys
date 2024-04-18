@@ -151,6 +151,7 @@ export const appointmentsListing = async (req, res) => {
   const user = await findOne([req.user.email]);
   let garage = req.params.garageId || 1;
   const appointments = await getAppointments([garage, user[0].id]);
+  console.log(appointments);
   appointments.forEach(appointment => {
     appointment.date = appointment.startTime.slice(0, 10);
     appointment.startTime = appointment.startTime.slice(11, 16);

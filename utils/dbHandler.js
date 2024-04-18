@@ -519,6 +519,7 @@ export const getAppointments = async (ownerDetails) => {
   try {
     let query = "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
     let result = await conn.query(query, ownerDetails);
+    console.log(result)
     return result[0];
   }
   catch (error) {
@@ -554,6 +555,26 @@ export const getVehicleAssociatedServices  = async(userId) =>{
     LEFT JOIN vehicle_types
     ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`
     const result = await conn.query(query,[userId])
+    return result[0]
+  } catch (error) {
+    return {error}
+  }
+}
+
+export const insertFeedback = async (customerId,garageId,desscription,rating) =>{
+  try {
+    var query = `INSERT INTO feedbacks (garage_id, customer_id, feedback, ratings) VALUES (?,?,?,?)`
+    const result = await conn.query(query,[garageId,customerId,desscription,rating])
+    return result[0].insertId;
+  } catch (error) {
+    return{error}
+  }
+}
+
+export const ifFeedbackExist = async (customerId) =>{
+  try {
+    var query = `SELECT * FROM feedbacks where customer_id = ?`
+    const result = await conn.query(query,[customerId])
     return result[0]
   } catch (error) {
     return {error}
