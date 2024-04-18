@@ -25,7 +25,7 @@ router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 router.get("/slots", slotDisplay);
-router.post("/getslots", customerSlotSelection);
+router.post("/getSlots", customerSlotSelection);
 
 router.get("/garages", getGarageListing);
 

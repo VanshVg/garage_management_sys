@@ -10,12 +10,10 @@ const populateSlots = async () => {
     body: JSON.stringify(payLoad)
   });
   let result = await data.json();
-  console.log(result);
   let serviceDisplay = document.getElementById("serviceList");
   if (result.length == 0) {
     serviceDisplay.innerHTML = ` <p class="font-serif text-2xl text-white">No Service Available</p>`;
-  }
-  else {
+  } else {
     result.forEach((element) => {
       serviceDisplay.innerHTML += `<label>
               <li class="w-full h-20 bg-blue rounded-6 flex items-center rounded-lg my-5 relative">

@@ -6,13 +6,16 @@ const handleSlots = () => {
   let value = document.querySelector('.test:checked');
   value.parentNode.style.backgroundColor = 'white';
 }
+
 const populateSlots = async (startDate, endDate) => {
+  const slotDisplay = document.getElementById("slotDisplay");
+  slotDisplay.innerHTML = '';
   let payLoad = {
     "garageId": 1,
     "startDate": startDate,
     "endDate": endDate
   }
-  let data = await fetch('/customer/getslots', {
+  let data = await fetch('/customer/getSlots', {
     method: "post",
     headers: {
       "Content-type": "application/json"
@@ -20,13 +23,12 @@ const populateSlots = async (startDate, endDate) => {
     body: JSON.stringify(payLoad)
   });
   let result = await data.json();
-  let slotDisplay = document.getElementById("slotDisplay");
   if (result.length == 0) {
     slotDisplay.innerHTML = ` <p class="font-serif text-2xl text-white">No Slot Avaliable</p>`;
   }
   else {
     result.forEach((element) => {
-      slotDisplay.innerHTML = `<label class="rounded-lg w-68 h-14 m-5 bg-lightorange text-xl flex items-center justify-center"
+      slotDisplay.innerHTML += `<label class="rounded-lg w-68 h-14 m-5 bg-lightorange text-xl flex items-center justify-center"
             tabindex="1">
             <input class="test" type="radio" name="test" value="${element.id}" onclick="handleSlots()">
             <p class="font-sans hover:font-serif text-xl text-blue">
@@ -64,7 +66,12 @@ const months = [
 ];
 
 const displaySlots = async (e) => {
-  const date = e.target.innerText;
+  let date;
+  if (e.target) {
+    date = e.target.innerText;
+  } else {
+    date = e.innerText;
+  }
   let data = year + "-";
   let newMonth = month + 1;
   if (newMonth < 10) data += 0;
@@ -121,6 +128,7 @@ const manipulate = () => {
   dates.forEach(date => {
     date.addEventListener('click', displaySlots);
   });
+  displaySlots(dates[0]);
 }
 manipulate();
 
