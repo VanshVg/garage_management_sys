@@ -5,7 +5,6 @@ import {
   selectServices,
 } from "../controllers/staticControllers.js";
 import * as vehicleController from "../controllers/vehicleControllers.js";
-import { vehicleValidator } from "../validators/vehicleValidation.js";
 import {
   home, vehicles, addVehicles,
   customerSlotSelection,
@@ -13,7 +12,8 @@ import {
   getAllCustomers,
   slotDisplay,
   CustomerFeedback,
-  CustomerFeedbackPost
+  CustomerFeedbackPost,
+  customerInvoice
 } from "../controllers/customerControllers.js";
 import { getGarages, getGarageListing } from "../controllers/garageControllers.js";
 const router = express.Router();
@@ -34,6 +34,6 @@ router.post("/getslots", customerSlotSelection);
 router.get("/feedback", CustomerFeedback)
 router.get("/garages", getGarageListing);
 router.post("/feedback", CustomerFeedbackPost);
-router.post("/getSlots", customerSlotSelection);
+router.get("/invoice", customerInvoice);
 
 export default router;
