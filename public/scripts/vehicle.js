@@ -67,7 +67,6 @@ const selectVehicle = () => {
   let j = 0;
   let fields = document.getElementsByName("vehicle");
   for (let i = 0; i < fields.length; i++) {
-    console.log(`vehicle${i+1}`);
     document.getElementsByName(`vehicle${i+1}`)[0].style.border = "none"
     j++;
   }
