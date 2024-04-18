@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/scripts/slotDisplay.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/styles/simpleCalendar.css">
   <script>
     tailwind.config = {
       theme: {
@@ -41,7 +41,6 @@
 </head>
 
 <body>
-
   <div class="flex h-screen overflow-hidden relative">
     <div class="h-screen w-3/4 bg-lightbg flex bg-center bg-no-repeat bg-cover bg-blend-multiply">
       <div
@@ -50,8 +49,50 @@
           <img src="/assets/logo.png" class="rotate-[45deg]" alt="logo" height="80px" width="80px">
         </div>
       </div>
+      <div class="grid-slot flex items-center justify-center w-full" id="simpleCalendar">
+        <div class="calendar-container">
+          <header class="calendar-header">
+            <p class="calendar-current-date" id="month"></p>
+            <div class="calendar-navigation">
+              <span id="calendar-prev" class="material-symbols-rounded">
+                <img src="/icons/left.svg" alt="&lt;">
+              </span>
+              <span id="calendar-next" class="material-symbols-rounded">
+                <img src="/icons/right.svg" alt="&gt;">
+              </span>
+            </div>
+          </header>
 
+          <div class="calendar-body">
+            <ul class="calendar-weekdays">
+              <li>Sun</li>
+              <li>Mon</li>
+              <li>Tue</li>
+              <li>Wed</li>
+              <li>Thu</li>
+              <li>Fri</li>
+              <li>Sat</li>
+            </ul>
+            <ul class="calendar-dates"></ul>
+          </div>
+        </div>
+
+        <div class="slot-listing" id="slot-listing" style="display: none;">
+          <table id="slot-table">
+            <thead>
+              <tr>
+                <th>Slot</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="slot-body">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
     <div class="h-screen w-1/4 bg-dark overflow-scroll flex-col text-center items-center">
       <h3 class="m-5 font-semibold text-white text-4xl  dark:text-white">Slots</h3>
       <div id="slotDisplay"></div>
@@ -67,9 +108,10 @@
           </svg>
         </div>
       </button>
-
     </div>
   </div>
+
+  <script src="/scripts/slotDisplay.js"></script>
 </body>
 
 </html>

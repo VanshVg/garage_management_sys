@@ -41,8 +41,8 @@ export const slots = (req, res) => {
   res.render("index", { title: "Slots", active: "slots" });
 };
 
-export const customer = (req,res) => {
-  res.render("index", {title: "customer", active: "customer"})
+export const customer = (req, res) => {
+  res.render("index", { title: "customer", active: "customer" })
 }
 
 export const appointments = (req, res) => {
@@ -96,9 +96,9 @@ export const getUserDetails = async (req, res) => {
   if (!user) {
     return res.status(301).json({ success: false, message: "user not found" });
   }
-  const address = await getUserAddress(user[0].id); 
+  const address = await getUserAddress(user[0].id);
   const vehicleServices = await getVehicleAssociatedServices(user[0].id)
-  res.status(201).json({ user: user[0], address: address[0], vehicleServices:vehicleServices });
+  res.status(201).json({ user: user[0], address: address[0], vehicleServices: vehicleServices });
 };
 
 export const allServices = async (req, res) => {
@@ -107,13 +107,9 @@ export const allServices = async (req, res) => {
 };
 
 export const servicesListing = async (req, res) => {
-  let garageId = 1;
+  const { garageId } = req.body;
   const servicesList = await serviceListing([garageId]);
-  const garageDetails = await displayGarage([garageId]);
-  res.render("customerServices", {
-    data: servicesList,
-    garageData: garageDetails,
-  });
+  res.json(servicesList);
 };
 
 export const getGarageCount = async (req, res) => {
@@ -155,7 +151,10 @@ export const appointmentsListing = async (req, res) => {
   });
   res.status(201).json({ success: true, appointments });
 }
-export const getAllCustomers = async(req,res)=>{
+export const getAllCustomers = async (req, res) => {
   const result = await getCustomerNames(1)
   res.json({ result: result });
+}
+export const selectServices = (req, res) => {
+  res.render("customerServices");
 }
