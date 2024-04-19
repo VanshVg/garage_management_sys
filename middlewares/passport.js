@@ -15,7 +15,14 @@ var cookieExtractor = function (req) {
 export const applyPassportStrategy = () => {
   const options = {};
   options.secretOrKey = process.env.SECRET_KEY || "GarageManagementDB";
-  options.jwtFromRequest = ExtractJwt.fromExtractors([cookieExtractor]);
+  let jwt = null;
+  try {
+    jwt = ExtractJwt.fromExtractors([cookieExtractor]);
+  }
+  catch (error) {
+    return null;
+  }
+  options.jwtFromRequest = jwt;
   passport.use(
     new Strategy(options, async (payload, done) => {
       let result = await findOne([payload.email]);

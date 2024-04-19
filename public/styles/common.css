@@ -141,3 +141,13 @@ button {
     color: white;
   }
 }
+
+.red {
+  background-color: white;
+  color: orangered;
+  text-decoration: line-through;
+}
+
+.btn {
+  cursor: pointer;
+}

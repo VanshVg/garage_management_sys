@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, insertSlot, updateSlot,findOne } from "../utils/dbHandler.js";
+import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot } from "../utils/dbHandler.js";
 
 
 export const slotBooking = async (req, res) => {
@@ -10,11 +10,11 @@ export const slotBooking = async (req, res) => {
     }
     else {
         const result = await insertSlot([garageId, startTime, endTime])
-        if (result) {
-            res.status(201).json({ message: "slot inserted successfully" })
-        } else {
-            res.status(301).json({ success: false, message: "slot was not booked" })
+        if (!result) res.status(301).json({ success: false, message: "something went wrong" });
+        else if (result.error) {
+            res.status(301).json({ success: false, message: "error adding slot please try again" });
         }
+        else res.status(201).json({ message: "slot inserted successfully" });
     }
 }
 
@@ -57,4 +57,10 @@ export const getSlots = async (req, res) => {
     const totalPage = Math.ceil(result[1][0].count / 10)
     res.json({ result: result[0], count: result[1][0].count, startIndex: startIndex, endIndex: endIndex, totalPage: totalPage })
 
+}
+
+export const appointmentsByDateRange = async (req, res) => {
+    const { garageId, startDate, endDate } = req.body;
+    const result = await getAppointsByDateRange([startDate, endDate, garageId]);
+    res.status(201).json({ success: true, appointments: result });
 }

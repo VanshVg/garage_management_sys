@@ -649,3 +649,13 @@ export const ifFeedbackExist = async (customerId) => {
     return { error }
   }
 }
+
+export const getAppointsByDateRange = async (payload) => {
+  try {
+    const query = "select c.name as customerName, b.start_time as startTime, b.end_time as endTime from appointments as a join slot_master as b join users as c on a.slot_id = b.id and a.customer_id = c.id where b.start_time > ? and b.end_time <= ? and b.garage_id = ?;";
+    const result = await conn.query(query, payload);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+}
