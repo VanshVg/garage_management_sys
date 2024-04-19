@@ -1,4 +1,9 @@
-const callAPI = async (endpoint, body = {}, method = "GET") => {
+const callAPI = async (
+  endpoint,
+  body = {},
+  method = "GET",
+  formData = false
+) => {
   let data = await fetch(
     endpoint,
     method != "GET"
@@ -17,4 +22,11 @@ const callAPI = async (endpoint, body = {}, method = "GET") => {
   } catch (error) {
     return error;
   }
+};
+const callApiWithFormData = async ({ endpoint, body, method = "POST" }) => {
+  let response = await fetch(endpoint, {
+    method,
+    body,
+  });
+  return await response.json();
 };

@@ -41,7 +41,6 @@ export const customerInvoice = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Pdf has been generated" });
   } catch (error) {
-    console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };

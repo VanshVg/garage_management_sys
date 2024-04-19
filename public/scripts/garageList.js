@@ -31,7 +31,6 @@ const getData = async (page = 1,garage) => {
 
 const populateData = async (pageNumber = 1) => {
   var select = document.querySelector("#garagesDropdown")
-  console.log(select.value);
   var data = await getData(pageNumber,select.value);
   const tableNode = document.getElementById("table");
   while (tableNode.childNodes.length != 2) {

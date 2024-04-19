@@ -37,9 +37,7 @@ const addService = async () => {
 
 
   const select = document.getElementById('garageDropDown');
-  // console.log(select);
   const option = select[select.selectedIndex].value;
-  console.log(option);
   let data = await fetch(`/owner/services/${option}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -94,14 +92,12 @@ const addMyEventListener = () => {
 const garageDropdown = async () => {
   const garageList = await callAPI('/owner/garages/getGaragesList');
   const garages = garageList.garages;
-  console.log(garages);
   let optionsGarage = "";
   garages.forEach(element => {
     optionsGarage += `<option value=${element.garage_id}>${element.garage_name}</option>`;
   });
-  console.log(optionsGarage);
   let selectGarage = document.getElementById('garageDropDown');
   selectGarage.innerHTML = optionsGarage;
-  console.log(selectGarage);
+
 }
 garageDropdown();

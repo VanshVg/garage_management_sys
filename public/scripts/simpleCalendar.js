@@ -65,7 +65,6 @@ const addSlot = async (e) => {
     body: new URLSearchParams(formData)
   });
   const json = await myData.json();
-  console.log(json);
   displaySlots();
 }
 
