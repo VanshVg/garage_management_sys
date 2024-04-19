@@ -1,20 +1,44 @@
-const getData = async (page = 1) => {
-  const jsonData = await fetch("/owner/slots/getAllSlots?page=" + page);
+const getGarages = async ()=>{
+  var garageData = await fetch("/owner/garages/getGaragesList")
+  var garageData = await garageData.json()
+  var dropdown = document.querySelector("#garagesDropdown") 
+
+  garageData.garages.forEach((element)=>{
+    var option = document.createElement("option")
+    option.setAttribute("value",element.garage_name)
+    option.classList.add("font-family")
+    option.classList.add("options")
+    option.innerText = element.garage_name
+    option.value = element.garage_name
+    dropdown.appendChild(option)
+  }) 
+
+}
+getGarages()
+const getData = async (page = 1,garage) => {
+  const jsonData = await fetch("/owner/slots/getAllSlots?page=" + page +"&garage="+garage);   
   var data = await jsonData.json();
   return [
     data.result,
     data.startIndex,
     data.endIndex,
     data.count,
-    data.totalPage,
+    data.totalPage
   ];
 };
+
+
+
 const populateData = async (pageNumber = 1) => {
-  var data = await getData(pageNumber);
+  var select = document.querySelector("#garagesDropdown")
+  console.log(select.value);
+  var data = await getData(pageNumber,select.value);
   const tableNode = document.getElementById("table");
   while (tableNode.childNodes.length != 2) {
     tableNode.removeChild(tableNode.lastChild);
   }
+  
+
   data[0].forEach((element) => {
     var tr = document.createElement("tr");
     tr.classList.add("tr-class");
@@ -68,7 +92,7 @@ const populateData = async (pageNumber = 1) => {
   return [data[4]];
 };
 
-populateData();
+populateData()
 
 function createEditAndDelete() {
   var hmMenu = document.createElement("div");
@@ -102,14 +126,15 @@ function createEditAndDelete() {
 
 var next = document.querySelector("#next");
 var prev = document.querySelector("#prev");
-next.addEventListener("click", async () => {
+next.addEventListener("click", async (event) => {
+  
   var pid = parseInt(document.querySelector(".current").innerText);
   const pageNumber = pid + 1;
   const pageCount = await populateData(pageNumber);
-
   document.querySelector(".current").innerText = pid + 1;
 
   if (pid + 1 == pageCount) {
+    event.preventDefault()
     next.disabled = true;
   } else {
     prev.disabled = false;
@@ -117,14 +142,19 @@ next.addEventListener("click", async () => {
 });
 
 prev.addEventListener("click", async () => {
+
   var pid = parseInt(document.querySelector(".current").innerText);
-  document.querySelector(".current").innerText = pid - 1;
+  if (pid-1!=0) {
+    document.querySelector(".current").innerText = pid - 1;
   const pageNumber = pid - 1;
   populateData(pageNumber);
 
-  if (pid - 1 == 1) {
+  if (pid-1 == 0) {
     prev.disabled = true;
   } else {
     next.disabled = false;
+  }  
   }
+  
 });
+

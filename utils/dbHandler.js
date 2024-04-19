@@ -87,13 +87,19 @@ export const deleteSlot = async (slotId) => {
   }
 };
 
-export const getAllSlots = async (offset) => {
+export const getAllSlots = async (offset,garage,user) => {
   try {
-    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time, availability_status 
+    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time,        availability_status 
                  FROM slot_master 
-                 LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id limit ?, 10;
-                 SELECT COUNT(id) as count FROM slot_master;`;
-    let result = await conn.query(query, offset);
+                 LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
+                 LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?  limit ?, 10;
+                 SELECT COUNT(slot_master.id) as count 
+                 FROM slot_master 
+                 LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
+                 LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?`;
+    let result = await conn.query(query, ['%'+garage+'%',user,offset,'%'+garage+'%',user]);
     return result[0];
   } catch (error) {
     return { error };
