@@ -640,6 +640,17 @@ export const insertFeedback = async (customerId, garageId, description, rating) 
   }
 }
 
+export const getInvoiceDetails = async (appointmentDetails) => {
+  try {
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, users.name AS customer_name, address_master.area, address_master.pincode, city_name, service_master.description AS service_description, service_master.price, appointment_payments.type AS payment_type, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN users ON appointments.customer_id = users.id JOIN user_address ON users.id = user_address.user_id JOIN address_master ON user_address.address_id = address_master.id JOIN city_master ON address_master.city_id = city_master.id JOIN appointment_services ON appointments.id = appointment_services.appointment_id JOIN service_master ON appointment_services.service_id = service_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.id = ? AND users.id=?;`
+    let [result] = await conn.query(query, appointmentDetails);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+}
+
 export const ifFeedbackExist = async (customerId) => {
   try {
     var query = `SELECT * FROM feedbacks where customer_id = ?`
@@ -656,6 +667,42 @@ export const getAppointsByDateRange = async (payload) => {
     const result = await conn.query(query, payload);
     return result[0];
   } catch (error) {
+    return {error};
+  }
+}
+
+export const getCustomerAppointments = async (customerId) => {
+  try {
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`
+    let [result] = await conn.query(query, [customerId]);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+}
+
+export const updateFields = async (tableName, fields, conditions) => {
+  try {
+    let query = `UPDATE ` + tableName + ` SET ? WHERE `;
+    let keys = Object.keys(conditions);
+    if(keys.length == 1) {
+      query+= `${keys[0]} = ${conditions[keys[0]]};`
+    } else {
+      let i = 0;
+      keys.forEach((element) => {
+        if(i != keys.length-1) {
+          query += `${element} = "${conditions[element]}" AND `
+        } else {
+          query += `${element} = "${conditions[element]}";`
+        }
+        i++;
+      })
+    }
+    let [result] = await conn.query(query, fields);
+    return result;
+  } catch (error) {
+    console.log(error);
     return { error };
   }
 }

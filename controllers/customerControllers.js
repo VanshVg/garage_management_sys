@@ -1,4 +1,4 @@
-import { customerSlotListing, getCustomerNames, getSingleGarageService, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
+import { customerSlotListing, getCustomerAppointments, getCustomerNames, ifFeedbackExist, insertFeedback, selectByFieldName } from "../utils/dbHandler.js"
 
 export const home = async (req, res) => {
   res.render("customer", { title: "Home", active: "dashboard" });
@@ -55,25 +55,20 @@ export const CustomerFeedbackPost = async (req, res) => {
     const result = await insertFeedback(garageId, customerId, message, rating)
     return res.status(201).send({ message: "user feedback accepted" })
   }
-
-
 }
-export const customerInvoice = async (req, res) => {
+
+export const showAppointments = async (req,res) => {
   try {
-    fs.readFile("./views/partials/customerInvoice.ejs", "utf-8", async (err, data) => {
-      if (err) {
-        return res.status(301).json({ success: false, message: "Something went wrong!" });
-      } else {
-        await generatePdf(data);
-        return res.download("./public/invoices/abc.pdf", (err) => {
-          if (err) {
-            return res.status(301).json({ success: false, message: "Something went wrong!" });
-          }
-        });
-      }
-    });
+    const { email } = req.user;
+    const user = await selectByFieldName("users", "email", email);
+    if (user.length < 1) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    }
+
+    let appointments = await getCustomerAppointments(user[0].id);
+    return res.render("partials/customerAppointments", {appointments});
   } catch (error) {
+    console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-};
-
+}
