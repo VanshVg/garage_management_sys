@@ -1,12 +1,4 @@
 const showServicesAdd = async () => {
-  const garageList = await callAPI('/owner/garages/getGaragesList');
-  const garages = garageList.garages;
-  let options
-  garages.forEach(garage => {
-    options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
-  });
-  let selectGarage = document.getElementById('garageList');
-  selectGarage.innerHTML = options;
   const result = await fetch('/allServices');
   const json = await result.json();
   const services = json.services;
@@ -44,8 +36,10 @@ const addService = async () => {
   }
 
 
-  const select = document.getElementById('garageList');
+  const select = document.getElementById('garageDropDown');
+  // console.log(select);
   const option = select[select.selectedIndex].value;
+  console.log(option);
   let data = await fetch(`/owner/services/${option}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -53,7 +47,7 @@ const addService = async () => {
   });
   let response = await data.json();
   if (response.success == true) {
-    window.location.href = "/owner/home"
+    window.location.href = "/owner/services";
   } else {
     if (document.getElementById("error")) {
       document.getElementById("error").remove()
@@ -96,3 +90,18 @@ const addMyEventListener = () => {
     }
   });
 }
+
+const garageDropdown = async () => {
+  const garageList = await callAPI('/owner/garages/getGaragesList');
+  const garages = garageList.garages;
+  console.log(garages);
+  let optionsGarage = "";
+  garages.forEach(element => {
+    optionsGarage += `<option value=${element.garage_id}>${element.garage_name}</option>`;
+  });
+  console.log(optionsGarage);
+  let selectGarage = document.getElementById('garageDropDown');
+  selectGarage.innerHTML = optionsGarage;
+  console.log(selectGarage);
+}
+garageDropdown();

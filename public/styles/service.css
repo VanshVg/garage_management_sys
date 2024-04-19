@@ -37,7 +37,8 @@
 .services-col {
   margin-top: 70px;
   margin-bottom: 1px;
-  width: calc(100% / 3);
+
+  width: 30%;
   padding: 20px 20px;
   border-radius: 8px;
   padding: 0 15px;
@@ -54,8 +55,8 @@
   max-width: 300px;
   border-radius: 7px;
   min-height: 420px;
-  box-shadow: 1px 1px 1px  grey,
-  inset 1px 1px rgba(1,1,1,.1);
+  box-shadow: 1px 1px 1px grey,
+    inset 1px 1px rgba(1, 1, 1, .1);
 }
 
 .services-card img {
@@ -70,7 +71,7 @@
   min-width: 220px;
 }
 
-.service-details h3{
+.service-details h3 {
   margin-left: -18px;
   max-width: 100px;
   font-size: 17px;
@@ -108,9 +109,9 @@
 
 .add-service-container {
   background-color: var(--white);
-  box-shadow: 1px 1px 1px  grey,
-  inset 1px 1px rgba(1,1,1,.1);
-  color:var(--dark);
+  box-shadow: 1px 1px 1px grey,
+    inset 1px 1px rgba(1, 1, 1, .1);
+  color: var(--dark);
   border-radius: 5px;
   padding: 10px 30px;
   padding-bottom: 40px;
@@ -146,8 +147,8 @@
   border: none;
   border-radius: 7px;
   border: 1px solid grey;
-  box-shadow: 1px 1px 1px  grey,
-  inset 1px 1px rgba(1,1,1,.1);
+  box-shadow: 1px 1px 1px grey,
+    inset 1px 1px rgba(1, 1, 1, .1);
   background-color: var(--white);
 }
 
