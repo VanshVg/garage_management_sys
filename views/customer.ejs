@@ -34,6 +34,13 @@
             <%- include('./customer/vehicles.ejs') %>
         </div>
 
+        <div class="page-container" id="profile-screen">
+            <%- include('./partials/customerProfile.ejs') %>
+        </div>
+        <div class="page-match-container" id="profile-match-screen">
+
+        </div>
+
     </div>
 
     <script>
@@ -42,13 +49,14 @@
             document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
             document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
             let screen = document.querySelector(`#${activated}-screen`);
+            console.log(screen);
             screen.style.display = "block";
     
-    
-    
             let matchScreen = document.querySelector(`#${activated}-match-screen`);
-            matchScreen.style.display = "block";
-            history.pushState(null, null, activated == "dashboard" ? "home" : activated)
+
+            
+               matchScreen.style.display = "block";
+               history.pushState(null, null, activated == "dashboard" ? "home" : activated)
         }
         // const activeSub = (activated) => {
         //     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
