@@ -135,7 +135,8 @@ export const getAppointmentCount = async (req, res) => {
 
 export const findOwnerService = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const services = await getOwnerService(user[0].id);
+  const { garageId } = req.body;
+  const services = await getOwnerService(user[0].id, garageId);
   res.status(201).json({ success: true, services });
 };
 
