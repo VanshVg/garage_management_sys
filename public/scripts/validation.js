@@ -97,6 +97,7 @@ const Validation = {
       let data = 0;
       try {
         data = await response.json();
+        console.log(data)
         if (data.success) {
           if (form == "u/login") {
             Swal.fire({
