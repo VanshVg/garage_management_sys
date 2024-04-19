@@ -70,7 +70,7 @@ h1 {
 }
 
 .searchbar {
-    width: 1080px;
+    width: 900px;
     height: 40px;
     top: 556px;
     left: 778px;
@@ -105,14 +105,22 @@ h1 {
 
 .serachbar-div {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
 }
-
+.dropdown-garage{
+    background-color: #152533;
+    border-radius: 10px;
+    color: #fff;
+    width:fit-content;
+}
 td {
     text-align: center;
     color: black;
 }
-
+.options{
+    background-color: #fff;
+    color: #355364;
+}
 .flex-status {
     display: flex;
     justify-content: center;
