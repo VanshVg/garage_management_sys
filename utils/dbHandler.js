@@ -195,7 +195,6 @@ export const insertGarage = async (garageInfo) => {
 };
 // owner has garage insert
 export const insertGarageOwner = async (ownerInfo) => {
-  console.log(garage);
   try {
     let query = `INSERT INTO owner_has_garages (owner_id, garage_id) values (?)`;
     let result = await conn.query(query, [ownerInfo]);

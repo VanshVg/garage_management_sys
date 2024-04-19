@@ -22,7 +22,7 @@
     <hr>
     <div class="w-full flex my-4">
       <div class="flex items-center justify-center w-1/4 h-46 mr-5 relative">
-        <label for="thumbnail"
+        <label for="<%=formType %>-thumbnail"
           class="relative flex flex-col items-center justify-center w-full h-full border-2 border-dashed rounded-lg cursor-pointer bg-light dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -32,8 +32,8 @@
             </svg>
             <p class="text-xs text-gray-500 dark:text-gray-400">Thumbnail</p>
           </div>
-          <input id="thumbnail" name="thumbnail" type="file" class="hidden" accept="image/*" required
-            onchange="imageSelection(this,'<%=formType %>')" /> <button id="remove-image"
+          <input id="<%=formType %>-thumbnail" name="<%=formType %>-thumbnail" type="file" class="hidden"
+            accept="image/*" required onchange="imageSelection(this,'<%=formType %>')" /> <button id="remove-image"
             class="absolute top-0 right-0 mt-2 mr-2 hidden text-gray-500 dark:text-gray-400 bg-transparent border-none">
             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd"
