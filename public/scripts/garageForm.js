@@ -48,7 +48,6 @@ const handleGarage = async (e) => {
       document.getElementById("addGarage-thumbnail").files[0]
     );
     formData.delete("addGarage-thumbnail");
-    console.log(Object.fromEntries(formData));
     formData.append("userId", localStorage.getItem("userId"));
     let response = await fetch(`/owner/garages/add`, {
       method: "POST",
