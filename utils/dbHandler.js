@@ -107,10 +107,11 @@ export const getAllSlots = async (offset,garage,user) => {
 };
 export const updateUserByEmail = async (userInfo) => {
   try {
-    let query =
-      userInfo.thumbnail == ""
-        ? `UPDATE users SET name = ?, bio = ? WHERE email = ?`
-        : `UPDATE users SET name = ?, bio = ?, profile_pic=?  WHERE email = ?`;
+    let query = `UPDATE users SET name = ?, bio = ?, profile_pic=?  WHERE email = ?`;
+    if (userInfo[2] == "") {
+      query = `UPDATE users SET name = ?, bio = ? WHERE email = ?`;
+      userInfo.splice(2, 1);
+    }
     let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
@@ -233,6 +234,10 @@ export const insertGarageReference = async (references) => {
 export const updateGarage = async (garageInfo) => {
   try {
     let query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, thumbnail= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
+    if (garageInfo[3] == "") {
+      query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
+      garageInfo = garageInfo.splice(3, 1);
+    }
     let result = await conn.query(query, garageInfo);
     return result[0].affectedRows;
   } catch (error) {
@@ -242,7 +247,7 @@ export const updateGarage = async (garageInfo) => {
 // update garage address
 export const updateGarageAddress = async (addressInfo) => {
   try {
-    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = ?`;
+    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = (select id from garage_address where garage_id=?)`;
     let result = await conn.query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
@@ -306,7 +311,7 @@ export const getGaragesService = async () => {
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const getSingleGarageService = async (garageId) => {
   try{
@@ -585,14 +590,14 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
 
 export const garageSlotListing = async (garageId, startDate, endDate) => {
   try {
-    let query = "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
+    let query =
+      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
     const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
-  }
-  catch (error) {
+  } catch (error) {
     return { error };
   }
-}
+};
 
 export const getVehicleAssociatedServices = async (userId) => {
   try {
@@ -629,16 +634,25 @@ export const getGarageAddress = async (garageId) => {
   }
 };
 
-
-export const insertFeedback = async (customerId, garageId, description, rating) => {
+export const insertFeedback = async (
+  customerId,
+  garageId,
+  description,
+  rating
+) => {
   try {
-    var query = `INSERT INTO feedbacks (garage_id, customer_id, feedback, ratings) VALUES (?,?,?,?)`
-    const result = await conn.query(query, [garageId, customerId, description, rating])
+    var query = `INSERT INTO feedbacks (garage_id, customer_id, feedback, ratings) VALUES (?,?,?,?)`;
+    const result = await conn.query(query, [
+      garageId,
+      customerId,
+      description,
+      rating,
+    ]);
     return result[0].insertId;
   } catch (error) {
-    return { error }
+    return { error };
   }
-}
+};
 
 export const getInvoiceDetails = async (appointmentDetails) => {
   try {
@@ -646,18 +660,17 @@ export const getInvoiceDetails = async (appointmentDetails) => {
     let [result] = await conn.query(query, appointmentDetails);
     return result;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
 
 export const ifFeedbackExist = async (customerId) => {
   try {
-    var query = `SELECT * FROM feedbacks where customer_id = ?`
-    const result = await conn.query(query, [customerId])
-    return result[0]
+    var query = `SELECT * FROM feedbacks where customer_id = ?`;
+    const result = await conn.query(query, [customerId]);
+    return result[0];
   } catch (error) {
-    return { error }
+    return { error };
   }
 }
 
@@ -677,7 +690,6 @@ export const getCustomerAppointments = async (customerId) => {
     let [result] = await conn.query(query, [customerId]);
     return result;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }
@@ -702,7 +714,6 @@ export const updateFields = async (tableName, fields, conditions) => {
     let [result] = await conn.query(query, fields);
     return result;
   } catch (error) {
-    console.log(error);
     return { error };
   }
 }

@@ -116,7 +116,6 @@ const showModal = async (dateText) => {
   formData.append('garageId', garageId);
   formData.append('startDate', startDate.toISOString().slice(0, 19).replace('T', ' '));
   formData.append('endDate', endDate.toISOString().slice(0, 19).replace('T', ' '));
-  console.log(formData)
 
   let result = await fetch('/owner/slots/appointmentsByDateRange', {
     method: "POST",
@@ -124,7 +123,6 @@ const showModal = async (dateText) => {
   });
   result = await result.json();
   let appointments = result.appointments;
-  console.log(appointments);
   const body = document.getElementById('appointment-body');
   let str = "";
   let i = 1;

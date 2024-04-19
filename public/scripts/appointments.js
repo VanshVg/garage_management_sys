@@ -15,7 +15,6 @@ const downloadInvoice = async (appointmentId) => {
     });
     let downloadResponse = await downloadRequest.json();
     if(downloadResponse.success) {
-      console.log("inside");
       document.getElementById("download-invoice").setAttribute("href", `/invoices/${downloadResponse.pdf}.pdf`);
       document.getElementById("download-invoice").setAttribute("download", "invoice.pdf");
   }

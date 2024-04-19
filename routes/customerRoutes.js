@@ -13,7 +13,6 @@ import {
   slotDisplay,
   CustomerFeedback,
   CustomerFeedbackPost,
-  customerInvoice,
   appointment,
   getServices,
   showAppointments

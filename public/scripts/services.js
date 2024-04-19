@@ -1,13 +1,11 @@
 const showServices = (async () => {
   const select = document.getElementById('servicesList');
   const option = select[select.selectedIndex].value;
-  // console.log(option);
   const payLoad = {
     "garageId": option,
   }
   // const service = await callAPI('/owner/ownerServices', payLoad);
   // const services = service.services;
-  // console.log(services);
   let data = await fetch('/owner/ownerServices', {
     method: "post",
     headers: {
@@ -64,10 +62,8 @@ const showServices = (async () => {
   garages.forEach(garage => {
     options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
   });
-  console.log(options);
   let select = document.getElementById('servicesList');
   select.innerHTML = options;
-  console.log(select);
   select.addEventListener('change', showServices);
   showServices();
 })()
