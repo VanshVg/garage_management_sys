@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, insertSlot, updateSlot } from "../utils/dbHandler.js";
+import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot } from "../utils/dbHandler.js";
 
 
 export const slotBooking = async (req, res) => {
@@ -53,4 +53,10 @@ export const getSlots = async (req, res) => {
     const totalPage = Math.ceil(result[1][0].count / 10)
     res.json({ result: result[0], count: result[1][0].count, startIndex: startIndex, endIndex: endIndex, totalPage: totalPage })
 
+}
+
+export const appointmentsByDateRange = async (req, res) => {
+    const { garageId, startDate, endDate } = req.body;
+    const result = await getAppointsByDateRange([startDate, endDate, garageId]);
+    res.status(201).json({ success: true, appointments: result });
 }

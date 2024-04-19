@@ -143,8 +143,8 @@ button {
 }
 
 .red {
-  background-color: white !important;
-  color: orangered !important;
+  background-color: white;
+  color: orangered;
   text-decoration: line-through;
 }
 

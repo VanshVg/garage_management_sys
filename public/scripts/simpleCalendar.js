@@ -75,7 +75,8 @@ const displaySlots = async (e = null) => {
   else {
     if (e && e.target.innerText != '') {
       slotDate = e.target.innerText;
-      document.getElementsByClassName('activeDate')[0].classList.remove('activeDate');
+      let active = document.getElementsByClassName('activeDate')[0];
+      if (active) active.classList.remove('activeDate');
       e.target.classList.add('activeDate')
     }
     let startDate = year + "-";
