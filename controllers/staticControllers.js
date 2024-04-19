@@ -1,5 +1,4 @@
 import {
-  displayGarage,
   selectByFieldName,
   selectByTableName,
   serviceListing,
@@ -10,10 +9,10 @@ import {
   getUserAddress,
   getAppointments,
   getServices,
-  selectById,
   getCustomerNames,
   getVehicleAssociatedServices,
   findOne,
+  getGarageAddress,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -144,7 +143,6 @@ export const appointmentsListing = async (req, res) => {
   const user = await findOne([req.user.email]);
   let garage = req.params.garageId || 1;
   const appointments = await getAppointments([garage, user[0].id]);
-  console.log(appointments);
   appointments.forEach(appointment => {
     appointment.date = appointment.startTime.slice(0, 10);
     appointment.startTime = appointment.startTime.slice(11, 16);
@@ -156,6 +154,12 @@ export const getAllCustomers = async (req, res) => {
   const result = await getCustomerNames(1)
   res.json({ result: result });
 }
+
+export const garageAddress = async (req, res) => {
+  const result = await getGarageAddress([req.params.garageId]);
+  res.status(201).json({ address: result });
+}
+
 export const selectServices = (req, res) => {
   res.render("customerServices");
 }

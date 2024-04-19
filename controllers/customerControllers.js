@@ -43,26 +43,4 @@ export const CustomerFeedbackPost = async (req, res) => {
     const result = await insertFeedback(garageId, customerId, message, rating)
     return res.status(201).send({ message: "user feedback accepted" })
   }
-
-
 }
-export const customerInvoice = async (req, res) => {
-  try {
-    fs.readFile("./views/partials/customerInvoice.ejs", "utf-8", async (err, data) => {
-      if (err) {
-        console.log(err);
-        return res.status(301).json({ success: false, message: "Something went wrong!" });
-      } else {
-        await generatePdf(data);
-        return res.download("./public/invoices/abc.pdf", (err) => {
-          if (err) {
-            return res.status(301).json({ success: false, message: "Something went wrong!" });
-          }
-        });
-      }
-    });
-  } catch (error) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
-  }
-};
-

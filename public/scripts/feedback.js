@@ -50,46 +50,43 @@ function remove() {
 var submit = document.querySelector("#submit")
 // submit.addEventListener("click",validator(event))
 submit.addEventListener('click', function (event) {
-    if (!validator()) {
-        console.log("data is not sent");
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
-    var message = document.querySelector("#message").value
-    if (message== "") {
-        message= null
-    }
-    submitData(message,rating)
-    console.log("data is sent");
+  if (!validator()) {
+    event.preventDefault()
+    event.stopPropagation()
+    return
+  }
+  var message = document.querySelector("#message").value
+  if (message == "") {
+    message = null
+  }
+  submitData(message, rating)
 })
 function validator() {
-    var rating = document.querySelector("#output")
-    if (rating.innerText == "Rating is: 0/5") {
-        return false
-    }
-    else{
-        return true
-    }
+  var rating = document.querySelector("#output")
+  if (rating.innerText == "Rating is: 0/5") {
+    return false
+  }
+  else {
+    return true
+  }
 }
 
-async function submitData(message,rating){
-    try {
-        const response = await fetch("http://localhost:3000/customer/feedback", {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({message:message,rating:rating,customerId:1,garageId:1}),
-        });
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        if(response.status == 208){
-          alert("Your Feedback alredy exist")
-        }
-      } catch (error) {
-        console.log(error);
-      }
+async function submitData(message, rating) {
+  try {
+    const response = await fetch("http://localhost:3000/customer/feedback", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ message: message, rating: rating, customerId: 1, garageId: 1 }),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    if (response.status == 208) {
+      alert("Your Feedback alredy exist")
+    }
+  } catch (error) {
+  }
 }

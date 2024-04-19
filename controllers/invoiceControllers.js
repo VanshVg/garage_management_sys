@@ -18,6 +18,7 @@ export const downloadCustomerInvoice = async (req, res) => {
       }
     });
   } catch (error) {
+    console.log(err);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
