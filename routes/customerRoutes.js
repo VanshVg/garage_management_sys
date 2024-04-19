@@ -1,19 +1,20 @@
 import express from "express";
 import {
   servicesListing,
+  selectServices,
 } from "../controllers/staticControllers.js";
 import * as vehicleController from "../controllers/vehicleControllers.js";
-import { vehicleValidator } from "../validators/vehicleValidation.js";
 import {
   home, vehicles, addVehicles,
   customerSlotSelection,
   customerVehicleSelection,
   getAllCustomers,
   slotDisplay,
-  profile,
+  CustomerFeedback,
+  CustomerFeedbackPost,
+  customerInvoice
 } from "../controllers/customerControllers.js";
-import { getGarages } from "../controllers/garageControllers.js";
-
+import { getGarages, getGarageListing } from "../controllers/garageControllers.js";
 const router = express.Router();
 
 router.get("/home", home);
@@ -23,12 +24,16 @@ router.get("/garageList",getGarages);
 router.get("/profile", profile);
 
 router.get("/servicesList", servicesListing);
+router.get("/services", selectServices);
+router.post("/servicesList", servicesListing);
 router.get("/addVehicle/:type", vehicleController.getAddVehicle);
-router.post("/addVehicle", vehicleValidator, vehicleController.addVehicle);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-
+router.get("/feedback", CustomerFeedback)
+router.get("/garages", getGarageListing);
+router.post("/feedback", CustomerFeedbackPost);
+router.get("/invoice", customerInvoice);
 
 export default router;

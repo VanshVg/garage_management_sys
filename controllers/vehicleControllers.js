@@ -68,7 +68,6 @@ export const addVehicle = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Vehicle added successfully" });
   } catch (error) {
-  
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };

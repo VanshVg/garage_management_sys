@@ -66,7 +66,11 @@ export const insertSlot = async (slotTime) => {
 export const updateSlot = async (slotTime) => {
   try {
     let query = `UPDATE slot_master set start_time = ?,end_time = ? where id =?`;
-    let results = await conn.query(query, [slotTime[0], slotTime[1], slotTime[2]]);
+    let results = await conn.query(query, [
+      slotTime[0],
+      slotTime[1],
+      slotTime[2],
+    ]);
     return results[0];
   } catch (error) {
     return { error };
@@ -97,7 +101,10 @@ export const getAllSlots = async (offset) => {
 };
 export const updateUserByEmail = async (userInfo) => {
   try {
-    let query = `UPDATE users SET name = ?, bio = ? WHERE email = ?`;
+    let query =
+      userInfo.thumbnail == ""
+        ? `UPDATE users SET name = ?, bio = ? WHERE email = ?`
+        : `UPDATE users SET name = ?, bio = ?, profile_pic=?  WHERE email = ?`;
     let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
@@ -206,7 +213,7 @@ export const insertGarageAddress = async (addressInfo) => {
     return { error };
   }
 };
-// garage addres reference
+// garage address reference
 export const insertGarageReference = async (references) => {
   try {
     let query = `INSERT INTO garage_address (address_id, garage_id,latitude,longitude) values (?)`;
@@ -282,12 +289,12 @@ export const getGarageList = async (ownerId) => {
 };
 
 export const getGaragesService = async () => {
-  try{
+  try {
     let query = `SELECT garage_name, contact_number,thumbnail from garage_master;`
     let result = await conn.query(query);
     return result[0];
-  }catch(err){
-    return {err};
+  } catch (err) {
+    return { err };
   }
 }
 
@@ -353,7 +360,8 @@ export const getOwnerService = async (ownerId) => {
 
 export const getOwnerGarages = async (ownerId) => {
   try {
-    let query = `SELECT c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE a.owner_id = ?;`;
+    let query = `SELECT a.garage_id, b.garage_name, b.thumbnail, b.status, b.email, b.contact_number, b.open_time, b.close_time, b.description
+    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE a.owner_id = ?;`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
@@ -413,7 +421,7 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 //garage wise service listing
 export const serviceListing = async (garageId) => {
   try {
-    let query = `SELECT * FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
+    let query = `SELECT sm.id,sm.description FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
     let [results] = await conn.query(query, [garageId]);
     return results;
   } catch (error) {
@@ -452,7 +460,12 @@ export const selectByFieldNames = async (tableName, fields) => {
 };
 export const countByFieldName = async (tableName, fieldName, value) => {
   try {
-    let query = "SELECT COUNT(*) as count FROM " + tableName + " WHERE " + fieldName + " = ?;";
+    let query =
+      "SELECT COUNT(*) as count FROM " +
+      tableName +
+      " WHERE " +
+      fieldName +
+      " = ?;";
     let [results] = await conn.query(query, [value]);
     return results[0].count;
   } catch (err) {
@@ -527,26 +540,37 @@ export const getUserAddress = async (userId) => {
 
 export const getAppointments = async (ownerDetails) => {
   try {
-    let query = "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
+    let query =
+      "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
     let result = await conn.query(query, ownerDetails);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+// fetching garage wise slots at customer side
+export const customerSlotListing = async (garageId, startDate, endDate) => {
+  try {
+    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ?;`;
+    const result = await conn.query(query, [garageId, startDate, endDate]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const garageSlotListing = async (garageId, startDate, endDate) => {
+  try {
+    let query = "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
+    const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
   }
   catch (error) {
     return { error };
   }
 }
-// fetching garage wise slots at customer side
-export const customerSlotListing = async (garageId, startDate, endDate) => {
-  try {
-    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ?;`
-    const result = await conn.query(query, [garageId, startDate, endDate]);
-    return result[0];
-  } catch (error) {
-    return { error };
-  }
-}
 
-export const getVehicleAssociatedServices  = async(userId) =>{
+export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
     slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
@@ -562,10 +586,42 @@ export const getVehicleAssociatedServices  = async(userId) =>{
     LEFT JOIN vehicle_master
     ON user_has_vehicles.vehicle_id = vehicle_master.id
     LEFT JOIN vehicle_types
-    ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`
-    const result = await conn.query(query,[userId])
+    ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`;
+    const result = await conn.query(query, [userId]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getGarageAddress = async (garageId) => {
+  try {
+    const query =
+      "SELECT a.latitude as latitude, a.longitude as longitude, b.area as area, b.pincode as pincode, c.id as cityId, c.sid as stateId FROM garage_address as a join address_master as b join city_master as c on a.address_id = b.id and b.city_id = c.id WHERE a.garage_id = ?;";
+    const result = await conn.query(query, [garageId]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+
+
+export const insertFeedback = async (customerId, garageId, description, rating) => {
+  try {
+    var query = `INSERT INTO feedbacks (garage_id, customer_id, feedback, ratings) VALUES (?,?,?,?)`
+    const result = await conn.query(query, [garageId, customerId, description, rating])
+    return result[0].insertId;
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const ifFeedbackExist = async (customerId) => {
+  try {
+    var query = `SELECT * FROM feedbacks where customer_id = ?`
+    const result = await conn.query(query, [customerId])
     return result[0]
   } catch (error) {
-    return {error}
+    return { error }
   }
 }
