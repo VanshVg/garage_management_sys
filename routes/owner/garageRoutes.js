@@ -4,7 +4,7 @@ import {
   garageAddress,
   garageForm,
   garageListing,
-  getGarageCount
+  getGarageCount,
 } from "../../controllers/staticControllers.js";
 import {
   garageAdd,
@@ -25,12 +25,12 @@ router.get("/", garageListing);
 router.get("/garageForm", garageForm);
 router.get("/garageUpdate", garageDisplay);
 router.post("/add", upload.single("thumbnail"), garageAdd);
-router.post("/update", upload.single("thumbnail"), garageUpdate);
+router.put("/update", upload.single("thumbnail"), garageUpdate);
 router.post("/delete", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
 router.get("/customerList", customer);
-router.get('/address/:garageId', garageAddress);
-router.post('/slots', getGarageSlots);
+router.get("/address/:garageId", garageAddress);
+router.post("/slots", getGarageSlots);
 export default router;

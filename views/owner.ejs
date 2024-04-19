@@ -6,6 +6,7 @@
 <script src="/scripts/toast.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="/scripts/imageSelection.js"></script>
+<script src="/scripts/loadMap.js"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -36,6 +37,7 @@
     <link rel="stylesheet" href="/styles/slot.css">
     </head>
     <% var active=active || 'dashboard' ; %>
+
         <body class="overlow-hidden">
             <div class="dashboard-container h-screen w-screen flex">
                 <%- include('./partials/sidebar', {active}) %>
@@ -118,6 +120,7 @@
                     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex';
+                    loadMap('addGarage-map');
                 }
                 setActive('<%= active %>');
                 document.querySelectorAll('#sidebar li').forEach(li => {
