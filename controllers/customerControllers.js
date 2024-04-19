@@ -54,7 +54,7 @@ export const showAppointments = async (req,res) => {
     }
 
     let appointments = await getCustomerAppointments(user[0].id);
-    res.render("partials/customerAppointments", {appointments});
+    return res.render("partials/customerAppointments", {appointments});
   } catch (error) {
     console.log(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });

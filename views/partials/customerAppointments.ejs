@@ -75,12 +75,13 @@
                     <%} else {%>
                       <td class="mx-auto text-center text-green">Completed</td>
                       <%}%>
-                  <td class="mx-auto text-center underline text-linkBlue hover: cursor-pointer">Download here</td>
+                  <td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="downloadInvoice(`<%=appointments[i].appointment_id%>`)">Download here</p></a></td>
                 </tr>
                 <%}%>
             </tbody>
           </table>
           <%}%>
     </div>
+    <script src="/scripts/appointments.js"></script>
   </body>
 </html>

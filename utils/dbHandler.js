@@ -647,3 +647,28 @@ export const getCustomerAppointments = async (customerId) => {
     return { error };
   }
 }
+
+export const updateFields = async (tableName, fields, conditions) => {
+  try {
+    let query = `UPDATE ` + tableName + ` SET ? WHERE `;
+    let keys = Object.keys(conditions);
+    if(keys.length == 1) {
+      query+= `${keys[0]} = ${conditions[keys[0]]};`
+    } else {
+      let i = 0;
+      keys.forEach((element) => {
+        if(i != keys.length-1) {
+          query += `${element} = "${conditions[element]}" AND `
+        } else {
+          query += `${element} = "${conditions[element]}";`
+        }
+        i++;
+      })
+    }
+    let [result] = await conn.query(query, fields);
+    return result;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+}

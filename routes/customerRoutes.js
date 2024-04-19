@@ -17,7 +17,7 @@ import {
   showAppointments
 } from "../controllers/customerControllers.js";
 import {  getGarageListing, getGarages } from "../controllers/garageControllers.js";
-import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { customerInvoice, downloadInvoice } from "../controllers/invoiceControllers.js";
 const router = express.Router();
 
 router.get("/home", home);
@@ -36,5 +36,6 @@ router.post("/getslots", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages",getGarageListing);
 router.get("/appointments", showAppointments)
+router.get("/downloadInvoice/:appointmentId", downloadInvoice)
 
 export default router;
