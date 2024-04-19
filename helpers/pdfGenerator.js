@@ -10,4 +10,5 @@ export const generatePdf = async (fileContent) => {
     printBackground: true,
   })
   await browser.close();
+  return true;
 }

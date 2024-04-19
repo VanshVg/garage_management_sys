@@ -32,81 +32,96 @@
           },
         },
       };
-    </script>
+      </script>
+    <style>
+      tr,
+      td,
+      th {
+        margin: 0 auto;
+        border: 1px solid black;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body class="bg-lightbg">
-    <div class="max-w-[1480px] mx-auto">
+    <%data=JSON.parse(data)%>
+    <%let total= 0%>
+    <div class="max-w-[1480px] mx-auto" id="invoice-container">
       <div class="mt-5 px-4 text-center">
         <h2 class="text-3xl font-bold">INVOICE</h2>
         <div class="h-[1px] bg-dark max-w-[600px] mx-auto mt-5"></div>
-        <h2 class="text-2xl mt-[20px]">Sasta Garage</h2>
+        <h2 class="text-2xl mt-[20px]" id="invoice_garage"><%=data[0].garage_name%></h2>
       </div>
       <div class="flex flex-wrap justify-between mt-10">
         <div style="width: calc(100% / 2)">
           <div class="flex">
             <p class="font-bold mr-8 text-lg ml-32 text-justify">Invoice #</p>
-            <p class="mr-8 ml-[35px] text-lg text-right">IN - 001</p>
+            <p class="mr-8 ml-[35px] text-lg text-right" id="invoice_id">IN - <%=data[0].appointment_id%></p>
           </div>
           <div class="flex">
             <p class="font-bold mr-8 text-lg ml-32 text-justify">Invoice Date</p>
-            <p class="text-lg text-right">29/01/2019</p>
+            <p class="text-lg text-right" id="invoice_date"><%=data[0].start_time.split(" ")[0]%></p>
           </div>
         </div>
         <div class="text-right" style="width: calc(100% / 2)">
           <h2 class="font-bold text-lg mr-32">Bill to</h2>
-          <p class="mt-2 mr-32">Kavindra Mannan</p>
-          <p class="mr-32">27, Dlf City, Gupta</p>
-          <p class="mr-32">Delhi, 40003</p>
+          <p class="mt-2 mr-32" id="invoice_name"><%=data[0].customer_name%></p>
+          <p class="mr-32" id="invoice_area"><%=data[0].area%></p>
+          <p class="mr-32" id="invoice_city"><%=data[0].city_name%>, <%=data[0].pincode%></p>
         </div>
       </div>
       <div class="mt-14">
         <table class="mx-auto text-center w-[510px] mb-5">
           <thead>
-            <tr class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px">
-                Sr.
-              </td>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px">
-                Service Description
-              </td>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px">
-                Unit Price
-              </td>
+            <tr class="mx-auto text-center">
+              <td class="mx-auto text-center font-bold">Sr.</td>
+              <td class="mx-auto text-center font-bold">Service Description</td>
+              <td class="mx-auto text-center font-bold">Unit Price</td>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">1</td>
-              <td class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">This is service 1</td>
-              <td class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">200 ₹</td>
-            </tr>
-            <tr>
-              <td class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">2</td>
-              <td class="mx-auto text-center" style="border: 1px solid black; padding: 10px 10px">This is service 2</td>
-              <td class="mx-auto text-center " style="border: 1px solid black; padding: 10px 10px">450 ₹</td>
-            </tr>
-            <tr>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px" colspan="2">Total</td>
-              <td class="mx-auto text-center " style="border: 1px solid black; padding: 10px 10px">650 ₹</td>
-            </tr>
-            <tr>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px" colspan="2">GST</td>
-              <td class="mx-auto text-center " style="border: 1px solid black; padding: 10px 10px">12%</td>
-            </tr>
-            <tr>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px" colspan="2">Final Amount</td>
-              <td class="mx-auto text-center font-bold" style="border: 1px solid black; padding: 10px 10px">728 ₹</td>
-            </tr>
+            <% for(let i=0; i<data.length; i++) {%>
+              <% total+= parseFloat(data[i].price) %>
+                <tr>
+                  <td class="mx-auto text-center"><%=i+1%></td>
+                  <td class="mx-auto text-center"><%=data[i].service_description%></td>
+                  <td class="mx-auto text-center">₹ <%=parseFloat(data[i].price).toFixed(2)%></td>
+                </tr>
+              <%}%>
+              <tr>
+                <td class="mx-auto text-center font-bold" colspan="2">Total</td>
+                <td class="mx-auto text-center">₹ <%=total.toFixed(2)%></td>
+              </tr>
+              <tr>
+                <td class="mx-auto text-center font-bold" colspan="2">GST</td>
+                <td class="mx-auto text-center">12%</td>
+              </tr>
+              <tr>
+                <td class="mx-auto text-center font-bold" colspan="2">Final Amount</td>
+                <td class="mx-auto text-center">₹ <%=(total+(total*12)/100).toFixed(2)%></td>
+              </tr>
           </tbody>
         </table>
       </div>
-        <div class="text-left ml-[140px] mt-[80px]">
-          <p class="font-bold text-lg">Payment Information</p>
-          <p class="text-sm">SBI Bank</p>
-          <p class="text-sm">Account Name: Kavindra Mannan</p>
-          <p class="text-sm">Account Number: 123-456-789</p>
-          <p class="text-sm">Pay by: 5 July, 1983</p>
-        </div>
+      <div class="text-left ml-[140px] mt-[80px] mb-10">
+        <p class="font-bold text-lg">Payment Information</p>
+        <p class="text-sm" id="payment_type">Payment Type: <%=data[0].payment_type%></p>
+        <% let invoiceDate = new Date(data[0].start_time) %>
+        <% let dueDate = new Date(invoiceDate.setDate(invoiceDate.getDate() + 7)) %>
+        <% let year = dueDate.getFullYear() %>
+        <% let month = (dueDate.getMonth()+1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) %>
+        <% let date = (dueDate.getDate()).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false }) %>
+        <% if(data[0].payment_status == 0) {%>
+          <p class="text-sm text-red">Payment Status: Pending</p>
+          <p class="text-sm">Payment Due Date: <%=year%>-<%=month%>-<%=date%></p>
+          <%} else {%>
+            <p class="text-sm">Payment Status: Completed</p>
+            <%}%>
+      </div>
     </div>
   </body>
 </html>

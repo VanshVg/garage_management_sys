@@ -16,7 +16,7 @@ import {
   CustomerFeedbackPost
 } from "../controllers/customerControllers.js";
 import {  getGarageListing, getGarages } from "../controllers/garageControllers.js";
-import { customerInvoice, downloadCustomerInvoice } from "../controllers/invoiceControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";
 const router = express.Router();
 
 router.get("/home", home);
@@ -32,7 +32,6 @@ router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-router.get("/invoice", downloadCustomerInvoice);
 router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages",getGarageListing);
 
