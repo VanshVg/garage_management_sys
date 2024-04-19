@@ -11,7 +11,7 @@ const populateSlots = async (startDate, endDate) => {
   const slotDisplay = document.getElementById("slotDisplay");
   slotDisplay.innerHTML = '';
   let payLoad = {
-    "garageId": 1,
+    "garageId": 12,
     "startDate": startDate,
     "endDate": endDate
   }
@@ -30,7 +30,7 @@ const populateSlots = async (startDate, endDate) => {
     result.forEach((element) => {
       slotDisplay.innerHTML += `<label class="rounded-lg w-68 h-14 m-5 bg-lightorange text-xl flex items-center justify-center"
             tabindex="1">
-            <input class="test" type="radio" name="test" value="${element.id}" onclick="handleSlots()">
+            <input class="test absolute w-0 h-0 opacity-0" type="radio" name="test" value="${element.id}" onclick="handleSlots()">
             <p class="font-sans hover:font-serif text-xl text-blue">
               ${element.startTime}-${element.endTime}
             </p>

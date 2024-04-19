@@ -1,19 +1,27 @@
-import { customerSlotListing, getCustomerNames, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
+import { customerSlotListing, getCustomerNames, getSingleGarageService, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
 
 export const home = async (req, res) => {
   res.render("customer", { title: "Home", active: "dashboard" });
 };
 
 export const vehicles = async (req, res) => {
-  res.render("customer", { active: "vehicle" });
+  res.render("customer", { active: "vehicle"});
 }
 
 export const addVehicles = async (req, res) => {
   res.render("customer", { active: "addVehicle" });
 }
 
+export const getServices = async (req,res) => {
+  res.render("customer", {active: "services"});
+}
+
 export const profile = async (req,res) => {
     res.render("customer",{active:"profile"});
+}
+
+export const appointment = async (req,res) => {
+  res.render("customer",{active:"appointment"});
 }
 
 export const customerVehicleSelection = (req, res) => {

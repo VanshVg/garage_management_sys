@@ -290,11 +290,29 @@ export const getGarageList = async (ownerId) => {
 
 export const getGaragesService = async () => {
   try {
-    let query = `SELECT garage_name, contact_number,thumbnail from garage_master;`
+    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
+    from garage_master as gm inner join garage_address as ga inner join address_master as a 
+    inner join city_master as c inner join state_master as s
+    on gm.id = ga.garage_id and ga.address_id = a.id
+    and a.city_id = c.id and c.sid = s.id;`
     let result = await conn.query(query);
     return result[0];
   } catch (err) {
     return { err };
+  }
+}
+
+export const getSingleGarageService = async (garageId) => {
+  try{
+    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
+    from garage_master as gm inner join garage_address as ga inner join address_master as a 
+    inner join city_master as c inner join state_master as s
+    on gm.id = ga.garage_id and ga.address_id = a.id
+    and a.city_id = c.id and c.sid = s.id where gm.id = ?;`
+    let result = await conn.query(query,[garageId]);
+    return result[0];
+  }catch(err){
+    return {err};
   }
 }
 
