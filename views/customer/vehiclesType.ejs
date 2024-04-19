@@ -1,12 +1,14 @@
 <div class="mt-6 h-5/6 px-4 flex flex-col w-full">
-    <p class="my-2 text-white font-bold border-b-2 max-w-fit">
-      Please Choose Type Of Your Vehicle
+    <p class="my-2 text-white text-lg font-bold border-b-2 break-keep max-w-fit">
+      Please Select Vehicle Type
     </p>
-    
+
+    <form id="vehicleType" name="vehicle">
+
     <div class="mt-5 flex flex-row text-white justify-between w-11/12">
       <div class="flex flex-col items-center content-between">
         <label>
-          <input type="radio" name="vehicle" value="car" class="absolute w-0 h-0 opacity-0"/>
+          <input type="radio" name="vehicle" value="car" class="absolute w-0 h-0 opacity-0" checked/>
           <img class="box-border h-24 w-24 p-2 rounded-xl border-4 border-blueborder bg-light justify-between hover:border-gray-500 hover:bg-sky-300" src="/assets/car.png"
             alt="Option 1" />
         </label>
@@ -61,11 +63,27 @@
     </div>
     <div class="mt-10 justify-center">
       <p class="text-red text-center mb-2 hidden" id="vehicle-type-error">Please select the type of vehicle</p>
-      <button type="button"
-        onclick="setActive('addVehicle')"
-        class="inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong  w-full">
-        Move to Next
-      </button>
+      <input type="button"
+        onclick="vehicleType()"
+        class="inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong  w-full"
+        value="Move to Next">
     </div>
-
+  </form>
   </div>
+
+
+<script>
+
+    const vehicleType = async () => {
+      let vehicle = document.getElementById('vehicleType');
+      let vehicleData = new FormData(vehicle);
+
+      console.log(vehicleData);
+
+      if(vehicleData){
+        setActive('addVehicle');
+      }
+
+    }
+
+</script>

@@ -1,0 +1,22 @@
+<h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
+<form id="serviceList" name="serviceList">
+        <ul class="w-full text-sm font-medium text-white" id="serviceList">
+        </ul>
+</form>
+
+<input type="button" onclick="serviceType()"
+        class="w-[92%] mx-3 inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        value="Proceed">
+
+<script>
+        const serviceType = async () => {
+                let service = document.getElementById('serviceList');
+                let serviceData = new FormData(service);
+
+                if (serviceData) {
+                        setActive('appointment');
+                }
+
+        }
+
+</script>
