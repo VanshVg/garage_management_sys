@@ -1,4 +1,4 @@
-import { customerSlotListing, getCustomerNames, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
+import { customerSlotListing, getCustomerAppointments, getCustomerNames, ifFeedbackExist, insertFeedback, selectByFieldName } from "../utils/dbHandler.js"
 
 export const home = async (req, res) => {
   res.render("customer", { title: "Home", active: "dashboard" });
@@ -42,5 +42,21 @@ export const CustomerFeedbackPost = async (req, res) => {
   } else {
     const result = await insertFeedback(garageId, customerId, message, rating)
     return res.status(201).send({ message: "user feedback accepted" })
+  }
+}
+
+export const showAppointments = async (req,res) => {
+  try {
+    const { email } = req.user;
+    const user = await selectByFieldName("users", "email", email);
+    if (user.length < 1) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    }
+
+    let appointments = await getCustomerAppointments(user[0].id);
+    res.render("partials/customerAppointments", {appointments});
+  } catch (error) {
+    console.log(error);
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 }

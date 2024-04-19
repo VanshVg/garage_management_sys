@@ -13,7 +13,8 @@ import {
   getAllCustomers,
   slotDisplay,
   CustomerFeedback,
-  CustomerFeedbackPost
+  CustomerFeedbackPost,
+  showAppointments
 } from "../controllers/customerControllers.js";
 import {  getGarageListing, getGarages } from "../controllers/garageControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
@@ -34,5 +35,6 @@ router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages",getGarageListing);
+router.get("/appointments", showAppointments)
 
 export default router;
