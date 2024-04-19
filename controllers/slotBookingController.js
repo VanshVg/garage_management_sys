@@ -10,11 +10,11 @@ export const slotBooking = async (req, res) => {
     }
     else {
         const result = await insertSlot([garageId, startTime, endTime])
-        if (result) {
-            res.status(201).json({ message: "slot inserted successfully" })
-        } else {
-            res.status(301).json({ success: false, message: "slot was not booked" })
+        if (!result) res.status(301).json({ success: false, message: "something went wrong" });
+        else if (result.error) {
+            res.status(301).json({ success: false, message: "error adding slot please try again" });
         }
+        else res.status(201).json({ message: "slot inserted successfully" });
     }
 }
 

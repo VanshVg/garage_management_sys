@@ -2,6 +2,7 @@ let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
 let slots;
+let slotDate;
 
 (async () => {
   const result = await callAPI('/owner/garages/getGaragesList');
@@ -41,14 +42,47 @@ const months = [
   "December"
 ];
 
-const displaySlots = async (e) => {
-  if (e.target.id != "slotDiff") {
-    const date = e.target.innerText;
+const addSlot = async (e) => {
+  const index = document.getElementById('garage-select').value;
+  const garageId = garages[index].garage_id;
+  let slot = e.target.previousSibling.childNodes[0];
+  slot = slot.innerText || slot.textContent;
+  const startTime = slot.slice(0, 5);
+  const endTime = slot.slice(-5);
+  let startDate = year + "-";
+  if (month + 1 < 10) startDate += 0;
+  startDate += month + 1 + "-";
+  if (slotDate.length == 1) startDate += 0;
+  startDate += slotDate;
+  let endDate = startDate + " " + endTime;
+  startDate += " " + startTime;
+  const formData = new FormData();
+  formData.append('garageId', garageId);
+  formData.append('startTime', startDate);
+  formData.append('endTime', endDate);
+  const myData = await fetch('/owner/slots/insert', {
+    method: "POST",
+    body: new URLSearchParams(formData)
+  });
+  const json = await myData.json();
+  console.log(json);
+  displaySlots();
+}
+
+const displaySlots = async (e = null) => {
+  if (e && e.target.id == "slotDiff") {
+  }
+  else {
+    if (e && e.target.innerText != '') {
+      slotDate = e.target.innerText;
+      document.getElementsByClassName('activeDate')[0].classList.remove('activeDate');
+      e.target.classList.add('activeDate')
+    }
     let startDate = year + "-";
     if (month + 1 < 10) startDate += 0;
     startDate += month + 1 + "-";
-    if (date.length == 1) startDate += 0;
-    startDate += date;
+    if (slotDate.length == 1) startDate += 0;
+    startDate += slotDate;
     const time = new Date(startDate).getTime();
     const tempDate = new Date(time + 24 * 60 * 60 * 1000);
     const endYear = tempDate.getFullYear();
@@ -77,31 +111,38 @@ const displaySlots = async (e) => {
   let slotBody = document.getElementById('slot-body');
   const index = document.getElementById('garage-select').value;
 
-  let interval = 1;
-  if (e.target.id == 'slotDiff') interval = e.target.value;
-  else document.getElementById('slotDiff').value = interval;
+  let interval = document.getElementById('slotDiff').value || 1;
   const garage = garages[index];
   let startTime = new Date(garage.open_time);
   startTime.setFullYear(year);
   startTime.setMonth(month);
-  startTime.setDate(e.target.innerText);
+  startTime.setDate(slotDate);
   startTime = startTime.getTime();
-  let endTime = new Date(garage.close_time).getTime();
+  let endTime = new Date(garage.close_time);
+  endTime.setFullYear(year);
+  endTime.setMonth(month);
+  endTime.setDate(slotDate);
+  endTime = endTime.getTime();
   let increment = 3600000 * interval;
 
   let str = "";
   while (startTime < endTime && startTime + increment < endTime) {
     let flag = false;
     slots.forEach(slot => {
-      let start = new Date(slot.startTime).getTime()
-      let end = new Date(slot.endTime).getTime()
-      if (start > startTime && start < startTime + increment || end > startTime && end < startTime + increment) {
+      let start = new Date(slot.startTime).getTime();
+      let end = new Date(slot.endTime).getTime();
+      if ((start >= startTime && start < startTime + increment) || (end > startTime && end < startTime + increment)) {
+        while (startTime < end) {
+          str += `<tr><td class="red">${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td class="red">add</td></tr>`;
+          startTime += increment;
+        }
         flag = true;
         return;
       }
     });
     if (flag) continue;
-    str += `<tr><td>${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td>add</td></tr>`;
+
+    str += `<tr><td>${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td onclick="addSlot(event)" class="btn">add</td></tr>`;
     startTime += increment;
   }
   slotBody.innerHTML = str;
