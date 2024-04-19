@@ -1,7 +1,13 @@
 <div class="service-container">
-  <div class="service-button">
-    <p class="add-service-button" onclick="showAddService()">Add Service</p>
+  <div class="flex justify-between items-center">
+    <select id="servicesList"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52">
+    </select>
+    <div class="service-button">
+      <p class="add-service-button" onclick="showAddService()">Add Service</p>
+    </div>
   </div>
+
   <div class="services">
     <div class="services-row" id="services-row">
       <div class="services-col">
@@ -26,4 +32,5 @@
 </div>
 
 <script src="/scripts/services.js"></script>
+<script src="/scripts/service.js"></script>
 <%- include('./addService.ejs') %>

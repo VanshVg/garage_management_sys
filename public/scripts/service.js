@@ -1,4 +1,12 @@
-const showServices = async () => {
+const showServicesAdd = async () => {
+  const garageList = await callAPI('/owner/garages/getGaragesList');
+  const garages = garageList.garages;
+  let options
+  garages.forEach(garage => {
+    options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
+  });
+  let selectGarage = document.getElementById('garageList');
+  selectGarage.innerHTML = options;
   const result = await fetch('/allServices');
   const json = await result.json();
   const services = json.services;
@@ -35,7 +43,10 @@ const addService = async () => {
       body.description = description
   }
 
-  let data = await fetch(`/owner/services/1`, {
+
+  const select = document.getElementById('garageList');
+  const option = select[select.selectedIndex].value;
+  let data = await fetch(`/owner/services/${option}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -65,7 +76,7 @@ const showAllServices = () => {
   document.getElementsByClassName("service-container")[0].style.display = "block";
 }
 
-showServices();
+showServicesAdd();
 
 const addMyEventListener = () => {
   document.getElementById('service-name').addEventListener('change', (e) => {

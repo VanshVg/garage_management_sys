@@ -1,6 +1,22 @@
-(async () => {
-  const service = await callAPI('/owner/ownerServices');
-  const services = service.services;
+const showServices = (async () => {
+  const select = document.getElementById('servicesList');
+  const option = select[select.selectedIndex].value;
+  console.log(option);
+  const payLoad = {
+    "garageId": option,
+  }
+  // const service = await callAPI('/owner/ownerServices', payLoad);
+  // const services = service.services;
+  // console.log(services);
+  let data = await fetch('/owner/ownerServices', {
+    method: "post",
+    headers: {
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(payLoad)
+  });
+  let result = await data.json();
+  const services = result.services;
   let string = "";
   services.forEach(service => {
     string += `<div class="services-col">
@@ -22,4 +38,16 @@
   </div>`;
   });
   document.getElementById('services-row').innerHTML = string;
-})();
+});
+(async () => {
+  const garageList = await callAPI('/owner/garages/getGaragesList');
+  const garages = garageList.garages;
+  let options
+  garages.forEach(garage => {
+    options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
+  });
+  let select = document.getElementById('servicesList');
+  select.innerHTML = options;
+  select.addEventListener('change', showServices);
+  showServices();
+})()
