@@ -47,7 +47,7 @@ router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
 
-router.get("/ownerServices", findOwnerService);
+router.post("/ownerServices", findOwnerService);
 
 router.get("/getCustomerList", getAllCustomers)
 
