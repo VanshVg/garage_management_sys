@@ -7,13 +7,13 @@ import {
 import * as vehicleController from "../controllers/vehicleControllers.js";
 import { vehicleValidator } from "../validators/vehicleValidation.js";
 import {
-  customerInvoice,
   customerSlotSelection,
   customerVehicleSelection,
   getAllCustomers,
   slotDisplay,
 } from "../controllers/customerControllers.js";
 import {  getGarageListing } from "../controllers/garageControllers.js";
+import { customerInvoice, downloadCustomerInvoice } from "../controllers/invoiceControllers.js";
 const router = express.Router();
 
 router.get("/home", customerHome);
@@ -25,7 +25,8 @@ router.get("/getCustomerName", getAllCustomers);
 router.get("/profile", customerProfile);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-router.get("/invoice", customerInvoice);
+router.get("/downloadInvoice", downloadCustomerInvoice);
+router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages",getGarageListing);
 
 export default router;
