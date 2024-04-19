@@ -55,7 +55,6 @@ const handleGarage = async (e) => {
       body: formData,
     });
     response = await response.json();
-    console.log(response);
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

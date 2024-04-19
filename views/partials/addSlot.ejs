@@ -101,8 +101,12 @@
             <ul class="calendar-dates"></ul>
         </div>
     </div>
-
     <div class="slot-listing" id="slot-listing" style="display: none;">
+        <select name="slotDiff" id="slotDiff" onchange="displaySlots(event)">
+            <option value="0.5">00:30</option>
+            <option value="1" selected>01:00</option>
+            <option value="1.5">01:30</option>
+        </select>
         <table id="slot-table">
             <thead>
                 <tr>

@@ -28,7 +28,8 @@
           card3text: "#df5e5e",
           card4bg: "rgba(237, 231, 251, 0.5)",
           card4text: "#9a78ea",
-          red: "#ff0000"
+          red: "#ff0000",
+          green: "#00FF00"
         },
       },
     },
@@ -41,16 +42,16 @@
       <div class="flex bg-dark p-4 w-64 h-48 -ml-28 -mt-20 rotate-[-45deg] justify-center items-end relative">
         <img src="/assets/logo.png" class="rotate-45" alt="logo" height="80px" width="80px">
       </div>
-      <div class="bg-white -mt-8 ml-24 pt-10 pb-4 rounded w-[850px]" id="vehicle-form"
+      <div class="bg-white -mt-8 ml-[90px] pt-10 pb-4 rounded w-[800px]" id="vehicle-form"
         style="box-shadow: 1px 1px 1px  grey, inset 1px 1px rgba(1,1,1,.1);">
         <h2 class="block mb-5 ml-80 text-3xl text-dark">Add new vehicle</h2>
-        <div style="background-color: black; height: 1px; max-width: 700px" class="mb-10 ml-24"></div>
+        <div style="background-color: black; height: 1px; max-width: 700px" class="mb-10 ml-[55px]"></div>
         <div class="flex">
           <div class="flex">
             <label for="vehicle-file" id="vehicle-image"
-              class="-mt-10 ml-56 rounded hover:cursor-pointer max-w-32 max-h-40 py-11 text-center text-white hidden"></label>
+              class="-mt-10 ml-44 rounded hover:cursor-pointer max-w-32 max-h-40 py-11 text-center text-white hidden"></label>
             <label for="vehicle-file" id="vehicle-upload"
-              class="bg-dark ml-56 rounded hover:cursor-pointer block max-w-32 max-h-40 py-11 text-center text-white"><img
+              class="bg-dark ml-44 rounded hover:cursor-pointer block max-w-32 max-h-40 py-11 text-center text-white"><img
                 class="m-auto" style="height: 30px;" alt="upload" src="/icons/upload-white.svg"></img> Click here to
               upload
               pic</label>
@@ -75,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="ml-56 mt-6 flex flex-col">
+        <div class="ml-44 mt-6 flex flex-col">
           <input type="text" class="bg-white h-[35px] rounded mb-7 pl-2 placeholder:text-dark placeholder:opacity-45"
             placeholder="Enter vehicle number plate" name="numberPlate"
             style="width: 430px; box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
@@ -91,19 +92,19 @@
       <div></div>
     </div>
   </div>
-  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full w-[300px] pr-[6px]">
-    <h2 class="text-white text-3xl">Vehicles List</h2>
+  <div class="absolute right-0 bg-dark p-10 overflow-y-scroll h-full w-[350px] pr-[6px]">
+    <h2 class="text-white text-3xl">Select Vehicle</h2>
     <% if(vehicleData.length!=0) {%>
-      <p class="bg-white mt-5 max-w-20 text-center py-1 rounded text-lg ml-[156px] hover:cursor-pointer">Next</p>
+      <p class="bg-white mt-5 max-w-20 text-center py-1 rounded text-lg ml-[200px] hover:cursor-pointer">Next</p>
       <% for(let i=0; i<vehicleData.length; i++) {%>
-        <input type="radio" name="vehicle" id="vehicle<%=i+1%>" value="<%=vehicleData[i].id%>" onchange="selectVehicle()">
+        <input type="radio" name="vehicle" id="vehicle<%=i+1%>" value="<%=vehicleData[i].id%>" onchange="selectVehicle()" hidden>
         <label for="vehicle<%=i+1%>">
-          <div class="bg-light h-40 w-64 -ml-4 mt-5 rounded hover:cursor-pointer flex"  name="vehicle<%=i+1%>">
-            <div>
-              <img src="<%=vehicleData[i].condition_image%>" style="height: 156px; width: 130px; margin-left: 0px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; margin-top: 1px;"
+          <div class="bg-light h-40 w-[300px] -ml-4 mt-5 rounded hover:cursor-pointer flex p-[2px]"  name="vehicle<%=i+1%>" draggable="false">
+            <div class="py-[9px] pl-[9px]">
+              <img src="<%=vehicleData[i].condition_image%>" class="h-[138px] w-[125px] -ml-[1.5px]" style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;"
                 alt="vehicle" class="ml-3" style="height: 90px;">
             </div>
-            <div>
+            <div class="ml-2">
               <p class="ml-2 mt-2">
                 <%=vehicleData[i].register_plate_number%>
               </p>

@@ -7,4 +7,4 @@ export const validateRole = (role_id) => (req, res, next) => {
   } else {
     res.redirect("/");
   }
-};
+}

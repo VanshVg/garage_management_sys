@@ -178,7 +178,6 @@ export const updateProfile = async (req, res) => {
     thumbnail,
     req.user.email,
   ]);
-  console.log(userResult);
   if (userResult != 1) {
     return res
       .status(301)

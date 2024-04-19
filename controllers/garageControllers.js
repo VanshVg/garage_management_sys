@@ -8,9 +8,10 @@ import {
   updateGarageAddress,
   deleteGarage,
   displayGarage,
-  getGarageList,
   findOne,
   getOwnerGarages,
+  garageSlotListing,
+  getGaragesService
 } from "../utils/dbHandler.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
@@ -64,7 +65,6 @@ export const garageAdd = async (req, res) => {
       ]);
       if (garageId) {
         let result = await insertGarageOwner([userId, garageId]);
-        console.log(result);
         let result2 = await insertGarageReference([
           addressId,
           garageId,
@@ -157,3 +157,14 @@ export const getGarageListing = async (req, res) => {
   const result = await getOwnerGarages([user[0].id]);
   res.json({ garages: result });
 };
+
+
+export const getGarageSlots = async (req, res) => {
+  let { garageId, startDate, endDate } = req.body;
+  const result = await garageSlotListing(garageId, startDate, endDate);
+  res.json(result);
+}
+export const getGarages = async (req, res) => {
+  const result = await getGaragesService();
+  res.json({ result });
+}

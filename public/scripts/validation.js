@@ -12,9 +12,9 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-            errorMessage: "password must be at least 8 character..",
-            valid: false,
-          }
+          errorMessage: "password must be at least 8 character..",
+          valid: false,
+        }
         : { valid: true },
     digit10: (value) =>
       !/^\d{10}$/.test(value)
@@ -78,7 +78,6 @@ const Validation = {
     if (Validation.allValid) {
       const formData = new FormData(document.querySelector(`#${formId}`));
       const formProps = Object.fromEntries(formData);
-      console.log(formProps);
       if (form == "u/register")
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
@@ -97,7 +96,6 @@ const Validation = {
       });
       let data = 0;
       try {
-        console.log(response);
         data = await response.json();
         if (data.success) {
           if (form == "u/login") {
