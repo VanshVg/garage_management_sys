@@ -281,6 +281,16 @@ export const getGarageList = async (ownerId) => {
   }
 };
 
+export const getGaragesService = async () => {
+  try{
+    let query = `SELECT garage_name, contact_number,thumbnail from garage_master;`
+    let result = await conn.query(query);
+    return result[0];
+  }catch(err){
+    return {err};
+  }
+}
+
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`;
@@ -403,7 +413,7 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 //garage wise service listing
 export const serviceListing = async (garageId) => {
   try {
-    let query = `SELECT * FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
+    let query = `SELECT sm.id,sm.description FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
     let [results] = await conn.query(query, [garageId]);
     return results;
   } catch (error) {
@@ -519,6 +529,7 @@ export const getAppointments = async (ownerDetails) => {
   try {
     let query = "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
     let result = await conn.query(query, ownerDetails);
+    console.log(result)
     return result[0];
   }
   catch (error) {
@@ -528,7 +539,7 @@ export const getAppointments = async (ownerDetails) => {
 // fetching garage wise slots at customer side
 export const customerSlotListing = async (garageId, startDate, endDate) => {
   try {
-    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ?;`
+    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ? ;`
     const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
   } catch (error) {
@@ -536,7 +547,7 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
   }
 }
 
-export const getVehicleAssociatedServices  = async(userId) =>{
+export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
     slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
@@ -553,10 +564,20 @@ export const getVehicleAssociatedServices  = async(userId) =>{
     ON user_has_vehicles.vehicle_id = vehicle_master.id
     LEFT JOIN vehicle_types
     ON vehicle_master.type_id = vehicle_types.id where user_has_vehicles.owner_id = ?;`
-    const result = await conn.query(query,[userId])
+    const result = await conn.query(query, [userId])
     return result[0]
   } catch (error) {
-    return {error}
+    return { error }
+  }
+}
+
+export const insertFeedback = async (customerId,garageId,desscription,rating) =>{
+  try {
+    var query = `INSERT INTO feedbacks (garage_id, customer_id, feedback, ratings) VALUES (?,?,?,?)`
+    const result = await conn.query(query,[garageId,customerId,desscription,rating])
+    return result[0].insertId;
+  } catch (error) {
+    return{error}
   }
 }
 
@@ -568,5 +589,15 @@ export const getInvoiceDetails = async (appointmentDetails) => {
   } catch (error) {
     console.log(error);
     return { error };
+  }
+}
+
+export const ifFeedbackExist = async (customerId) =>{
+  try {
+    var query = `SELECT * FROM feedbacks where customer_id = ?`
+    const result = await conn.query(query,[customerId])
+    return result[0]
+  } catch (error) {
+    return {error}
   }
 }

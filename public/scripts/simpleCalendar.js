@@ -44,13 +44,11 @@ const displaySlots = async (e) => {
   data += month + "-";
   if (date.length == 1) data += 0;
   data += date;
-  console.log(data)
 
   let slotListing = document.getElementById('slot-listing');
   slotListing.style.display = '';
   let slotBody = document.getElementById('slot-body');
   const index = document.getElementById('garage-select').value;
-  console.log(garages);
   const garage = garages[index];
   let startTime = new Date(garage.open_time).getTime();
   let endTime = new Date(garage.close_time).getTime();

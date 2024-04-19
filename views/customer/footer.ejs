@@ -1,0 +1,111 @@
+<script src="/scripts/apiCall.js"></script>
+
+<script>
+
+    const fillGarages = async () => {
+
+        let garages = await callAPI("/customer/garageList");
+        let garageList = ``
+
+        garages.result.forEach(garage => {
+
+            garageList += `<div class="bg-light max-w-fit h-1/5 mt-5 rounded-lg flex" onclick=setActive('vehicle')>
+                <div class="garage-icon border-2 w-3/4">
+                    <img src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full bg-cover" alt="garage" class="object-cover">
+                </div>
+                <div class="garage-info max-w-fit p-2">
+                    <h3 class="font-medium text-xl text-center" id="garageName">${garage.garage_name}</h3>
+                    <div class="rating mt-2 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 576 512" style="fill: rgba(255, 255, 0, 0.842); stroke:black; stroke-width: 40px;"><path d="M288 0c-12.2 .1-23.3 7-28.6 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3L288 439.8V0zM429.9 512c1.1 .1 2.1 .1 3.2 0h-3.2z"/></svg>
+                    </div>
+                    <div class="flex pt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
+                        <p class="pl-2 text-xs">b-15 airport road, near talavdi circle</p>
+                    </div>
+                    
+                </div>
+            </div>`
+
+        });
+
+        document.getElementById('card-wrapper').innerHTML = garageList;
+    }
+
+    fillGarages()
+
+</script>
+
+<script>
+// loadAddress("garageAdd");
+// imageSelection("garageAdd");
+/*Map */
+const position = [22.684282675883896, 72.88051636361853];
+const map = L.map('map').setView(position, 8);
+
+// Google layer (HTTPS URL)
+const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+}).addTo(map);
+
+// OSM Layer
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+// Esri Layers (HTTPS URL)
+const Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+
+const Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+  maxZoom: 16
+});
+
+// Google Hybrid Layer (HTTPS URL)
+const googleHybrid = L.tileLayer('https://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
+  maxZoom: 20,
+  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+});
+
+/*My Location Icon*/
+const myIcon = L.icon({
+  iconUrl: 'https://raw.githubusercontent.com/Makwana-Bharat/pathdarshak/main/assest/Images/Location.png',
+  iconSize: [50, 50],
+});
+
+const MyLoc = L.marker(position, { icon: myIcon, draggable: true }).addTo(map);
+
+MyLoc.on('dragend', function (event) {
+  const position = MyLoc.getLatLng();
+  document.getElementById('latitude').value = position.lat;
+  document.getElementById('longitude').value = position.lng;
+});
+
+// Set initial values of inputs
+// document.getElementById('latitude').value = position[0];
+// document.getElementById('longitude').value = position[1];
+
+/* Layer Management*/
+const base = {
+  "Google Street": googleStreets,
+  "OSM": osm,
+  "Google": Esri_WorldImagery,
+  "Netro": Esri_NatGeoWorldMap,
+  "Hybrid": googleHybrid
+};
+const overlayMaps = {
+  "Marker": MyLoc
+};
+L.control.layers(base, overlayMaps).addTo(map);
+
+</script>
+
+
+</body>
+
+</html>
