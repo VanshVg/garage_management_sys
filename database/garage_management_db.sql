@@ -118,6 +118,7 @@ CREATE TABLE `appointments` (
   `slot_id` int DEFAULT NULL,
   `customer_id` int DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
+  `invoice_url` varchar(255) DEFAULT NULL,
   `comment` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
