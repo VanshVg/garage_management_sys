@@ -14,6 +14,7 @@ const getGarages = async () => {
   });
 };
 getGarages();
+
 const getData = async (page = 1, garage) => {
   const jsonData = await fetch(
     "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage

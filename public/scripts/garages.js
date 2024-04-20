@@ -5,7 +5,6 @@ const fillGarages = async () => {
   garages = garageDetails.garages;
   let garageList = ``;
   let index = 0;
-
   garages.forEach((garage) => {
     garageList += `
       <div class="w-1/3 p-2 h-[600px] relative">
