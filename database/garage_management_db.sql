@@ -818,3 +818,30 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-04-16 19:16:04
+
+
+CREATE TABLE service_categories (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL
+);
+
+INSERT INTO service_categories (name) VALUES ('Vehicle Maintenance');
+INSERT INTO service_categories (name) VALUES ('Diagnostic Services');
+INSERT INTO service_categories (name) VALUES ('Repair Services');
+INSERT INTO service_categories (name) VALUES ('Preventive Maintenance');
+INSERT INTO service_categories (name) VALUES ('Vehicle Upgrades and Modifications');
+INSERT INTO service_categories (name) VALUES ('Bodywork and Painting');
+INSERT INTO service_categories (name) VALUES ('Tire Services');
+INSERT INTO service_categories (name) VALUES ('Vehicle Detailing');
+INSERT INTO service_categories (name) VALUES ('Roadside Assistance');
+INSERT INTO service_categories (name) VALUES ('Fleet Maintenance');
+INSERT INTO service_categories (name) VALUES ('Specialty Services');
+
+CREATE TABLE services (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  service_category_id INT NOT NULL,
+  FOREIGN KEY (service_category_id) REFERENCES service_categories(id)
+);
+
