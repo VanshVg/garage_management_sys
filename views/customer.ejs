@@ -12,13 +12,13 @@
             </div>
         </div>
         <div class="page-match-container h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
-            <%- include('./customer/garageList.ejs') %>
+            <%- include('./customer/serviceList.ejs') %>
         </div>
 
         <div class="page-container w-[70%] h-screen bg-lightbg" id="vehicle-screen">
-          <div class="h-screen w-full bg-lightbg">
-              <%- include('./customer/garageDetail.ejs')%>
-          </div>
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs') %>
+            </div>
         </div>
         <div class="page-match-container h-screen w-[25%] bg-dark" id="vehicle-match-screen" style="display: none;">
             <%- include('./customer/vehiclesType.ejs') %>
@@ -52,7 +52,7 @@
             <%- include('./customer/serviceMain.ejs') %>
         </div>
         <div class="page-match-container h-screen w-[25%] bg-dark" id="service-match-screen">
-            <%- include('./customer/serviceList.ejs') %>
+
         </div>
 
     </div>
@@ -64,6 +64,10 @@
             document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
             document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
             let screen = document.querySelector(`#${activated}-screen`);
+
+            if(activated === "vehicle"){
+                screen = document.querySelector(`#dashboard-screen`);
+            }
             screen.style.display = "block";
     
             let matchScreen = document.querySelector(`#${activated}-match-screen`);

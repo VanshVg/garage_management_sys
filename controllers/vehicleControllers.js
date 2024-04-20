@@ -72,22 +72,19 @@ export const addVehicle = async (req, res) => {
   }
 };
 
-export const getAddVehicle = async (req, res) => {
+export const getUserVehicle = async (req, res) => {
   try {
     const { type } = req.params;
-
-    let typeResult = await selectByFieldName("vehicle_types", "name", type);
-    if (typeResult.length < 1) {
-      return res.status(301).json({ success: false, message: "something went wrong" });
-    }
-    let typeId = typeResult[0].id;
-
+    
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
     }
+    
+    let vehicleData = await findVehicleData(req.user.email,type);
+    // console.log(vehicleData);
 
-    let vehicleData = await findVehicleData(user[0].id);
-    return res.render("partials/addVehicle.ejs", { vehicleData, typeId, type });
+    return res.json({result:vehicleData});
+  
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }

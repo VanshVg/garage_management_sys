@@ -8,7 +8,7 @@
     <div class="mt-5 flex flex-row text-white justify-between w-11/12">
       <div class="flex flex-col items-center content-between">
         <label>
-          <input type="radio" name="vehicle" value="car" class="absolute w-0 h-0 opacity-0" checked/>
+          <input type="radio" name="vehicle" value="car" class="absolute w-0 h-0 opacity-0"/>
           <img class="box-border h-24 w-24 p-2 rounded-xl border-4 border-blueborder bg-light justify-between hover:border-gray-500 hover:bg-sky-300" src="/assets/car.png"
             alt="Option 1" />
         </label>
@@ -74,13 +74,60 @@
 
 <script>
 
+const checkVehicleType = async () => {
+    let vehicleType = localStorage.getItem("vehicleType");
+    userVehicle(vehicleType);
+};
+    
+    const userVehicle = async (vehicleType) => {
+        let vehicles = await callAPI(`/customer/addVehicle/${vehicleType}`);
+        console.log(vehicles);
+
+        userVehicles = '';
+
+        vehicles.result.forEach(vehicles => {
+
+          userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex userVehicleData">
+                  <input type="checkbox" name="userVehicle" value="${vehicles.vehicle_id}" id="${vehicles.vehicle_id}">
+                  <div class="garage-icon border-2">
+                      <img src="/assets/activa.jpg" class="h-full bg-cover" alt="activa" class="object-cover">
+                  </div>
+                  <div class="garage-info max-w-fit p-2">
+                      <label for="${vehicles.vehicle_id}">
+                        <h3 class="font-medium text-lg text-left mb-3">${vehicles.register_plate_number}</h3>
+                        <p class="text-sm">Brand:- ${vehicles.brand}</p>
+                        <p class="text-sm text-left break-keep">Model:- ${vehicles.model}</p>
+                        <p class="text-sm">Year:- ${vehicles.year}</p>
+                      </label>
+                  </div>
+                </div>`;
+        })
+
+        document.getElementById('userVehicle-wrapper').innerHTML = userVehicles;
+
+        // localStorage.setItem("vehicleType",vehicleType);
+
+        setActive('addVehicle');
+
+    }
+
     const vehicleType = async () => {
       let vehicle = document.getElementById('vehicleType');
       let vehicleData = new FormData(vehicle);
-      if(vehicleData){
-        setActive('addVehicle');
+
+      // console.log((vehicleData.get("vehicle") === ""));
+
+      let vehicleType = vehicleData.get("vehicle");
+
+      if(vehicleType === ""){
+        console.log("Plz select any vehicle type");
+        return 0;
       }
 
+      userVehicle(vehicleType);
+
     }
+
+    checkVehicleType();
 
 </script>

@@ -734,7 +734,7 @@ CREATE TABLE `vehicle_condition` (
   `vehicle_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vehicle_id` (`vehicle_id`),
-  CONSTRAINT `vehicle_condition_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle_master` (`id`)
+  CONSTRAINT `vehicle_condition_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `user_has_vehicles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

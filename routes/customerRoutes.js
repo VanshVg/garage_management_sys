@@ -3,7 +3,7 @@ import {
   servicesListing,
   selectServices,
 } from "../controllers/staticControllers.js";
-import * as vehicleController from "../controllers/vehicleControllers.js";
+import {getUserVehicle} from "../controllers/vehicleControllers.js";
 
 import {
   home, vehicles, addVehicles, profile,
@@ -31,12 +31,12 @@ router.get("/service",getServices);
 router.get("/profile", profile);
 router.get("/appointment",appointment);
 router.get("/singleGarage",getSingleGarage);
-
 router.get("/servicesList", servicesListing);
+router.get("/addVehicle/:type", getUserVehicle);
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
-router.get("/addVehicle/:type", vehicleController.getAddVehicle);
+
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
