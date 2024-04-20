@@ -24,8 +24,8 @@
   border: none;
   border-radius: 7px;
   border: 1px solid grey;
-  box-shadow: 1px 1px 1px  grey,
-  inset 1px 1px rgba(1,1,1,.1);
+  box-shadow: 1px 1px 1px grey,
+    inset 1px 1px rgba(1, 1, 1, .1);
   background-color: var(--white);
   padding-left: 10px;
 }
