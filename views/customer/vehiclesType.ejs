@@ -81,11 +81,8 @@ const checkVehicleType = async () => {
     
     const userVehicle = async (vehicleType) => {
         let vehicles = await callAPI(`/customer/addVehicle/${vehicleType}`);
-        console.log(vehicles);
-
         userVehicles = '';
-
-        vehicles.result.forEach(vehicles => {
+        vehicles.result?.forEach(vehicles => {
 
           userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex userVehicleData">
                   <input type="checkbox" name="userVehicle" value="${vehicles.vehicle_id}" id="${vehicles.vehicle_id}">
@@ -93,7 +90,7 @@ const checkVehicleType = async () => {
                       <img src="/assets/activa.jpg" class="h-full bg-cover" alt="activa" class="object-cover">
                   </div>
                   <div class="garage-info max-w-fit p-2">
-                      <label for="${vehicles.vehicle_id}">
+                      <label for="${vehicles.vehicle_id}">  
                         <h3 class="font-medium text-lg text-left mb-3">${vehicles.register_plate_number}</h3>
                         <p class="text-sm">Brand:- ${vehicles.brand}</p>
                         <p class="text-sm text-left break-keep">Model:- ${vehicles.model}</p>
@@ -105,7 +102,7 @@ const checkVehicleType = async () => {
 
         document.getElementById('userVehicle-wrapper').innerHTML = userVehicles;
 
-        // localStorage.setItem("vehicleType",vehicleType);
+        localStorage.setItem("vehicleType",vehicleType);
 
         setActive('addVehicle');
 
@@ -121,7 +118,7 @@ const checkVehicleType = async () => {
 
       if(vehicleType === ""){
         console.log("Plz select any vehicle type");
-        return 0;
+        return;
       }
 
       userVehicle(vehicleType);
