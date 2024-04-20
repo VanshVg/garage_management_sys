@@ -13,6 +13,7 @@ import {
   getVehicleAssociatedServices,
   findOne,
   getGarageAddress,
+  getBookedAppointments,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -172,4 +173,19 @@ export const daysCount = async (req, res) => {
   const time = new Date().getTime() - new Date(joined).getTime();
   const days = Math.floor(time / (24 * 60 * 60 * 1000));
   res.status(201).json({ success: true, days });
+}
+
+export const bookedAppointments = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  let result = await getBookedAppointments([req.params.id, user[0].id]);
+  let appointments = [];
+  result.forEach(res => {
+    let temp = {};
+    temp.customerName = res.customerName;
+    temp.date = res.startTime.slice(0, 11);
+    temp.startTime = res.startTime.slice(11, 16);
+    temp.endTime = res.endTime.slice(11, 16);
+    appointments.push(temp);
+  });
+  res.status(201).json({ success: false, appointments });
 }

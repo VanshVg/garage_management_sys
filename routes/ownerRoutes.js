@@ -2,6 +2,7 @@ import express from "express";
 import {
   appointments,
   appointmentsListing,
+  bookedAppointments,
   calendar,
   daysCount,
   findOwnerService,
@@ -41,6 +42,7 @@ router.get("/appointment", appointments);
 
 router.get('/appointmentsList', appointmentsListing);
 router.get('/appointmentsList/:garageId', appointmentsListing);
+router.get('/bookedAppointments/:id', bookedAppointments);
 
 router.get("/inventory", inventory);
 

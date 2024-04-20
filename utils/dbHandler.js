@@ -538,8 +538,8 @@ export const countAppointments = async (ownerId) => {
     let [result] = await conn.query(query, [ownerId, 1]);
     let [result2] = await conn.query(query, [ownerId, 2]);
     let [result3] = await conn.query(query, [ownerId, 3]);
-    let successful = result[0].count;
-    let pending = result2[0].count;
+    let pending = result[0].count;
+    let successful = result2[0].count;
     let cancelled = result3[0].count;
     return { pending, successful, cancelled };
   } catch (err) {
@@ -572,6 +572,17 @@ export const getAppointments = async (ownerDetails) => {
   try {
     let query =
       "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
+    let result = await conn.query(query, ownerDetails);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getBookedAppointments = async (ownerDetails) => {
+  try {
+    let query =
+      "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where status = 2 and a.garage_id = ? and owner_id = ? order by b.start_time;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
