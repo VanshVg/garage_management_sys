@@ -3,12 +3,13 @@ import {
   appointments,
   appointmentsListing,
   calendar,
+  daysCount,
   findOwnerService,
   getAllCustomers,
   getAppointmentCount,
   home,
   inventory,
-  invoice,
+  invoice
 } from "../controllers/staticControllers.js";
 import garageRoutes from "./owner/garageRoutes.js";
 import slotRoutes from "./owner/slotRoutes.js";
@@ -49,6 +50,8 @@ router.get("/appointmentCount", getAppointmentCount);
 
 router.post("/ownerServices", findOwnerService);
 
-router.get("/getCustomerList", getAllCustomers)
+router.get("/getCustomerList", getAllCustomers);
+
+router.get('/daysCount', daysCount)
 
 export default router;

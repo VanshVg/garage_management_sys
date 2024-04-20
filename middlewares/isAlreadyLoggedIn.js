@@ -28,7 +28,6 @@ export const isAlreadyLoggedIn = async (req, res, next) => {
     const redirectUrl = role_id === 0 ? '/customer/home' : '/owner/home';
     res.redirect(redirectUrl);
   } catch (error) {
-    console.error('Error in token verification:', error);
     next();
   }
 };

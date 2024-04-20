@@ -87,7 +87,7 @@ export const deleteSlot = async (slotId) => {
   }
 };
 
-export const getAllSlots = async (offset,garage,user) => {
+export const getAllSlots = async (offset, garage, user) => {
   try {
     let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time,        availability_status 
                  FROM slot_master 
@@ -99,7 +99,7 @@ export const getAllSlots = async (offset,garage,user) => {
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
                  WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?`;
-    let result = await conn.query(query, ['%'+garage+'%',user,offset,'%'+garage+'%',user]);
+    let result = await conn.query(query, ['%' + garage + '%', user, offset, '%' + garage + '%', user]);
     return result[0];
   } catch (error) {
     return { error };
@@ -314,16 +314,16 @@ export const getGaragesService = async () => {
 };
 
 export const getSingleGarageService = async (garageId) => {
-  try{
+  try {
     let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
     and a.city_id = c.id and c.sid = s.id where gm.id = ?;`
-    let result = await conn.query(query,[garageId]);
+    let result = await conn.query(query, [garageId]);
     return result[0];
-  }catch(err){
-    return {err};
+  } catch (err) {
+    return { err };
   }
 }
 
@@ -534,13 +534,14 @@ export const countServices = async (ownerId) => {
 export const countAppointments = async (ownerId) => {
   try {
     let query =
-      "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ?;";
-    let [results] = await conn.query(query, [ownerId]);
-    query = query.replace(";", " AND c.status = 1");
-    let [results2] = await conn.query(query, [ownerId]);
-    let totalCount = results[0].count;
-    let successCount = results2[0].count;
-    return { totalCount, successCount };
+      "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ? and c.status = ?;";
+    let [result] = await conn.query(query, [ownerId, 1]);
+    let [result2] = await conn.query(query, [ownerId, 2]);
+    let [result3] = await conn.query(query, [ownerId, 3]);
+    let successful = result[0].count;
+    let pending = result2[0].count;
+    let cancelled = result3[0].count;
+    return { pending, successful, cancelled };
   } catch (err) {
     return { err };
   }
@@ -680,7 +681,7 @@ export const getAppointsByDateRange = async (payload) => {
     const result = await conn.query(query, payload);
     return result[0];
   } catch (error) {
-    return {error};
+    return { error };
   }
 }
 
@@ -698,12 +699,12 @@ export const updateFields = async (tableName, fields, conditions) => {
   try {
     let query = `UPDATE ` + tableName + ` SET ? WHERE `;
     let keys = Object.keys(conditions);
-    if(keys.length == 1) {
-      query+= `${keys[0]} = ${conditions[keys[0]]};`
+    if (keys.length == 1) {
+      query += `${keys[0]} = ${conditions[keys[0]]};`
     } else {
       let i = 0;
       keys.forEach((element) => {
-        if(i != keys.length-1) {
+        if (i != keys.length - 1) {
           query += `${element} = "${conditions[element]}" AND `
         } else {
           query += `${element} = "${conditions[element]}";`

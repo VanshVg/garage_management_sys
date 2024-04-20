@@ -129,8 +129,8 @@ export const getServiceCount = async (req, res) => {
 
 export const getAppointmentCount = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const { totalCount, successCount } = await countAppointments(user[0].id);
-  res.status(201).json({ success: true, totalCount, successCount });
+  const { pending, successful, cancelled } = await countAppointments(user[0].id);
+  res.status(201).json({ success: true, pending, successful, cancelled });
 };
 
 export const findOwnerService = async (req, res) => {
@@ -163,4 +163,13 @@ export const garageAddress = async (req, res) => {
 
 export const selectServices = (req, res) => {
   res.render("customerServices");
+}
+
+
+export const daysCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const joined = user[0].created_at;
+  const time = new Date().getTime() - new Date(joined).getTime();
+  const days = Math.floor(time / (24 * 60 * 60 * 1000));
+  res.status(201).json({ success: true, days });
 }
