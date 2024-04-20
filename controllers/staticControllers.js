@@ -107,8 +107,7 @@ export const allServices = async (req, res) => {
 };
 
 export const servicesListing = async (req, res) => {
-  const { garageId } = req.body;
-  const servicesList = await serviceListing([garageId]);
+  const servicesList = await serviceListing();
   res.json(servicesList);
 };
 

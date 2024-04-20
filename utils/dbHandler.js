@@ -450,8 +450,8 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 //garage wise service listing
 export const serviceListing = async (garageId) => {
   try {
-    let query = `SELECT sm.id,sm.description FROM service_master sm JOIN garage_has_services gs ON sm.id = gs.services_id where gs.garage_id = ?`;
-    let [results] = await conn.query(query, [garageId]);
+    let query = `SELECT id,name,description,price from service_master;`;
+    let [results] = await conn.query(query);
     return results;
   } catch (error) {
     return { error };
@@ -547,10 +547,14 @@ export const countAppointments = async (ownerId) => {
   }
 };
 
-export const findVehicleData = async (ownerId) => {
+export const findVehicleData = async (email,type) => {
   try {
-    let query = `SELECT vehicle_master.brand, vehicle_master.model, vehicle_master.year, vehicle_condition.condition_image, user_has_vehicles.register_plate_number, user_has_vehicles.id from vehicle_master JOIN user_has_vehicles ON vehicle_master.id = user_has_vehicles.vehicle_id JOIN vehicle_condition ON vehicle_condition.vehicle_id = user_has_vehicles.id WHERE user_has_vehicles.owner_id = ?;`;
-    let [result] = await conn.query(query, [ownerId]);
+    let query = `SELECT user_has_vehicles.vehicle_id,users.email,vehicle_types.name, vehicle_master.brand, 
+    vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number
+    from vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
+    on vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
+    and users.id = user_has_vehicles.owner_id and users.email = ? and vehicle_types.name = ?;`    
+    let [result] = await conn.query(query, [email,type]);
     return result;
   } catch (error) {
     return { err };
