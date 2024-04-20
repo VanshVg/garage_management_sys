@@ -12,7 +12,8 @@ import {
   getOwnerGarages,
   garageSlotListing,
   getGaragesService,
-  getSingleGarageService
+  getSingleGarageService,
+  getGarageAppointments
 } from "../utils/dbHandler.js";
 
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -180,4 +181,14 @@ export const getSingleGarage = async (req,res) => {
   let garageId = req.params.id;
   const result = await getSingleGarageService(garageId);
   res.json({result});
+}
+
+export const showGarageAppointments = async (req, res) => {
+  try {
+    const { garageId } = req.body;
+    let appointments = await getGarageAppointments(garageId);
+    return res.status(200).json({ success:true, appointments})
+  } catch (error) {
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
 }

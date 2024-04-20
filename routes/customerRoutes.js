@@ -19,7 +19,6 @@ import {
 } from "../controllers/customerControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
   
-import { customerInvoice, downloadInvoice } from "../controllers/invoiceControllers.js";
 const router = express.Router();
 
 router.get("/home", home);
@@ -41,9 +40,7 @@ router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages",getGarageListing);
 router.get("/appointments", showAppointments)
-router.get("/downloadInvoice/:appointmentId", downloadInvoice)
 
 export default router;
