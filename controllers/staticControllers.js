@@ -13,6 +13,7 @@ import {
   getVehicleAssociatedServices,
   findOne,
   getGarageAddress,
+  getBookedAppointments,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -106,8 +107,7 @@ export const allServices = async (req, res) => {
 };
 
 export const servicesListing = async (req, res) => {
-  const { garageId } = req.body;
-  const servicesList = await serviceListing([garageId]);
+  const servicesList = await serviceListing();
   res.json(servicesList);
 };
 
@@ -129,8 +129,8 @@ export const getServiceCount = async (req, res) => {
 
 export const getAppointmentCount = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const { totalCount, successCount } = await countAppointments(user[0].id);
-  res.status(201).json({ success: true, totalCount, successCount });
+  const { pending, successful, cancelled } = await countAppointments(user[0].id);
+  res.status(201).json({ success: true, pending, successful, cancelled });
 };
 
 export const findOwnerService = async (req, res) => {
@@ -163,4 +163,28 @@ export const garageAddress = async (req, res) => {
 
 export const selectServices = (req, res) => {
   res.render("customerServices");
+}
+
+
+export const daysCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const joined = user[0].created_at;
+  const time = new Date().getTime() - new Date(joined).getTime();
+  const days = Math.floor(time / (24 * 60 * 60 * 1000));
+  res.status(201).json({ success: true, days });
+}
+
+export const bookedAppointments = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  let result = await getBookedAppointments([req.params.id, user[0].id]);
+  let appointments = [];
+  result.forEach(res => {
+    let temp = {};
+    temp.customerName = res.customerName;
+    temp.date = res.startTime.slice(0, 11);
+    temp.startTime = res.startTime.slice(11, 16);
+    temp.endTime = res.endTime.slice(11, 16);
+    appointments.push(temp);
+  });
+  res.status(201).json({ success: false, appointments });
 }
