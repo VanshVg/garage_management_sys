@@ -48,18 +48,34 @@ export const slotDelete = async (req, res) => {
 }
 
 export const getSlots = async (req, res) => {
-    const { startIndex, endIndex } = req.pagination
-    const garage = req.query.garage
-    const user = req.user.email
-    const userExist = await findOne(user)
-    const result = await getAllSlots(startIndex,garage,userExist[0].id)
-    const totalPage = Math.ceil(result[1][0].count / 10)
-    res.json({ result: result[0], count: result[1][0].count, startIndex: startIndex, endIndex: endIndex, totalPage: totalPage })
+    try {
+        const { startIndex, endIndex } = req.pagination;
+        const garage = req.query.garage;
+        const user = req.user.email;
 
+        const userExist = await findOne(user);
+        if (!userExist || userExist.length === 0 || !userExist[0].id) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const result = await getAllSlots(startIndex, garage, userExist[0].id);
+        const totalPage = Math.ceil(result[1][0].count / 10);
+
+        res.json({ result: result[0], count: result[1][0].count, startIndex: startIndex, endIndex: endIndex, totalPage: totalPage });
+    } catch (error) {
+        console.error('Error in getSlots:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
 }
 
+
 export const appointmentsByDateRange = async (req, res) => {
-    const { garageId, startDate, endDate } = req.body;
-    const result = await getAppointsByDateRange([startDate, endDate, garageId]);
-    res.status(201).json({ success: true, appointments: result });
+    try {
+        const { garageId, startDate, endDate } = req.body;
+        const result = await getAppointsByDateRange([startDate, endDate, garageId]);
+        res.status(201).json({ success: true, appointments: result });
+    } catch (error) {
+        console.error('Error in appointmentsByDateRange:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
 }

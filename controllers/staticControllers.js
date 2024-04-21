@@ -79,98 +79,142 @@ export const sessionEnd = (req, res) => {
 };
 
 export const getStates = async (req, res) => {
-  const states = await selectByTableName("state_master");
-  res.status(201).json({ states });
+  try {
+    const states = await selectByTableName("state_master");
+    res.status(201).json({ states });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const getCities = async (req, res) => {
-  const cities = await selectByFieldName(
-    "city_master",
-    "sid",
-    req.params.state_id
-  );
-  res.status(201).json({ cities });
+  try {
+    const cities = await selectByFieldName("city_master", "sid", req.params.state_id);
+    res.status(201).json({ cities });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const getUserDetails = async (req, res) => {
-  const user = await findOne(req.user.email);
-  if (!user) {
-    return res.status(301).json({ success: false, message: "user not found" });
+  try {
+    const user = await findOne(req.user.email);
+    if (!user) {
+      return res.status(301).json({ success: false, message: "User not found" });
+    }
+    const address = await getUserAddress(user[0].id);
+    const vehicleServices = await getVehicleAssociatedServices(user[0].id);
+    res.status(201).json({
+      user: user[0],
+      address: address[0],
+      vehicleServices: vehicleServices,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
-  const address = await getUserAddress(user[0].id);
-  const vehicleServices = await getVehicleAssociatedServices(user[0].id);
-  res.status(201).json({
-    user: user[0],
-    address: address[0],
-    vehicleServices: vehicleServices,
-  });
 };
 
 export const allServices = async (req, res) => {
-  const services = await getServices();
-  res.status(201).json({ services });
+  try {
+    const services = await getServices();
+    res.status(201).json({ services });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
+
 export const getGarageNotService = async (req, res) => {
-  let id = req.params.id;
-  const services = await getNotAvailableService([id]);
-  res.status(201).json({ services });
+  try {
+    let id = req.params.id;
+    const services = await getNotAvailableService([id]);
+    res.status(201).json({ services });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const servicesListing = async (req, res) => {
-  const servicesList = await serviceListing();
-  res.json(servicesList);
+  try {
+    const servicesList = await serviceListing();
+    res.json(servicesList);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const getGarageCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const garageCount = await countByFieldName(
-    "owner_has_garages",
-    "owner_id",
-    user[0].id
-  );
-  res.status(201).json({ success: true, garageCount });
+  try {
+    const user = await findOne([req.user.email]);
+    const garageCount = await countByFieldName("owner_has_garages", "owner_id", user[0].id);
+    res.status(201).json({ success: true, garageCount });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const getServiceCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const serviceCount = await countServices(user[0].id);
-  res.status(201).json({ success: true, serviceCount });
+  try {
+    const user = await findOne([req.user.email]);
+    const serviceCount = await countServices(user[0].id);
+    res.status(201).json({ success: true, serviceCount });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const getAppointmentCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const { pending, successful, cancelled } = await countAppointments(
-    user[0].id
-  );
-  res.status(201).json({ success: true, pending, successful, cancelled });
+  try {
+    const user = await findOne([req.user.email]);
+    const { pending, successful, cancelled } = await countAppointments(user[0].id);
+    res.status(201).json({ success: true, pending, successful, cancelled });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const findOwnerService = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const { garageId } = req.body;
-  const services = await getOwnerService(user[0].id, garageId);
-  res.status(201).json({ success: true, services });
+  try {
+    const user = await findOne([req.user.email]);
+    const { garageId } = req.body;
+    const services = await getOwnerService(user[0].id, garageId);
+    res.status(201).json({ success: true, services });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const appointmentsListing = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  let garage = req.params.garageId || 1;
-  const appointments = await getAppointments([garage, user[0].id]);
-  appointments.forEach((appointment) => {
-    appointment.date = appointment.startTime.slice(0, 10);
-    appointment.startTime = appointment.startTime.slice(11, 16);
-    appointment.endTime = appointment.endTime.slice(11, 16);
-  });
-  res.status(201).json({ success: true, appointments });
+  try {
+    const user = await findOne([req.user.email]);
+    let garage = req.params.garageId || 1;
+    const appointments = await getAppointments([garage, user[0].id]);
+    appointments.forEach((appointment) => {
+      appointment.date = appointment.startTime.slice(0, 10);
+      appointment.startTime = appointment.startTime.slice(11, 16);
+      appointment.endTime = appointment.endTime.slice(11, 16);
+    });
+    res.status(201).json({ success: true, appointments });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
+
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1);
-  res.json({ result: result });
+  try {
+    const result = await getCustomerNames(1);
+    res.json({ result: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const garageAddress = async (req, res) => {
-  const result = await getGarageAddress([req.params.garageId]);
-  res.status(201).json({ address: result });
+  try {
+    const result = await getGarageAddress([req.params.garageId]);
+    res.status(201).json({ address: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const selectServices = (req, res) => {
@@ -178,24 +222,32 @@ export const selectServices = (req, res) => {
 };
 
 export const daysCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const joined = user[0].created_at;
-  const time = new Date().getTime() - new Date(joined).getTime();
-  const days = Math.floor(time / (24 * 60 * 60 * 1000));
-  res.status(201).json({ success: true, days });
+  try {
+    const user = await findOne([req.user.email]);
+    const joined = user[0].created_at;
+    const time = new Date().getTime() - new Date(joined).getTime();
+    const days = Math.floor(time / (24 * 60 * 60 * 1000));
+    res.status(201).json({ success: true, days });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const bookedAppointments = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  let result = await getBookedAppointments([req.params.id, user[0].id]);
-  let appointments = [];
-  result.forEach((res) => {
-    let temp = {};
-    temp.customerName = res.customerName;
-    temp.date = res.startTime.slice(0, 11);
-    temp.startTime = res.startTime.slice(11, 16);
-    temp.endTime = res.endTime.slice(11, 16);
-    appointments.push(temp);
-  });
-  res.status(201).json({ success: false, appointments });
+  try {
+    const user = await findOne([req.user.email]);
+    let result = await getBookedAppointments([req.params.id, user[0].id]);
+    let appointments = [];
+    result.forEach((res) => {
+      let temp = {};
+      temp.customerName = res.customerName;
+      temp.date = res.startTime.slice(0, 11);
+      temp.startTime = res.startTime.slice(11, 16);
+      temp.endTime = res.endTime.slice(11, 16);
+      appointments.push(temp);
+    });
+    res.status(201).json({ success: false, appointments });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };

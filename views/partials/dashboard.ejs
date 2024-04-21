@@ -271,19 +271,19 @@
     }
     const getOwnerData = async () => {
         const garages = await callAPI('/owner/garages/count');
-        animateNumber(garages.garageCount, 2, "garageCount");
+        animateNumber(garages.garageCount || 0, 2, "garageCount");
         const services = await callAPI('/owner/services/count');
         animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const days = await callAPI('/owner/daysCount');
-        animateNumber(days.days, 2, "daysCount");
+        animateNumber(days.days , 2, "daysCount");
         const appointments = await callAPI('/owner/appointmentCount');
-        animateNumber(appointments.pending, 2, "customerCount");
+        animateNumber(appointments.pending || 0, 2, "customerCount");
         let successful = appointments.successful;
-        animateNumber(successful, 2, 'successCount');
+        animateNumber(successful || 0, 2, 'successCount');
         let pending = appointments.pending;
-        animateNumber(pending, 2, 'pendingCount');
+        animateNumber(pending || 0, 2, 'pendingCount');
         let cancelled = appointments.cancelled;
-        animateNumber(cancelled, 2, 'cancelCount');
+        animateNumber(cancelled || 0, 2, 'cancelCount');
         animateNumber(10, 20000, "staffCount");
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
             const chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions(successful, pending, cancelled));
