@@ -1,4 +1,3 @@
-
 <script src="/scripts/slotDisplay.js"></script>
 
 <script>
@@ -40,6 +39,19 @@ const myIcon = L.icon({
   iconUrl: 'https://raw.githubusercontent.com/Makwana-Bharat/pathdarshak/main/assest/Images/Location.png',
   iconSize: [50, 50],
 });
+
+const obj ={
+ 0 : {
+        lat: 23.0264,
+        long: 72.5819
+    }
+}
+
+for(key in obj){
+    let val = obj[key];
+    let markers = new L.Marker(new L.LatLng(val.lat, val.long));
+    map.addLayer(markers);
+}
 
 const MyLoc = L.marker(position, { icon: myIcon, draggable: true }).addTo(map);
 

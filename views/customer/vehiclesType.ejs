@@ -1,7 +1,12 @@
 <div class="mt-6 h-5/6 px-4 flex flex-col w-full">
-    <p class="my-2 text-white text-lg font-bold border-b-2 break-keep max-w-fit">
+    <h3 class="my-2 text-white text-lg font-bold border-b-2 break-keep max-w-fit">
       Please Select Vehicle Type
-    </p>
+    </h3>
+
+    <h4 class="flex justify-start items-center text-white font-bold -ml-1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="m5 12 7 6v-5h6v-2h-6V6z"></path></svg>
+      <p onclick="previousPage('dashboard')">Back</p>
+    </h4>
 
     <form id="vehicleType" name="vehicle">
 
@@ -74,22 +79,24 @@
 
 <script>
 
-const checkVehicleType = async () => {
-    let vehicleType = localStorage.getItem("vehicleType");
-    userVehicle(vehicleType);
-};
-    
+
+
+const selectVehicle = async (id) => {
+  document.getElementById("id").checked = true;
+}
+
     const userVehicle = async (vehicleType) => {
         let vehicles = await callAPI(`/customer/addVehicle/${vehicleType}`);
         userVehicles = '';
+
         vehicles.result?.forEach(vehicles => {
 
-          userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex userVehicleData">
-                  <input type="checkbox" name="userVehicle" value="${vehicles.vehicle_id}" id="${vehicles.vehicle_id}">
-                  <div class="garage-icon border-2">
-                      <img src="/assets/activa.jpg" class="h-full bg-cover" alt="activa" class="object-cover">
+          userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex" onclick="selectVehicle(${vehicles.vehicle_id})">
+                  <input type="radio" name="userVehicle" value="${vehicles.vehicle_id}" id="${vehicles.vehicle_id}">
+                  <div class="garage-icon border-2 w-2/5">
+                      <img src="/assets/activa.jpg" class="h-full bg-cover w-full h-full" alt="activa" class="object-cover">
                   </div>
-                  <div class="garage-info max-w-fit p-2">
+                  <div class="garage-info w-3/5 p-2">
                       <label for="${vehicles.vehicle_id}">  
                         <h3 class="font-medium text-lg text-left mb-3">${vehicles.register_plate_number}</h3>
                         <p class="text-sm">Brand:- ${vehicles.brand}</p>
@@ -107,6 +114,9 @@ const checkVehicleType = async () => {
         setActive('addVehicle');
 
     }
+    
+
+
 
     const vehicleType = async () => {
       let vehicle = document.getElementById('vehicleType');
@@ -125,6 +135,6 @@ const checkVehicleType = async () => {
 
     }
 
-    checkVehicleType();
+  
 
 </script>

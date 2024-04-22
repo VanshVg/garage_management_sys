@@ -16,6 +16,10 @@ export const getServices = async (req,res) => {
   res.render("customer", {active: "services"});
 }
 
+export const getGarage = async (req,res) => {
+  res.render("customer", {active:"garage"});
+}
+
 export const profile = async (req,res) => {
     res.render("customer",{active:"profile"});
 }
