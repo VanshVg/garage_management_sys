@@ -2,7 +2,8 @@ import express from "express";
 import {
   selectServices
 } from "../controllers/staticControllers.js";
-import { getUserVehicle, addVehicle } from "../controllers/vehicleControllers.js";
+import {getUserVehicle, addVehicle} from "../controllers/vehicleControllers.js";
+import upload from "../helpers/fileUploads.js";
 
 import {
   home, vehicles, addVehicles, profile,
@@ -15,11 +16,8 @@ import {
 } from "../controllers/customerControllers.js";
 import { home, profile, addVehicles, appointment, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
-
-import { customerInvoice } from "../controllers/invoiceControllers.js";
-import { servicesListing } from "../controllers/serviceControllers.js";
-
-
+import { updateProfile } from "../controllers/userControllers.js";
+  
 const router = express.Router();
 
 router.get("/home", home);
@@ -34,9 +32,11 @@ router.get("/singleGarage", getSingleGarage);
 
 router.get("/servicesList", servicesListing);
 router.get("/addVehicle/:type", getUserVehicle);
-router.post("/addVehicle", addVehicle);
-
+router.post("/addVehicle",addVehicle);
+router.post("/")
 router.get("/services", selectServices);
+router.post("/servicesList", servicesListing);
+router.put("/profile/update", upload.single("thumbnail"), updateProfile);
 
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
@@ -45,5 +45,7 @@ router.post("/getslots", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments)
+router.get("/feedback",CustomerFeedback)
+router.post("/feedback",CustomerFeedbackPost)
 
 export default router;
