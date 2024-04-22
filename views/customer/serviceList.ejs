@@ -73,10 +73,10 @@
                 }
 
                 // console.log(formServiceData.getAll("services[]"));
-                localStorage.setItem("id",formServiceData.getAll("services[]"));
+                localStorage.setItem("serviceId",formServiceData.getAll("services[]"));
                 setActive('vehicle');
         }
-
+                
         const serviceType = async () => {
                 let service = document.getElementById('serviceList');
                 let serviceData = new FormData(service);

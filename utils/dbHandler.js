@@ -759,3 +759,14 @@ export const getGarageAppointments = async (garageId) => {
     return { error };
   }
 };
+
+export const bookSlotService = async (userId,slotId) => {
+  try{
+
+    let query = `INSERT INTO appointments (slot_id,customer_id) VALUES (?,?);`
+    let result = await conn.query(query, [slotId,userId]);
+    return result;
+  }catch(err){
+    return {err};
+  }
+}
