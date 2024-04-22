@@ -43,12 +43,12 @@ const getInvoices = async () => {
       <td class="mx-auto text-center">${element.start_time.split(" ")[0]}</td>
       <td class="mx-auto text-center">${element.customer_name}</td>`
       if(element.payment_status==0) {
-        garageAppointments += `<td class="mx-auto text-center text-red">Pending</td>`
+        garageAppointments += `<td class="mx-auto text-center"><p class="mx-auto py-[5px] rounded-lg bg-red text-white w-[100px] mt-2">Pending</p></td>`
       } else {
-        garageAppointments += `<td class="mx-auto text-center text-green">Completed</td>`
+        garageAppointments += `<td class="mx-auto text-center"><p class="mx-auto py-[5px] rounded-lg bg-green text-white w-[100px] mt-2">Completed</p></td>`
       }
       if(element.invoice_url != null && element.invoice_url != "") {
-        garageAppointments += `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice" href="/invoices/${element.invoice_url}.pdf" download="invoice.pdf"><p class="hover:cursor-pointer" onclick="downloadInvoice(${element.appointment_id})">Download here</p></a></td>`
+        garageAppointments += `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice" href="/invoices/${element.invoice_url}.pdf" download="invoice.pdf"><p class="hover:cursor-pointer">Download here</p></a></td>`
       } else{
         garageAppointments += `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` + `${element.appointment_id}` + `,`+`  '${element.customer_email}'` + `)">Generate Invoice</p></a></td>`
       }
