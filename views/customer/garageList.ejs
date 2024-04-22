@@ -4,23 +4,22 @@
         
     </div>
     <script>
-        const viewGarage = async (id) => {   
 
-            // localStorage.setItem("garageId",id);
+        // const viewGarage = async (id) => {   
 
-            let garage = await callAPI(`/customer/vehicle/${id}`);
+        //     localStorage.setItem("garageId",id);
+
+        //     let garage = await callAPI(`/customer/vehicle/${id}`);
         
-            let address = `${garage.result[0].area}, ${garage.result[0].city_name}, ${garage.result[0].state_name}`;
+        //     let address = `${garage.result[0].area}, ${garage.result[0].city_name}, ${garage.result[0].state_name}`;
             
-            document.getElementById('garageId').value = garage.result[0].id;
-            document.getElementById('garageImg').src = garage.result[0].thumbnail;
-            document.getElementById('garageTitle').innerHTML = garage.result[0].garage_name;
-            document.getElementById('garageAddress').innerHTML = address;
-            // history.pushState(null,null, 'vehicle/'+id);
-            setActive('vehicle')
-        }
-      
-      
+        //     document.getElementById('garageId').value = garage.result[0].id;
+        //     document.getElementById('garageImg').src = garage.result[0].thumbnail;
+        //     document.getElementById('garageTitle').innerHTML = garage.result[0].garage_name;
+        //     document.getElementById('garageAddress').innerHTML = address;
+        //     setActive('vehicle')
+        // }
+
           const fillGarages = async () => {
       
               let garages = await callAPI("/customer/garageList");

@@ -28,11 +28,7 @@ export const applyPassportStrategy = () => {
       let result = await findOne([payload.email]);
       result = result[0];
       if (result) {
-        return done(null, {
-          id: result.id,
-          role_id: result.role_id,
-          email: payload.email,
-        });
+        return done(null, result);
       }
       return done(null, false);
     })

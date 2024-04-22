@@ -2,22 +2,19 @@ import express from "express";
 
 import authRoutes from "./authRoutes.js";
 import {
-  logout,
   notFound,
-  sessionEnd,
-  landingPage,
-  getUserDetails,
-  allServices,
+  landingPage
 } from "../controllers/staticControllers.js";
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import ownerRoutes from "./ownerRoutes.js";
 import customerRoutes from "./customerRoutes.js";
+import commonRoutes from "./commonRoutes.js";
 import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
-import { cityList, stateList } from "../controllers/addressControllers.js";
 
 const router = express.Router();
-// landing page
+
+// owner routes
 router.use(
   "/owner",
   passport.authenticate("jwt", {
@@ -28,6 +25,7 @@ router.use(
   ownerRoutes
 );
 
+// customer routes
 router.use(
   "/customer",
   passport.authenticate("jwt", {
@@ -38,31 +36,21 @@ router.use(
   customerRoutes
 );
 
-//address related
-router.get("/address/state", stateList);
-router.get("/address/city/:stateId", cityList);
-router.get("/sessionEnd", sessionEnd);
-router.get("/logout", logout);
+// authentication routes
 router.use("/u", isAlreadyLoggedIn, authRoutes);
 
-// fetch routes for getting dynamic data
-router.get(
-  "/userDetails",
-  passport.authenticate("jwt", {
-    session: false,
-    failureRedirect: "/sessionEnd",
-  }),
-  getUserDetails
-);
-
-router.get(
-  "/allServices",
-  passport.authenticate("jwt", {
-    session: false,
-    failureRedirect: "/sessionEnd",
-  }),
-  allServices
-);
+// landing page
 router.get("/", isAlreadyLoggedIn, landingPage);
+
+// common routes used on both customer and owner side
+router.use('/',
+  passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: "/sessionEnd",
+  }),
+  commonRoutes);
+
+// 404 not found
 router.all("*", notFound);
+
 export default router;

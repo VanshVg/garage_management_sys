@@ -5,7 +5,6 @@ import {
   garageForm,
   garageList,
   garageListing,
-  getGarageCount,
 } from "../../controllers/staticControllers.js";
 import {
   garageAdd,
@@ -14,6 +13,7 @@ import {
   garageDisplay,
   getGarageListing,
   getGarageSlots,
+  getGarageCount,
 } from "../../controllers/garageControllers.js";
 import upload from "../../helpers/fileUploads.js";
 

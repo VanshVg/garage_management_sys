@@ -21,10 +21,8 @@ export const update = async (tableName, fields, values, columnName, columnValue)
 
     let query = `UPDATE ${tableName} SET ${str} WHERE ${columnName} = ?;`;
     let result = await conn.query(query, columnValue);
-    console.log(result)
     return result[0];
   } catch (error) {
-    console.log(error)
     return { error };
   }
 }

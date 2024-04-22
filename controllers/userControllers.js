@@ -4,6 +4,8 @@ import {
   deleteUserAddress,
   findAddressById,
   findOneById,
+  getUserAddress,
+  getVehicleAssociatedServices,
   insertAddress,
   insertUserAddress,
   updateAddressById,
@@ -206,3 +208,27 @@ export const updateProfile = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const address = await getUserAddress(user.id);
+    const vehicleServices = await getVehicleAssociatedServices(user.id)
+    res.status(201).json({ user, address: address[0], vehicleServices: vehicleServices });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+export const daysCount = async (req, res) => {
+  try {
+    const user = await findOne([req.user.email]);
+    const joined = user[0].created_at;
+    const time = new Date().getTime() - new Date(joined).getTime();
+    const days = Math.floor(time / (24 * 60 * 60 * 1000));
+    res.status(201).json({ success: true, days });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+}

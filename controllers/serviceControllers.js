@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { deleteFromService, deleteGarageService, findGarageService, findService, insertGarageService, insertService, updateGarageService } from '../utils/dbHandler.js';
+import { countServices, deleteFromService, deleteGarageService, findGarageService, findService, getOwnerService, getServices, insertGarageService, insertService, serviceListing, updateGarageService } from '../utils/dbHandler.js';
 
 export const addService = async (req, res) => {
   try {
@@ -65,3 +65,41 @@ export const deleteService = async (req, res) => {
     return res.status(301).json({ success: false, message: err.message });
   }
 }
+
+export const servicesListing = async (req, res) => {
+  try {
+    const servicesList = await serviceListing();
+    res.status(201).json({ success: false, servicesList });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+export const allServices = async (req, res) => {
+  try {
+    const services = await getServices();
+    res.status(201).json({ success: true, services });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+export const getServiceCount = async (req, res) => {
+  try {
+    const serviceCount = await countServices(req.user.id);
+    res.status(201).json({ success: true, serviceCount });
+  } catch (error) {
+    console.log(error)
+    res.status(401).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+export const findOwnerService = async (req, res) => {
+  try {
+    const { garageId } = req.body;
+    const services = await getOwnerService(req.user.id, garageId);
+    res.status(201).json({ success: true, services });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};

@@ -9,14 +9,10 @@ const __dirname = dirname(__filename);
 
 export const customerInvoice = async (req, res) => {
   try {
-    const { email } = req.user;
     const { appointmentId } = req.params;
-    const user = await selectByFieldName("users", "email", email);
-    if (user.length < 1) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
-    }
+    const user = req.user;
 
-    let invoiceDetails = await getInvoiceDetails([appointmentId, user[0].id]);
+    let invoiceDetails = await getInvoiceDetails([appointmentId, user.id]);
     if (invoiceDetails.length < 1) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
@@ -25,19 +21,15 @@ export const customerInvoice = async (req, res) => {
       data: JSON.stringify(invoiceDetails),
     });
 
-    let result = await generatePdf(fileContent, user[0].id, appointmentId);
-    if (!result) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
-    }
+    let result = await generatePdf(fileContent, user.id, appointmentId);
+    if (!result) throw "Something went wrong!";
 
     let updateResult = await updateFields(
       "appointments",
       { invoice_url: result },
-      { customer_id: user[0].id }
+      { customer_id: user.id }
     );
-    if (!updateResult.affectedRows) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
-    }
+    if (!updateResult.affectedRows) throw "Something went wrong!";
 
     return res.status(200).json({ success: true, message: "Pdf has been generated" });
   } catch (error) {
@@ -53,7 +45,7 @@ export const downloadInvoice = async (req, res) => {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
 
-    return res.status(200).json({ success: true, pdf:invoice[0].invoice_url })
+    return res.status(200).json({ success: true, pdf: invoice[0].invoice_url })
     // return res.download(`./public/invoices/${invoice[0].invoice_url}.pdf`, (err) => {
     //   if (err) {
     //     return res.status(301).json({ success: false, message: "Something went wrong!" });

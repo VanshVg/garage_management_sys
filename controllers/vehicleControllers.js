@@ -12,7 +12,9 @@ export const addVehicle = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(301).json({ success: false, message: "Invalid payload" });
     }
-    const { typeId, vehicleImage, brand, model, year, numberPlate, description } = req.body;
+    const { vehicle, vehicleImage, brand, model, year, numberPlate, description } = req.body;
+
+    let [vId] = await selectByFieldName("vehicle_types", "name", vehicle);
 
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
@@ -34,10 +36,11 @@ export const addVehicle = async (req, res) => {
       year: year,
     });
     if (isVehicle.length < 1) {
+
       let vehicleResult = await insertData(
         "vehicle_master",
         ["type_id", "brand", "model", "year"],
-        [typeId, brand, model, year]
+        [vId.id, brand, model, year]
       );
       if (!vehicleResult.insertId) {
         return res.status(301).json({ success: false, message: "something went wrong" });
@@ -66,28 +69,24 @@ export const addVehicle = async (req, res) => {
       return res.status(301).json({ success: false, message: "something went wrong" });
     }
 
-    return res.status(200).json({ success: true, message: "Vehicle added successfully" });
+    return res.render("customer", { active: "addVehicle" });;
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
 
-export const getAddVehicle = async (req, res) => {
+export const getUserVehicle = async (req, res) => {
   try {
     const { type } = req.params;
-
-    let typeResult = await selectByFieldName("vehicle_types", "name", type);
-    if (typeResult.length < 1) {
-      return res.status(301).json({ success: false, message: "something went wrong" });
-    }
-    let typeId = typeResult[0].id;
 
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
     }
 
-    let vehicleData = await findVehicleData(user[0].id);
-    return res.render("partials/addVehicle.ejs", { vehicleData, typeId, type });
+    let vehicleData = await findVehicleData(req.user.email, type);
+
+    return res.json({ result: vehicleData });
+
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }

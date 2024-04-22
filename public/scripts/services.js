@@ -15,6 +15,7 @@ const showServices = (async () => {
   });
   let result = await data.json();
   const services = result.services;
+
   let string = "";
   services.forEach(service => {
     //   string += `<div class="services-col">
