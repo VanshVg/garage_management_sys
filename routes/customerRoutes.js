@@ -6,7 +6,7 @@ import {
 import {getUserVehicle, addVehicle} from "../controllers/vehicleControllers.js";
 
 import {
-  home, vehicles, addVehicles, profile,
+  home, vehicles, addVehicles, profile,getGarage,
   customerSlotSelection,
   customerVehicleSelection,
   getAllCustomers,
@@ -15,10 +15,12 @@ import {
   CustomerFeedbackPost,
   appointment,
   getServices,
-  showAppointments
+  showAppointments,
 } from "../controllers/customerControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
-  
+
+import {bookSlot} from "../controllers/slotBookingController.js";
+
 const router = express.Router();
 
 router.get("/home", home);
@@ -27,12 +29,14 @@ router.get("/vehicle/:id",getSingleGarage);
 router.get("/addvehicle", addVehicles);
 router.get("/garageList",getGarages);
 router.get("/service",getServices);
+router.get("/garage",getGarage);
 router.get("/profile", profile);
 router.get("/appointment",appointment);
 router.get("/singleGarage",getSingleGarage);
 router.get("/servicesList", servicesListing);
 router.get("/addVehicle/:type", getUserVehicle);
 router.post("/addVehicle",addVehicle);
+router.post("/bookSlot",bookSlot);
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);

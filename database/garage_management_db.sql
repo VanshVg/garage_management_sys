@@ -60,13 +60,16 @@ DROP TABLE IF EXISTS `appointment_payments`;
 CREATE TABLE `appointment_payments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `appointment_id` int DEFAULT NULL,
-  `type` varchar(50) NOT NULL,
+  `sub_total` decimal(10,2) DEFAULT NULL,
+  `gst_amount` decimal(10,2) DEFAULT NULL,
+  `discount_per` decimal(10,2) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `appointment_id` (`appointment_id`),
   CONSTRAINT `appointment_payments_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -398,17 +401,16 @@ DROP TABLE IF EXISTS `payment_master`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_master` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `gst_amount` decimal(10,2) NOT NULL,
-  `sub_total` decimal(10,2) NOT NULL,
-  `discount_per` decimal(10,2) DEFAULT '0.00',
-  `discount` decimal(10,2) DEFAULT '0.00',
   `appointment_id` int NOT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `type` varchar(255) NOT NULL,
+  `payment_type` varchar(50) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `card_number` varchar(255) DEFAULT NULL,
+  `account_holder` varchar(50) DEFAULT NULL,
+  `cvv` varchar(255) DEFAULT NULL,
+  `expiry_date` varchar(50) DEFAULT NULL,
+  `upi` varchar(50) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `appointment_id` (`appointment_id`),
-  CONSTRAINT `payment_master_ibfk_1` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
