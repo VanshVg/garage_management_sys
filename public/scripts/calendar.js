@@ -1,16 +1,20 @@
 const holidays = [
   {
-    hdate: "13-04-2024",
+    date: "13-04-2024",
     holiday: "saturday"
   }
 ];
 
 const calendar = document.querySelector("#calendar");
-const monthBanner = document.querySelector("#month");
+const monthBanner = document.querySelector("#calendar-month");
 let navigation = 0;
 let clicked = null;
-// events = localStorage.getItem("events") ? JSON.parse(localStorage.getItem("events")) : [];
-events = JSON.parse(events);
+
+let events = [{
+  date: "14-04-2024",
+  title: "something"
+}];
+
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const loadCalendar = () => {
@@ -46,13 +50,11 @@ const loadCalendar = () => {
     dayBox.classList.add("day");
     const monthVal = month + 1 < 10 ? "0" + (month + 1) : month + 1;
     const dateVal = i - emptyDays < 10 ? "0" + (i - emptyDays) : i - emptyDays;
-    const dateText = `${dateVal}-${monthVal}-${year}`;
+    const dateText = `${year}-${monthVal}-${dateVal}`;
     if (i > emptyDays) {
       dayBox.innerText = i - emptyDays;
-      //Event Day
       const eventOfTheDay = events.find((e) => e.date == dateText);
-      //Holiday
-      const holidayOfTheDay = holidays.find((e) => e.hdate == dateText);
+      const holidayOfTheDay = holidays.find((e) => e.date == dateText);
 
       if (i - emptyDays === day && navigation == 0) {
         dayBox.id = "currentDay";
@@ -86,10 +88,6 @@ const loadCalendar = () => {
 const buttons = () => {
   const btnBack = document.querySelector("#btnBack");
   const btnNext = document.querySelector("#btnNext");
-  const btnDelete = document.querySelector("#btnDelete");
-  const btnSave = document.querySelector("#btnSave");
-  const closeButtons = document.querySelectorAll(".btnClose");
-  const txtTitle = document.querySelector("#txtTitle");
 
   btnBack.addEventListener("click", () => {
     navigation--;
@@ -102,54 +100,46 @@ const buttons = () => {
   });
 
   modal.addEventListener("click", closeModal);
-
-  closeButtons.forEach((btn) => {
-    btn.addEventListener("click", closeModal);
-  });
-
-  btnDelete.addEventListener("click", () => {
-    events = events.filter((e) => e.date !== clicked);
-    localStorage.setItem("events", JSON.stringify(events));
-    closeModal();
-  });
-
-  btnSave.addEventListener("click", () => {
-    if (txtTitle.value) {
-      txtTitle.classList.remove("error");
-      events.push({
-        date: clicked,
-        title: txtTitle.value.trim(),
-      });
-      txtTitle.value = "";
-      localStorage.setItem("events", JSON.stringify(events));
-      closeModal();
-    } else {
-      txtTitle.classList.add("error");
-    }
-  });
 }
 
 const modal = document.querySelector("#modal");
-const viewEventForm = document.querySelector("#viewEvent");
-const addEventForm = document.querySelector("#addEvent");
+const appointmentsContainer = document.querySelector("#viewAppointments");
 
-const showModal = (dateText) => {
+const showModal = async (dateText) => {
   clicked = dateText;
-  const eventOfTheDay = events.find((e) => e.date == dateText);
-  if (eventOfTheDay) {
-    //Event already Preset
-    document.querySelector("#eventText").innerText = eventOfTheDay.title;
-    viewEventForm.style.display = "block";
-  } else {
-    //Add new Event
-    addEventForm.style.display = "block";
-  }
-  modal.style.display = "block";
+  const startDate = new Date(dateText);
+  let time = startDate.getTime();
+  time += 24 * 60 * 60 * 1000;
+  const endDate = new Date(time);
+  let garageId = document.querySelector('#garage-select #garageList').value;
+  const formData = new FormData();
+  formData.append('garageId', garageId);
+  formData.append('startDate', startDate.toISOString().slice(0, 19).replace('T', ' '));
+  formData.append('endDate', endDate.toISOString().slice(0, 19).replace('T', ' '));
+
+  let result = await fetch('/owner/slots/appointmentsByDateRange', {
+    method: "POST",
+    body: new URLSearchParams(formData)
+  });
+  result = await result.json();
+  let appointments = result.appointments;
+  const body = document.getElementById('appointment-body');
+  let str = "";
+  let i = 1;
+  appointments.forEach(appointment => {
+    str += `<tr>
+      <td>${i++}</td>
+      <td>${appointment.customerName}</td>
+      <td>${appointment.startTime.slice(0, 10)}</td>
+      <td>${appointment.startTime.slice(11, 17)} - ${appointment.endTime.slice(11, 17)}</td>
+    </tr>`
+  });
+  body.innerHTML = str;
+  appointmentsContainer.style.display = "block";
 }
 
-//Close Modal
 const closeModal = () => {
-  viewEventForm.style.display = "none";
+  appointmentsContainer.style.display = "none";
   addEventForm.style.display = "none";
   modal.style.display = "none";
   clicked = null;

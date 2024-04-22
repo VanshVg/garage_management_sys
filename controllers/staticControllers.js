@@ -13,6 +13,8 @@ import {
   getVehicleAssociatedServices,
   findOne,
   getGarageAddress,
+  getNotAvailableService,
+  getBookedAppointments,
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -41,8 +43,8 @@ export const slots = (req, res) => {
 };
 
 export const customer = (req, res) => {
-  res.render("index", { title: "customer", active: "customer" })
-}
+  res.render("index", { title: "customer", active: "customer" });
+};
 
 export const appointments = (req, res) => {
   res.render("index", { title: "Appointments", active: "appointment" });
@@ -96,18 +98,26 @@ export const getUserDetails = async (req, res) => {
     return res.status(301).json({ success: false, message: "user not found" });
   }
   const address = await getUserAddress(user[0].id);
-  const vehicleServices = await getVehicleAssociatedServices(user[0].id)
-  res.status(201).json({ user: user[0], address: address[0], vehicleServices: vehicleServices });
+  const vehicleServices = await getVehicleAssociatedServices(user[0].id);
+  res.status(201).json({
+    user: user[0],
+    address: address[0],
+    vehicleServices: vehicleServices,
+  });
 };
 
 export const allServices = async (req, res) => {
   const services = await getServices();
   res.status(201).json({ services });
 };
+export const getGarageNotService = async (req, res) => {
+  let id = req.params.id;
+  const services = await getNotAvailableService([id]);
+  res.status(201).json({ services });
+};
 
 export const servicesListing = async (req, res) => {
-  const { garageId } = req.body;
-  const servicesList = await serviceListing([garageId]);
+  const servicesList = await serviceListing();
   res.json(servicesList);
 };
 
@@ -129,13 +139,16 @@ export const getServiceCount = async (req, res) => {
 
 export const getAppointmentCount = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const { totalCount, successCount } = await countAppointments(user[0].id);
-  res.status(201).json({ success: true, totalCount, successCount });
+  const { pending, successful, cancelled } = await countAppointments(
+    user[0].id
+  );
+  res.status(201).json({ success: true, pending, successful, cancelled });
 };
 
 export const findOwnerService = async (req, res) => {
   const user = await findOne([req.user.email]);
-  const services = await getOwnerService(user[0].id);
+  const { garageId } = req.body;
+  const services = await getOwnerService(user[0].id, garageId);
   res.status(201).json({ success: true, services });
 };
 
@@ -143,23 +156,46 @@ export const appointmentsListing = async (req, res) => {
   const user = await findOne([req.user.email]);
   let garage = req.params.garageId || 1;
   const appointments = await getAppointments([garage, user[0].id]);
-  appointments.forEach(appointment => {
+  appointments.forEach((appointment) => {
     appointment.date = appointment.startTime.slice(0, 10);
     appointment.startTime = appointment.startTime.slice(11, 16);
     appointment.endTime = appointment.endTime.slice(11, 16);
   });
   res.status(201).json({ success: true, appointments });
-}
+};
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1)
+  const result = await getCustomerNames(1);
   res.json({ result: result });
-}
+};
 
 export const garageAddress = async (req, res) => {
   const result = await getGarageAddress([req.params.garageId]);
   res.status(201).json({ address: result });
-}
+};
 
 export const selectServices = (req, res) => {
   res.render("customerServices");
-}
+};
+
+export const daysCount = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  const joined = user[0].created_at;
+  const time = new Date().getTime() - new Date(joined).getTime();
+  const days = Math.floor(time / (24 * 60 * 60 * 1000));
+  res.status(201).json({ success: true, days });
+};
+
+export const bookedAppointments = async (req, res) => {
+  const user = await findOne([req.user.email]);
+  let result = await getBookedAppointments([req.params.id, user[0].id]);
+  let appointments = [];
+  result.forEach((res) => {
+    let temp = {};
+    temp.customerName = res.customerName;
+    temp.date = res.startTime.slice(0, 11);
+    temp.startTime = res.startTime.slice(11, 16);
+    temp.endTime = res.endTime.slice(11, 16);
+    appointments.push(temp);
+  });
+  res.status(201).json({ success: false, appointments });
+};

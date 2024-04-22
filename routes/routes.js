@@ -12,6 +12,7 @@ import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import { logout } from "../controllers/userControllers.js";
 import ownerRoutes from "./ownerRoutes.js";
 import customerRoutes from "./customerRoutes.js";
+import invoiceRoutes from "./invoiceRoutes.js";
 import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
 import { cityList, stateList } from "../controllers/addressControllers.js";
@@ -64,5 +65,15 @@ router.get(
   allServices
 );
 router.get("/", isAlreadyLoggedIn, landingPage);
+router.use(
+  "/invoice",
+  passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: "/sessionEnd",
+  }),
+  invoiceRoutes
+);
 router.all("*", notFound);
+
+
 export default router;

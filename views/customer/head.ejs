@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/styles/simpleCalendar.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,7 +37,19 @@
             }
         }
     </script>
-    
+
+    <style>
+        [type=radio] + img {
+            cursor: pointer;
+        }
+        [type=radio]:checked + img {
+            background-color: rgb(125 211 252);
+            border-color: rgb(107 114 128);
+        }
+    </style>
+
+<script src="/scripts/apiCall.js"></script>
+
 </head>
 
 <body>

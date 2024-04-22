@@ -11,8 +11,11 @@ import {
   findOne,
   getOwnerGarages,
   garageSlotListing,
-  getGaragesService
+  getGaragesService,
+  getSingleGarageService,
+  getGarageAppointments
 } from "../utils/dbHandler.js";
+
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
@@ -101,10 +104,11 @@ export const garageUpdate = async (req, res) => {
     description,
     area,
     pincode,
+    garageId,
   } = req.body;
-  let garageId = 1;
-  let addressId = 2;
-  let thumbnail = req.file?.filename;
+  let thumbnail = req.file?.filename || "";
+  openTime = dateTimeConvertor(openTime);
+  closeTime = dateTimeConvertor(closeTime);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(500).json({ success: false, errors: errors.array() });
@@ -120,7 +124,12 @@ export const garageUpdate = async (req, res) => {
       garageId,
     ]);
     if (result) {
-      result = await updateGarageAddress([cityId, area, pincode, addressId]);
+      result = await updateGarageAddress([
+        cityId,
+        area,
+        pincode,
+        parseInt(garageId),
+      ]);
       if (result) {
         res.status(200).json({ success: true, message: "garage updated" });
       } else {
@@ -158,13 +167,28 @@ export const getGarageListing = async (req, res) => {
   res.json({ garages: result });
 };
 
-
 export const getGarageSlots = async (req, res) => {
   let { garageId, startDate, endDate } = req.body;
   const result = await garageSlotListing(garageId, startDate, endDate);
   res.json(result);
-}
+};
 export const getGarages = async (req, res) => {
   const result = await getGaragesService();
   res.json({ result });
+}
+
+export const getSingleGarage = async (req,res) => {
+  let garageId = req.params.id;
+  const result = await getSingleGarageService(garageId);
+  res.json({result});
+}
+
+export const showGarageAppointments = async (req, res) => {
+  try {
+    const { garageId } = req.body;
+    let appointments = await getGarageAppointments(garageId);
+    return res.status(200).json({ success:true, appointments})
+  } catch (error) {
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
 }

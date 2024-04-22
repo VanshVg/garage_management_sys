@@ -26,7 +26,7 @@ export const register = async (req, res) => {
     res.status(301).json({ success: false, message: "Invalid payload" });
   } else {
     let result = await findOne(email);
-    if (result) {
+    if (result.length) {
       res.status(301).json({
         success: false,
         message: "Email already exists please login to continue",
@@ -171,6 +171,7 @@ export const editProfile = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   let { name, city, area, pincode, bio } = req.body;
+  // console.log(req.body);
   let thumbnail = req.file?.filename || "";
   let userResult = await updateUserByEmail([
     name,
@@ -178,6 +179,7 @@ export const updateProfile = async (req, res) => {
     thumbnail,
     req.user.email,
   ]);
+  console.log(userResult);
   if (userResult != 1) {
     return res
       .status(301)

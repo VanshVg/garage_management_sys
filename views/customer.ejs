@@ -1,24 +1,26 @@
+<toast></toast>
+<script src="/scripts/toast.js"></script>
 <%- include('./customer/head.ejs') %>
+
 
 <% var active=active || 'dashboard' ; %>
 
     <div id="container" class="flex h-screen overflow-hidden w-full">
 
         <%- include('./customer/headbar.ejs') %>
-
         <div class="page-container w-[70%] h-screen" id="dashboard-screen">
             <div class="h-screen w-full bg-lightbg">
                 <%- include('./customer/dashboardMap.ejs')%>
             </div>
         </div>
         <div class="page-match-container h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
-            <%- include('./customer/garageList.ejs') %>
+            <%- include('./customer/serviceList.ejs') %>
         </div>
 
         <div class="page-container w-[70%] h-screen bg-lightbg" id="vehicle-screen">
-          <div class="h-screen w-full bg-lightbg">
-              <%- include('./customer/garageDetail.ejs')%>
-          </div>
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs') %>
+            </div>
         </div>
         <div class="page-match-container h-screen w-[25%] bg-dark" id="vehicle-match-screen" style="display: none;">
             <%- include('./customer/vehiclesType.ejs') %>
@@ -34,29 +36,85 @@
             <%- include('./customer/vehicles.ejs') %>
         </div>
 
+        <div class="page-container" id="profile-screen">
+            <%- include('./partials/customerProfile.ejs') %>
+        </div>
+        <div class="page-container w-[85%] m-10" id="profile-update-screen">
+            <%- include(`./customer/updateProfile.ejs`) %>
+        </div>     
+        <div class="page-match-container" id="profile-update-match-screen">
+
+        </div>  
+                            
+        <div class="page-match-container" id="profile-match-screen">
+
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="appointment-screen">
+            <%- include('./customer/calendar.ejs') %>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="appointment-match-screen">
+            <%- include('./customer/slotList.ejs') %>
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="service-screen">
+            <%- include('./customer/serviceMain.ejs') %>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="service-match-screen">
+
+        </div>
+
     </div>
 
     <script>
 
         const setActive = (activated) => {
+
             document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
             document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
             let screen = document.querySelector(`#${activated}-screen`);
+            if(activated === "vehicle"){
+                screen = document.querySelector(`#dashboard-screen`);
+            }
             screen.style.display = "block";
-    
-    
     
             let matchScreen = document.querySelector(`#${activated}-match-screen`);
             matchScreen.style.display = "block";
+
             history.pushState(null, null, activated == "dashboard" ? "home" : activated)
         }
-        // const activeSub = (activated) => {
-        //     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
-        //     let screen = document.querySelector(`#${activated}-screen`);
-        //     screen.style.display = 'flex';
-        // }
-        setActive('<%= active %>');
-        
-    </script>
 
+        setActive('<%= active %>');
+
+        var logout = document.querySelector("#logout_customer")
+        logout.addEventListener('click', () => {
+                        
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "really you want to logout..",
+                                showDenyButton: true,
+                                showCancelButton: false,
+                                confirmButtonText: "Yes",
+                                denyButtonText: `No`,
+                                icon: "question"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.href = "/logout"
+                                }
+                            });
+                            return
+                        });
+                        
+                    
+
+    </script>
+<script src="/scripts/validation.js"></script>
+<script src="/scripts/apiCall.js"></script>
+<script src="/scripts/loadAddress.js"></script>
+<script src="/scripts/updateDetails.js"></script>
+<script src="/scripts/timeConverter.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="/scripts/imageSelection.js"></script>
+
+<script src="/scripts/validation.js"></script>
 <%- include('./customer/footer.ejs') %>

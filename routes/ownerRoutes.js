@@ -2,7 +2,9 @@ import express from "express";
 import {
   appointments,
   appointmentsListing,
+  bookedAppointments,
   calendar,
+  daysCount,
   findOwnerService,
   getAllCustomers,
   getAppointmentCount,
@@ -14,7 +16,6 @@ import garageRoutes from "./owner/garageRoutes.js";
 import slotRoutes from "./owner/slotRoutes.js";
 import profileRoutes from "./owner/profileRoutes.js";
 import serviceRoutes from "./owner/serviceRoutes.js";
-
 
 const router = express.Router();
 
@@ -38,8 +39,9 @@ router.use("/profile", profileRoutes);
 
 router.get("/appointment", appointments);
 
-router.get('/appointmentsList', appointmentsListing);
-router.get('/appointmentsList/:garageId', appointmentsListing);
+router.get("/appointmentsList", appointmentsListing);
+router.get("/appointmentsList/:garageId", appointmentsListing);
+router.get("/bookedAppointments/:id", bookedAppointments);
 
 router.get("/inventory", inventory);
 
@@ -47,8 +49,10 @@ router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
 
-router.get("/ownerServices", findOwnerService);
+router.post("/ownerServices", findOwnerService);
 
-router.get("/getCustomerList", getAllCustomers)
+router.get("/getCustomerList", getAllCustomers);
+
+router.get("/daysCount", daysCount);
 
 export default router;

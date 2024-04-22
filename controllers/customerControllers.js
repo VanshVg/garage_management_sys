@@ -1,15 +1,27 @@
-import { customerSlotListing, getCustomerNames, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
+import { customerSlotListing, getCustomerAppointments, getCustomerNames, ifFeedbackExist, insertFeedback, selectByFieldName } from "../utils/dbHandler.js"
 
 export const home = async (req, res) => {
   res.render("customer", { title: "Home", active: "dashboard" });
 };
 
 export const vehicles = async (req, res) => {
-  res.render("customer", { active: "vehicle" });
+  res.render("customer", { active: "vehicle"});
 }
 
 export const addVehicles = async (req, res) => {
   res.render("customer", { active: "addVehicle" });
+}
+
+export const getServices = async (req,res) => {
+  res.render("customer", {active: "services"});
+}
+
+export const profile = async (req,res) => {
+    res.render("customer",{active:"profile"});
+}
+
+export const appointment = async (req,res) => {
+  res.render("customer",{active:"appointment"});
 }
 
 export const customerVehicleSelection = (req, res) => {
@@ -43,25 +55,19 @@ export const CustomerFeedbackPost = async (req, res) => {
     const result = await insertFeedback(garageId, customerId, message, rating)
     return res.status(201).send({ message: "user feedback accepted" })
   }
-
-
 }
-export const customerInvoice = async (req, res) => {
+
+export const showAppointments = async (req,res) => {
   try {
-    fs.readFile("./views/partials/customerInvoice.ejs", "utf-8", async (err, data) => {
-      if (err) {
-        return res.status(301).json({ success: false, message: "Something went wrong!" });
-      } else {
-        await generatePdf(data);
-        return res.download("./public/invoices/abc.pdf", (err) => {
-          if (err) {
-            return res.status(301).json({ success: false, message: "Something went wrong!" });
-          }
-        });
-      }
-    });
+    const { email } = req.user;
+    const user = await selectByFieldName("users", "email", email);
+    if (user.length < 1) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    }
+
+    let appointments = await getCustomerAppointments(user[0].id);
+    return res.render("partials/customerAppointments", {appointments});
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-};
-
+}

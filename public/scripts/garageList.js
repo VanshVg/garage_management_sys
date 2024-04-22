@@ -1,44 +1,42 @@
-const getGarages = async ()=>{
-  var garageData = await fetch("/owner/garages/getGaragesList")
-  var garageData = await garageData.json()
-  var dropdown = document.querySelector("#garagesDropdown") 
+const getGarages = async () => {
+  var garageData = await fetch("/owner/garages/getGaragesList");
+  var garageData = await garageData.json();
+  var dropdown = document.querySelector("#garagesDropdown");
 
-  garageData.garages.forEach((element)=>{
-    var option = document.createElement("option")
-    option.setAttribute("value",element.garage_name)
-    option.classList.add("font-family")
-    option.classList.add("options")
-    option.innerText = element.garage_name
-    option.value = element.garage_name
-    dropdown.appendChild(option)
-  }) 
+  garageData.garages.forEach((element) => {
+    var option = document.createElement("option");
+    option.setAttribute("value", element.garage_name);
+    option.classList.add("font-family");
+    option.classList.add("options");
+    option.innerText = element.garage_name;
+    option.value = element.garage_name;
+    dropdown.appendChild(option);
+  });
+};
 
-}
+getGarages();
 
-getGarages()
-const getData = async (page = 1,garage) => {
-  const jsonData = await fetch("/owner/slots/getAllSlots?page=" + page +"&garage="+garage);   
+const getData = async (page = 1, garage) => {
+  const jsonData = await fetch(
+    "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage
+  );
   var data = await jsonData.json();
   return [
     data.result,
     data.startIndex,
     data.endIndex,
     data.count,
-    data.totalPage
+    data.totalPage,
   ];
 };
 
-
-
 const populateData = async (pageNumber = 1) => {
-  var select = document.querySelector("#garagesDropdown")
-  console.log(select.value);
-  var data = await getData(pageNumber,select.value);
+  var select = document.querySelector("#garagesDropdown");
+  var data = await getData(pageNumber, select.value);
   const tableNode = document.getElementById("table");
   while (tableNode.childNodes.length != 2) {
     tableNode.removeChild(tableNode.lastChild);
   }
-  
 
   data[0].forEach((element) => {
     var tr = document.createElement("tr");
@@ -100,7 +98,7 @@ const populateData = async (pageNumber = 1) => {
   return [data[4]];
 };
 
-populateData()
+populateData();
 
 function createEditAndDelete() {
   var hmMenu = document.createElement("div");
@@ -144,7 +142,6 @@ next.addEventListener("click", async () => {
     const pageCount = await populateData(pageNumber);
   
   document.querySelector(".current").innerText = pid + 1;
-
   if (pid + 1 == pageCount) {
     next.disabled = true;
   } else {
@@ -155,19 +152,16 @@ next.addEventListener("click", async () => {
 });
 
 prev.addEventListener("click", async () => {
-
   var pid = parseInt(document.querySelector(".current").innerText);
-  if (pid-1!=0) {
+  if (pid - 1 != 0) {
     document.querySelector(".current").innerText = pid - 1;
-  const pageNumber = pid - 1;
-  populateData(pageNumber);
+    const pageNumber = pid - 1;
+    populateData(pageNumber);
 
-  if (pid-1 == 0) {
-    prev.disabled = true;
-  } else {
-    next.disabled = false;
-  }  
+    if (pid - 1 == 0) {
+      prev.disabled = true;
+    } else {
+      next.disabled = false;
+    }
   }
-  
 });
-
