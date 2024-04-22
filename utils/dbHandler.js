@@ -47,7 +47,7 @@ export const insert = async (UserInfo) => {
 
 export const insertSlot = async (slotTime) => {
   try {
-    let query = `INSERT INTO slot_master (garage_id,start_time,end_time) values (?)`;
+    let query = `INSERT INTO slot_master (garage_id,start_time,end_time,availability_status) values (?)`;
     let results = await conn.query(query, [slotTime]);
     return results[0].insertId;
   } catch (error) {
@@ -333,7 +333,15 @@ export const getSingleGarageService = async (garageId) => {
     return { err };
   }
 };
-
+export const getGarageDuration = async (id) => {
+  try {
+    let query = "select open_time,close_time from garage_master where id = ?";
+    let result = await conn.query(query, [id]);
+    return result[0][0];
+  } catch (error) {
+    return { error };
+  }
+};
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`;
@@ -614,7 +622,7 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
 export const garageSlotListing = async (garageId, startDate, endDate) => {
   try {
     let query =
-      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
+      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ?";
     const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
   } catch (error) {

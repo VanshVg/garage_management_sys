@@ -12,7 +12,9 @@ import {
   garageSlotListing,
   getGaragesService,
   getSingleGarageService,
-  countByFieldName
+  countByFieldName,
+  getGarageAppointments,
+  
 } from "../utils/dbHandler.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
@@ -205,8 +207,10 @@ export const showGarageAppointments = async (req, res) => {
   try {
     const { garageId } = req.body;
     let appointments = await getGarageAppointments(garageId);
-    return res.status(200).json({ success:true, appointments})
+    return res.status(200).json({ success: true, appointments });
   } catch (error) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
 }

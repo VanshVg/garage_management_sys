@@ -110,10 +110,15 @@ export const garageList = (req, res) => {
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
 };
+
 export const getGarageNotService = async (req, res) => {
-  let id = req.params.id;
-  const services = await getNotAvailableService([id]);
-  res.status(201).json({ services });
+  try {
+    let id = req.params.id;
+    const services = await getNotAvailableService([id]);
+    res.status(201).json({ services });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const signIn = (req, res) => {
@@ -138,13 +143,21 @@ export const logout = (req, res) => {
 };
 
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1);
-  res.json({ result: result });
+  try {
+    const result = await getCustomerNames(1);
+    res.json({ result: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const garageAddress = async (req, res) => {
-  const result = await getGarageAddress([req.params.garageId]);
-  res.status(201).json({ address: result });
+  try {
+    const result = await getGarageAddress([req.params.garageId]);
+    res.status(201).json({ address: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const selectServices = (req, res) => {
