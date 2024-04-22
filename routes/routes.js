@@ -13,6 +13,7 @@ import { logout } from "../controllers/userControllers.js";
 import ownerRoutes from "./ownerRoutes.js";
 import customerRoutes from "./customerRoutes.js";
 import invoiceRoutes from "./invoiceRoutes.js";
+import paymentRoutes from "./paymentRoutes.js";
 import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
 import { cityList, stateList } from "../controllers/addressControllers.js";
@@ -72,6 +73,14 @@ router.use(
     failureRedirect: "/sessionEnd",
   }),
   invoiceRoutes
+);
+router.use(
+  "/payment",
+  passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: "/sessionEnd",
+  }),
+  paymentRoutes
 );
 router.all("*", notFound);
 
