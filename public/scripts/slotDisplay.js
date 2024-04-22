@@ -7,9 +7,12 @@ const handleSlots = () => {
   value.parentNode.style.backgroundColor = 'white';
 }
 
-const populateSlots = async (garageId,startDate, endDate) => {
+const populateSlots = async (startDate, endDate) => {
   const slotDisplay = document.getElementById("slotDisplay");
   slotDisplay.innerHTML = '';
+
+  let garageId = localStorage.getItem("garageId");  
+
   let payLoad = {
     "garageId": garageId,
     "startDate": startDate,
@@ -84,9 +87,8 @@ const displaySlots = async (e) => {
   let dateHigh = datePlus.getDate();
   if (dateHigh.length == 1) dataSecond += 0;
   dataSecond += dateHigh
-  let garageId = localStorage.getItem("garageId");
-  console.log(garageId);
-  populateSlots(garageId,data, dataSecond);
+
+  populateSlots(data, dataSecond);
 }
 
 const manipulate = () => {

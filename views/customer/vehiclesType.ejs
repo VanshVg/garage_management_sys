@@ -79,14 +79,7 @@
 
 <script>
 
-const checkVehicleType = async () => {
-    let vehicleType = localStorage.getItem("vehicleType");
-    if(vehicleType !== "null"){
-      userVehicle(vehicleType);
-    }else{
-      setActive("dashboard");
-    }
-};
+
 
 const selectVehicle = async (id) => {
   document.getElementById("id").checked = true;
@@ -121,8 +114,9 @@ const selectVehicle = async (id) => {
         setActive('addVehicle');
 
     }
+    
 
-    checkVehicleType();
+
 
     const vehicleType = async () => {
       let vehicle = document.getElementById('vehicleType');
