@@ -109,7 +109,6 @@
       </div>
       <div class="text-left ml-[140px] mt-[80px] mb-10">
         <p class="font-bold text-lg">Payment Information</p>
-        <p class="text-sm" id="payment_type">Payment Type: <%=data[0].payment_type%></p>
         <% let invoiceDate = new Date(data[0].start_time) %>
         <% let dueDate = new Date(invoiceDate.setDate(invoiceDate.getDate() + 7)) %>
         <% let year = dueDate.getFullYear() %>

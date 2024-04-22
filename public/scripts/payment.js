@@ -40,7 +40,6 @@ const addPayment = async() => {
       data[element.name] = element.value;
     }
   })
-  console.log(data);
   let url = window.location.href;
   url = url.split("/");
   let appointmentId = url[url.length-1];
