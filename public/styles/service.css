@@ -1,8 +1,8 @@
 :root {
   --dark: #152533;
   --blue: #355364;
-  --white: #FFFFFF;
-  --light: #D9D9D9;
+  --white: #ffffff;
+  --light: #d9d9d9;
   --lightorange: burlywood;
 }
 
@@ -55,8 +55,7 @@
   max-width: 300px;
   border-radius: 7px;
   min-height: 420px;
-  box-shadow: 1px 1px 1px grey,
-    inset 1px 1px rgba(1, 1, 1, .1);
+  box-shadow: 1px 1px 1px grey, inset 1px 1px rgba(1, 1, 1, 0.1);
 }
 
 .services-card img {
@@ -107,17 +106,6 @@
   padding: 0 10px;
 }
 
-.add-service-container {
-  background-color: var(--white);
-  box-shadow: 1px 1px 1px grey,
-    inset 1px 1px rgba(1, 1, 1, .1);
-  color: var(--dark);
-  border-radius: 5px;
-  padding: 10px 30px;
-  padding-bottom: 40px;
-  display: none;
-}
-
 .line {
   height: 1px;
   background-color: var(--dark);
@@ -147,8 +135,7 @@
   border: none;
   border-radius: 7px;
   border: 1px solid grey;
-  box-shadow: 1px 1px 1px grey,
-    inset 1px 1px rgba(1, 1, 1, .1);
+  box-shadow: 1px 1px 1px grey, inset 1px 1px rgba(1, 1, 1, 0.1);
   background-color: var(--white);
 }
 

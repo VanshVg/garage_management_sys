@@ -5,7 +5,7 @@ import {
   dashboard,
   getAllCustomers,
   inventory,
-  invoice
+  invoice,
 } from "../controllers/staticControllers.js";
 import garageRoutes from "./owner/garageRoutes.js";
 import slotRoutes from "./owner/slotRoutes.js";
@@ -14,7 +14,6 @@ import serviceRoutes from "./owner/serviceRoutes.js";
 import { findOwnerService } from "../controllers/serviceControllers.js";
 import { appointmentsListing, bookedAppointments, getAppointmentCount } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
-
 
 const router = express.Router();
 
@@ -38,9 +37,9 @@ router.use("/profile", profileRoutes);
 
 router.get("/appointment", appointments);
 
-router.get('/appointmentsList', appointmentsListing);
-router.get('/appointmentsList/:garageId', appointmentsListing);
-router.get('/bookedAppointments/:id', bookedAppointments);
+router.get("/appointmentsList", appointmentsListing);
+router.get("/appointmentsList/:garageId", appointmentsListing);
+router.get("/bookedAppointments/:id", bookedAppointments);
 
 router.get("/inventory", inventory);
 
@@ -52,6 +51,6 @@ router.post("/ownerServices", findOwnerService);
 
 router.get("/getCustomerList", getAllCustomers);
 
-router.get('/daysCount', daysCount)
+router.get("/daysCount", daysCount);
 
 export default router;

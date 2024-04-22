@@ -13,16 +13,25 @@ export const customerInvoice = async (req, res) => {
     const user = req.user;
 
     let invoiceDetails = await getInvoiceDetails([appointmentId, user.id]);
+    let email;
+    if(req.body.customerEmail) {
+      email = req.body.customerEmail;
+    } else {
+      email = req.user.email;
+    }
+        
     if (invoiceDetails.length < 1) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
-
+    
     let fileContent = await ejs.renderFile(__dirname + "/../views/partials/customerInvoice.ejs", {
       data: JSON.stringify(invoiceDetails),
     });
 
     let result = await generatePdf(fileContent, user.id, appointmentId);
     if (!result) throw "Something went wrong!";
+    
+    
 
     let updateResult = await updateFields(
       "appointments",
@@ -56,3 +65,4 @@ export const downloadInvoice = async (req, res) => {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
+

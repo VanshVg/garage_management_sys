@@ -5,15 +5,21 @@ import {
 import { getUserVehicle, addVehicle } from "../controllers/vehicleControllers.js";
 
 import {
+  home, vehicles, addVehicles, profile,
   customerSlotSelection,
   getAllCustomers,
-  showAppointments
+  showAppointments,
+  slotDisplay,
+  appointment,
+  showAppointments,
 } from "../controllers/customerControllers.js";
 import { home, profile, addVehicles, appointment, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
 
-import { customerInvoice, downloadInvoice } from "../controllers/invoiceControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
+
+
 const router = express.Router();
 
 router.get("/home", home);
@@ -39,6 +45,5 @@ router.post("/getslots", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice)
 router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments)
-router.get("/downloadInvoice/:appointmentId", downloadInvoice)
 
 export default router;

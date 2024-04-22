@@ -1,7 +1,7 @@
 <div class="mt-6 h-5/6 px-4 flex flex-col w-full">
-  <p class="my-2 text-white text-lg font-bold border-b-2 break-keep max-w-fit">
-    Please Select Vehicle Type
-  </p>
+    <p class="my-2 text-white text-lg font-bold border-b-2 break-keep max-w-fit">
+      Please Select Vehicle Type
+    </p>
 
   <form id="vehicleType" name="vehicle">
 
@@ -79,22 +79,22 @@
 
 <script>
 
-  const checkVehicleType = async () => {
+const checkVehicleType = async () => {
     let vehicleType = localStorage.getItem("vehicleType");
     userVehicle(vehicleType);
-  };
+};
+    
+    const userVehicle = async (vehicleType) => {
+        let vehicles = await callAPI(`/customer/addVehicle/${vehicleType}`);
+        userVehicles = '';
+        vehicles.result?.forEach(vehicles => {
 
-  const userVehicle = async (vehicleType) => {
-    let vehicles = await callAPI(`/customer/addVehicle/${vehicleType}`);
-    userVehicles = '';
-    vehicles.result?.forEach(vehicles => {
-
-      userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex userVehicleData">
+          userVehicles += `<div class="bg-light max-w-max h-1/5  my-5 rounded-lg hover:bg-sky-200 flex userVehicleData">
                   <input type="checkbox" name="userVehicle" value="${vehicles.vehicle_id}" id="${vehicles.vehicle_id}">
                   <div class="garage-icon border-2">
                       <img src="/assets/activa.jpg" class="h-full bg-cover" alt="activa" class="object-cover">
                   </div>
-                  <div class="garage-info max-w-fit p-2">
+                  <div class="garage-info w-3/5 p-2">
                       <label for="${vehicles.vehicle_id}">  
                         <h3 class="font-medium text-lg text-left mb-3">${vehicles.register_plate_number}</h3>
                         <p class="text-sm">Brand:- ${vehicles.brand}</p>
@@ -111,7 +111,7 @@
 
     setActive('addVehicle');
 
-  }
+    }
 
   const vehicleType = async () => {
     let vehicle = document.getElementById('vehicleType');
@@ -128,6 +128,6 @@
 
   }
 
-  checkVehicleType();
+    checkVehicleType();
 
 </script>

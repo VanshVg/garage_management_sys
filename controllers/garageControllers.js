@@ -201,3 +201,12 @@ export const getGarageCount = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
+export const showGarageAppointments = async (req, res) => {
+  try {
+    const { garageId } = req.body;
+    let appointments = await getGarageAppointments(garageId);
+    return res.status(200).json({ success:true, appointments})
+  } catch (error) {
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+}

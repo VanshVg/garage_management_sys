@@ -1,7 +1,9 @@
 import {
-  countAppointments,
   getCustomerNames,
-  getGarageAddress
+  getGarageAddress,
+  getGarageAddress,
+  getNotAvailableService,
+  
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -34,8 +36,8 @@ export const slots = (req, res) => {
 };
 
 export const customer = (req, res) => {
-  res.render("index", { title: "customer", active: "customer" })
-}
+  res.render("index", { title: "customer", active: "customer" });
+};
 
 export const appointments = (req, res) => {
   res.render("index", { title: "Appointments", active: "appointment" });
@@ -108,6 +110,11 @@ export const garageList = (req, res) => {
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
 };
+export const getGarageNotService = async (req, res) => {
+  let id = req.params.id;
+  const services = await getNotAvailableService([id]);
+  res.status(201).json({ services });
+};
 
 export const signIn = (req, res) => {
   res.render("auth/login", { title: "Login" });
@@ -131,14 +138,14 @@ export const logout = (req, res) => {
 };
 
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1)
+  const result = await getCustomerNames(1);
   res.json({ result: result });
-}
+};
 
 export const garageAddress = async (req, res) => {
   const result = await getGarageAddress([req.params.garageId]);
   res.status(201).json({ address: result });
-}
+};
 
 export const selectServices = (req, res) => {
   res.render("customerServices");

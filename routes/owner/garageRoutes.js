@@ -31,4 +31,5 @@ router.get("/count", getGarageCount);
 router.get("/customerList", customer);
 router.get("/address/:garageId", garageAddress);
 router.post("/slots", getGarageSlots);
+router.post("/appointments", showGarageAppointments);
 export default router;

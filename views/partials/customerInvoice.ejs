@@ -34,7 +34,7 @@
       };
       </script>
     <style>
-      tr,
+      .invoice-table tr,
       td,
       th {
         margin: 0 auto;
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="mt-14">
-        <table class="mx-auto text-center w-[510px] mb-5">
+        <table class="mx-auto text-center w-[510px] mb-5 invoice-table">
           <thead>
             <tr class="mx-auto text-center">
               <td class="mx-auto text-center font-bold">Sr.</td>
@@ -109,7 +109,6 @@
       </div>
       <div class="text-left ml-[140px] mt-[80px] mb-10">
         <p class="font-bold text-lg">Payment Information</p>
-        <p class="text-sm" id="payment_type">Payment Type: <%=data[0].payment_type%></p>
         <% let invoiceDate = new Date(data[0].start_time) %>
         <% let dueDate = new Date(invoiceDate.setDate(invoiceDate.getDate() + 7)) %>
         <% let year = dueDate.getFullYear() %>
