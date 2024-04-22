@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
-import { findOne } from '../utils/dbHandler.js';
+import { findOne } from '../utils/common.js';
 
 config();
 
@@ -18,7 +18,7 @@ export const isAlreadyLoggedIn = async (req, res, next) => {
       return next();
     }
 
-    const user = await findOne(email);
+    const user = req.user;
 
     if (!user || user.length === 0) {
       return next();

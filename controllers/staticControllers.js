@@ -1,20 +1,9 @@
 import {
-  selectByFieldName,
-  selectByTableName,
-  serviceListing,
-  countAppointments,
-  countByFieldName,
-  countServices,
-  getOwnerService,
-  getUserAddress,
-  getAppointments,
-  getServices,
   getCustomerNames,
-  getVehicleAssociatedServices,
-  findOne,
+  getGarageAddress,
   getGarageAddress,
   getNotAvailableService,
-  getBookedAppointments,
+  
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -22,8 +11,12 @@ export const landingPage = (req, res) => {
   res.render("landing", { title: "Garage Management System" });
 };
 
+export const dashboard = (req, res) => {
+  res.render('index', { title: "Home", active: "dashboard" });
+}
+
 export const home = async (req, res) => {
-  res.render("index", { title: "Home", active: "dashboard" });
+  res.render("customer", { title: "Home", active: "dashboard" });
 };
 
 export const userProfile = async (req, res) => {
@@ -78,124 +71,95 @@ export const sessionEnd = (req, res) => {
   res.render("sessionEnd");
 };
 
-export const getStates = async (req, res) => {
-  const states = await selectByTableName("state_master");
-  res.status(201).json({ states });
+export const vehicles = async (req, res) => {
+  res.render("customer", { active: "vehicle" });
+}
+
+export const addVehicles = async (req, res) => {
+  res.render("customer", { active: "addVehicle" });
+}
+
+export const servicesPage = async (req, res) => {
+  res.render("customer", { active: "services" });
+}
+
+export const profile = async (req, res) => {
+  res.render("customer", { active: "profile" });
+}
+
+export const appointment = async (req, res) => {
+  res.render("customer", { active: "appointment" });
+}
+
+export const customerVehicleSelection = (req, res) => {
+  res.render("customerVehicleSelection.ejs")
+}
+
+export const slotDisplay = async (req, res) => {
+  res.render("customerSlots");
+}
+
+export const CustomerFeedback = async (req, res) => {
+  res.render("customerFeedback.ejs")
+}
+
+export const garageList = (req, res) => {
+  res.render("garage/garageList.ejs");
 };
 
-export const getCities = async (req, res) => {
-  const cities = await selectByFieldName(
-    "city_master",
-    "sid",
-    req.params.state_id
-  );
-  res.status(201).json({ cities });
+export const signUp = (req, res) => {
+  res.render("auth/signUp", { title: "Sign Up" });
 };
 
-export const getUserDetails = async (req, res) => {
-  const user = await findOne(req.user.email);
-  if (!user) {
-    return res.status(301).json({ success: false, message: "user not found" });
-  }
-  const address = await getUserAddress(user[0].id);
-  const vehicleServices = await getVehicleAssociatedServices(user[0].id);
-  res.status(201).json({
-    user: user[0],
-    address: address[0],
-    vehicleServices: vehicleServices,
-  });
-};
-
-export const allServices = async (req, res) => {
-  const services = await getServices();
-  res.status(201).json({ services });
-};
 export const getGarageNotService = async (req, res) => {
-  let id = req.params.id;
-  const services = await getNotAvailableService([id]);
-  res.status(201).json({ services });
+  try {
+    let id = req.params.id;
+    const services = await getNotAvailableService([id]);
+    res.status(201).json({ services });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
-export const servicesListing = async (req, res) => {
-  const servicesList = await serviceListing();
-  res.json(servicesList);
+export const signIn = (req, res) => {
+  res.render("auth/login", { title: "Login" });
 };
 
-export const getGarageCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const garageCount = await countByFieldName(
-    "owner_has_garages",
-    "owner_id",
-    user[0].id
-  );
-  res.status(201).json({ success: true, garageCount });
+export const forgot = async (req, res) => {
+  res.render("auth/forgotPassword", { title: "Forgot Password" });
 };
 
-export const getServiceCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const serviceCount = await countServices(user[0].id);
-  res.status(201).json({ success: true, serviceCount });
+export const resetPassword = async (req, res) => {
+  res.render("auth/resetPassword", { title: "Reset Password" });
 };
 
-export const getAppointmentCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const { pending, successful, cancelled } = await countAppointments(
-    user[0].id
-  );
-  res.status(201).json({ success: true, pending, successful, cancelled });
+export const editProfile = (req, res) => {
+  res.render("garage/editProfile", { title: "Edit Profile" });
 };
 
-export const findOwnerService = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const { garageId } = req.body;
-  const services = await getOwnerService(user[0].id, garageId);
-  res.status(201).json({ success: true, services });
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/u/signIn");
 };
 
-export const appointmentsListing = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  let garage = req.params.garageId || 1;
-  const appointments = await getAppointments([garage, user[0].id]);
-  appointments.forEach((appointment) => {
-    appointment.date = appointment.startTime.slice(0, 10);
-    appointment.startTime = appointment.startTime.slice(11, 16);
-    appointment.endTime = appointment.endTime.slice(11, 16);
-  });
-  res.status(201).json({ success: true, appointments });
-};
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1);
-  res.json({ result: result });
+  try {
+    const result = await getCustomerNames(1);
+    res.json({ result: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const garageAddress = async (req, res) => {
-  const result = await getGarageAddress([req.params.garageId]);
-  res.status(201).json({ address: result });
+  try {
+    const result = await getGarageAddress([req.params.garageId]);
+    res.status(201).json({ address: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 export const selectServices = (req, res) => {
   res.render("customerServices");
-};
-
-export const daysCount = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const joined = user[0].created_at;
-  const time = new Date().getTime() - new Date(joined).getTime();
-  const days = Math.floor(time / (24 * 60 * 60 * 1000));
-  res.status(201).json({ success: true, days });
-};
-
-export const bookedAppointments = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  let result = await getBookedAppointments([req.params.id, user[0].id]);
-  let appointments = [];
-  result.forEach((res) => {
-    let temp = {};
-    temp.customerName = res.customerName;
-    temp.date = res.startTime.slice(0, 11);
-    temp.startTime = res.startTime.slice(11, 16);
-    temp.endTime = res.endTime.slice(11, 16);
-    appointments.push(temp);
-  });
-  res.status(201).json({ success: false, appointments });
-};
+}

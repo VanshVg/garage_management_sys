@@ -15,7 +15,7 @@
 <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
 <form id="serviceList" name="serviceList">
         <div class="service-wrapper mt-6 overflow-y-auto h-full px-4" id="service-wrapper">
-        
+
         </div>
 </form>
 
@@ -27,8 +27,6 @@
 
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
-                // console.log(services);
-
                 let serviceList = '';
 
                 services.forEach(ele => {
@@ -67,16 +65,17 @@
                 let service = document.getElementById('serviceList');
                 let formServiceData = new FormData(service);
 
-                if(formServiceData.getAll("services[]").length === 0){
+                if (formServiceData.getAll("services[]").length === 0) {
                         console.log("Plz Select Any One Services");
                         return
                 }
 
+                localStorage.setItem("id", formServiceData.getAll("services[]"));
                 // console.log(formServiceData.getAll("services[]"));
-                localStorage.setItem("id",formServiceData.getAll("services[]"));
+                localStorage.setItem("serviceId",formServiceData.getAll("services[]"));
                 setActive('vehicle');
         }
-
+                
         const serviceType = async () => {
                 let service = document.getElementById('serviceList');
                 let serviceData = new FormData(service);
