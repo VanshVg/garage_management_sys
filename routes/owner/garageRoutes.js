@@ -3,6 +3,7 @@ import {
   customer,
   garageAddress,
   garageForm,
+  garageList,
   garageListing,
   getGarageCount,
 } from "../../controllers/staticControllers.js";
@@ -11,12 +12,9 @@ import {
   garageDelete,
   garageUpdate,
   garageDisplay,
-  garageList,
   getGarageListing,
   getGarageSlots,
 } from "../../controllers/garageControllers.js";
-import { garageValidator } from "../../validators/userValidation.js";
-import { paginationMiddleware } from "../../helpers/pagination.js";
 import upload from "../../helpers/fileUploads.js";
 
 const router = express.Router();

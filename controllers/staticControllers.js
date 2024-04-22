@@ -1,6 +1,4 @@
 import {
-  selectByFieldName,
-  selectByTableName,
   serviceListing,
   countAppointments,
   countByFieldName,
@@ -11,18 +9,18 @@ import {
   getServices,
   getCustomerNames,
   getVehicleAssociatedServices,
-  findOne,
   getGarageAddress,
   getBookedAppointments,
 } from "../utils/dbHandler.js";
-
+import { findOne } from "../utils/common.js";
 // landing page
 export const landingPage = (req, res) => {
   res.render("landing", { title: "Garage Management System" });
 };
 
 export const home = async (req, res) => {
-  res.render("index", { title: "Home", active: "dashboard" });
+  if (req.user.id == 1) res.render("index", { title: "Home", active: "dashboard" });
+  else res.render("customer", { title: "Home", active: "dashboard" });
 };
 
 export const userProfile = async (req, res) => {
@@ -77,18 +75,65 @@ export const sessionEnd = (req, res) => {
   res.render("sessionEnd");
 };
 
-export const getStates = async (req, res) => {
-  const states = await selectByTableName("state_master");
-  res.status(201).json({ states });
+export const vehicles = async (req, res) => {
+  res.render("customer", { active: "vehicle" });
+}
+
+export const addVehicles = async (req, res) => {
+  res.render("customer", { active: "addVehicle" });
+}
+
+export const servicesPage = async (req, res) => {
+  res.render("customer", { active: "services" });
+}
+
+export const profile = async (req, res) => {
+  res.render("customer", { active: "profile" });
+}
+
+export const appointment = async (req, res) => {
+  res.render("customer", { active: "appointment" });
+}
+
+export const customerVehicleSelection = (req, res) => {
+  res.render("customerVehicleSelection.ejs")
+}
+
+export const slotDisplay = async (req, res) => {
+  res.render("customerSlots");
+}
+
+export const CustomerFeedback = async (req, res) => {
+  res.render("customerFeedback.ejs")
+}
+
+export const garageList = (req, res) => {
+  res.render("garage/garageList.ejs");
 };
 
-export const getCities = async (req, res) => {
-  const cities = await selectByFieldName(
-    "city_master",
-    "sid",
-    req.params.state_id
-  );
-  res.status(201).json({ cities });
+export const signUp = (req, res) => {
+  res.render("auth/signUp", { title: "Sign Up" });
+};
+
+export const signIn = (req, res) => {
+  res.render("auth/login", { title: "Login" });
+};
+
+export const forgot = async (req, res) => {
+  res.render("auth/forgotPassword", { title: "Forgot Password" });
+};
+
+export const resetPassword = async (req, res) => {
+  res.render("auth/resetPassword", { title: "Reset Password" });
+};
+
+export const editProfile = (req, res) => {
+  res.render("garage/editProfile", { title: "Edit Profile" });
+};
+
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/u/signIn");
 };
 
 export const getUserDetails = async (req, res) => {

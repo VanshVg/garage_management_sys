@@ -2,6 +2,7 @@ import express from "express";
 
 import authRoutes from "./authRoutes.js";
 import {
+  logout,
   notFound,
   sessionEnd,
   landingPage,
@@ -9,7 +10,6 @@ import {
   allServices,
 } from "../controllers/staticControllers.js";
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
-import { logout } from "../controllers/userControllers.js";
 import ownerRoutes from "./ownerRoutes.js";
 import customerRoutes from "./customerRoutes.js";
 import passport from "passport";

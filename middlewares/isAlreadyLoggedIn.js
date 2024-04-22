@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
-import { findOne } from '../utils/dbHandler.js';
+import { findOne } from '../utils/common.js';
 
 config();
 
