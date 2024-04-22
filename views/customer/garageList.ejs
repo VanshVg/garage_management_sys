@@ -1,0 +1,44 @@
+<style>
+
+    .card-wrapper input[type=radio]{
+        width: 0;
+        height: 0;
+        opacity: 0;
+        position: absolute;
+    }
+
+    .card-wrapper input[type=radio]:checked~.garage-info{
+        background-color: rgb(186,230,253);
+    }
+</style>
+
+    <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Nearest Garages</h3>
+    <h4 class="flex justify-start items-center text-white font-bold ml-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="m5 12 7 6v-5h6v-2h-6V6z"></path></svg>
+        <p onclick="previousPage('addVehicle')">Back</p>
+      </h4>
+    <div>
+    <form id="garageId" name="garageId">
+        <div class="card-wrapper mt-6 mb-3 overflow-y-auto h-full px-4" id="card-wrapper">
+            
+        </div>
+    </form>
+
+    <input type="button" onclick="userSlotSelection()"
+        class="w-[92%] mx-3 inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        value="Book An Appointment">
+    </div>
+
+    <script>
+
+        const userSlotSelection = async () => {
+            let formData = document.getElementById('garageId');
+            let garageInfo = new FormData(formData);
+            localStorage.setItem("garageId",garageInfo.get("garage"));
+            setActive("appointment");
+        }
+
+        
+      </script>
+
+

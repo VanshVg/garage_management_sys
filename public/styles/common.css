@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Kadwa:wght@400;700&display=swap");
+
 :root {
   --dark: #152533;
   --blue: #355364;
@@ -11,6 +13,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Kadwa", serif;
+  /* overflow: hidden; */
 }
 
 body {
@@ -110,9 +114,40 @@ body {
 .section3 .wrapper {
   background-color: #355364;
 }
+
 input[type="submit"],
 button {
   cursor: pointer;
   outline: none;
   border: none;
+}
+
+.page-container {
+  overflow-y: auto;
+}
+
+#appointment-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 0 auto;
+
+  td,
+  th {
+    border: 1px solid black;
+  }
+
+  th {
+    background-color: #152533;
+    color: white;
+  }
+}
+
+.red {
+  background-color: white;
+  color: orangered;
+  text-decoration: line-through;
+}
+
+.btn {
+  cursor: pointer;
 }

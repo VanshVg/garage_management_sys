@@ -16,6 +16,22 @@ const Validation = {
           valid: false,
         }
         : { valid: true },
+    digit10: (value) =>
+      !/^\d{10}$/.test(value)
+        ? { errorMessage: "only 10 digit allowed..", valid: false }
+        : { valid: true },
+    digit6: (value) =>
+      !/^\d{6}$/.test(value)
+        ? { errorMessage: "only 6 digit allowed..", valid: false }
+        : { valid: true },
+    mobile: (value) =>
+      !/^[6789]{1,}/.test(value)
+        ? { errorMessage: "mobile number start with 6,7,8,9..", valid: false }
+        : { valid: true },
+    multi_word: (value) =>
+      !/^[a-zA-Z_ ]*$/.test(value)
+        ? { errorMessage: "invalid data format..", valid: false }
+        : { valid: true },
     email: (value) =>
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         ? { errorMessage: "invalid email address..", valid: false }
@@ -24,7 +40,7 @@ const Validation = {
       return { errorMessage: "", valid: false };
     },
     none: () => {
-      valid: true;
+      return { valid: true };
     },
   },
   isValid: (control) => {
@@ -50,33 +66,25 @@ const Validation = {
             errorElement.innerText =
               validateControls[control.name].errorMessage;
             control.insertAdjacentElement("afterend", errorElement);
-          }
+          } else control.nextSibling?.remove();
         }
       });
     Validation.allValid = document.querySelector("error") == null;
   },
-  validateAll: async (e, form) => {
-    e.preventDefault();
+  validateAll: async (formId, form) => {
     document.querySelectorAll(`input[validation]`).forEach((ele) => {
       Validation.isValid(ele);
     });
-    let loading = true;
     if (Validation.allValid) {
-      document.querySelectorAll("input[type=submit]").forEach((ele) => {
-        ele.setAttribute("disabled", "");
-      });
-      let btn = document.querySelector(`input[type=submit]`);
-      btn.setAttribute("disabled", "");
-      btn.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" height="20px" />`;
-      const formData = new FormData(e.target);
+      const formData = new FormData(document.querySelector(`#${formId}`));
       const formProps = Object.fromEntries(formData);
       if (form == "u/register")
         formProps["role_id"] = document.querySelector(
           "input[type=radio]:checked"
         ).value;
-      if (form == 'u/resetPassword') {
+      if (form == "u/resetPassword") {
         let href = location.pathname;
-        href = href.slice(href.lastIndexOf('/') + 1);
+        href = href.slice(href.lastIndexOf("/") + 1);
         formProps["email"] = href;
       }
       let response = await fetch(`/${form}`, {
@@ -90,7 +98,7 @@ const Validation = {
       try {
         data = await response.json();
         if (data.success) {
-          if (form == 'u/login') {
+          if (form == "u/login") {
             Swal.fire({
               title: "Good job!",
               text: "Welcome To Your Dashboard",
@@ -99,28 +107,26 @@ const Validation = {
               timer: 1500,
               allowOutsideClick: false,
             });
+            localStorage.setItem("userId", data.userId);
             setTimeout(() => {
-              if (data.role_id == '1') location.pathname = "/owner/home";
+              if (data.role_id == "1") location.pathname = "/owner/home";
               else location.pathname = "/customer/home";
             }, 1500);
-          }
-          else if (form == 'u/register') {
-            const activate = document.getElementById('activate');
-            let href = document.createElement('a');
+          } else if (form == "u/register") {
+            const activate = document.getElementById("activate");
+            let href = document.createElement("a");
             let text = `${location.origin}/u/activate/${data.userId}/${data.token}`;
-            href.setAttribute('href', text);
+            href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;
-          }
-          else if (form == 'u/forgotPassword') {
-            const activate = document.getElementById('activate');
-            let href = document.createElement('a');
+          } else if (form == "u/forgotPassword") {
+            const activate = document.getElementById("activate");
+            let href = document.createElement("a");
             let text = `${location.origin}/u/resetPassword/${data.email}`;
-            href.setAttribute('href', text);
+            href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;
-          }
-          else if (form == 'u/resetPassword') {
+          } else if (form == "u/resetPassword") {
             Swal.fire({
               title: "Good job!",
               text: "Password Updated successfully",
@@ -141,10 +147,6 @@ const Validation = {
           error = "Something wen't wrong..!!";
         }
         toast.show("error", error);
-      } finally {
-        btn.removeAttribute("disabled");
-        btn.innerHTML =
-          form.charAt(0).toUpperCase() + form.toLowerCase().substring(1);
       }
     }
   },
@@ -154,3 +156,194 @@ const Validation = {
     });
   },
 };
+
+// ==========================
+// const Validation = {
+//   conditions: {
+//     require: (value) => {
+//       if (!value.trim()) {
+//         return { errorMessage: "Field is required", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     alpha: (value) => {
+//       if (!/^[a-z]+$/i.test(value)) {
+//         return { errorMessage: "Only alphabet is allowed", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     length8: (value) => {
+//       if (value.length < 8) {
+//         return { errorMessage: "Password must be at least 8 characters", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     digit10: (value) => {
+//       if (!/^\d{10}$/.test(value)) {
+//         return { errorMessage: "Only 10 digits allowed", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     digit6: (value) => {
+//       if (!/^\d{6}$/.test(value)) {
+//         return { errorMessage: "Only 6 digits allowed", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     mobile: (value) => {
+//       if (!/^[6789]/.test(value)) {
+//         return { errorMessage: "Mobile number must start with 6, 7, 8, or 9", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     multi_word: (value) => {
+//       if (!/^[a-zA-Z_ ]*$/.test(value)) {
+//         return { errorMessage: "Invalid data format", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     email: (value) => {
+//       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+//         return { errorMessage: "Invalid email address", valid: false };
+//       }
+//       return { valid: true };
+//     },
+//     match: () => ({ valid: true }),
+//     none: () => ({ valid: true }),
+//   },
+
+//   isValid: (control) => {
+//     let isValid = true;
+//     control.getAttribute("validation").split(" ").forEach((validCondition) => {
+//       const validationResult = Validation.conditions[validCondition](control.value);
+//       if (!validationResult.valid) {
+//         isValid = false;
+//         Validation.showError(control, validationResult.errorMessage);
+//       }
+//     });
+//     return isValid;
+//   },
+
+//   showError: (control, errorMessage) => {
+//     Validation.clearError(control);
+//     const errorElement = document.createElement("error");
+//     errorElement.innerText = errorMessage;
+//     control.insertAdjacentElement("afterend", errorElement);
+//   },
+
+//   clearError: (control) => {
+//     const nextSibling = control.nextSibling;
+//     if (nextSibling && nextSibling.tagName === "ERROR") {
+//       nextSibling.remove();
+//     }
+//   },
+
+//   validateAll: async (e, form) => {
+//     e.preventDefault();
+//     const formControls = document.querySelectorAll(`input[validation]`);
+//     let isValid = true;
+
+//     formControls.forEach((control) => {
+//       if (!Validation.isValid(control)) {
+//         isValid = false;
+//       }
+//     });
+
+//     if (isValid) {
+//       try {
+//         const formData = new FormData(e.target);
+//         const formProps = Object.fromEntries(formData);
+//         let response = await fetch(`/${form}`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify(formProps),
+//         });
+
+//         let data = await response.json();
+//         if (data.success) {
+//           handleSuccess(data, form);
+//         } else {
+//           throw data.message;
+//         }
+//       } catch (error) {
+//         handleError(error);
+//       }
+//     }
+//   },
+// };
+
+// const handleSuccess = (data, form) => {
+//   const btn = document.querySelector(`input[type=submit]`);
+//   btn.setAttribute("disabled", "");
+//   btn.innerHTML = `<img src="https://i.gifer.com/ZKZg.gif" height="20px" />`;
+
+//   if (form === "u/login") {
+//     handleLoginSuccess(data);
+//   } else if (form === "u/register") {
+//     handleRegisterSuccess(data);
+//   } else if (form === "u/forgotPassword") {
+//     handleForgotPasswordSuccess(data);
+//   } else if (form === "u/resetPassword") {
+//     handleResetPasswordSuccess(data);
+//   }
+// };
+
+// const handleLoginSuccess = (data) => {
+//   Swal.fire({
+//     title: "Good job!",
+//     text: "Welcome To Your Dashboard",
+//     icon: "success",
+//     showConfirmButton: false,
+//     timer: 1500,
+//     allowOutsideClick: false,
+//   });
+//   localStorage.setItem("userId", data.userId);
+//   setTimeout(() => {
+//     if (data.role_id === "1") {
+//       location.pathname = "/owner/home";
+//     } else {
+//       location.pathname = "/customer/home";
+//     }
+//   }, 1500);
+// };
+
+// const handleRegisterSuccess = (data) => {
+//   const activate = document.getElementById("activate");
+//   let href = document.createElement("a");
+//   let text = `${location.origin}/u/activate/${data.userId}/${data.token}`;
+//   href.setAttribute("href", text);
+//   href.append(text);
+//   activate.innerHTML = href;
+// };
+
+// const handleForgotPasswordSuccess = (data) => {
+//   const activate = document.getElementById("activate");
+//   let href = document.createElement("a");
+//   let text = `${location.origin}/u/resetPassword/${data.email}`;
+//   href.setAttribute("href", text);
+//   href.append(text);
+//   activate.innerHTML = href;
+// };
+
+// const handleResetPasswordSuccess = () => {
+//   Swal.fire({
+//     title: "Good job!",
+//     text: "Password Updated successfully",
+//     icon: "success",
+//     showConfirmButton: false,
+//     timer: 1500,
+//     allowOutsideClick: false,
+//   });
+//   setTimeout(() => {
+//     location.pathname = "u/signIn";
+//   }, 1500);
+// };
+
+// const handleError = (error) => {
+//   if (!error) {
+//     error = "Something went wrong..!!";
+//   }
+//   toast.show("error", error);
+// };

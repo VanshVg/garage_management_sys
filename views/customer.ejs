@@ -1,16 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./customer/head.ejs') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    <%= title %>
-  </title>
-</head>
+<% var active=active || 'dashboard' ; %>
 
-<body>
-  <h1>Welcome</h1>
-</body>
+    <div id="container" class="flex h-screen overflow-hidden w-full">
 
-</html>
+        <%- include('./customer/headbar.ejs') %>
+        <div class="page-container w-[70%] h-screen" id="dashboard-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs')%>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
+            <%- include('./customer/serviceList.ejs') %>
+        </div>
+
+        <div class="page-container" id="profile-screen">
+            <%- include('./partials/customerProfile.ejs') %>
+        </div>
+        <div class="page-match-container" id="profile-match-screen">
+
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="vehicle-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs') %>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="vehicle-match-screen" style="display: none;">
+            <%- include('./customer/vehiclesType.ejs') %>
+        </div>
+
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="addVehicle-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/addVehicle.ejs')%>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="addVehicle-match-screen" style="display: none;">
+            <%- include('./customer/vehicles.ejs') %>
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="garage-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs')%>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="garage-match-screen" style="display: none;">
+            <%- include('./customer/garageList.ejs') %>
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="appointment-screen">
+            <%- include('./customer/calendar.ejs') %>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="appointment-match-screen">
+            <%- include('./customer/slotList.ejs') %>
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="service-screen">
+            <%- include('./customer/serviceMain.ejs') %>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="service-match-screen">
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const setActive = (activated) => {
+
+            document.querySelectorAll('.page-container').forEach(page => page.style.display = "none")
+            document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
+            let screen = document.querySelector(`#${activated}-screen`);
+
+            if(activated === "vehicle" || activated === "garage"){
+                screen = document.querySelector(`#dashboard-screen`);
+            }
+            screen.style.display = "block";
+
+            let matchScreen = document.querySelector(`#${activated}-match-screen`);
+            matchScreen.style.display = "block";
+
+            history.pushState(null, null, activated == "dashboard" ? "home" : activated)
+        }
+
+        setActive('<%= active %>');
+
+
+        const checkVehicleType = async () => {
+            let vehicleType = localStorage.getItem("vehicleType");
+            if(vehicleType === "null"){
+                console.log("Hello");
+                setActive("dashboard");
+            }else{
+                // console.log("Hello");
+                userVehicle(vehicleType);
+                // setActive("dashboard");
+            }
+        };
+
+        checkVehicleType();
+
+        const previousPage = (activate) => {
+            
+            switch(activate){
+                case "dashboard":
+                    localStorage.removeItem("serviceId");
+                    setActive(activate);
+                    break;
+
+                case "vehicle":
+                    localStorage.removeItem("vehicleType");
+                    setActive(activate);
+                    break;
+
+                case "addVehicle":
+                    localStorage.removeItem("userVehicleId");
+                    setActive(activate);
+                    break;
+
+                case "garage":
+                    localStorage.removeItem("garageId");
+                    setActive(activate);
+                    break;
+            }
+
+        }
+
+    </script>
+
+
+
+<%- include('./customer/footer.ejs') %>

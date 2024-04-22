@@ -1,7 +1,19 @@
-import { validationResult } from 'express-validator';
-import { activateUser, findAddressById, findOne, findOneById, insert, insertAddress, insertUserAddress, updateAddressById, updatePassword, updateUserById } from '../utils/dbHandler.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { validationResult } from "express-validator";
+import {
+  activateUser,
+  deleteUserAddress,
+  findAddressById,
+  findOne,
+  findOneById,
+  insert,
+  insertAddress,
+  insertUserAddress,
+  updateAddressById,
+  updatePassword,
+  updateUserByEmail,
+} from "../utils/dbHandler.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signUp = (req, res) => {
   res.render("auth/signUp", { title: "Sign Up" });
@@ -11,7 +23,7 @@ export const register = async (req, res) => {
   const { role_id, name, email, password } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(301).json({ success: false, errors: errors.array() });
+    res.status(301).json({ success: false, message: "Invalid payload" });
   } else {
     let result = await findOne(email);
     if (result.length) {
@@ -53,7 +65,10 @@ export const activate = async (req, res) => {
       });
     } else {
       let result = activateUser(id);
-      res.render('auth/success', { success: true, message: "Your account is activated please login to continue" });
+      res.render("auth/success", {
+        success: true,
+        message: "Your account is activated please login to continue",
+      });
     }
   } catch (err) {
     res.status(301).json({ success: false, message: err.message });
@@ -72,8 +87,9 @@ export const login = async (req, res) => {
       .json({ success: false, message: "Invalid credentials" });
   }
   let { email, password } = req.body;
+
   let user = await findOne(email);
-  if (user.length == 0) {
+  if (!user || user?.length == 0 || user.error) {
     return res
       .status(301)
       .json({ success: false, message: "Invalid email or password!" });
@@ -93,21 +109,23 @@ export const login = async (req, res) => {
       const token = jwt.sign(
         { email: email },
         process.env.SECRET_KEY || "GarageManagementDB",
-        {
-          expiresIn: "1h",
-        }
+        { expiresIn: "1w" } // Change to 1 week
       );
-      res.cookie("token", token, { maxAge: 1 * 60 * 60 * 1000 });
-      return res
-        .status(201)
-        .json({ success: true, role_id: user[0].role_id, message: "Logged in successfully" });
+
+      res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // Set cookie for 1 week
+      return res.status(201).json({
+        success: true,
+        role_id: user[0].role_id,
+        userId: user[0].id,
+        message: "Logged in successfully",
+      });
     }
   }
 };
 
 export const forgot = async (req, res) => {
-  res.render('auth/forgotPassword', { title: "Forgot Password" });
-}
+  res.render("auth/forgotPassword", { title: "Forgot Password" });
+};
 
 export const forget = async (req, res) => {
   const email = req.body.email;
@@ -120,13 +138,13 @@ export const forget = async (req, res) => {
   }
   return res.status(200).json({
     success: true,
-    email: email
+    email: email,
   });
-}
+};
 
 export const resetPassword = async (req, res) => {
-  res.render('auth/resetPassword', { title: "Reset Password" })
-}
+  res.render("auth/resetPassword", { title: "Reset Password" });
+};
 
 export const reset = async (req, res) => {
   const { email, password } = req.body;
@@ -143,62 +161,112 @@ export const reset = async (req, res) => {
   result = await updatePassword(result[0].id, hashedPassword);
   return res.status(200).json({
     success: true,
-    message: "password updated successfully"
+    message: "password updated successfully",
   });
-}
+};
 
 export const editProfile = (req, res) => {
   res.render("garage/editProfile", { title: "Edit Profile" });
-}
+};
 
 export const updateProfile = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(301).json({ success: false, errors: errors.array() });
-  }
-  let { name, email, area, cityId, pincode } = req.body
-  let { userId } = req.params
-
-  let user = await findOneById(userId);
-  if (user.length == 0) {
-    return res.status(301).json({ success: false, message: "User doesn't exist" });
-  }
-
-  let userEmail = await findOne(email);
-  if (userEmail.length > 0) {
-    if (userEmail[0].id != userId) {
-      return res.status(301).json({ success: false, message: "Email already taken" });
-    }
-  }
-
-  let userResult = await updateUserById([name, email, userId]);
+  let { name, city, area, pincode, bio } = req.body;
+  let thumbnail = req.file?.filename || "";
+  let userResult = await updateUserByEmail([
+    name,
+    bio,
+    thumbnail,
+    req.user.email,
+  ]);
   if (userResult != 1) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
-  
-  let address = await findAddressById(userId);
+
+  let user = await findOne(req.user.email);
+  let address = await findAddressById(user[0].id);
   if (!address) {
-    let result = await insertAddress([cityId, area, pincode]);
+    let result = await insertAddress([city, area, pincode]);
     if (!result) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
     } else {
-      let userAddressResult = await insertUserAddress([userId, result]);
+      await deleteUserAddress([user[0].id]);
+      let userAddressResult = await insertUserAddress([user[0].id, result]);
       if (!userAddressResult) {
-        return res.status(301).json({ success: false, message: "Something went wrong!" });
+        return res
+          .status(301)
+          .json({ success: false, message: "Something went wrong!" });
       }
-      return res.status(200).json({ success: true, message: "User updated successfully" });
+      return res
+        .status(200)
+        .json({ success: true, message: "User updated successfully" });
     }
   }
 
-  let updateAddress = await updateAddressById([cityId, area, pincode, address.address_id]);
+  let updateAddress = await updateAddressById([
+    city,
+    area,
+    pincode,
+    address.address_id,
+  ]);
   if (updateAddress != 1) {
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
 
-  return res.status(200).json({ success: true, message: "User updated successfully" });
-}
+  return res
+    .status(200)
+    .json({ success: true, message: "User updated successfully" });
+};
 
 export const logout = (req, res) => {
   res.clearCookie("token");
-  res.redirect('/u/signIn');
-}
+  res.redirect("/u/signIn");
+};
+
+// export const login = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ success: false, message: "Invalid credentials" });
+//     }
+
+//     const { email, password } = req.body;
+//     const user = await findOne(email);
+
+//     if (!user) {
+//       return res.status(400).json({ success: false, message: "Invalid email or password!" });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(400).json({ success: false, message: "Invalid email or password!" });
+//     }
+
+//     if (!user.is_verified) {
+//       return res.status(400).json({ success: false, message: "Your account is not activated. Please click the link to activate your account" });
+//     }
+
+//     const token = jwt.sign(
+//       { email: email },
+//       process.env.SECRET_KEY || "GarageManagementDB",
+//       { expiresIn: "1w" } // Change to 1 week
+//     );
+
+//     res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // Set cookie for 1 week
+
+//     return res.status(200).json({
+//       success: true,
+//       role_id: user.role_id,
+//       userId: user.id,
+//       message: "Logged in successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error in login:", error);
+//     return res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };

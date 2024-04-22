@@ -1,27 +1,22 @@
-<div class="service-container">
-  <div class="service-button">
-    <p class="add-service-button" onclick="showAddService()">Add Service</p>
+<div class="service-container w-full">
+  <div class="flex justify-between items-center">
+    <select id="service-container-servicesList"
+      class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52">
+    </select>
+    <div class="service-button">
+      <p class="add-service-button" onclick="loadService('add-service-container')">Add Service</p>
+    </div>
   </div>
-  <div class="services">
-    <div class="services-row">
-      <div class="services-col">
-        <div class="services-card">
-          <img src="/assets/service.png" height="200px" width="300px" />
-          <div class="service">
-            <div class="service-details">
-              <h3>Washing</h3>
-              <p class="service-description">
-                We are washing vehicles and making them look like new ones
-              </p>
-              <p class="service-price">$100 Only</p>
-            </div>
-            <div class="service-right">
-              <p class="service-status">Active</p>
-            </div>
-          </div>
-        </div>
-      </div>
+
+  <div class="services w-full m-0 p-0">
+    <div class="w-full flex flex-wrap -mx-2" id="services-row">
+
     </div>
   </div>
 </div>
+<script src="/scripts/loadServices.js"></script>
+<script src="/scripts/service.js"></script>
+<script>
+  loadService('service-container')
+</script>
 <%- include('./addService.ejs') %>
