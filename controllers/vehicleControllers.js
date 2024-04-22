@@ -13,7 +13,6 @@ export const addVehicle = async (req, res) => {
       return res.status(301).json({ success: false, message: "Invalid payload" });
     }
     const { vehicle, vehicleImage, brand, model, year, numberPlate, description } = req.body;
-    // console.log(req.body.vehicle); 
 
       let [vId] = await selectByFieldName("vehicle_types","name",vehicle);
 
