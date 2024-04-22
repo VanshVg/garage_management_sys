@@ -80,7 +80,6 @@ router.use(
     session: false,
     failureRedirect: "/sessionEnd",
   }),
-  validateRole(0),
   paymentRoutes
 );
 router.all("*", notFound);

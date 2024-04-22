@@ -1,4 +1,5 @@
-import { selectByFieldName } from "../utils/dbHandler.js";
+import bcrypt from "bcrypt";
+import { insertData, selectByFieldName } from "../utils/dbHandler.js";
 
 export const getPaymentDetails = async(req, res) => {
   try {
@@ -17,7 +18,28 @@ export const getPaymentDetails = async(req, res) => {
     }
     return res.render("paymentDetails", { finalAmount });
   } catch (error) {
-    console.log(error);
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+}
+
+export const addPaymentDetails = async (req, res) => {
+  console.log("Inside");
+  try {
+    let { paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi } = req.body;
+    const { appointmentId } = req.params;
+     console.log(req.body);
+    if(paymentType == "card") {
+      let salt = await bcrypt.genSalt(10);
+      cardNumber = await bcrypt.hash(cardNumber, salt);
+      cvv = await bcrypt.hash(cvv, salt);
+    }
+
+    let result = await insertData("payment_master", ["appointment_id","payment_type", "bank_name", "card_number", "account_holder", "cvv", "expiry_date", "upi"], [appointmentId, paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi]);
+    if(!result.insertId) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    }
+    return res.status(200).json({ success:true, message: "Payment done successfully" });
+  } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 }
