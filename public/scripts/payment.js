@@ -30,3 +30,37 @@ const changePayment = () => {
     upiSection.style.display = "none";
   }
 }
+
+const addPayment = async() => {
+
+  let fields = document.getElementById("payment-container").querySelectorAll("*");
+  let data = {};
+  fields.forEach((element) => {
+    if(element.tagName == "INPUT" || element.tagName == "SELECT") {
+      data[element.name] = element.value;
+    }
+  })
+  console.log(data);
+  let url = window.location.href;
+  url = url.split("/");
+  let appointmentId = url[url.length-1];
+  
+  let paymentRequest = await fetch(`/payment/${appointmentId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data)
+  });
+  let paymentResponse = await paymentRequest.json();
+  if(paymentResponse.success) {
+    Swal.fire({
+      title: "Good job!",
+      text: "Payment is done",
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1500,
+      allowOutsideClick: false,
+    });
+  }
+}

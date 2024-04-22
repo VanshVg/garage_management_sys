@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment</title>
+    <link
+      href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css "
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -35,7 +39,7 @@
     </script>
   </head>
   <body class="bg-lightbg">
-    <div class="mx-auto p-10">
+    <div class="mx-auto p-10" id="payment-container">
       <h1 class="text-center text-dark text-3xl font-bold">Payment Details</h1>
       <p class="text-center mt-5 text-lg text-dark">Payment of : ₹ <%=finalAmount%> /-</p>
       <div class="mx-auto mt-10 bg-white rounded-[19px] py-10 px-7">
@@ -56,7 +60,8 @@
         <div class="flex mx-auto justify-center mt-5" id="bank-section">
           <label class="text-dark text-lg">Choose your bank: </label>
           <select
-            class="rounded-lg ml-[52px] pl-2 h-[30px] my-auto text-dark w-[250px] text-sm bg-lightbg" name="bankName"
+            class="rounded-lg ml-[52px] pl-2 h-[30px] my-auto text-dark w-[250px] text-sm bg-lightbg"
+            name="bankName"
           >
             <option value="sbi">SBI Bank</option>
             <option value="hdfc">HDFC Bank</option>
@@ -114,7 +119,7 @@
             <label class="text-dark text-lg">UPI Id: </label>
             <input
               class="ml-2 rounded h-[30px] bg-lightbg placeholder:text-dark placeholder:opacity-70 px-2"
-              name="upiId"
+              name="upi"
               type="text"
               placeholder="Enter your UPI id"
             />
@@ -123,12 +128,14 @@
         <div class="mt-10">
           <p
             class="text-center text-white mx-auto pt-[13px] rounded bg-dark w-[120px] h-[50px] hover:cursor-pointer"
+            onclick="addPayment()"
           >
             Pay Now
           </p>
         </div>
       </div>
     </div>
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js "></script>
     <script src="/scripts/payment.js"></script>
   </body>
 </html>

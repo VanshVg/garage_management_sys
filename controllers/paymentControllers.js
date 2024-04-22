@@ -23,15 +23,23 @@ export const getPaymentDetails = async(req, res) => {
 }
 
 export const addPaymentDetails = async (req, res) => {
-  console.log("Inside");
   try {
+    for(let element in req.body) {
+      if(req.body[element]=="") {
+        req.body[element]=null;
+      }
+    }
+
     let { paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi } = req.body;
     const { appointmentId } = req.params;
-     console.log(req.body);
+
     if(paymentType == "card") {
       let salt = await bcrypt.genSalt(10);
       cardNumber = await bcrypt.hash(cardNumber, salt);
       cvv = await bcrypt.hash(cvv, salt);
+    }
+    if(paymentType == "cash") {
+      bankName = null;
     }
 
     let result = await insertData("payment_master", ["appointment_id","payment_type", "bank_name", "card_number", "account_holder", "cvv", "expiry_date", "upi"], [appointmentId, paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi]);
