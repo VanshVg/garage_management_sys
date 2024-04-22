@@ -14,6 +14,13 @@
             <%- include('./customer/serviceList.ejs') %>
         </div>
 
+        <div class="page-container" id="profile-screen">
+            <%- include('./partials/customerProfile.ejs') %>
+        </div>
+        <div class="page-match-container" id="profile-match-screen">
+
+        </div>
+
         <div class="page-container w-[70%] h-screen bg-lightbg" id="vehicle-screen">
             <div class="h-screen w-full bg-lightbg">
                 <%- include('./customer/dashboardMap.ejs') %>
@@ -33,11 +40,13 @@
             <%- include('./customer/vehicles.ejs') %>
         </div>
 
-        <div class="page-container" id="profile-screen">
-            <%- include('./partials/customerProfile.ejs') %>
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="garage-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs')%>
+            </div>
         </div>
-        <div class="page-match-container" id="profile-match-screen">
-
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="garage-match-screen" style="display: none;">
+            <%- include('./customer/garageList.ejs') %>
         </div>
 
         <div class="page-container w-[70%] h-screen bg-lightbg" id="appointment-screen">
@@ -64,7 +73,7 @@
             document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
             let screen = document.querySelector(`#${activated}-screen`);
 
-            if(activated === "vehicle"){
+            if(activated === "vehicle" || activated === "garage"){
                 screen = document.querySelector(`#dashboard-screen`);
             }
             screen.style.display = "block";
@@ -76,6 +85,21 @@
         }
 
         setActive('<%= active %>');
+
+        const previousPage = (activate) => {
+            
+            switch(activate){
+                case "dashboard":
+                    localStorage.removeItem("serviceId");
+                    setActive(activate);
+                    break;
+                case "vehicle":
+                    localStorage.removeItem("vehicleType");
+                    setActive(activate);
+                    break;
+            }
+
+        }
 
     </script>
 

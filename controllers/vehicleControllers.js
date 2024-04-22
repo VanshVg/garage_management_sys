@@ -85,8 +85,6 @@ export const getUserVehicle = async (req, res) => {
     }
     
     let vehicleData = await findVehicleData(req.user.email,type);
-    // console.log(vehicleData);
-
     return res.json({result:vehicleData});
   
   } catch (error) {

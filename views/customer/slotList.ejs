@@ -1,8 +1,26 @@
+<script>
+
+    const bookSlot = async () => {
+        let formData = document.getElementById("slotBooking");
+        let slotInfo = new FormData(formData);
+        let params = new URLSearchParams(slotInfo);
+
+        let data = await fetch("/customer/bookSlot", {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/x-www-form-urlencoded"},
+            body:params,
+        })
+
+    }
+
+</script>
 <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Slots</h3>
 
+<form id="slotBooking" name="slotBooking">
 <div id="slotDisplay"></div>
-
-<button type="button"
+</form>
+<button type="button" onclick="bookSlot()"
     class="bg-gray-800 w-32 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-light hover:text-blue px-3 mt-5 ml-56">
     <div class="flex flex-row align-middle">
         <span class="mr-2">Next</span>
@@ -13,3 +31,4 @@
         </svg>
     </div>
 </button>
+
