@@ -85,6 +85,7 @@ const displaySlots = async (e) => {
   if (dateHigh.length == 1) dataSecond += 0;
   dataSecond += dateHigh
   let garageId = localStorage.getItem("garageId");
+  console.log(garageId);
   populateSlots(garageId,data, dataSecond);
 }
 

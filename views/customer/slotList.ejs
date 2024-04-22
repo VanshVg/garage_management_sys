@@ -12,6 +12,15 @@
             body:params,
         })
 
+        console.log(data);
+
+        if(data.status === 200){
+            localStorage.clear();
+            location.href = "/customer/home";
+        }
+
+        // toast.show(data.success ? "success" : "error", data.message);
+
     }
 
 </script>
@@ -20,7 +29,12 @@
 <form id="slotBooking" name="slotBooking">
 <div id="slotDisplay"></div>
 </form>
-<button type="button" onclick="bookSlot()"
+<input type="button" onclick="bookSlot()"
+        class="w-[92%] mx-3 inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        value="Book An Appointment">
+    </div>
+
+<!-- <button type="button" onclick="bookSlot()"
     class="bg-gray-800 w-32 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-light hover:text-blue px-3 mt-5 ml-56">
     <div class="flex flex-row align-middle">
         <span class="mr-2">Next</span>
@@ -30,5 +44,5 @@
                 clip-rule="evenodd"></path>
         </svg>
     </div>
-</button>
+</button> -->
 

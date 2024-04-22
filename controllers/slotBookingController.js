@@ -72,9 +72,9 @@ export const bookSlot = async (req,res) => {
     const [result] = await bookSlotService(userExist[0].id,slotId);
 
     if(result){
-        res.status(200).json({message:"Slot Added Successfully"});
+        res.status(200).json({ success: true, message:"Slot Added Successfully"});
     }else{
-        res.status(404).json({message:"Slot is not added"});
+        res.status(404).json({ success: false, message:"Slot is not added"});
     }
 
 }
