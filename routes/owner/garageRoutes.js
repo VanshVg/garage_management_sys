@@ -14,6 +14,7 @@ import {
   getGarageListing,
   getGarageSlots,
   getGarageCount,
+  showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import upload from "../../helpers/fileUploads.js";
 

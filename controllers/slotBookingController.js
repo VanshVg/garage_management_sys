@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot,findOne } from "../utils/dbHandler.js";
+import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot } from "../utils/dbHandler.js";
 
 
 export const slotBooking = async (req, res) => {
@@ -57,14 +57,9 @@ export const getSlots = async (req, res) => {
     const garage = req.query.garage;
     const user = req.user.email;
 
-    const userExist = await findOne(user);
-    if (!userExist || userExist.length === 0 || !userExist[0].id) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
+    const userExist = req.user;
 
-    const result = await getAllSlots(startIndex, garage, userExist[0].id);
+    const result = await getAllSlots(startIndex, garage, userExist.id);
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({
@@ -86,7 +81,7 @@ export const appointmentsByDateRange = async (req, res) => {
     const result = await getAppointsByDateRange([startDate, endDate, garageId]);
     res.status(201).json({ success: true, appointments: result });
   }
-  catch(error){
-    res.status(502).json({success:false,message:"something went wrong"})
+  catch (error) {
+    res.status(502).json({ success: false, message: "something went wrong" })
   }
 }

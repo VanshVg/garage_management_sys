@@ -1,19 +1,16 @@
 import express from "express";
 import {
+  appointment,
   selectServices
 } from "../controllers/staticControllers.js";
 import { getUserVehicle, addVehicle } from "../controllers/vehicleControllers.js";
 
 import {
-  home, vehicles, addVehicles, profile,
   customerSlotSelection,
   getAllCustomers,
   showAppointments,
-  slotDisplay,
-  appointment,
-  showAppointments,
 } from "../controllers/customerControllers.js";
-import { home, profile, addVehicles, appointment, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
+import { home, profile, addVehicles, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
 
 import { customerInvoice } from "../controllers/invoiceControllers.js";
