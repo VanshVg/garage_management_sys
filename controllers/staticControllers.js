@@ -1,8 +1,8 @@
 import {
+  countAppointments,
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
-
 } from "../utils/dbHandler.js";
 
 // landing page
@@ -11,8 +11,8 @@ export const landingPage = (req, res) => {
 };
 
 export const dashboard = (req, res) => {
-  res.render('index', { title: "Home", active: "dashboard" });
-}
+  res.render("index", { title: "Home", active: "dashboard" });
+};
 
 export const home = async (req, res) => {
   res.render("customer", { title: "Home", active: "dashboard" });
@@ -75,35 +75,67 @@ export const sessionEnd = (req, res) => {
 
 export const vehicles = async (req, res) => {
   res.render("customer", { active: "vehicle" });
-}
+};
 
+export const getCities = async (req, res) => {
+  try {
+    const cities = await selectByFieldName(
+      "city_master",
+      "sid",
+      req.params.state_id
+    );
+    res.status(201).json({ cities });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getUserDetails = async (req, res) => {
+  try {
+    const user = await findOne(req.user.email);
+    if (!user) {
+      return res
+        .status(301)
+        .json({ success: false, message: "User not found" });
+    }
+    const address = await getUserAddress(user[0].id);
+    const vehicleServices = await getVehicleAssociatedServices(user[0].id);
+    res.status(201).json({
+      user: user[0],
+      address: address[0],
+      vehicleServices: vehicleServices,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 export const addVehicles = async (req, res) => {
   res.render("customer", { active: "addVehicle" });
-}
+};
 
 export const servicesPage = async (req, res) => {
   res.render("customer", { active: "services" });
-}
+};
 
 export const profile = async (req, res) => {
   res.render("customer", { active: "profile" });
-}
+};
 
 export const appointment = async (req, res) => {
   res.render("customer", { active: "appointment" });
-}
+};
 
 export const customerVehicleSelection = (req, res) => {
-  res.render("customerVehicleSelection.ejs")
-}
+  res.render("customerVehicleSelection.ejs");
+};
 
 export const slotDisplay = async (req, res) => {
   res.render("customerSlots");
-}
+};
 
 export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs")
-}
+  res.render("customerFeedback.ejs");
+};
 
 export const garageList = (req, res) => {
   res.render("garage/garageList.ejs");
@@ -123,6 +155,29 @@ export const getGarageNotService = async (req, res) => {
   }
 };
 
+export const servicesListing = async (req, res) => {
+  let { garageId } = req.params;
+  try {
+    const servicesList = await serviceListing(garageId);
+    res.json(servicesList);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getGarageCount = async (req, res) => {
+  try {
+    const user = await findOne([req.user.email]);
+    const garageCount = await countByFieldName(
+      "owner_has_garages",
+      "owner_id",
+      user[0].id
+    );
+    res.status(201).json({ success: true, garageCount });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 export const signIn = (req, res) => {
   res.render("auth/login", { title: "Login" });
 };
@@ -135,6 +190,17 @@ export const resetPassword = async (req, res) => {
   res.render("auth/resetPassword", { title: "Reset Password" });
 };
 
+export const getAppointmentCount = async (req, res) => {
+  try {
+    const user = await findOne([req.user.email]);
+    const { pending, successful, cancelled } = await countAppointments(
+      user[0].id
+    );
+    res.status(201).json({ success: true, pending, successful, cancelled });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 export const editProfile = (req, res) => {
   res.render("garage/editProfile", { title: "Edit Profile" });
 };
@@ -164,4 +230,4 @@ export const garageAddress = async (req, res) => {
 
 export const selectServices = (req, res) => {
   res.render("customerServices");
-}
+};
