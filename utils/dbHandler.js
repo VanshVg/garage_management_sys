@@ -299,7 +299,6 @@ export const getNotAvailableService = async (id) => {
     let query =
       "SELECT * FROM service_master where id not in (select services_id from garage_has_services where garage_id=? and is_deleted !=1)";
     let result = await conn.query(query, id);
-    console.log(result)
     return result[0];
   } catch (err) {
     return { err };
@@ -767,5 +766,15 @@ export const bookSlotService = async (userId, slotId) => {
     return result;
   } catch (err) {
     return { err };
+  }
+}
+
+export const countRevenue = async (userId) => {
+  try {
+    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at ON at.id = pm.appointment_id WHERE at.customer_id= ?;`;
+    let result = await conn.query(query, [userId]);
+    return result[0];
+  } catch (err) {
+    return { err }
   }
 }
