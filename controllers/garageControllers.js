@@ -14,7 +14,8 @@ import {
   getSingleGarageService,
   countByFieldName,
   getGarageAppointments,
-  
+  getGarageDuration,
+
 } from "../utils/dbHandler.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
@@ -163,11 +164,14 @@ export const getGarageListing = async (req, res) => {
 
 export const getGarageSlots = async (req, res) => {
   try {
-    let { garageId, startDate, endDate } = req.body;
-    const result = await garageSlotListing(garageId, startDate, endDate);
-    res.status(201).json({ success: true, result });
+    let { garageId } = req.body;
+    let garageDuration = await getGarageDuration(garageId);
+    console.log(garageDuration)
+    const result = await garageSlotListing(garageId);
+    result.push(garageDuration);
+    res.json(result);
   } catch (error) {
-    res.status(401).json({ success: false, message: "Something went wrong" });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -178,7 +182,7 @@ export const getGarages = async (req, res) => {
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
-}
+};
 
 export const getSingleGarage = async (req, res) => {
   try {
@@ -188,7 +192,7 @@ export const getSingleGarage = async (req, res) => {
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
 
 export const getGarageCount = async (req, res) => {
   try {
@@ -210,7 +214,7 @@ export const showGarageAppointments = async (req, res) => {
     return res.status(200).json({ success: true, appointments });
   } catch (error) {
     return res
-      .status(301)
+      .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
 }

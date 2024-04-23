@@ -1,7 +1,6 @@
 const showServicesAdd = async () => {
   const result = await fetch("/allServices");
   const json = await result.json();
-
   const services = json.services;
   let select = document.createElement("select");
   select.setAttribute("id", "service-name");
@@ -103,3 +102,4 @@ const garageDropdown = async () => {
   selectGarage.innerHTML = optionsGarage;
 };
 // garageDropdown();
+

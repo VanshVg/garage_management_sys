@@ -28,7 +28,6 @@
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
                 let serviceList = '';
-
                 services.forEach(ele => {
                         serviceList += `<div class="bg-light max-w-fit h-[24%] my-3 rounded-lg flex services hover:bg-sky-200">
                 <input type="checkbox" name="services[]" id="${ele.id}" value="${ele.id}">
@@ -72,10 +71,11 @@
 
                 localStorage.setItem("id", formServiceData.getAll("services[]"));
                 // console.log(formServiceData.getAll("services[]"));
-                localStorage.setItem("serviceId",formServiceData.getAll("services[]"));
+                localStorage.setItem("serviceId", formServiceData.getAll("services[]"));
+                localStorage.setItem("id", formServiceData.getAll("services[]"));
                 setActive('vehicle');
         }
-                
+
         const serviceType = async () => {
                 let service = document.getElementById('serviceList');
                 let serviceData = new FormData(service);

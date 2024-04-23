@@ -281,7 +281,7 @@
         const services = await callAPI('/owner/services/count');
         animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const days = await callAPI('/owner/daysCount');
-        animateNumber(days.days , 2, "daysCount");
+        animateNumber(days.days, 2, "daysCount");
         const appointments = await callAPI('/owner/appointmentCount');
         animateNumber(appointments.pending || 0, 2, "customerCount");
         let successful = appointments.successful;
