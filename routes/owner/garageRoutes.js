@@ -25,7 +25,7 @@ router.get("/garageForm", garageForm);
 router.get("/garageUpdate", garageDisplay);
 router.post("/add", uploadMiddleware, garageAdd);
 router.put("/update", uploadMiddleware, garageUpdate);
-router.post("/delete", garageDelete);
+router.delete("/delete/:garageId", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
