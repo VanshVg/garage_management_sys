@@ -3,51 +3,58 @@ import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot
 
 
 export const slotBooking = async (req, res) => {
-  const { garageId, startTime, endTime } = req.body;
-  console.log(garageId);
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(301).json({ success: false, errors: errors.array() });
-  } else {
-    const result = await insertSlot([garageId, startTime, endTime, 1]);
-    console.log(result);
-    if (!result)
-      res.status(301).json({ success: false, message: "something went wrong" });
-    else if (result.error) {
-      res.status(301).json({
-        success: false,
-        message: "error adding slot please try again",
-      });
-    } else res.status(201).json({ message: "slot inserted successfully" });
+  try {
+    const { garageId, startTime, endTime } = req.body;
+    console.log(garageId);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(301).json({ success: false, errors: errors.array() });
+    } else {
+      const result = await insertSlot([garageId, startTime, endTime, 1]);
+      if (!result)
+        res.status(301).json({ success: false, message: "something went wrong" });
+      else if (result.error) {
+        res.status(301).json({
+          success: false,
+          message: "error adding slot please try again",
+        });
+      } else res.status(201).json({ message: "slot inserted successfully" });
+    }
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
 
 export const slotUpdate = async (req, res) => {
-  const { startTime, endTime, slotId } = req.body;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(301).json({ success: false, errors: errors.array() });
-  } else {
-    const result = await updateSlot([startTime, endTime, slotId]);
-    if (result) {
-      res.status(201).json({ message: "slot updated successfully" });
+  try {
+    const { startTime, endTime, slotId } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(301).json({ success: false, errors: errors.array() });
     } else {
-      res.status(301).json({ message: "slot was not updated" });
+      const result = await updateSlot([startTime, endTime, slotId]);
+      if (result) {
+        res.status(201).json({ message: "slot updated successfully" });
+      } else {
+        res.status(301).json({ message: "slot was not updated" });
+      }
     }
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
 
 export const slotDelete = async (req, res) => {
-  const { slotId } = req.body;
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(301).json({ success: false, message: "Invalid payload" });
-  }
-  const result = await deleteSlot([slotId]);
-  if (result) {
-    res.status(201).json({ message: "slot was deleted successfully" });
-  } else {
-    res.status(301).json({ message: "slot was not deleted" });
+  try {
+    const slotId = req.params.slotId;
+    const result = await deleteSlot([slotId]);
+    if (result) {
+      res.status(201).json({ success: true, message: "slot was deleted successfully" });
+    } else {
+      res.status(301).json({ success: false, message: "slot was not deleted" });
+    }
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -55,7 +62,6 @@ export const getSlots = async (req, res) => {
   try {
     const { startIndex, endIndex } = req.pagination;
     const garage = req.query.garage;
-    const user = req.user.email;
 
     const userExist = req.user;
 

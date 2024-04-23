@@ -15,6 +15,24 @@ const getGarages = async () => {
 };
 getGarages();
 
+const deleteSlot = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    showDenyButton: true,
+    confirmButtonText: "Yes",
+    denyButtonText: "No"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const result = await fetch('/owner/slots/delete/' + id, {
+        method: "POST",
+      });
+      const json = await result.json();
+      toast.show(json.success ? "success" : "error", json.message);
+      populateData();
+    }
+  });
+}
+
 const getData = async (page = 1, garage) => {
   const jsonData = await fetch(
     "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage
@@ -77,7 +95,10 @@ const populateData = async (pageNumber = 1) => {
       i++;
     });
     var td = document.createElement("td");
-    td.appendChild(createEditAndDelete());
+    var dustbin = document.createElement("img");
+    dustbin.src = "/icons/delete.svg";
+    dustbin.setAttribute("onclick", `deleteSlot(${element.id})`);
+    td.appendChild(dustbin);
     tr.appendChild(td);
     var table = document.getElementById("table");
     table.appendChild(tr);
@@ -92,36 +113,6 @@ const populateData = async (pageNumber = 1) => {
 };
 
 populateData();
-
-function createEditAndDelete() {
-  var hmMenu = document.createElement("div");
-  hmMenu.classList.add("hm-menu");
-  var threeDots = document.createElement("img");
-  threeDots.src = "/icons/threedots.svg";
-  var listCs = document.createElement("div");
-  listCs.classList.add("list-cs");
-  var listCsData1 = document.createElement("div");
-  listCsData1.classList.add("list-cs-data");
-  var edit = document.createElement("p");
-  edit.innerText = "Edit";
-  var editIcon = document.createElement("img");
-  editIcon.src = "/icons/edit.svg";
-  listCsData1.appendChild(editIcon);
-  listCsData1.appendChild(edit);
-  listCs.appendChild(listCsData1);
-  var listCsData2 = document.createElement("div");
-  listCsData2.classList.add("list-cs-data");
-  var edit = document.createElement("p");
-  edit.innerText = "Delete";
-  var editIcon = document.createElement("img");
-  editIcon.src = "/icons/delete.svg";
-  listCsData2.appendChild(editIcon);
-  listCsData2.appendChild(edit);
-  listCs.appendChild(listCsData2);
-  hmMenu.appendChild(threeDots);
-  hmMenu.appendChild(listCs);
-  return hmMenu;
-}
 
 var next = document.querySelector("#next");
 var prev = document.querySelector("#prev");
