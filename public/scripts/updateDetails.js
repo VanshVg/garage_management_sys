@@ -7,7 +7,7 @@ const updateDetails = async (fieldList) => {
   fieldList.forEach((field) => {
     document.querySelectorAll(`[dataBound=${field}]`).forEach((control) => {
       if (field == "profile_pic") {
-        control.src = !user.profile_pic
+          control.src = !user.profile_pic
           ? "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg"
           : "/uploads/" + user["profile_pic"];
         return;

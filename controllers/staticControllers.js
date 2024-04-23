@@ -1,7 +1,6 @@
 import {
   getCustomerNames,
   getGarageAddress,
-  getGarageAddress,
   getNotAvailableService,
   
 } from "../utils/dbHandler.js";
@@ -46,6 +45,9 @@ export const inventory = (req, res) => {
   res.render("index", { title: "Inventory", active: "inventory" });
 };
 
+export const employee = (req, res) => {
+  res.render("index", { title: "Employees", active: "employee" });
+};
 export const invoice = (req, res) => {
   res.render("index", { title: "Invoice", active: "invoice" });
 };

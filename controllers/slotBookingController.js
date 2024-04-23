@@ -1,7 +1,12 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot,findOne } from "../utils/dbHandler.js";
-
-
+import {
+  deleteSlot,
+  getAllSlots,
+  getAppointsByDateRange,
+  insertSlot,
+  updateSlot,
+} from "../utils/dbHandler.js";
+import { findOne } from "../utils/common.js";
 export const slotBooking = async (req, res) => {
   const { garageId, startTime, endTime } = req.body;
   console.log(garageId);
@@ -85,8 +90,8 @@ export const appointmentsByDateRange = async (req, res) => {
     const { garageId, startDate, endDate } = req.body;
     const result = await getAppointsByDateRange([startDate, endDate, garageId]);
     res.status(201).json({ success: true, appointments: result });
+  } catch (error) {
+    console.error("Error in appointmentsByDateRange:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-  catch(error){
-    res.status(502).json({success:false,message:"something went wrong"})
-  }
-}
+};

@@ -3,6 +3,7 @@ import {
   appointments,
   calendar,
   dashboard,
+  employee,
   getAllCustomers,
   inventory,
   invoice,
@@ -42,6 +43,8 @@ router.get("/appointmentsList/:garageId", appointmentsListing);
 router.get("/bookedAppointments/:id", bookedAppointments);
 
 router.get("/inventory", inventory);
+
+router.get("/employee",employee)
 
 router.get("/invoice", invoice);
 

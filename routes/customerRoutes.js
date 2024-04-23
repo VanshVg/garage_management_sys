@@ -1,22 +1,24 @@
 import express from "express";
 import {
+  CustomerFeedback,
   selectServices
 } from "../controllers/staticControllers.js";
 import {getUserVehicle, addVehicle} from "../controllers/vehicleControllers.js";
 import upload from "../helpers/fileUploads.js";
 
 import {
-  home, vehicles, addVehicles, profile,
+   
+  CustomerFeedbackPost,
   customerSlotSelection,
   getAllCustomers,
-  showAppointments,
-  slotDisplay,
-  appointment,
   showAppointments,
 } from "../controllers/customerControllers.js";
 import { home, profile, addVehicles, appointment, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
+import { getServices } from "../utils/dbHandler.js";
+import { servicesListing } from "../controllers/serviceControllers.js";
 import { updateProfile } from "../controllers/userControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";
   
 const router = express.Router();
 
@@ -24,8 +26,8 @@ router.get("/home", home);
 router.get("/vehicle", vehicles);
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
-router.get("/garageList", getGarages);
-router.get("/service", servicesPage);
+router.get("/garageList",getGarages);
+router.get("/service",getServices);
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);
@@ -33,7 +35,6 @@ router.get("/singleGarage", getSingleGarage);
 router.get("/servicesList", servicesListing);
 router.get("/addVehicle/:type", getUserVehicle);
 router.post("/addVehicle",addVehicle);
-router.post("/")
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
 router.put("/profile/update", upload.single("thumbnail"), updateProfile);

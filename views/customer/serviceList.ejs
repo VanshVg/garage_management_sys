@@ -12,13 +12,14 @@
                 }
         </style>
 </head>
+<body class="overflow-hidden">
 <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
 <form id="serviceList" name="serviceList">
         <div class="service-wrapper mt-6 overflow-y-auto h-full px-4" id="service-wrapper">
 
         </div>
 </form>
-
+</body>
 <input type="button" onclick="selectedServices()"
         class="w-[92%] mx-3 inline-block rounded-full bg-light px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
         value="Proceed">
@@ -27,9 +28,12 @@
 
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
+               
+
                 let serviceList = '';
 
                 services.forEach(ele => {
+                        console.log(ele);
                         serviceList += `<div class="bg-light max-w-fit h-[24%] my-3 rounded-lg flex services hover:bg-sky-200">
                 <input type="checkbox" name="services[]" id="${ele.id}" value="${ele.id}">
                 <div class="garage-icon border-2 w-3/4">
@@ -43,14 +47,6 @@
                         <label for="${ele.id}">
                                 <h3 class="font-medium text-xl text-left" id="garageName">${ele.name}</h3>
                                 <p class="mt-2 text-xs text-justify">${ele.description}</p>
-                                <div class="flex pt-2 justify-end items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                viewBox="0 0 24 24">
-                                                <path fill="currentColor"
-                                                        d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2z" />
-                                        </svg>
-                                        <p>${ele.price}</p>
-                                </div>
                         </label>
                 </div>
                 </div>`
