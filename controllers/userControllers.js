@@ -34,7 +34,7 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         let token = Math.random().toString(36).slice(2);
 
-        result = await insert("users", [role_id, name, email, hashedPassword, token]);
+        result = await insert("users", ["role_id", "name", "email", "password", "activate_link"], [role_id, name, email, hashedPassword, token]);
         if (!result.length)
           res.status(201).json({
             success: true,

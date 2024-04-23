@@ -1,6 +1,7 @@
 import express from "express";
 
 import authRoutes from "./authRoutes.js";
+
 import {
   notFound,
   landingPage

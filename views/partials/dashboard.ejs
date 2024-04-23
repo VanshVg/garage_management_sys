@@ -291,6 +291,8 @@
         let cancelled = appointments.cancelled;
         animateNumber(cancelled || 0, 2, 'cancelCount');
         animateNumber(10, 20000, "staffCount");
+        const revenue = await callAPI('/owner/revenueCount');
+        animateNumber(revenue.result[0].revenue || 0, 1, 'revenueCount')
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
             const chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions(successful, pending, cancelled));
             chart.render();
