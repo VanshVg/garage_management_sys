@@ -16,6 +16,7 @@ export const stateList = async (req, res) => {
     });
   }
 };
+
 export const cityList = async (req, res) => {
   let stateId = req.params.stateId;
   try {

@@ -3,20 +3,21 @@ import {
   customer,
   garageAddress,
   garageForm,
+  garageList,
   garageListing,
-  getGarageCount,
 } from "../../controllers/staticControllers.js";
 import {
   garageAdd,
   garageDelete,
   garageUpdate,
   garageDisplay,
-  garageList,
   getGarageListing,
   getGarageSlots,
+  getGarageCount,
   showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
+import upload from "../../helpers/fileUploads.js";
 
 const router = express.Router();
 

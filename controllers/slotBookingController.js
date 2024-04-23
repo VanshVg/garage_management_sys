@@ -57,14 +57,9 @@ export const getSlots = async (req, res) => {
     const garage = req.query.garage;
     const user = req.user.email;
 
-    const userExist = await findOne(user);
-    if (!userExist || userExist.length === 0 || !userExist[0].id) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
+    const userExist = req.user;
 
-    const result = await getAllSlots(startIndex, garage, userExist[0].id);
+    const result = await getAllSlots(startIndex, garage, userExist.id);
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({
