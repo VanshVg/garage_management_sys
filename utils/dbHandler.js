@@ -767,3 +767,13 @@ export const bookSlotService = async (userId, slotId) => {
     return { err };
   }
 }
+
+export const countRevenue = async (userId) => {
+  try {
+    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at ON at.id = pm.appointment_id WHERE at.customer_id= ?;`;
+    let result = await conn.query(query, [userId]);
+    return result[0];
+  } catch (err) {
+    return { err }
+  }
+}

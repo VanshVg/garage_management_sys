@@ -177,9 +177,9 @@ export const getGarageSlots = async (req, res) => {
 export const getGarages = async (req, res) => {
   try {
     const result = await getGaragesService();
-    res.json({ result });
+    res.status(201).json({ success: true, result });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
 
