@@ -102,3 +102,4 @@ const garageDropdown = async () => {
   selectGarage.innerHTML = optionsGarage;
 };
 // garageDropdown();
+

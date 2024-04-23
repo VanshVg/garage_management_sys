@@ -113,6 +113,9 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-1 py-3 bg-dark text-white">
+                                Garage Name
+                            </th>
+                            <th scope="col" class="px-1 py-3 bg-dark text-white">
                                 Customer Name
                             </th>
                             <th scope="col" class="px-1 py-3 bg-dark text-white">
@@ -128,9 +131,12 @@
                     </thead>
                     <tbody class="h-[200px] overflow-y-scroll bg-dark" id="dashboard-appointments-body">
                         <tr class="bg-white border-b hover:bg-gray-100">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                Garage 1
+                            </td>
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 Customer 1
-                            </th>
+                            </td>
                             <td class="px-6 py-4">
                                 2024-04-20
                             </td>
@@ -275,7 +281,7 @@
         const services = await callAPI('/owner/services/count');
         animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const days = await callAPI('/owner/daysCount');
-        animateNumber(days.days , 2, "daysCount");
+        animateNumber(days.days, 2, "daysCount");
         const appointments = await callAPI('/owner/appointmentCount');
         animateNumber(appointments.pending || 0, 2, "customerCount");
         let successful = appointments.successful;
@@ -295,6 +301,9 @@
         let table = "";
         json.appointments.forEach(appointment => {
             table += `<tr class="bg-white border-b hover:bg-gray-100">
+                            <td class="text-left px-1 py-1 font-medium text-gray-900 whitespace-nowrap">
+                                ${appointment.garageName}
+                            </td>
                             <td class="text-left px-1 py-1 font-medium text-gray-900 whitespace-nowrap">
                                 ${appointment.customerName}
                             </td>
@@ -322,7 +331,6 @@
             let flag = false;
             for (cell of cells) {
                 let text = cell.innerText || cell.textContent;
-                console.log(text, search)
                 if (text.search(search) != -1) {
                     flag = true;
                     break;

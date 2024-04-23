@@ -5,11 +5,10 @@ let generateInvoice = async (appointmentId, customerEmail) => {
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify({customerEmail})
+    body: JSON.stringify({ customerEmail }),
   });
   let response = await pdfRequest.json();
-  console.log(response);
-  if(response.success) {
-    window.location.href = "/owner/invoice"
+  if (response.success) {
+    window.location.href = "/owner/invoice";
   }
-}
+};

@@ -8,57 +8,107 @@ import {
   updateGarageAddress,
   deleteGarage,
   displayGarage,
-  findOne,
   getOwnerGarages,
   garageSlotListing,
   getGaragesService,
   getSingleGarageService,
+  countByFieldName,
   getGarageAppointments,
   getGarageDuration,
-} from "../utils/dbHandler.js";
 
+} from "../utils/dbHandler.js";
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 
 // display garage form with data
 export const garageDisplay = async (req, res) => {
-  let garageId = 1;
-  let data = await displayGarage(garageId);
-  res.render("garage/garageModule", { title: "Garage Form", data });
+  try {
+    let garageId = 1;
+    let data = await displayGarage(garageId);
+    res.render("garage/garageModule", { title: "Garage Form", data });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
 };
 // garage add
 export const garageAdd = async (req, res) => {
-  let {
-    garageName,
-    contactNumber,
-    email,
-    openTime,
-    closeTime,
-    cityId,
-    description,
-    area,
-    pincode,
-    userId,
-    latitude,
-    longitude,
-  } = req.body;
-  let thumbnail = req.file.filename;
-  userId = (await findOne(req.user.email))[0].id || userId;
-  openTime = dateTimeConvertor(openTime);
-  closeTime = dateTimeConvertor(closeTime);
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(500).json({ success: false, errors: errors.array() });
-  } else {
-    let addressId;
-    try {
-      addressId = await insertGarageAddress([cityId, area, pincode]);
-    } catch (error) {
-      res
-        .status(200)
-        .json({ success: false, message: "Something went wrong!" });
+  try {
+    let {
+      garageName,
+      contactNumber,
+      email,
+      openTime,
+      closeTime,
+      cityId,
+      description,
+      area,
+      pincode,
+      userId,
+      latitude,
+      longitude,
+    } = req.body;
+    let thumbnail = req.file.filename;
+    userId = req.user.id || userId;
+    openTime = dateTimeConvertor(openTime);
+    closeTime = dateTimeConvertor(closeTime);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(500).json({ success: false, message: "Something went wrong!" });
+    } else {
+      let addressId = await insertGarageAddress([cityId, area, pincode]);
+      if (addressId) {
+        let garageId = await insertGarage([
+          garageName,
+          contactNumber,
+          email,
+          thumbnail,
+          openTime,
+          closeTime,
+          description,
+        ]);
+        if (garageId) {
+          let result = await insertGarageOwner([userId, garageId]);
+          let result2 = await insertGarageReference([
+            addressId,
+            garageId,
+            latitude,
+            longitude,
+          ]);
+          if (result && result2) {
+            res.status(200).json({
+              success: true,
+              message: "garage registered successfully.",
+            });
+          }
+        } else throw "Something went wrong!";
+      } else throw "Something went wrong!";
     }
-    if (addressId) {
-      let garageId = await insertGarage([
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};
+// garage update
+export const garageUpdate = async (req, res) => {
+  try {
+    let {
+      garageName,
+      contactNumber,
+      email,
+      openTime,
+      closeTime,
+      cityId,
+      description,
+      area,
+      pincode,
+      garageId,
+    } = req.body;
+    let thumbnail = req.file?.filename || "";
+    openTime = dateTimeConvertor(openTime);
+    closeTime = dateTimeConvertor(closeTime);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(500).json({ success: false, message: "Invalid payload" });
+    } else {
+      let result = await updateGarage([
         garageName,
         contactNumber,
         email,
@@ -66,109 +116,49 @@ export const garageAdd = async (req, res) => {
         openTime,
         closeTime,
         description,
-      ]);
-      if (garageId) {
-        let result = await insertGarageOwner([userId, garageId]);
-        let result2 = await insertGarageReference([
-          addressId,
-          garageId,
-          latitude,
-          longitude,
-        ]);
-        if (result && result2) {
-          res.status(200).json({
-            success: true,
-            message: "garage registered successfully.",
-          });
-        }
-      } else {
-        res
-          .status(500)
-          .json({ success: false, message: "Something went wrong!" });
-      }
-    } else {
-      res
-        .status(500)
-        .json({ success: false, message: "Something went wrong!" });
-    }
-  }
-};
-// garage update
-export const garageUpdate = async (req, res) => {
-  let {
-    garageName,
-    contactNumber,
-    email,
-    openTime,
-    closeTime,
-    cityId,
-    description,
-    area,
-    pincode,
-    garageId,
-  } = req.body;
-  let thumbnail = req.file?.filename || "";
-  openTime = dateTimeConvertor(openTime);
-  closeTime = dateTimeConvertor(closeTime);
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(500).json({ success: false, errors: errors.array() });
-  } else {
-    let result = await updateGarage([
-      garageName,
-      contactNumber,
-      email,
-      thumbnail,
-      openTime,
-      closeTime,
-      description,
-      garageId,
-    ]);
-    if (result) {
-      result = await updateGarageAddress([
-        cityId,
-        area,
-        pincode,
-        parseInt(garageId),
+        garageId,
       ]);
       if (result) {
-        res.status(200).json({ success: true, message: "garage updated" });
-      } else {
-        res
-          .status(500)
-          .json({ success: false, message: "Something went wrong" });
+        result = await updateGarageAddress([
+          cityId,
+          area,
+          pincode,
+          parseInt(garageId),
+        ]);
+        if (result) {
+          res.status(200).json({ success: true, message: "garage updated" });
+        }
+        else throw "Something went wrong";
       }
-    } else {
-      res.status(500).json({ success: false, message: "Something went wrong" });
+      else throw "Something went wrong";
     }
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
 // garage delete
 export const garageDelete = async (req, res) => {
-  let garageId = 1;
-  let addressId = 2;
-  let referenceId = 1;
-  let result = await deleteGarage(garageId, addressId, referenceId);
-  if (result) {
-    res.status(200).json({ success: true, message: "garage deleted" });
-  } else {
-    res.status(500).json({ success: false, message: "Something went wrong!" });
+  try {
+    let garageId = 1;
+    let addressId = 2;
+    let referenceId = 1;
+    let result = await deleteGarage(garageId, addressId, referenceId);
+    if (result) {
+      res.status(200).json({ success: true, message: "garage deleted" });
+    }
+    else throw "Something went wrong!";
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
-};
-
-//getting garage Details
-
-export const garageList = (req, res) => {
-  res.render("garage/garageList.ejs");
 };
 
 export const getGarageListing = async (req, res) => {
   try {
-    const user = await findOne([req.user.email]);
-    const result = await getOwnerGarages([user[0].id]);
-    res.json({ garages: result });
+    const userId = req.user.id;
+    const result = await getOwnerGarages([userId]);
+    res.status(201).json({ success: false, garages: result });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(401).jsoN({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -176,6 +166,7 @@ export const getGarageSlots = async (req, res) => {
   try {
     let { garageId } = req.body;
     let garageDuration = await getGarageDuration(garageId);
+    console.log(garageDuration)
     const result = await garageSlotListing(garageId);
     result.push(garageDuration);
     res.json(result);
@@ -187,9 +178,9 @@ export const getGarageSlots = async (req, res) => {
 export const getGarages = async (req, res) => {
   try {
     const result = await getGaragesService();
-    res.json({ result });
+    res.status(201).json({ success: true, result });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
 
@@ -197,12 +188,25 @@ export const getSingleGarage = async (req, res) => {
   try {
     let garageId = req.params.id;
     const result = await getSingleGarageService(garageId);
-    res.json({ result });
+    res.status(201).json({ success: false, result });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
 
+export const getGarageCount = async (req, res) => {
+  try {
+    const garageCount = await countByFieldName(
+      "owner_has_garages",
+      "owner_id",
+      req.user.id
+    );
+    res.status(201).json({ success: true, garageCount });
+  } catch (error) {
+    console.log(error)
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};
 export const showGarageAppointments = async (req, res) => {
   try {
     const { garageId } = req.body;
@@ -213,4 +217,4 @@ export const showGarageAppointments = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
-};
+}
