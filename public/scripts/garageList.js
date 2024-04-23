@@ -99,6 +99,7 @@ const populateData = async (pageNumber = 1) => {
     var dustbin = document.createElement("img");
     dustbin.src = "/icons/delete.svg";
     dustbin.setAttribute("onclick", `deleteSlot(${element.id})`);
+    dustbin.setAttribute("class", "cursor-pointer");
     td.appendChild(dustbin);
     tr.appendChild(td);
     var table = document.getElementById("table");
@@ -107,11 +108,11 @@ const populateData = async (pageNumber = 1) => {
   var text = document.querySelector(".pagination-text");
   var max = data[1] + 1;
   document.querySelector(".current").innerText = pageNumber;
-  if (data[4]==pageNumber) {
+  if (data[4] == pageNumber) {
     text.innerText =
-    "Showing " + max + " to " + data[3] + " of " + data[3] + " entries ";
+      "Showing " + max + " to " + data[3] + " of " + data[3] + " entries ";
   }
-  else{
+  else {
     text.innerText =
       "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
 
@@ -128,18 +129,18 @@ next.addEventListener("click", async () => {
   var pid = parseInt(document.querySelector(".current").innerText);
   const pageNumber = pid + 1;
   var select = document.querySelector("#garagesDropdown")
-  var maxPage = await getData(pageNumber,select.value);
-  if (maxPage[4]>=pid+1) {
+  var maxPage = await getData(pageNumber, select.value);
+  if (maxPage[4] >= pid + 1) {
     const pageCount = await populateData(pageNumber);
-  
-  document.querySelector(".current").innerText = pid + 1;
-  if (pid + 1 == pageCount) {
-    next.disabled = true;
-  } else {
-    prev.disabled = false;
+
+    document.querySelector(".current").innerText = pid + 1;
+    if (pid + 1 == pageCount) {
+      next.disabled = true;
+    } else {
+      prev.disabled = false;
+    }
   }
-  }
-  
+
 });
 
 prev.addEventListener("click", async () => {
