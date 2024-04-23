@@ -131,6 +131,45 @@
                         break;
                 }
 
+        // const checkVehicleType = async () => {
+        //     let vehicleType = localStorage.getItem("vehicleType");
+        //     if(vehicleType === "null"){
+        //         console.log("Hello");
+        //         setActive("dashboard");
+        //     }else{
+        //         // console.log("Hello");
+        //         userVehicle(vehicleType);
+        //         // setActive("dashboard");
+        //     }
+        // };
+
+        // checkVehicleType();
+
+        const previousPage = (activate) => {
+            
+            switch(activate){
+                case "dashboard":
+                    localStorage.removeItem("serviceId");
+                    setActive(activate);
+                    break;
+
+                case "vehicle":
+                    localStorage.removeItem("vehicleType");
+                    setActive(activate);
+                    break;
+
+                case "addVehicle":
+                    localStorage.removeItem("userVehicleId");
+                    setActive(activate);
+                    break;
+
+                case "garage":
+                    localStorage.removeItem("garageId");
+                    setActive(activate);
+                    break;
+            }
+
+        }
             }
 
         </script>

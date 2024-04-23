@@ -21,6 +21,7 @@ export const customerInvoice = async (req, res) => {
     }
         
     if (invoiceDetails.length < 1) {
+      console.log("Inside")
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
     
