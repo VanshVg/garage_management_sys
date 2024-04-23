@@ -1,7 +1,5 @@
 import conn from "../config/dbConfig.js";
 
-
-
 export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
@@ -760,13 +758,23 @@ export const getGarageAppointments = async (garageId) => {
   }
 };
 
-export const bookSlotService = async (userId,slotId) => {
-  try{
+export const bookSlotService = async (userId, slotId) => {
+  try {
 
     let query = `INSERT INTO appointments (slot_id,customer_id) VALUES (?,?);`
-    let result = await conn.query(query, [slotId,userId]);
+    let result = await conn.query(query, [slotId, userId]);
     return result;
-  }catch(err){
-    return {err};
+  } catch (err) {
+    return { err };
+  }
+}
+
+export const countRevenue = async (userId) => {
+  try {
+    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at ON at.id = pm.appointment_id WHERE at.customer_id= ?;`;
+    let result = await conn.query(query, [userId]);
+    return result[0];
+  } catch (err) {
+    return { err }
   }
 }

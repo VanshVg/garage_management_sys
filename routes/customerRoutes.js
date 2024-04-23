@@ -1,22 +1,25 @@
 import express from "express";
 import {
   CustomerFeedback,
+  appointment,
   selectServices
 } from "../controllers/staticControllers.js";
 import {getUserVehicle, addVehicle} from "../controllers/vehicleControllers.js";
 import upload from "../helpers/fileUploads.js";
 
 import {
-   
   CustomerFeedbackPost,
   customerSlotSelection,
   getAllCustomers,
   showAppointments,
 } from "../controllers/customerControllers.js";
-import { home, profile, addVehicles, appointment, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
+import { home, profile, addVehicles, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
 import { getServices } from "../utils/dbHandler.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
+
+
+
 import { updateProfile } from "../controllers/userControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
   

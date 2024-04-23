@@ -15,6 +15,7 @@ import serviceRoutes from "./owner/serviceRoutes.js";
 import { findOwnerService } from "../controllers/serviceControllers.js";
 import { appointmentsListing, bookedAppointments, getAppointmentCount } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
+import { generateRevenue } from "../controllers/paymentControllers.js";
 
 const router = express.Router();
 
@@ -56,4 +57,5 @@ router.get("/getCustomerList", getAllCustomers);
 
 router.get("/daysCount", daysCount);
 
+router.get('/revenueCount', generateRevenue);
 export default router;

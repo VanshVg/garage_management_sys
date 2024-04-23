@@ -9,12 +9,11 @@ const storage = multer.diskStorage({
     req.body.thumbnail =
       req.user.email + Date.now() + path.extname(file.originalname);
     cb(null, req.user.email + Date.now() + path.extname(file.originalname));
-  },
+  },  
 });
 
 const fileFilter = (req, file, cb) => {
-
-  const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   if (!allowedTypes.includes(file.mimetype)) {
     return cb(new Error("Only image files are allowed"));
   }

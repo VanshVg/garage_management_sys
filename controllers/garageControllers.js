@@ -14,7 +14,9 @@ import {
   getSingleGarageService,
   countByFieldName,
   getGarageAppointments,
-  
+  getGarageDuration,
+  updateFields,
+
 } from "../utils/dbHandler.js";
 
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -139,15 +141,23 @@ export const garageUpdate = async (req, res) => {
 // garage delete
 export const garageDelete = async (req, res) => {
   try {
-    let garageId = 1;
-    let addressId = 2;
-    let referenceId = 1;
-    let result = await deleteGarage(garageId, addressId, referenceId);
-    if (result) {
-      res.status(200).json({ success: true, message: "garage deleted" });
+    const { garageId } = req.params;
+    let garageResult = await updateFields("garage_master", { is_deleted: 1 }, { id:garageId });
+
+    let garageAddressResult = await updateFields("garage_address", { is_deleted: 1 }, { garage_id:garageId });
+
+    await updateFields("garage_events", { is_deleted: 1 }, { garage_id:garageId });
+
+    let garageServiceResult = await updateFields("garage_has_services", { is_deleted: 1 }, { garage_id:garageId });
+
+    if(!garageResult.affectedRows || !garageAddressResult || !garageServiceResult) {
+      return res.status(500).json({ success: false, message: "Something went wrong" });
     }
-    else throw "Something went wrong!";
+    
+    return res.status(200).json({ success: true, message: "garage deleted" });
+
   } catch (error) {
+    console.log(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };

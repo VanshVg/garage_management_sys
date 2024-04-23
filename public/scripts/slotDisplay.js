@@ -11,7 +11,7 @@ const populateSlots = async (startDate, endDate) => {
   const slotDisplay = document.getElementById("slotDisplay");
   slotDisplay.innerHTML = '';
 
-  let garageId = localStorage.getItem("garageId");  
+  let garageId = localStorage.getItem("garageId");
 
   let payLoad = {
     "garageId": garageId,

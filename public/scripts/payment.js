@@ -53,6 +53,7 @@ const addPayment = async() => {
   });
   let paymentResponse = await paymentRequest.json();
   if(paymentResponse.success) {
+    await generateInvoice()
     Swal.fire({
       title: "Good job!",
       text: "Payment is done",
