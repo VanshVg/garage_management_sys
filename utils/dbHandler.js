@@ -631,7 +631,7 @@ export const garageSlotListing = async (garageId, startDate, endDate) => {
 export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
-    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
+    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status
     FROM appointments 
     LEFT JOIN appointment_services 
     ON appointments.id = appointment_services.appointment_id

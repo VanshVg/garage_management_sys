@@ -69,6 +69,42 @@
 
                 </div>
 
+    <div id="container" class="flex h-screen overflow-hidden w-full">
+
+        <%- include('./customer/headbar.ejs') %>
+        <div class="page-container w-[70%] h-screen" id="dashboard-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs')%>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] overflow-auto bg-dark" id="dashboard-match-screen" style="display: none;">
+            <%- include('./customer/serviceList.ejs') %>
+        </div>
+
+        <div class="page-container" id="profile-screen">
+            <%- include('./partials/customerProfile.ejs') %>
+        </div>
+        <div class="page-match-container" id="profile-match-screen">
+
+        </div>
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="vehicle-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/dashboardMap.ejs') %>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="vehicle-match-screen" style="display: none;">
+            <%- include('./customer/vehiclesType.ejs') %>
+        </div>
+
+
+        <div class="page-container w-[70%] h-screen bg-lightbg" id="addVehicle-screen">
+            <div class="h-screen w-full bg-lightbg">
+                <%- include('./customer/addVehicle.ejs')%>
+            </div>
+        </div>
+        <div class="page-match-container h-screen w-[25%] bg-dark" id="addVehicle-match-screen" style="display: none;">
+            <%- include('./customer/vehicles.ejs') %>
         </div>
 
         <script>
