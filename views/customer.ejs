@@ -10,7 +10,7 @@
                 <%- include('./customer/dashboardMap.ejs')%>
             </div>
         </div>
-        <div class="page-match-container h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
+        <div class="page-match-container h-screen w-[25%] overflow-auto bg-dark" id="dashboard-match-screen" style="display: none;">
             <%- include('./customer/serviceList.ejs') %>
         </div>
 
@@ -87,19 +87,19 @@
         setActive('<%= active %>');
 
 
-        const checkVehicleType = async () => {
-            let vehicleType = localStorage.getItem("vehicleType");
-            if(vehicleType === "null"){
-                console.log("Hello");
-                setActive("dashboard");
-            }else{
-                // console.log("Hello");
-                userVehicle(vehicleType);
-                // setActive("dashboard");
-            }
-        };
+        // const checkVehicleType = async () => {
+        //     let vehicleType = localStorage.getItem("vehicleType");
+        //     if(vehicleType === "null"){
+        //         console.log("Hello");
+        //         setActive("dashboard");
+        //     }else{
+        //         // console.log("Hello");
+        //         userVehicle(vehicleType);
+        //         // setActive("dashboard");
+        //     }
+        // };
 
-        checkVehicleType();
+        // checkVehicleType();
 
         const previousPage = (activate) => {
             

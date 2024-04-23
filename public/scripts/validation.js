@@ -37,7 +37,9 @@ const Validation = {
         ? { errorMessage: "invalid email address..", valid: false }
         : { valid: true },
     match: (value) => {
-      return { errorMessage: "", valid: false };
+      return document.querySelector('#password').value != value ?
+        { errorMessage: "password not match...", valid: false }
+        : { valid: true };
     },
     none: () => {
       return { valid: true };

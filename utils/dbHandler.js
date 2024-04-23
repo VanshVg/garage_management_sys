@@ -55,7 +55,7 @@ export const insert = async (UserInfo) => {
 
 export const insertSlot = async (slotTime) => {
   try {
-    let query = `INSERT INTO slot_master (garage_id,start_time,end_time) values (?)`;
+    let query = `INSERT INTO slot_master (garage_id,start_time,end_time,availability_status) values (?)`;
     let results = await conn.query(query, [slotTime]);
     return results[0].insertId;
   } catch (error) {
@@ -341,7 +341,15 @@ export const getSingleGarageService = async (garageId) => {
     return { err };
   }
 };
-
+export const getGarageDuration = async (id) => {
+  try {
+    let query = "select open_time,close_time from garage_master where id = ?";
+    let result = await conn.query(query, [id]);
+    return result[0][0];
+  } catch (error) {
+    return { error };
+  }
+};
 export const findService = async (serviceInfo) => {
   try {
     let query = `SELECT * FROM service_master WHERE name = ?`;
@@ -465,7 +473,7 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 //garage wise service listing
 export const serviceListing = async (garageId) => {
   try {
-    let query = `SELECT id,name,description,price from service_master;`;
+    let query = `SELECT id,name,description from service_master;`;
     let [results] = await conn.query(query);
     return results;
   } catch (error) {
@@ -622,7 +630,7 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
 export const garageSlotListing = async (garageId, startDate, endDate) => {
   try {
     let query =
-      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and start_time >= ? and end_time < ?;";
+      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ?";
     const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
   } catch (error) {
@@ -633,7 +641,7 @@ export const garageSlotListing = async (garageId, startDate, endDate) => {
 export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
-    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status , service_master.price as amount
+    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status
     FROM appointments 
     LEFT JOIN appointment_services 
     ON appointments.id = appointment_services.appointment_id
@@ -642,7 +650,7 @@ export const getVehicleAssociatedServices = async (userId) => {
     LEFT JOIN slot_master 
     ON appointments.slot_id = slot_master.id
     LEFT JOIN user_has_vehicles 
-    ON appointments.vehicle_id = user_has_vehicles.vehicle_id
+    ON appointments.customer_id = user_has_vehicles.owner_id
     LEFT JOIN vehicle_master
     ON user_has_vehicles.vehicle_id = vehicle_master.id
     LEFT JOIN vehicle_types
