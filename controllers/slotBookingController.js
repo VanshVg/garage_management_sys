@@ -4,13 +4,11 @@ import {findOne} from "../utils/common.js";
 
 export const slotBooking = async (req, res) => {
   const { garageId, startTime, endTime } = req.body;
-  console.log(garageId);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(301).json({ success: false, errors: errors.array() });
   } else {
     const result = await insertSlot([garageId, startTime, endTime, 1]);
-    console.log(result);
     if (!result)
       res.status(301).json({ success: false, message: "something went wrong" });
     else if (result.error) {
