@@ -28,12 +28,10 @@
 
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
-                console.log(services);
 
                 let serviceList = '';
 
                 services.forEach(ele => {
-                        console.log(ele);
                         serviceList += `<div class="bg-light max-w-fit h-[24%] my-3 rounded-lg flex services hover:bg-sky-200">
                 <input type="checkbox" name="services[]" id="${ele.id}" value="${ele.id}">
                 <div class="garage-icon border-2 w-3/4">

@@ -42,6 +42,6 @@ router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
 router.get("/garages",getGarageListing);
-router.get("/appointments", showAppointments)
+router.get("/appointments", showAppointments);
 
 export default router;

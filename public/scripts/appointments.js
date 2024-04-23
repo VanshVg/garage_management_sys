@@ -1,4 +1,5 @@
 let generateInvoice = async (appointmentId, customerEmail) => {
+  console.log("Inside");
   let pdfRequest = await fetch(`/invoice/generate/${appointmentId}`, {
     method: "POST",
     headers: {
@@ -7,6 +8,7 @@ let generateInvoice = async (appointmentId, customerEmail) => {
     body: JSON.stringify({customerEmail})
   });
   let response = await pdfRequest.json();
+  console.log(response);
   if(response.success) {
     window.location.href = "/owner/invoice"
   }
