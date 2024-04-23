@@ -119,7 +119,7 @@ export const getGarageNotService = async (req, res) => {
     const services = await getNotAvailableService([id]);
     res.status(201).json({ services });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -149,7 +149,7 @@ export const getAllCustomers = async (req, res) => {
     const result = await getCustomerNames(1);
     res.json({ result: result });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -158,7 +158,7 @@ export const garageAddress = async (req, res) => {
     const result = await getGarageAddress([req.params.garageId]);
     res.status(201).json({ address: result });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
 
