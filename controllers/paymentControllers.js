@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { insertData, selectByFieldName } from "../utils/dbHandler.js";
+import { insertData, selectByFieldName, updateFields } from "../utils/dbHandler.js";
 
 export const getPaymentDetails = async(req, res) => {
   try {
@@ -46,6 +46,12 @@ export const addPaymentDetails = async (req, res) => {
     if(!result.insertId) {
       return res.status(301).json({ success: false, message: "Something went wrong!" });
     }
+
+    let updateStatus = await updateFields("appointment_payments", {status: 1}, {appointment_id: appointmentId});
+    if(!updateStatus.affectedRows) {
+      return res.status(301).json({ success: false, message: "Something went wrong!" });
+    }
+    
     return res.status(200).json({ success:true, message: "Payment done successfully" });
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });

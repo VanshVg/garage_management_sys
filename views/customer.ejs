@@ -10,11 +10,11 @@
                 <%- include('./customer/dashboardMap.ejs')%>
             </div>
         </div>
-        <div class="page-match-container h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
+        <div class="page-match-container overflow-auto h-screen w-[25%] bg-dark" id="dashboard-match-screen" style="display: none;">
             <%- include('./customer/serviceList.ejs') %>
         </div>
 
-        <div class="page-container" id="profile-screen">
+        <div class="page-container h-screen" id="profile-screen">
             <%- include('./partials/customerProfile.ejs') %>
         </div>
         <div class="page-match-container" id="profile-match-screen">
@@ -87,19 +87,19 @@
         setActive('<%= active %>');
 
 
-        const checkVehicleType = async () => {
-            let vehicleType = localStorage.getItem("vehicleType");
-            if(vehicleType === "null"){
-                console.log("Hello");
-                setActive("dashboard");
-            }else{
-                // console.log("Hello");
-                userVehicle(vehicleType);
-                // setActive("dashboard");
-            }
-        };
+        // const checkVehicleType = async () => {
+        //     let vehicleType = localStorage.getItem("vehicleType");
+        //     if(vehicleType === "null"){
+        //         console.log("Hello");
+        //         setActive("dashboard");
+        //     }else{
+        //         // console.log("Hello");
+        //         userVehicle(vehicleType);
+        //         // setActive("dashboard");
+        //     }
+        // };
 
-        checkVehicleType();
+        // checkVehicleType();
 
         const previousPage = (activate) => {
             
