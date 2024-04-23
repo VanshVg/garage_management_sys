@@ -1,6 +1,7 @@
 <%- include('../partials/head.ejs') %>
   <link rel="stylesheet" href="/styles/auth.css">
-  </head>
+  <script src="/scripts/validation.js"></script>
+</head>
 
   <body>
     <toast></toast>
@@ -55,11 +56,11 @@
                 </div>
 
                 <input type="password" name="conformPassword" id="conformPassword" placeholder="* * * * * * * *"
-                  tabindex="4" validation="require length8" oninput="Validation.isValid(this)">
+                  tabindex="4" validation="require length8 match" oninput="Validation.isValid(this)">
 
               </div>
               <div class="btn-container">
-                <input type="button" class="registerButton" id="registerButton" value="REGISTER" tabindex="5"
+                <input type="button" class="registerButton" style="cursor: pointer;"  id="registerButton" value="REGISTER" tabindex="5"
                   onclick="Validation.validateAll('register','u/register')">
               </div>
               <div class="createAccount">
@@ -72,5 +73,4 @@
       </div>
     </div>
     <script src="/scripts/toast.js"></script>
-    <script src="/scripts/validation.js"></script>
     <%- include('../partials/foot.ejs') %>

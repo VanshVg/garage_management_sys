@@ -163,27 +163,44 @@ export const garageList = (req, res) => {
 };
 
 export const getGarageListing = async (req, res) => {
-  const user = await findOne([req.user.email]);
-  const result = await getOwnerGarages([user[0].id]);
-  res.json({ garages: result });
+  try {
+    const user = await findOne([req.user.email]);
+    const result = await getOwnerGarages([user[0].id]);
+    res.json({ garages: result });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const getGarageSlots = async (req, res) => {
-  let { garageId } = req.body;
-  let garageDuration = await getGarageDuration(garageId);
-  const result = await garageSlotListing(garageId);
-  result.push(garageDuration);
-  res.json(result);
+  try {
+    let { garageId } = req.body;
+    let garageDuration = await getGarageDuration(garageId);
+    const result = await garageSlotListing(garageId);
+    result.push(garageDuration);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 export const getGarages = async (req, res) => {
-  const result = await getGaragesService();
-  res.json({ result });
+  try {
+    const result = await getGaragesService();
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const getSingleGarage = async (req, res) => {
-  let garageId = req.params.id;
-  const result = await getSingleGarageService(garageId);
-  res.json({ result });
+  try {
+    let garageId = req.params.id;
+    const result = await getSingleGarageService(garageId);
+    res.json({ result });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const showGarageAppointments = async (req, res) => {
@@ -193,7 +210,7 @@ export const showGarageAppointments = async (req, res) => {
     return res.status(200).json({ success: true, appointments });
   } catch (error) {
     return res
-      .status(301)
+      .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
 };
