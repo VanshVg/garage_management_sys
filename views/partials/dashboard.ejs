@@ -281,7 +281,7 @@
         const services = await callAPI('/owner/services/count');
         animateNumber(services.serviceCount || 0, 2, "serviceCount");
         const days = await callAPI('/owner/daysCount');
-        animateNumber(days.days , 2, "daysCount");
+        animateNumber(days.days, 2, "daysCount");
         const appointments = await callAPI('/owner/appointmentCount');
         animateNumber(appointments.pending || 0, 2, "customerCount");
         let successful = appointments.successful;
@@ -291,6 +291,8 @@
         let cancelled = appointments.cancelled;
         animateNumber(cancelled || 0, 2, 'cancelCount');
         animateNumber(10, 20000, "staffCount");
+        const revenue = await callAPI('/owner/revenueCount');
+        animateNumber(revenue.result[0].revenue || 0, 1, 'revenueCount')
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
             const chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions(successful, pending, cancelled));
             chart.render();

@@ -6,7 +6,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-
 .container {
   width: 82%;
   /* background-color: #fff; */
@@ -19,7 +18,7 @@
 }
 
 .header #month {
-  color: #ff5252;
+  color: var(--dark);
   font-size: 30px;
   font-weight: 600;
 }
@@ -35,7 +34,10 @@ button {
 }
 
 .header button {
-  background-color: #ff5252;
+  background-color: var(--dark);
+  svg {
+    fill: white;
+  }
 }
 
 .weekdays {
@@ -63,7 +65,7 @@ button {
 }
 
 .day {
-  width: calc(100%/7);
+  width: calc(100% / 7);
   height: 100px;
   padding: 10px;
   cursor: pointer;

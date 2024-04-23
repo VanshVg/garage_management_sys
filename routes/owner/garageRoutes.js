@@ -14,16 +14,17 @@ import {
   getGarageListing,
   getGarageSlots,
   getGarageCount,
+  showGarageAppointments,
 } from "../../controllers/garageControllers.js";
-import upload from "../../helpers/fileUploads.js";
+import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
 router.get("/", garageListing);
 router.get("/garageForm", garageForm);
 router.get("/garageUpdate", garageDisplay);
-router.post("/add", upload.single("thumbnail"), garageAdd);
-router.put("/update", upload.single("thumbnail"), garageUpdate);
+router.post("/add", uploadMiddleware, garageAdd);
+router.put("/update", uploadMiddleware, garageUpdate);
 router.post("/delete", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", getGarageListing);

@@ -1,9 +1,8 @@
 import {
   getCustomerNames,
   getGarageAddress,
-  getGarageAddress,
   getNotAvailableService,
-  
+
 } from "../utils/dbHandler.js";
 
 // landing page

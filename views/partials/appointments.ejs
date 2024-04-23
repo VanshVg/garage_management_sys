@@ -7,14 +7,14 @@
   </select>
 </div>
 
-<div class="w-full min-h-full flex bg-white p-4 rounded-md mt-4">
-  <div class="rounded-md p-2">
-    <div class="container">
+<div class="w-full min-h-full flex bg-white rounded-md mt-4">
+  <div class="rounded-md  w-1/2">
+    <div class="w-full">
       <div class="header">
         <div id="calendar-month" class="text-3xl font-bold"></div>
-        <div>
-          <button id="btnBack"><img src="/icons/left.svg" alt="&lt;"></button>
-          <button id="btnNext"><img src="/icons/right.svg" alt="&gt;"></button>
+        <div class="flex gap-2 -mr-2">
+          <button id="btnBack" class="flex justify-center"><img src="/icons/left.svg" alt="&lt;"></button>
+          <button id="btnNext" class="flex justify-center"><img src="/icons/right.svg" alt="&gt;"></button>
         </div>
       </div>
       <div class="weekdays">
@@ -32,14 +32,14 @@
   </div>
 
   <div id="modal"></div>
-  <div id="viewAppointments">
-    <h2>Appointments</h2>
-    <table>
-      <thead>
+  <div id="viewAppointments" class="w-1/2 p-2">
+    <h2 class="text-3xl font-bold text-dark text-left my-1.5">Appointments</h2>
+    <table class="w-full border-collapse">
+      <thead class="bg-dark text-white font-semibold ">
         <tr>
-          <td>Sr. NO.</td>
-          <td>Customer Name</td>
-          <td>slot</td>
+          <td class="text-white p-2.5">Sr. NO.</td>
+          <td class="text-white p-2.5">Customer Name</td>
+          <td class="text-white p-2.5">slot</td>
         </tr>
       </thead>
       <tbody id="appointment-body">
@@ -50,7 +50,7 @@
 
 
   <div class="hidden bg-white w-full min-h-full h-max rounded-md p-4 
-      container w-full h-full and other required remove dashboard css">
+      container and other required remove dashboard css">
     <table id="appointment-table">
       <thead>
         <tr>

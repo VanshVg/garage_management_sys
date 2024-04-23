@@ -34,7 +34,7 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         let token = Math.random().toString(36).slice(2);
 
-        result = await insert("users", [role_id, name, email, hashedPassword, token]);
+        result = await insert("users", ["role_id", "name", "email", "password", "activate_link"], [role_id, name, email, hashedPassword, token]);
         if (!result.length)
           res.status(201).json({
             success: true,
@@ -223,8 +223,8 @@ export const getUserDetails = async (req, res) => {
 
 export const daysCount = async (req, res) => {
   try {
-    const user = await findOne([req.user.email]);
-    const joined = user[0].created_at;
+    const user = req.user;
+    const joined = user.created_at;
     const time = new Date().getTime() - new Date(joined).getTime();
     const days = Math.floor(time / (24 * 60 * 60 * 1000));
     res.status(201).json({ success: true, days });

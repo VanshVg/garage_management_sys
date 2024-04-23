@@ -18,7 +18,7 @@ export const isAlreadyLoggedIn = async (req, res, next) => {
       return next();
     }
 
-    const user = req.user;
+    const user = await findOne(email);
 
     if (!user || user.length === 0) {
       return next();

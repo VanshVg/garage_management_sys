@@ -37,7 +37,9 @@ const Validation = {
         ? { errorMessage: "invalid email address..", valid: false }
         : { valid: true },
     match: (value) => {
-      return { errorMessage: "", valid: false };
+      return document.querySelector('#password').value != value ?
+        { errorMessage: "password not match...", valid: false }
+        : { valid: true };
     },
     none: () => {
       return { valid: true };
@@ -115,7 +117,8 @@ const Validation = {
           } else if (form == "u/register") {
             const activate = document.getElementById("activate");
             let href = document.createElement("a");
-            let text = `${location.origin}/u/activate/${data.userId}/${data.token}`;
+            // console.log(data.userId.insertId);
+            let text = `${location.origin}/u/activate/${data.userId.insertId}/${data.token}`;
             href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;
