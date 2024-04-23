@@ -1,33 +1,33 @@
-    <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Nearest Garages</h3>
-   
-    <div class="card-wrapper mt-6 overflow-y-auto h-full px-4" id="card-wrapper">
-        
-    </div>
-    <script>
+<h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Nearest Garages</h3>
 
-        // const viewGarage = async (id) => {   
+<div class="card-wrapper mt-6 overflow-y-auto h-full px-4" id="card-wrapper">
 
-        //     localStorage.setItem("garageId",id);
+</div>
+<script>
 
-        //     let garage = await callAPI(`/customer/vehicle/${id}`);
-        
-        //     let address = `${garage.result[0].area}, ${garage.result[0].city_name}, ${garage.result[0].state_name}`;
-            
-        //     document.getElementById('garageId').value = garage.result[0].id;
-        //     document.getElementById('garageImg').src = garage.result[0].thumbnail;
-        //     document.getElementById('garageTitle').innerHTML = garage.result[0].garage_name;
-        //     document.getElementById('garageAddress').innerHTML = address;
-        //     setActive('vehicle')
-        // }
+    // const viewGarage = async (id) => {   
 
-          const fillGarages = async () => {
-      
-              let garages = await callAPI("/customer/garageList");
-              let garageList = ``
-      
-              garages.result.forEach(garage => {
-      
-                  garageList += `<div class="bg-light max-w-fit h-[24%] mt-5 rounded-lg flex" onclick=viewGarage(${garage.id})>
+    //     localStorage.setItem("garageId",id);
+
+    //     let garage = await callAPI(`/customer/vehicle/${id}`);
+
+    //     let address = `${garage.result[0].area}, ${garage.result[0].city_name}, ${garage.result[0].state_name}`;
+
+    //     document.getElementById('garageId').value = garage.result[0].id;
+    //     document.getElementById('garageImg').src = garage.result[0].thumbnail;
+    //     document.getElementById('garageTitle').innerHTML = garage.result[0].garage_name;
+    //     document.getElementById('garageAddress').innerHTML = address;
+    //     setActive('vehicle')
+    // }
+
+    const fillGarages = async () => {
+
+        let garages = await callAPI("/customer/garageList");
+        let garageList = ``
+
+        garages.result.forEach(garage => {
+
+            garageList += `<div class="bg-light max-w-fit h-[24%] mt-5 rounded-lg flex" onclick=viewGarage(${garage.id})>
                       <div class="garage-icon border-2 w-3/4">
                           <img src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover" alt="garage" class="object-cover">
                       </div>
@@ -41,20 +41,18 @@
                           </div>
                           <div class="flex pt-2">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill: rgb(0, 0, 0,1);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                              <p class="pl-2 text-xs break-all ">${garage.area+','+garage.city_name+','+garage.state_name}</p>
+                              <p class="pl-2 text-xs break-all ">${garage.area + ',' + garage.city_name + ',' + garage.state_name}</p>
                           </div>
                           
                       </div>
                   </div>`
-      
-              });
-      
-              document.getElementById('card-wrapper').innerHTML = garageList;
-          }
-      
-          fillGarages()
-      
-      
-      </script>
-      
 
+        });
+
+        document.getElementById('card-wrapper').innerHTML = garageList;
+    }
+
+    fillGarages()
+
+
+</script>

@@ -89,7 +89,11 @@ export const getStates = async (req, res) => {
 
 export const getCities = async (req, res) => {
   try {
-    const cities = await selectByFieldName("city_master", "sid", req.params.state_id);
+    const cities = await selectByFieldName(
+      "city_master",
+      "sid",
+      req.params.state_id
+    );
     res.status(201).json({ cities });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -100,7 +104,9 @@ export const getUserDetails = async (req, res) => {
   try {
     const user = await findOne(req.user.email);
     if (!user) {
-      return res.status(301).json({ success: false, message: "User not found" });
+      return res
+        .status(301)
+        .json({ success: false, message: "User not found" });
     }
     const address = await getUserAddress(user[0].id);
     const vehicleServices = await getVehicleAssociatedServices(user[0].id);
@@ -134,8 +140,9 @@ export const getGarageNotService = async (req, res) => {
 };
 
 export const servicesListing = async (req, res) => {
+  let { garageId } = req.params;
   try {
-    const servicesList = await serviceListing();
+    const servicesList = await serviceListing(garageId);
     res.json(servicesList);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -145,7 +152,11 @@ export const servicesListing = async (req, res) => {
 export const getGarageCount = async (req, res) => {
   try {
     const user = await findOne([req.user.email]);
-    const garageCount = await countByFieldName("owner_has_garages", "owner_id", user[0].id);
+    const garageCount = await countByFieldName(
+      "owner_has_garages",
+      "owner_id",
+      user[0].id
+    );
     res.status(201).json({ success: true, garageCount });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -165,7 +176,9 @@ export const getServiceCount = async (req, res) => {
 export const getAppointmentCount = async (req, res) => {
   try {
     const user = await findOne([req.user.email]);
-    const { pending, successful, cancelled } = await countAppointments(user[0].id);
+    const { pending, successful, cancelled } = await countAppointments(
+      user[0].id
+    );
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
