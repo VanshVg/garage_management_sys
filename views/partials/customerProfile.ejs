@@ -36,16 +36,16 @@
             <div>
                 <h3 class="text-3xl font-semibold"><u>Profile</u></h3>
             </div>
-            <div class="bg-dark p-1.5 rounded-full">
+            <div class="bg-dark p-1.5 rounded-full cursor-pointer" onclick="setActive('profile-update')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255,255,255, 1);"><path d="M8.707 19.707 18 10.414 13.586 6l-9.293 9.293a1.003 1.003 0 0 0-.263.464L3 21l5.242-1.03c.176-.044.337-.135.465-.263zM21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586 19.414 9 21 7.414z"></path></svg>
             </div>
         </div>
         <div class="wrapper flex px-10 py-5">
             <div class="profile w-1/5 mr-10">
-                <img src="/assets/profile.webp" class="h-64 w-64 border-4 border-black rounded-xl" alt="user">
+                <img src="/assets/profile.webp" class="h-64 w-64 border-4 border-black rounded-xl" alt="user" id="user_profile_pic">
             </div>
             <div class="profile-info w-4/5">
-                <div class="proile-description flex gap-2 items-center">
+                <div class="proile-description flex gap-2 items-center ">
                     <div class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
                     </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="bio pt-3 pl-1">
                     <h4 class="mb-2 text-lg font-bold"><u>Bio</u></h4>
-                    <p class="text-justify tracking-wide">
+                    <p class="text-justify tracking-wide bio">
                         Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's standard dummy  text ever since the 1500s, when an unknown printer took a galley of  type and scrambled it to make a type specimen book. It has survived not  only five centuries, but also the leap into electronic typesetting,  remaining essentially unchanged. It was popularised in the 1960s with  the release of Letraset sheets containing Lorem Ipsum passages, and more  recently with desktop publishing software like Aldus PageMaker  including versions of Lorem Ipsum.
                     </p>
                 </div>
@@ -104,11 +104,19 @@
             const userJson = await userDetails.json();
             const user = userJson.user;
             const address = userJson.address;
-            const vehicleServices = userJson.vehicleServices
+            const vehicleServices = userJson.vehicleServices;
+            const bio = document.querySelector(".bio")
+            bio.innerText = user.bio
+            const profilePic = document.querySelector("#prifile_pic")
+            profilePic.setAttribute("src",user.profile_pic)
+            const userProfilePic = document.querySelector("#user_profile_pic")
+            userProfilePic.setAttribute("src",user.profile_pic)
             document.getElementById('name').innerHTML = user.name;
             document.getElementById('email').innerHTML = user.email;
+
             document.getElementById('address').innerHTML = address.area +", " + address.cityName+", "  + address.stateName + ", Pincode: "+ address.pincode;
             var tbody = document.querySelector("tbody")
+            console.log(vehicleServices);
             vehicleServices.forEach(element => {
                 var tr = document.createElement("tr")
                 tr.classList.add("bg-white")

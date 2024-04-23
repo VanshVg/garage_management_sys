@@ -1,0 +1,38 @@
+<div class="container-employee" id="employee-container">
+    <div class="content">
+      <div class="title">
+        <div class="title-value">Employee List</div>
+        <div>
+          <input type="button" class="font-family bg-dark text-white cursor-pointer hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onclick="activeSub('employee-add')" value="Add Employee" />
+        </div>
+      </div>
+      <div class="serachbar-div">
+        <div class="flex w-full justify-end items-center gap-2">
+          <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-[25%]" name="eName" id="employee" placeholder="Search Employee Name">   
+          <label for="garagesDropdown" class="font-family">Choose a Garage : </label>
+          <select name="garages" id="garagesDropdown" class="font-family dropdown-garage px-4 py-1 ml-2">
+            <option value="">All</option>
+          </select>       
+        </div>
+      </div>
+      <div class="table">
+        <table id="table">
+          <tr class="table-head font-family">
+            <th>Sr. No</th>
+            <th>Employee Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Action</th>
+          </tr>
+        </table>
+      </div>
+      <div class="pagination font-family">
+        <div class="font-family pagination-text"></div>
+        <div class="page-buttons button-group-pagination">
+          <input class="font-family buttons" type="button" value="Prev" id="prev" />
+          <div class="current font-family" id="pid">1</div>
+          <input class="font-family buttons" type="button" value="Next" id="next" />
+        </div>
+      </div>
+    </div>
+  </div>

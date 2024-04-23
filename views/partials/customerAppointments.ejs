@@ -36,15 +36,15 @@
     </script>
   </head>
   <body class="bg-lightbg">
-    <div class="max-w-[1480px] mx-auto mt-10">
+    <div class="max-w-[1480px] mx-auto mt-10 px-10">
       <h1 class="font-bold text-center text-3xl">Appointment History</h1>
       <% if(appointments.length == 0) {%>
           <p class="text-center text-lg mt-[40px] text-red">No appointment has taken place yet.</p>
         <%} else {%>
-          <table class="mt-[40px] mx-auto">
+          <table class="mt-[40px] mx-auto w-full border-b-[1px] border-black">
             <thead>
-              <tr>
-                <th>Sr. No.</th>
+              <tr class="bg-dark text-white">
+                <th class="p-2">Sr. No.</th>
                 <th>Appointment Date</th>
                 <th>Garage Name</th>
                 <th>Payment Status</th>
@@ -53,16 +53,16 @@
             </thead>
             <tbody>
               <% for(let i=0; i<appointments.length; i++) {%>
-                <tr>
-                  <td class="mx-auto text-center"><%=i+1%></td>
+                <tr  class="hover:bg-lightbg border-b-[1px] border-black">
+                  <td class="mx-auto text-center p-4"><%=i+1%></td>
                   <td class="mx-auto text-center"><%=appointments[i].start_time.split(" ")[0]%></td>
                   <td class="mx-auto text-center"><%=appointments[i].garage_name%></td>
                   <% if(appointments[i].payment_status==0) {%>
-                      <td class="mx-auto text-center text-red">Pending</td>
+                      <td class="mx-auto text-center"><p class="mx-auto py-[5px] rounded-lg bg-red text-white w-[100px] mt-2">Pending</p></td>
                     <%} else {%>
-                      <td class="mx-auto text-center text-green">Completed</td>
+                      <td class="mx-auto text-center"><p class="mx-auto py-[5px] rounded-lg bg-green text-white w-[100px] mt-2">Completed</p></td>
                       <%}%>
-                  <td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="downloadInvoice(`<%=appointments[i].appointment_id%>`)">Download here</p></a></td>
+                  <td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice" href="/invoices/`<%=appointments[i].invoice_url%>`" download="invoice.pdf"><p class="hover:cursor-pointer">Download here</p></a></td>
                 </tr>
                 <%}%>
             </tbody>

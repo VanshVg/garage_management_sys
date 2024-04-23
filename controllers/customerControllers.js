@@ -1,72 +1,48 @@
-import { customerSlotListing, getCustomerAppointments, getCustomerNames, ifFeedbackExist, insertFeedback, selectByFieldName } from "../utils/dbHandler.js"
-
-export const home = async (req, res) => {
-  res.render("customer", { title: "Home", active: "dashboard" });
-};
-
-export const vehicles = async (req, res) => {
-  res.render("customer", { active: "vehicle"});
-}
-
-export const addVehicles = async (req, res) => {
-  res.render("customer", { active: "addVehicle" });
-}
-
-export const getServices = async (req,res) => {
-  res.render("customer", {active: "services"});
-}
-
-export const profile = async (req,res) => {
-    res.render("customer",{active:"profile"});
-}
-
-export const appointment = async (req,res) => {
-  res.render("customer",{active:"appointment"});
-}
-
-export const customerVehicleSelection = (req, res) => {
-  res.render("customerVehicleSelection.ejs")
-}
+import { customerSlotListing, getCustomerAppointments, getCustomerNames, ifFeedbackExist, insertFeedback } from "../utils/dbHandler.js"
 
 export const getAllCustomers = async (req, res) => {
-  const result = await getCustomerNames(1)
-  res.json({ result: result });
-}
-
-export const slotDisplay = async (req, res) => {
-  res.render("customerSlots");
-}
-export const customerSlotSelection = async (req, res) => {
-  let { garageId, startDate, endDate } = req.body;
-  const result = await customerSlotListing(garageId, startDate, endDate);
-  res.json(result);
-}
-
-export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs")
-}
-
-export const CustomerFeedbackPost = async (req, res) => {
-  let { customerId, garageId, rating, message } = req.body
-  var customerFeedback = await ifFeedbackExist(customerId)
-  if (customerFeedback.length > 0) {
-    return res.status(208).send({ message: "already Exist" });
-  } else {
-    const result = await insertFeedback(garageId, customerId, message, rating)
-    return res.status(201).send({ message: "user feedback accepted" })
+  try {
+    const result = await getCustomerNames(1);
+    res.status(201).json({ success: true, result: result });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "something went wrong!" });
   }
 }
 
-export const showAppointments = async (req,res) => {
+export const customerSlotSelection = async (req, res) => {
   try {
-    const { email } = req.user;
-    const user = await selectByFieldName("users", "email", email);
-    if (user.length < 1) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
-    }
+    let { garageId, startDate, endDate } = req.body;
+    const result = await customerSlotListing(garageId, startDate, endDate);
+    res.status(201).json({ result });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "something went wrong" });
+  }
+}
 
-    let appointments = await getCustomerAppointments(user[0].id);
-    return res.render("partials/customerAppointments", {appointments});
+export const CustomerFeedbackPost = async (req, res) => {
+  try {
+    let { customerId, garageId, rating, message } = req.body;
+    var customerFeedback = await ifFeedbackExist(customerId);
+    if (customerFeedback.length > 0) {
+      return res.status(301).json({ success: false, message: "already Exist" });
+    } else {
+      const result = await insertFeedback(garageId, customerId, message, rating)
+      if (!result || result.error) {
+        res.status(301).json({ success: false, message: "Something went wrong!" });
+      }
+      else {
+        res.status(201).send({ success: true, message: "user feedback accepted" });
+      }
+    }
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+}
+
+export const showAppointments = async (req, res) => {
+  try {
+    let appointments = await getCustomerAppointments(req.user.id);
+    res.render("partials/customerAppointments", { appointments });
   } catch (error) {
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }

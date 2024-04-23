@@ -1,15 +1,5 @@
 import conn from "../config/dbConfig.js";
 
-export const findOne = async (email) => {
-  try {
-    let query = "SELECT * FROM users WHERE email = ?";
-    let [result] = await conn.query(query, [email]);
-    return result;
-  } catch (error) {
-    return { error };
-  }
-};
-
 export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
@@ -93,12 +83,12 @@ export const getAllSlots = async (offset, garage, user) => {
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
-                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?  limit ?, 10;
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?  and slot_master.is_deleted = 0 limit ?, 10;
                  SELECT COUNT(slot_master.id) as count 
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
-                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?`;
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ? and slot_master.is_deleted = 0`;
     let result = await conn.query(query, [
       "%" + garage + "%",
       user,
@@ -242,7 +232,9 @@ export const updateGarage = async (garageInfo) => {
     let query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, thumbnail= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
     if (garageInfo[3] == "") {
       query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
-      garageInfo = garageInfo.splice(3, 1);
+      let first = garageInfo.slice(0, 3);
+      let second = garageInfo.slice(4);
+      garageInfo = first.concat(second);;
     }
     let result = await conn.query(query, garageInfo);
     return result[0].affectedRows;
@@ -618,7 +610,7 @@ export const getAppointments = async (ownerDetails) => {
 export const getBookedAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where status = 2 and a.garage_id = ? and owner_id = ? order by b.start_time;";
+      "select b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 1 and owner_id = ? order by c.start_time;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -650,7 +642,8 @@ export const garageSlotListing = async (garageId, startDate, endDate) => {
 export const getVehicleAssociatedServices = async (userId) => {
   try {
     let query = `SELECT appointment_services.id, vehicle_types.name as vehicle_type,vehicle_master.model as vehicle_model,user_has_vehicles.register_plate_number as vehicle_regd_number,
-    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status FROM appointments 
+    slot_master.create_at as date  ,service_master.name as service_name, appointments.status as status
+    FROM appointments 
     LEFT JOIN appointment_services 
     ON appointments.id = appointment_services.appointment_id
     LEFT JOIN service_master 
@@ -658,7 +651,7 @@ export const getVehicleAssociatedServices = async (userId) => {
     LEFT JOIN slot_master 
     ON appointments.slot_id = slot_master.id
     LEFT JOIN user_has_vehicles 
-    ON appointments.vehicle_id = user_has_vehicles.vehicle_id
+    ON appointments.customer_id = user_has_vehicles.owner_id
     LEFT JOIN vehicle_master
     ON user_has_vehicles.vehicle_id = vehicle_master.id
     LEFT JOIN vehicle_types
@@ -703,7 +696,7 @@ export const insertFeedback = async (
 
 export const getInvoiceDetails = async (appointmentDetails) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, users.name AS customer_name, address_master.area, address_master.pincode, city_name, service_master.description AS service_description, appointment_payments.type AS payment_type, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN users ON appointments.customer_id = users.id JOIN user_address ON users.id = user_address.user_id JOIN address_master ON user_address.address_id = address_master.id JOIN city_master ON address_master.city_id = city_master.id JOIN appointment_services ON appointments.id = appointment_services.appointment_id JOIN service_master ON appointment_services.service_id = service_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.id = ? AND users.id=?;`;
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, users.name AS customer_name, address_master.area, address_master.pincode, city_name, service_master.description AS service_description, garage_has_services.price, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN users ON appointments.customer_id = users.id JOIN user_address ON users.id = user_address.user_id JOIN address_master ON user_address.address_id = address_master.id JOIN city_master ON address_master.city_id = city_master.id JOIN appointment_services ON appointments.id = appointment_services.appointment_id JOIN service_master ON appointment_services.service_id = service_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN garage_has_services ON garage_has_services.garage_id = garage_master.id WHERE appointments.id = ? AND users.id=?;`;
     let [result] = await conn.query(query, appointmentDetails);
     return result;
   } catch (error) {
@@ -734,7 +727,7 @@ export const getAppointsByDateRange = async (payload) => {
 
 export const getCustomerAppointments = async (customerId) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`;
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`;
     let [result] = await conn.query(query, [customerId]);
     return result;
   } catch (error) {
@@ -775,3 +768,24 @@ export const getGarageAppointments = async (garageId) => {
     return { error };
   }
 };
+
+export const bookSlotService = async (userId, slotId) => {
+  try {
+
+    let query = `INSERT INTO appointments (slot_id,customer_id) VALUES (?,?);`
+    let result = await conn.query(query, [slotId, userId]);
+    return result;
+  } catch (err) {
+    return { err };
+  }
+}
+
+export const countRevenue = async (userId) => {
+  try {
+    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at ON at.id = pm.appointment_id WHERE at.customer_id= ?;`;
+    let result = await conn.query(query, [userId]);
+    return result[0];
+  } catch (err) {
+    return { err }
+  }
+}

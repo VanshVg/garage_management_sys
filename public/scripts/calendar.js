@@ -101,7 +101,7 @@ const modal = document.querySelector("#modal");
 const appointmentsContainer = document.querySelector("#viewAppointments");
 
 const showModal = async (event, dateText) => {
-  document.getElementById("currentDay").removeAttribute("id");
+  document.getElementById("currentDay")?.removeAttribute("id");
   event.target.id = "currentDay";
   clicked = dateText;
   const startDate = new Date(dateText);

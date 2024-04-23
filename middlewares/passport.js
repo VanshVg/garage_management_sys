@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { config } from "dotenv";
-import { findOne } from "../utils/dbHandler.js";
+import { findOne } from "../utils/common.js";
 import passport from "passport";
 
 config();
@@ -28,10 +28,7 @@ export const applyPassportStrategy = () => {
       let result = await findOne([payload.email]);
       result = result[0];
       if (result) {
-        return done(null, {
-          role_id: result.role_id,
-          email: payload.email,
-        });
+        return done(null, result);
       }
       return done(null, false);
     })

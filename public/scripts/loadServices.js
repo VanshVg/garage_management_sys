@@ -128,7 +128,6 @@ const newService = (id, garage_id, name, description) => {
   });
 };
 const deleteService = (id, name) => {
-  console.log(id);
   Swal.fire({
     title: "Are you sure?",
     text: `really you want to delete ${name} Service..`,
