@@ -33,7 +33,7 @@
               <a href="/u/forgotPassword">forgot password ?</a>
             </div>
           </div>
-          <input type="button" class="submitButton" id="submitButton" value="LOGIN" tabindex="3"
+          <input type="button" class="submitButton" style="cursor: pointer;"  id="submitButton" value="LOGIN" tabindex="3"
             onclick="Validation.validateAll('login','u/login')">
           <div class="createAccount" style="margin-top: 20px;">
             don’t have account ?<a href="/u" tabindex="4"> create account</a>
@@ -41,4 +41,5 @@
         </form>
       </div>
     </div>
+    <script src="/scripts/toast.js"></script>
     <%- include('../partials/foot.ejs') %>
