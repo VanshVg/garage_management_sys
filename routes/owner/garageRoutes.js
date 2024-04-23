@@ -17,15 +17,14 @@ import {
   showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
-import upload from "../../helpers/fileUploads.js";
 
 const router = express.Router();
 
 router.get("/", garageListing);
 router.get("/garageForm", garageForm);
 router.get("/garageUpdate", garageDisplay);
-router.post("/add",  uploadMiddleware, garageAdd);
-router.put("/update",  uploadMiddleware, garageUpdate);
+router.post("/add", uploadMiddleware, garageAdd);
+router.put("/update", uploadMiddleware, garageUpdate);
 router.post("/delete", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", getGarageListing);

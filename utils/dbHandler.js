@@ -1,7 +1,5 @@
 import conn from "../config/dbConfig.js";
 
-
-
 export const findOneById = async (userId) => {
   try {
     let query = "SELECT * FROM users WHERE id = ?";
@@ -301,6 +299,7 @@ export const getNotAvailableService = async (id) => {
     let query =
       "SELECT * FROM service_master where id not in (select services_id from garage_has_services where garage_id=? and is_deleted !=1)";
     let result = await conn.query(query, id);
+    console.log(result)
     return result[0];
   } catch (err) {
     return { err };
