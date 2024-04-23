@@ -73,7 +73,7 @@ export const deleteService = async (req, res) => {
 export const servicesListing = async (req, res) => {
   try {
     const servicesList = await serviceListing();
-    res.status(201).json({ success: false, servicesList });
+    res.status(201).json({ success: false, result:servicesList });
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }

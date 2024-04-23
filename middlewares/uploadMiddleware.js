@@ -1,4 +1,4 @@
-import upload from "../helpers/fileUploads";
+import upload from "../helpers/fileUploads.js";
 
 const handleMulterError = (err, req, res, next) => {
     if (err instanceof multer.MulterError) {

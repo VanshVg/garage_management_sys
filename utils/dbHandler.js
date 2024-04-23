@@ -465,7 +465,7 @@ export const selectByFieldName = async (tableName, fieldName, value) => {
 //garage wise service listing
 export const serviceListing = async (garageId) => {
   try {
-    let query = `SELECT id,name,description,price from service_master;`;
+    let query = `SELECT id,name,description from service_master;`;
     let [results] = await conn.query(query);
     return results;
   } catch (error) {

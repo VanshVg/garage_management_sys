@@ -7,7 +7,7 @@ import upload from "../../helpers/fileUploads.js";
 const router = express.Router();
 
 router.get("/", userProfile);
-router.get("/edit", userController.editProfile);
+// router.get("/edit", userController.editProfile);
 router.put("/update",  uploadMiddleware, userController.updateProfile);
 router.get("/edit", editProfile);
 router.put("/update", upload.single("thumbnail"), userController.updateProfile);

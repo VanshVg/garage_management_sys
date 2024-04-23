@@ -117,7 +117,8 @@ const Validation = {
           } else if (form == "u/register") {
             const activate = document.getElementById("activate");
             let href = document.createElement("a");
-            let text = `${location.origin}/u/activate/${data.userId}/${data.token}`;
+            // console.log(data.userId.insertId);
+            let text = `${location.origin}/u/activate/${data.userId.insertId}/${data.token}`;
             href.setAttribute("href", text);
             href.append(text);
             activate.innerHTML = href;

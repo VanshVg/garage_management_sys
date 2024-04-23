@@ -50,7 +50,7 @@
     }   
 
     const selectGarage = async (id) => {
-        document.getElementById(`${id}`).checked = true;
+        document.getElementById("garage"+id).checked = true;
     }
 
     const fillGarages = async () => {
@@ -61,7 +61,7 @@
       garages.result?.forEach(garage => {
 
           garageList += `<div class="bg-light max-w-fit mt-5 rounded-lg flex hover:bg-sky-200" onclick="selectGarage(${garage.id})">
-                <input type="radio" name="garage" value='${garage.id}' id="${garage.id}">
+                <input type="radio" name="garage" value='${garage.id}' id="${"garage"+garage.id}">
               <div class="garage-icon border-2 w-3/4">
                   <img src="${garage.thumbnail}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover" alt="garage" class="object-cover">
               </div>

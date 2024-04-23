@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot,bookSlotService,findOne } from "../utils/dbHandler.js";
-
+import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot,bookSlotService} from "../utils/dbHandler.js";
+import {findOne} from "../utils/common.js";
 
 export const slotBooking = async (req, res) => {
   const { garageId, startTime, endTime } = req.body;
