@@ -15,7 +15,7 @@
 <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
 <form id="serviceList" name="serviceList">
         <div class="service-wrapper mt-6 overflow-y-auto h-full px-4" id="service-wrapper">
-        
+
         </div>
 </form>
 
@@ -27,10 +27,7 @@
 
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
-                // console.log(services);
-
                 let serviceList = '';
-
                 services.forEach(ele => {
                         serviceList += `<div class="bg-light max-w-fit h-[24%] my-3 rounded-lg flex services hover:bg-sky-200">
                 <input type="checkbox" name="services[]" id="${ele.id}" value="${ele.id}">
@@ -67,13 +64,13 @@
                 let service = document.getElementById('serviceList');
                 let formServiceData = new FormData(service);
 
-                if(formServiceData.getAll("services[]").length === 0){
+                if (formServiceData.getAll("services[]").length === 0) {
                         console.log("Plz Select Any One Services");
                         return
                 }
 
                 // console.log(formServiceData.getAll("services[]"));
-                localStorage.setItem("id",formServiceData.getAll("services[]"));
+                localStorage.setItem("id", formServiceData.getAll("services[]"));
                 setActive('vehicle');
         }
 
