@@ -12,9 +12,9 @@
                 }
         </style>
 </head>
-<h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
 
 <body class="overflow-hidden">
+        <h3 class="my-2 text-white font-bold border-b-2 max-w-fit ml-4 mt-4">Services We Provide</h3>
         <form id="serviceList" name="serviceList">
                 <div class="service-wrapper mt-6 overflow-y-auto h-full px-4" id="service-wrapper">
 
@@ -29,6 +29,8 @@
 
         const getServiceList = async () => {
                 let services = await callAPI("/customer/servicesList");
+               
+
                 let serviceList = '';
 
                 services.result.forEach(ele => {

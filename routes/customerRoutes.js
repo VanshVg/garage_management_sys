@@ -1,20 +1,33 @@
 import express from "express";
 import {
+  CustomerFeedback,
   appointment,
-  selectServices
+  selectServices,
+  home,
+  profile,
+  addVehicles,
+  customerVehicleSelection,
+  slotDisplay,
+  vehicles,
 } from "../controllers/staticControllers.js";
-import {getUserVehicle, addVehicle} from "../controllers/vehicleControllers.js";
-import upload from "../helpers/fileUploads.js";
+import {
+  addVehicle,
+  getVehicleTypes,
+} from "../controllers/vehicleControllers.js";
 
 import {
-  customerSlotSelection,
-  getAllCustomers,
   showAppointments,
   CustomerFeedbackPost,
-  CustomerFeedback
+  customerSlotSelection,
+  getAllCustomers,
 } from "../controllers/customerControllers.js";
-import { home, profile, addVehicles, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
-import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
+import upload from "../helpers/fileUploads.js";
+import {
+  getGarages,
+  getGarageListing,
+  getSingleGarage,
+} from "../controllers/garageControllers.js";
+
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";    
@@ -26,15 +39,15 @@ router.get("/vehicle", vehicles);
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
 router.get("/garageList", getGarages);
-router.get("/service", servicesPage);
+router.get("/service",);
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);
+router.get("/servicesList/:garageId", servicesListing);
+router.get("/addVehicle/:type", addVehicle);
+router.get("/vehicleType", getVehicleTypes);
+router.post("/addVehicle", addVehicle);
 
-router.get("/servicesList", servicesListing);
-router.get("/addVehicle/:type", getUserVehicle);
-router.post("/addVehicle",addVehicle);
-router.post("/")
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
 router.put("/profile/update", upload.single("thumbnail"), updateProfile);
@@ -43,10 +56,10 @@ router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-router.get("/invoice/:appointmentId", customerInvoice)
+router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
-router.get("/appointments", showAppointments)
-router.get("/feedback",CustomerFeedback)
-router.post("/feedback",CustomerFeedbackPost)
+router.get("/appointments", showAppointments);
+router.get("/feedback", CustomerFeedback);
+router.post("/feedback", CustomerFeedbackPost);
 
 export default router;

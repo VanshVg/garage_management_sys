@@ -1,4 +1,5 @@
 const vehicleSelectionNext = () => {
+  console.log("Inside");
   let fields = document.getElementsByName("vehicle");
   let type;
   fields.forEach((element) => {

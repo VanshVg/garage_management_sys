@@ -1,5 +1,13 @@
-import { validationResult } from 'express-validator';
-import { countServices, deleteFromService, deleteGarageService, findGarageService, findService, getOwnerService, getServices, insertGarageService, insertService, serviceListing, updateGarageService } from '../utils/dbHandler.js';
+import { validationResult } from "express-validator";
+import {
+  countServices,
+  deleteGarageService,
+  getOwnerService,
+  getServices,
+  insertGarageService,
+  insertService,
+  serviceListing,
+} from "../utils/dbHandler.js";
 
 export const addService = async (req, res) => {
   try {
@@ -53,13 +61,13 @@ export const deleteService = async (req, res) => {
   }
 };
 
-
 export const servicesListing = async (req, res) => {
+  let { garageId } = req.params;
   try {
-    const servicesList = await serviceListing();
-    res.status(201).json({ success: false, result:servicesList });
+    const servicesList = await serviceListing(garageId);
+    res.json(servicesList);
   } catch (error) {
-    res.status(401).json({ success: false, message: "Something went wrong!" });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -77,7 +85,7 @@ export const getServiceCount = async (req, res) => {
     const serviceCount = await countServices(req.user.id);
     res.status(201).json({ success: true, serviceCount });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };

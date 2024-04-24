@@ -116,6 +116,7 @@
 
             document.getElementById('address').innerHTML = address.area +", " + address.cityName+", "  + address.stateName + ", Pincode: "+ address.pincode;
             var tbody = document.querySelector("tbody")
+            console.log(vehicleServices);
             vehicleServices.forEach(element => {
                 var tr = document.createElement("tr")
                 tr.classList.add("bg-white")
