@@ -71,6 +71,7 @@
             let loadData = {
                 dashboard: async () => {
                     let garages = await callAPI("/customer/garageList");
+                    console.log(garages);
                     if (!garages.result.length) {
                         document.getElementById('btn-next').classList.add('hidden');
                         document.getElementById('dashboard-container').innerHTML = `
@@ -88,6 +89,8 @@
                         <div class="h-[95%] w-full overflow-scroll">
                         `;
                     garages.result.forEach(garage => {
+                        let address=(garage.area + ',' + garage.city_name + ',' + garage.state_name);
+                        address = address.length>50 ? address.substring(0,50)+"..." : address
                         garageList += `
                         <input type='radio' id='garage-${garage.id}' name='garage' value='${garage.id}'/>
                         <label for="garage-${garage.id}" class="cursor-pointer">
@@ -103,7 +106,7 @@
                           <h3 class="font-medium text-[14px] text-left text-white wrap-none" id="garageName">${garage.garage_name.length > 15 ? garage.garage_name.substring(0, 12) + '..' : garage.garage_name}</h3>
                           <div class="flex pt-2">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill:rgba(255,255,255,.6);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
-                              <p class="pl-2 text-xs break-all text-[rgba(255,255,255,.6)] ">${garage.area + ',' + garage.city_name + ',' + garage.state_name}</p>
+                              <p class="pl-2 text-xs break-all text-[rgba(255,255,255,.6)] ">${address}</p>
                           </div>
                           
                       </div>
