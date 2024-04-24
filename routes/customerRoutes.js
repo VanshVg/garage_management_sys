@@ -12,6 +12,7 @@ import {
 } from "../controllers/staticControllers.js";
 import {
   addVehicle,
+  getUserVehicle,
   getVehicleTypes,
 } from "../controllers/vehicleControllers.js";
 
@@ -39,13 +40,13 @@ router.get("/vehicle", vehicles);
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
 router.get("/garageList", getGarages);
-router.get("/service",);
+router.get("/service");
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);
 router.get("/servicesList/:garageId", servicesListing);
-router.get("/addVehicle/:type", addVehicle);
 router.get("/vehicleType", getVehicleTypes);
+router.get("/viewVehicle/:type", getUserVehicle);
 router.post("/addVehicle", addVehicle);
 
 router.get("/services", selectServices);
@@ -61,5 +62,6 @@ router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);
+// router.post("");
 
 export default router;

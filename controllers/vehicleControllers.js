@@ -109,14 +109,8 @@ export const getVehicleTypes = async (req, res) => {
 export const getUserVehicle = async (req, res) => {
   try {
     const { type } = req.params;
-
-    let user = await selectByFieldName("users", "email", req.user.email);
-    if (user.length < 1) {
-    }
-
     let vehicleData = await findVehicleData(req.user.email, type);
-
-    return res.json({ result: vehicleData });
+    return res.json({ success: true, result: vehicleData });
   } catch (error) {
     return res
       .status(301)

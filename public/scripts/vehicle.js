@@ -33,6 +33,7 @@ const addVehicle = async () => {
     },
     body: JSON.stringify(vehicleData),
   });
+  console.log(add);
   let response = await add.json();
   if (response.success) {
     window.location.href = `/customer/addVehicle/${vehicleData.type}`;
@@ -68,14 +69,15 @@ const selectVehicle = () => {
   let j = 0;
   let fields = document.getElementsByName("vehicle");
   for (let i = 0; i < fields.length; i++) {
-    document.getElementsByName(`vehicle${i + 1}`)[0].style.border = "none"
+    document.getElementsByName(`vehicle${i + 1}`)[0].style.border = "none";
     j++;
   }
   fields.forEach((element) => {
-    document.getElementsByName(element.id)[0].style.padding = "2px"
+    document.getElementsByName(element.id)[0].style.padding = "2px";
     if (element.checked) {
-      document.getElementsByName(element.id)[0].style.border = "2px solid green";
-      document.getElementsByName(element.id)[0].style.padding = "0"
+      document.getElementsByName(element.id)[0].style.border =
+        "2px solid green";
+      document.getElementsByName(element.id)[0].style.padding = "0";
     }
   });
 };
@@ -84,9 +86,9 @@ const uncheckVehicle = () => {
   let radio = document.querySelectorAll("input");
   radio.forEach((element) => {
     if (element.type == "radio") {
-      element.checked = false
+      element.checked = false;
     }
-  })
-}
+  });
+};
 
 uncheckVehicle();
