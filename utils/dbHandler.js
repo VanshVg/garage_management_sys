@@ -577,7 +577,7 @@ export const findVehicleData = async (email, type) => {
     vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number
     from vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
     on vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
-    and users.id = user_has_vehicles.owner_id and users.email = ? and vehicle_types.name = ?;`;
+    and users.id = user_has_vehicles.owner_id and users.email = ? and vehicle_types.id = ?;`;
     let [result] = await conn.query(query, [email, type]);
     return result;
   } catch (error) {
@@ -618,10 +618,10 @@ export const getBookedAppointments = async (ownerDetails) => {
   }
 };
 // fetching garage wise slots at customer side
-export const customerSlotListing = async (garageId, startDate, endDate) => {
+export const customerSlotListing = async (garageId, date) => {
   try {
-    let query = `select DATE_FORMAT(start_time, "%h:%i %p") as startTime ,DATE_FORMAT(end_time, "%h:%i %p")as endTime , id from slot_master where garage_id= ? and  start_time >= ? and end_time < ?;`;
-    const result = await conn.query(query, [garageId, startDate, endDate]);
+    let query = `select * from slot_master where garage_id= ? and start_time like '${date}%' and is_deleted=0`;
+    const result = await conn.query(query, [garageId]);
     return result[0];
   } catch (error) {
     return { error };
