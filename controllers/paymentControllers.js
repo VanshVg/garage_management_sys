@@ -61,6 +61,8 @@ export const addPaymentDetails = async (req, res) => {
 export const generateRevenue = async (req, res) => {
   try {
     let result = await countRevenue(req.user.id);
+    const formatter = Intl.NumberFormat('en', { notation: 'compact' });
+    result[0].revenue = formatter.format(result[0].revenue);
     res.status(200).json({ success: true, result });
   } catch (error) {
     res.status(301).json({ success: false, message: "Something went wrong!" })
