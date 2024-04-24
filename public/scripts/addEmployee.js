@@ -40,22 +40,22 @@ const handleEmployeeAddForm = async (e) => {
     }
   };
 
-  const getGarages = async () => {
-    console.log("here")
-    var garageData = await fetch("/owner/garages/getGaragesList");
-    var garageData = await garageData.json();
-    console.log(garageData);
-    var dropdown = document.querySelector("#garagesDropdown");
+  // const getGarages = async () => {
+  //   console.log("here")
+  //   var garageData = await fetch("/owner/garages/getGaragesList");
+  //   var garageData = await garageData.json();
+  //   console.log(garageData);
+  //   var dropdown = document.querySelector("#garagesDropdown");
   
-    garageData.garages.forEach((element) => {
-      var option = document.createElement("option");
-      option.setAttribute("value", element.garage_name);
-      option.classList.add("font-family");
-      option.classList.add("options");
-      option.innerText = element.garage_name;
-      option.value = element.garage_name;
-      dropdown.appendChild(option);
-    });
-  };
+  //   garageData.garages.forEach((element) => {
+  //     var option = document.createElement("option");
+  //     option.setAttribute("value", element.garage_name);
+  //     option.classList.add("font-family");
+  //     option.classList.add("options");
+  //     option.innerText = element.garage_name;
+  //     option.value = element.garage_name;
+  //     dropdown.appendChild(option);
+  //   });
+  // };
   
-  getGarages();
+  // getGarages();

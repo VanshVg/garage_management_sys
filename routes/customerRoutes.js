@@ -1,12 +1,10 @@
 import express from "express";
 import {
   CustomerFeedback,
-  appointment,
+   appointment,
   selectServices,
 } from "../controllers/staticControllers.js";
 import {
-  getUserVehicle,
-  addVehicle,
   getVehicleTypes,
 } from "../controllers/vehicleControllers.js";
 
@@ -14,9 +12,9 @@ import {
   home,
   vehicles,
   addVehicles,
-  profile,
-  showAppointments,
-} from "../controllers/customerControllers.js";
+  profile
+} from "../controllers/staticControllers.js";
+
 import {
   getUserVehicle,
   addVehicle,
@@ -24,15 +22,13 @@ import {
 import upload from "../helpers/fileUploads.js";
 
 import {
-  CustomerFeedbackPost,
   customerSlotSelection,
   getAllCustomers,
-  slotDisplay,
-  CustomerFeedback,
-  CustomerFeedbackPost,
-  appointment,
-  getServices,
-  showAppointments,
+  
+   CustomerFeedbackPost,
+  // getServices,
+  showAppointments
+  
 } from "../controllers/customerControllers.js";
 import {
   getGarages,
@@ -40,24 +36,17 @@ import {
   getSingleGarage,
 } from "../controllers/garageControllers.js";
 import {
-  home,
-  profile,
-  addVehicles,
   customerVehicleSelection,
   servicesPage,
-  slotDisplay,
-  vehicles,
+  slotDisplay
 } from "../controllers/staticControllers.js";
-import {
-  getGarages,
-  getGarageListing,
-  getSingleGarage,
-} from "../controllers/garageControllers.js";
-import { getServices } from "../utils/dbHandler.js";
+
+
 import { servicesListing } from "../controllers/serviceControllers.js";
 
 import { updateProfile } from "../controllers/userControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { getServices } from "../utils/dbHandler.js";
 
 const router = express.Router();
 
