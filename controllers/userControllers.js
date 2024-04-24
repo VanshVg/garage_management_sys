@@ -169,7 +169,14 @@ export const reset = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    let log = await insertData("password_change_logs", ["user_id", "password"], [result[0].id, result[0].password]);
+
     result = await updatePassword(result[0].id, hashedPassword);
+    
+    if(!log.affectedRows) {
+      return res.status(500).json({ success: false, message: "Something went wrong!" });
+    }
+
     return res.status(200).json({
       success: true,
       message: "password updated successfully",
