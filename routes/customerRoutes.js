@@ -10,11 +10,15 @@ import {
   customerSlotSelection,
   getAllCustomers,
   showAppointments,
+  CustomerFeedbackPost,
+  CustomerFeedback
 } from "../controllers/customerControllers.js";
 import { home, profile, addVehicles, customerVehicleSelection, servicesPage, slotDisplay, vehicles } from "../controllers/staticControllers.js";
 import { getGarages, getGarageListing, getSingleGarage } from "../controllers/garageControllers.js";
 import { updateProfile } from "../controllers/userControllers.js";
-  
+import { servicesListing } from "../controllers/serviceControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";    
+
 const router = express.Router();
 
 router.get("/home", home);

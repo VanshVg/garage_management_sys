@@ -100,7 +100,7 @@ const fillGarages = async () => {
                       </g>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-left text-sm">${garage.description?.substring(0, 150) || ""
+              <p class="text-dark font-semibold text-justify tracking-tight text-sm">${garage.description?.substring(0, 150) || ""
                 }...</p>
           </div>
 
