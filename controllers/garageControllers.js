@@ -218,7 +218,7 @@ export const getGarageCount = async (req, res) => {
 };
 export const showGarageAppointments = async (req, res) => {
   try {
-    const { garageId } = req.body;
+    const { garageId } = req.params;
     let appointments = await getGarageAppointments(garageId);
     return res.status(200).json({ success: true, appointments });
   } catch (error) {

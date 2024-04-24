@@ -14,9 +14,9 @@ import {
   getGarageListing,
   getGarageSlots,
   getGarageCount,
+  showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
-import { showAppointments } from '../../controllers/customerControllers.js';
 
 const router = express.Router();
 
@@ -32,5 +32,5 @@ router.get("/count", getGarageCount);
 router.get("/customerList", customer);
 router.get("/address/:garageId", garageAddress);
 router.post("/slots", getGarageSlots);
-router.post("/appointments",   showAppointments);
+router.get("/appointments/:garageId", showGarageAppointments);
 export default router;
