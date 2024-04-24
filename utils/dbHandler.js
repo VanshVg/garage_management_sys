@@ -551,7 +551,7 @@ export const countAppointments = async (ownerId) => {
     let query =
       "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ? and c.status = ?;";
     let [result] = await conn.query(query, [ownerId, 1]);
-    let [result2] = await conn.query(query, [ownerId, 2]);
+    let [result2] = await conn.query(query, [ownerId, 4]);
     let [result3] = await conn.query(query, [ownerId, 3]);
     let pending = result[0].count;
     let successful = result2[0].count;
@@ -599,7 +599,7 @@ export const getUserAddress = async (userId) => {
 export const getAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status = 1;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -610,7 +610,7 @@ export const getAppointments = async (ownerDetails) => {
 export const getBookedAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 1 and owner_id = ? order by c.start_time;";
+      "select d.id, b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 2 and owner_id = ? order by c.start_time;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -631,7 +631,7 @@ export const customerSlotListing = async (garageId, startDate, endDate) => {
 export const garageSlotListing = async (garageId, startDate, endDate) => {
   try {
     let query =
-      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ?";
+      "SELECT start_time as startTime, end_time as endTime from slot_master where garage_id = ? and is_deleted = 0;";
     const result = await conn.query(query, [garageId, startDate, endDate]);
     return result[0];
   } catch (error) {
@@ -788,3 +788,13 @@ export const countRevenue = async (userId) => {
     return { err };
   }
 };
+
+export const handleUpdateAppointments = async (status, appointmentId) => {
+  try {
+    let query = `UPDATE appointments SET status = ? WHERE id = ?;`;
+    let result = await conn.query(query, [status, appointmentId]);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+}

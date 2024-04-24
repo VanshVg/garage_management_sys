@@ -4,7 +4,8 @@ import authRoutes from "./authRoutes.js";
 
 import {
   notFound,
-  landingPage
+  landingPage,
+  sessionEnd
 } from "../controllers/staticControllers.js";
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import ownerRoutes from "./ownerRoutes.js";
@@ -14,6 +15,8 @@ import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
 
 const router = express.Router();
+
+router.get("/sessionEnd", sessionEnd);
 
 // owner routes
 router.use(

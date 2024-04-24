@@ -8,55 +8,64 @@
 </div>
 
 <div class="w-full min-h-full flex bg-white rounded-md mt-4">
-  <div class="rounded-md  w-1/2">
-    <div class="w-full">
-      <div class="header">
-        <div id="calendar-month" class="text-3xl font-bold"></div>
-        <div class="flex gap-2 -mr-2">
-          <button id="btnBack" class="flex justify-center"><img src="/icons/left.svg" alt="&lt;"></button>
-          <button id="btnNext" class="flex justify-center"><img src="/icons/right.svg" alt="&gt;"></button>
+  <div class="w-full h-full hidden bg-white rounded-md mt-4" id="calendar-display">
+    <div class="ounded-md  w-1/2">
+      <div class="w-full">
+        <div class="header">
+          <div id="calendar-month" class="text-3xl font-bold"></div>
+          <div class="flex gap-2 -mr-2">
+            <button id="btnBack" class="flex justify-center"><img src="/icons/left.svg" alt="&lt;"></button>
+            <button id="btnNext" class="flex justify-center"><img src="/icons/right.svg" alt="&gt;"></button>
+          </div>
         </div>
+        <div class="weekdays">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        <div id="calendar"></div>
       </div>
-      <div class="weekdays">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
+
+    </div>
+
+    <div id="modal"></div>
+    <div id="viewAppointments" class="w-1/2 p-2">
+      <div class="flex justify-between align-center">
+        <h2 class="text-3xl font-bold text-dark text-left my-1.5">Appointments</h2>
+        <input type="button" value="back" class="bg-dark text-white cursor-pointer text-l m-2 p-2"
+          onclick="handleCalendar(0)">
       </div>
-      <div id="calendar"></div>
+      <table class="w-full border-collapse">
+        <thead class="bg-dark text-white font-semibold ">
+          <tr>
+            <th class="text-white p-2.5">Sr. NO.</th>
+            <th class="text-white p-2.5">Customer Name</th>
+            <th class="text-white p-2.5">slot</th>
+          </tr>
+        </thead>
+        <tbody id="appointment-body">
+
+        </tbody>
+      </table>
     </div>
 
   </div>
 
-  <div id="modal"></div>
-  <div id="viewAppointments" class="w-1/2 p-2">
-    <h2 class="text-3xl font-bold text-dark text-left my-1.5">Appointments</h2>
-    <table class="w-full border-collapse">
+  <div class="w-full h-full bg-white rounded-md m-4" id="normal-slot-listing">
+    <div class="flex justify-end">
+      <img src="/icons/calendar2.svg" alt="calendar" class="cursor-pointer" onclick="handleCalendar(1)">
+    </div>
+    <table id="appointment-table" class="w-full border-collapse">
       <thead class="bg-dark text-white font-semibold ">
         <tr>
-          <td class="text-white p-2.5">Sr. NO.</td>
-          <td class="text-white p-2.5">Customer Name</td>
-          <td class="text-white p-2.5">slot</td>
-        </tr>
-      </thead>
-      <tbody id="appointment-body">
-
-      </tbody>
-    </table>
-  </div>
-
-
-  <div class="hidden bg-white w-full min-h-full h-max rounded-md p-4 
-      container and other required remove dashboard css">
-    <table id="appointment-table">
-      <thead>
-        <tr>
-          <th>Customer Name</th>
-          <th>Date</th>
-          <th>Time Slot</th>
+          <th class="text-white p-2.5">Customer Name</th>
+          <th class="text-white p-2.5">Date</th>
+          <th class="text-white p-2.5">Time Slot</th>
+          <th class="text-white p-2.5">Action</th>
         </tr>
       </thead>
       <tbody id="appointments-table-body">
@@ -70,6 +79,26 @@
   </div>
 </div>
 <script>
+  const handleCalendar = (id) => {
+    let divs = ["normal-slot-listing", "calendar-display"];
+    if (id == 0) document.getElementById(divs[1]).classList.remove('flex');
+    document.getElementById(divs[id]).classList.remove('hidden');
+    document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
+    if (id == 1) document.getElementById(divs[1]).classList.add('flex');
+  }
+  const handleAppointment = async (id, appointmentId) => {
+    let formData = new FormData();
+    formData.append("id", id);
+    formData.append("appointmentId", appointmentId);
+    const result = await fetch("/owner/updateAppointment", {
+      method: "POST",
+      body: new URLSearchParams(formData)
+    });
+    const response = await result.json();
+    toast.show(response.success ? "success" : "error", response.message);
+    loadAppointments();
+  }
+
   const updateTable = (appointments) => {
     let table = "";
     appointments.forEach(appointment => {
@@ -77,6 +106,7 @@
               <td>${appointment.customerName}</td>
               <td>${appointment.date}</td>
               <td>${appointment.startTime} - ${appointment.endTime}</td>
+              <td><div class="flex justify-center"><span class="cursor-pointer" onclick="handleAppointment(1, ${appointment.id})"><img src="/icons/check.svg" alt="approve" title="approve"></span><span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span></div></td>
             </tr>`;
     });
     document.getElementById('appointments-table-body').innerHTML = table;
@@ -87,11 +117,12 @@
     updateTable(appointments);
     document.getElementById("currentDay").click();
   }
-  (async () => {
+  const loadAppointments = async () => {
     const appointmentsDetails = await callAPI('/owner/appointmentsList');
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments);
-
+  }
+  (async () => {
     const garageList = await callAPI('/owner/garages/getGaragesList');
     const garages = garageList.garages;
     let options = "";
@@ -101,6 +132,7 @@
     let select = document.getElementById('garageList');
     select.innerHTML = options;
     select.addEventListener('change', garageChange);
+    loadAppointments();
   })()
 </script>
 
