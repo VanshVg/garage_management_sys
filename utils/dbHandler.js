@@ -234,7 +234,7 @@ export const updateGarage = async (garageInfo) => {
       query = `UPDATE garage_master SET garage_name= ?, contact_number= ?, email= ?, open_time= ?, close_time= ?,description= ?  WHERE id = ?`;
       let first = garageInfo.slice(0, 3);
       let second = garageInfo.slice(4);
-      garageInfo = first.concat(second);;
+      garageInfo = first.concat(second);
     }
     let result = await conn.query(query, garageInfo);
     return result[0].affectedRows;
@@ -771,14 +771,13 @@ export const getGarageAppointments = async (garageId) => {
 
 export const bookSlotService = async (userId, slotId) => {
   try {
-
-    let query = `INSERT INTO appointments (slot_id,customer_id) VALUES (?,?);`
+    let query = `INSERT INTO appointments (slot_id,customer_id) VALUES (?,?);`;
     let result = await conn.query(query, [slotId, userId]);
     return result;
   } catch (err) {
     return { err };
   }
-}
+};
 
 export const countRevenue = async (userId) => {
   try {
@@ -788,4 +787,4 @@ export const countRevenue = async (userId) => {
   } catch (err) {
     return { err };
   }
-}
+};
