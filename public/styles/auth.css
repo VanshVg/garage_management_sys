@@ -83,6 +83,8 @@ input:focus {
 
 input::placeholder {
   font-size: large;
+  color: #152533;
+  text-align: left;
 }
 
 a {

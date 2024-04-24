@@ -394,7 +394,7 @@ export const findGarageService = async (serviceInfo) => {
 
 export const getOwnerService = async (ownerId, garageId) => {
   try {
-    let query = `SELECT b.id,c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE b.is_deleted=0 AND  a.owner_id = ? AND b.garage_id = ? `;
+    let query = `SELECT b.id,c.name, c.description, b.price FROM owner_has_garages AS a JOIN garage_has_services AS b JOIN service_master AS c on a.garage_id = b.garage_id and b.services_id = c.id WHERE b.is_deleted=0 AND  a.owner_id = ? AND b.garage_id = ?;`;
     let result = await conn.query(query, [ownerId, garageId]);
     return result[0];
   } catch (error) {
@@ -405,7 +405,7 @@ export const getOwnerService = async (ownerId, garageId) => {
 export const getOwnerGarages = async (ownerId) => {
   try {
     let query = `SELECT a.garage_id, b.garage_name, b.thumbnail, b.status, b.email, b.contact_number, b.open_time, b.close_time, b.description
-    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE   a.owner_id = ?;`;
+    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE   a.owner_id = ? and b.is_deleted = 0;`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
@@ -782,10 +782,10 @@ export const bookSlotService = async (userId, slotId) => {
 
 export const countRevenue = async (userId) => {
   try {
-    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at ON at.id = pm.appointment_id WHERE at.customer_id= ?;`;
+    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at on at.id = pm.appointment_id JOIN slot_master sm on sm.id = at.slot_id join garage_master gm on gm.id = sm.garage_id JOIN owner_has_garages og on og.garage_id = gm.id  WHERE og.owner_id = ?;`;
     let result = await conn.query(query, [userId]);
     return result[0];
   } catch (err) {
-    return { err }
+    return { err };
   }
 }
