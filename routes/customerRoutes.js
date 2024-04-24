@@ -27,10 +27,10 @@ import {
   getGarageListing,
   getSingleGarage,
 } from "../controllers/garageControllers.js";
-import { servicesListing } from "../controllers/serviceControllers.js";
 
 import { updateProfile } from "../controllers/userControllers.js";
-import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { servicesListing } from "../controllers/serviceControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";    
 
 const router = express.Router();
 
