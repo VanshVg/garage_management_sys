@@ -3,6 +3,12 @@ import {
   CustomerFeedback,
   appointment,
   selectServices,
+  home,
+  profile,
+  addVehicles,
+  customerVehicleSelection,
+  slotDisplay,
+  vehicles,
 } from "../controllers/staticControllers.js";
 import {
   getUserVehicle,
@@ -11,43 +17,12 @@ import {
 } from "../controllers/vehicleControllers.js";
 
 import {
-  home,
-  vehicles,
-  addVehicles,
-  profile,
   showAppointments,
-} from "../controllers/customerControllers.js";
-import {
-  getUserVehicle,
-  addVehicle,
-} from "../controllers/vehicleControllers.js";
-import upload from "../helpers/fileUploads.js";
-
-import {
   CustomerFeedbackPost,
   customerSlotSelection,
   getAllCustomers,
-  slotDisplay,
-  CustomerFeedback,
-  CustomerFeedbackPost,
-  appointment,
-  getServices,
-  showAppointments,
 } from "../controllers/customerControllers.js";
-import {
-  getGarages,
-  getGarageListing,
-  getSingleGarage,
-} from "../controllers/garageControllers.js";
-import {
-  home,
-  profile,
-  addVehicles,
-  customerVehicleSelection,
-  servicesPage,
-  slotDisplay,
-  vehicles,
-} from "../controllers/staticControllers.js";
+import upload from "../helpers/fileUploads.js";
 import {
   getGarages,
   getGarageListing,
