@@ -1,4 +1,4 @@
-import { countAppointments, getAppointments, getBookedAppointments } from "../utils/dbHandler.js";
+import { countAppointments, getAppointments, getBookedAppointments, handleUpdateAppointments } from "../utils/dbHandler.js";
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -42,3 +42,17 @@ export const getAppointmentCount = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+export const updateAppointment = async (req, res) => {
+  try {
+    let { appointmentId, id } = req.body;
+    let result = await handleUpdateAppointments(id == 1 ? '2' : '3', appointmentId);
+    if (!result) throw "Something went wrong";
+    res.status(201).json({
+      success: true
+      , message: "Appointment updated successfully!"
+    });
+  } catch (error) {
+    res.status(501).json({ success: false, message: "Something went wrong!" });
+  }
+}
