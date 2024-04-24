@@ -16,6 +16,24 @@ const getGarages = async () => {
 
 getGarages();
 
+const deleteSlot = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    showDenyButton: true,
+    confirmButtonText: "Yes",
+    denyButtonText: "No"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const result = await fetch('/owner/slots/delete/' + id, {
+        method: "POST",
+      });
+      const json = await result.json();
+      toast.show(json.success ? "success" : "error", json.message);
+      populateData();
+    }
+  });
+}
+
 const getData = async (page = 1, garage) => {
   const jsonData = await fetch(
     "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage
@@ -78,7 +96,11 @@ const populateData = async (pageNumber = 1) => {
       i++;
     });
     var td = document.createElement("td");
-    td.appendChild(createEditAndDelete());
+    var dustbin = document.createElement("img");
+    dustbin.src = "/icons/delete.svg";
+    dustbin.setAttribute("onclick", `deleteSlot(${element.id})`);
+    dustbin.setAttribute("class", "cursor-pointer");
+    td.appendChild(dustbin);
     tr.appendChild(td);
     var table = document.getElementById("table");
     table.appendChild(tr);
@@ -86,11 +108,11 @@ const populateData = async (pageNumber = 1) => {
   var text = document.querySelector(".pagination-text");
   var max = data[1] + 1;
   document.querySelector(".current").innerText = pageNumber;
-  if (data[4]==pageNumber) {
+  if (data[4] == pageNumber) {
     text.innerText =
-    "Showing " + max + " to " + data[3] + " of " + data[3] + " entries ";
+      "Showing " + max + " to " + data[3] + " of " + data[3] + " entries ";
   }
-  else{
+  else {
     text.innerText =
       "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
 
@@ -100,36 +122,6 @@ const populateData = async (pageNumber = 1) => {
 
 populateData();
 
-function createEditAndDelete() {
-  var hmMenu = document.createElement("div");
-  hmMenu.classList.add("hm-menu");
-  var threeDots = document.createElement("img");
-  threeDots.src = "/icons/threedots.svg";
-  var listCs = document.createElement("div");
-  listCs.classList.add("list-cs");
-  var listCsData1 = document.createElement("div");
-  listCsData1.classList.add("list-cs-data");
-  var edit = document.createElement("p");
-  edit.innerText = "Edit";
-  var editIcon = document.createElement("img");
-  editIcon.src = "/icons/edit.svg";
-  listCsData1.appendChild(editIcon);
-  listCsData1.appendChild(edit);
-  listCs.appendChild(listCsData1);
-  var listCsData2 = document.createElement("div");
-  listCsData2.classList.add("list-cs-data");
-  var edit = document.createElement("p");
-  edit.innerText = "Delete";
-  var editIcon = document.createElement("img");
-  editIcon.src = "/icons/delete.svg";
-  listCsData2.appendChild(editIcon);
-  listCsData2.appendChild(edit);
-  listCs.appendChild(listCsData2);
-  hmMenu.appendChild(threeDots);
-  hmMenu.appendChild(listCs);
-  return hmMenu;
-}
-
 var next = document.querySelector("#next");
 var prev = document.querySelector("#prev");
 next.addEventListener("click", async () => {
@@ -137,18 +129,18 @@ next.addEventListener("click", async () => {
   var pid = parseInt(document.querySelector(".current").innerText);
   const pageNumber = pid + 1;
   var select = document.querySelector("#garagesDropdown")
-  var maxPage = await getData(pageNumber,select.value);
-  if (maxPage[4]>=pid+1) {
+  var maxPage = await getData(pageNumber, select.value);
+  if (maxPage[4] >= pid + 1) {
     const pageCount = await populateData(pageNumber);
-  
-  document.querySelector(".current").innerText = pid + 1;
-  if (pid + 1 == pageCount) {
-    next.disabled = true;
-  } else {
-    prev.disabled = false;
+
+    document.querySelector(".current").innerText = pid + 1;
+    if (pid + 1 == pageCount) {
+      next.disabled = true;
+    } else {
+      prev.disabled = false;
+    }
   }
-  }
-  
+
 });
 
 prev.addEventListener("click", async () => {

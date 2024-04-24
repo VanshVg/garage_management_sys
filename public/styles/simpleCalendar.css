@@ -45,7 +45,7 @@ header .calendar-navigation span {
 }
 
 header .calendar-navigation span:hover {
-  background: #f2f2f2;
+  /* background: #f2f2f2; */
 }
 
 header .calendar-current-date {

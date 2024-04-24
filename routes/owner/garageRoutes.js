@@ -14,9 +14,9 @@ import {
   getGarageListing,
   getGarageSlots,
   getGarageCount,
-  showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
+import { showAppointments } from '../../controllers/customerControllers.js';
 
 const router = express.Router();
 

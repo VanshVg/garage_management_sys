@@ -15,7 +15,7 @@ router.get('/', slots);
 router.get('/getAllSlots', paginationMiddleware(10), getSlots)
 router.post('/insert', slotBooking)
 router.post('/update', slotUpdate)
-router.post('/delete', slotDelete);
+router.post('/delete/:slotId', slotDelete);
 router.post('/appointmentsByDateRange', appointmentsByDateRange);
 
 export default router;

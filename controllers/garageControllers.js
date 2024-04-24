@@ -180,7 +180,7 @@ export const getGarageSlots = async (req, res) => {
     result.push(garageDuration);
     res.json(result);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
 

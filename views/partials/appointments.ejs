@@ -85,6 +85,7 @@
     const appointmentsDetails = await callAPI('/owner/appointmentsList/' + e.target.value);
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments);
+    document.getElementById("currentDay").click();
   }
   (async () => {
     const appointmentsDetails = await callAPI('/owner/appointmentsList');

@@ -14,8 +14,12 @@ let btns = ["btn-half", "btn-full", "btn-double"];
   });
   const select = document.getElementById("garage-select");
   select.innerHTML = options;
-  select.addEventListener("change", displaySlots);
+  select.addEventListener("change", garageChanged);
 })();
+
+const garageChanged = () => {
+  displaySlots();
+}
 
 const day = document.querySelector(".calendar-dates");
 
@@ -93,7 +97,7 @@ const fetchGarageSlots = async (id) => {
     return [];
   }
 };
-const displaySlots = async (duration, date = new Date()) => {
+const displaySlots = async (duration = 1, date = new Date()) => {
   if (duration == 0) {
     toast.show("error", "This feature is not available for you..!!");
   } else {
