@@ -289,7 +289,7 @@ export const getServices = async () => {
 // get all garage details
 export const getGarageList = async (ownerId) => {
   try {
-    let query = `SELECT a.id, a.email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master as a join owner_has_garages as b where b.owner_id = ?`;
+    let query = `SELECT a.id as id, a.email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master as a join owner_has_garages as b where b.owner_id = ?`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
