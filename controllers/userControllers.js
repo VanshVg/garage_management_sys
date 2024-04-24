@@ -7,8 +7,11 @@ import {
   getUserAddress,
   getVehicleAssociatedServices,
   insertAddress,
+  insertData,
   insertUserAddress,
+  selectByFieldNames,
   updateAddressById,
+  updateFields,
   updatePassword,
   updateUserByEmail,
 } from "../utils/dbHandler.js";
@@ -88,6 +91,20 @@ export const login = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Invalid email or password!" });
     } else {
+      let userIp = req.socket.remoteAddress;
+      let userLog = await selectByFieldNames("login_logs", {user_id:user[0].id, attempt_sys_ip: userIp});
+      if(userLog.length == 0) {
+        let insertLog = await insertData("login_logs", ["user_id", "attempt_count", "attempt_sys_ip"], [user[0].id, 1, userIp]);
+        if(!insertLog.insertId) {
+          return res.status(500).json({ success: false, message: "Something went wrong!" });
+        }
+      } else {
+        let updateLog = await updateFields("login_logs", {attempt_count:userLog[0].attempt_count+1}, {user_id: user[0].id, attempt_sys_ip: userIp});
+        if(!updateLog.affectedRows) {
+          return res.status(500).json({ success: false, message: "Something went wrong!" });
+        }
+      }
+
       const isPassword = await bcrypt.compare(password, user[0].password);
       if (!isPassword) {
         return res
