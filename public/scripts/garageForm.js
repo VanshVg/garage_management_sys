@@ -43,7 +43,7 @@ const handleGarage = async (e) => {
   if (!document.querySelectorAll(`#${e.target.id} error`).length) {
     const formData = new FormData(e.target);
     formData.delete("state");
-
+    console.log(document.getElementById(`${e.target.id}-thumbnail`).files[0]);
     formData.append(
       "thumbnail",
       document.getElementById(`${e.target.id}-thumbnail`).files[0] || ""

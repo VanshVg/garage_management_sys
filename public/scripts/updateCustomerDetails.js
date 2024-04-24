@@ -1,4 +1,5 @@
 const handleUpdateForm = async (e) => {
+  debugger
     e.preventDefault();
     Validation.allValid = true;
     document.querySelectorAll(`input[Validation]`).forEach((ele) => {
@@ -23,7 +24,7 @@ const handleUpdateForm = async (e) => {
       );
       formData.append("userId", localStorage.getItem("userId"));
       formProps = Object.fromEntries(formData);
-      debugger
+      
       let response = await fetch("/customer/profile/update", {
         method: "PUT",
         body: formData,

@@ -12,7 +12,6 @@ import { findOne } from "../utils/common.js";
 export const slotBooking = async (req, res) => {
   try {
     const { garageId, startTime, endTime } = req.body;
-    console.log(garageId);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(301).json({ success: false, errors: errors.array() });
