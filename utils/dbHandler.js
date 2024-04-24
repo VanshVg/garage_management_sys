@@ -405,7 +405,7 @@ export const getOwnerService = async (ownerId, garageId) => {
 export const getOwnerGarages = async (ownerId) => {
   try {
     let query = `SELECT a.garage_id, b.garage_name, b.thumbnail, b.status, b.email, b.contact_number, b.open_time, b.close_time, b.description
-    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE   a.owner_id = ?;`;
+    FROM owner_has_garages AS a JOIN garage_master AS b on a.garage_id = b.id WHERE a.owner_id = ? AND b.is_deleted=0;`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
