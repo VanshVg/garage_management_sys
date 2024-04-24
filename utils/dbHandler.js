@@ -289,7 +289,7 @@ export const getServices = async () => {
 // get all garage details
 export const getGarageList = async (ownerId) => {
   try {
-    let query = `SELECT a.id, a.email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master as a join owner_has_garages as b where b.owner_id = ?`;
+    let query = `SELECT a.id as id, a.email, garage_name, contact_number, open_time, close_time, status,description,thumbnail from garage_master as a join owner_has_garages as b where b.owner_id = ?`;
     let result = await conn.query(query, [ownerId]);
     return result[0];
   } catch (error) {
@@ -781,7 +781,7 @@ export const bookSlotService = async (userId, slotId) => {
 
 export const countRevenue = async (userId) => {
   try {
-    let query = `SELECT SUM(total_amount - gst_amount - discount) AS revenue FROM payment_master pm JOIN appointment_payments ap ON ap.appointment_id= pm.appointment_id JOIN appointments at on at.id = pm.appointment_id JOIN slot_master sm on sm.id = at.slot_id join garage_master gm on gm.id = sm.garage_id JOIN owner_has_garages og on og.garage_id = gm.id  WHERE og.owner_id = ?;`;
+    let query = `SELECT SUM(sub_total) AS revenue FROM appointment_payments ap JOIN payment_master pm  ON ap.appointment_id= pm.appointment_id JOIN appointments at on at.id = pm.appointment_id JOIN slot_master sm on sm.id = at.slot_id join garage_master gm on gm.id = sm.garage_id JOIN owner_has_garages og on og.garage_id = gm.id  WHERE og.owner_id = ?;`;
     let result = await conn.query(query, [userId]);
     return result[0];
   } catch (err) {

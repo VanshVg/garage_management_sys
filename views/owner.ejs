@@ -96,7 +96,7 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="employee-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Employees/Add"})%>
-                            <%- include(`./partials/addEmployee.ejs`) %>
+                            <%- include(`./partials/addEmployee.ejs`, {formType: 'addEmployee'}) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="invoice-screen">
