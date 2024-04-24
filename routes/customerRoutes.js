@@ -3,57 +3,30 @@ import {
   CustomerFeedback,
   appointment,
   selectServices,
+  home,
+  profile,
+  addVehicles,
+  customerVehicleSelection,
+  slotDisplay,
+  vehicles,
 } from "../controllers/staticControllers.js";
 import {
-  getUserVehicle,
   addVehicle,
   getVehicleTypes,
 } from "../controllers/vehicleControllers.js";
 
 import {
-  home,
-  vehicles,
-  addVehicles,
-  profile,
   showAppointments,
-} from "../controllers/customerControllers.js";
-import {
-  getUserVehicle,
-  addVehicle,
-} from "../controllers/vehicleControllers.js";
-import upload from "../helpers/fileUploads.js";
-
-import {
   CustomerFeedbackPost,
   customerSlotSelection,
   getAllCustomers,
-  slotDisplay,
-  CustomerFeedback,
-  CustomerFeedbackPost,
-  appointment,
-  getServices,
-  showAppointments,
 } from "../controllers/customerControllers.js";
+import upload from "../helpers/fileUploads.js";
 import {
   getGarages,
   getGarageListing,
   getSingleGarage,
 } from "../controllers/garageControllers.js";
-import {
-  home,
-  profile,
-  addVehicles,
-  customerVehicleSelection,
-  servicesPage,
-  slotDisplay,
-  vehicles,
-} from "../controllers/staticControllers.js";
-import {
-  getGarages,
-  getGarageListing,
-  getSingleGarage,
-} from "../controllers/garageControllers.js";
-import { getServices } from "../utils/dbHandler.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 
 import { updateProfile } from "../controllers/userControllers.js";
@@ -66,12 +39,12 @@ router.get("/vehicle", vehicles);
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
 router.get("/garageList", getGarages);
-router.get("/service", getServices);
+router.get("/service",);
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);
 router.get("/servicesList/:garageId", servicesListing);
-router.get("/addVehicle/:type", getUserVehicle);
+router.get("/addVehicle/:type", addVehicle);
 router.get("/vehicleType", getVehicleTypes);
 router.post("/addVehicle", addVehicle);
 

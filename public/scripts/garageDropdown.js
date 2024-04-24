@@ -14,12 +14,11 @@ const garagesList = async () => {
 
 const getInvoices = async () => {
   let garageId = document.getElementById("select-garage").value;
-  let invoiceRequest = await fetch("/owner/garages/appointments", {
-    method: "POST",
+  let invoiceRequest = await fetch(`/owner/garages/appointments/${garageId}`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ garageId: garageId }),
   });
   let invoiceResponse = await invoiceRequest.json();
   let garageAppointments = ``;

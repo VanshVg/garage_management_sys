@@ -13,32 +13,43 @@ const fillGarages = async () => {
         <h2 class="text-[#ef4444] font-bold text-2xl">Oops..!!</h2><p class="text-[#ef4444]"><b> No garage found...!!!</b></p>
   </div>
         `;
-    document.querySelectorAll("#services,#slots,#appointment").forEach((panel) => {
-      panel.style.display = "none";
-    });
+    document
+      .querySelectorAll("#services,#slots,#appointment")
+      .forEach((panel) => {
+        panel.style.display = "none";
+      });
   } else {
     garages.forEach((garage) => {
-      garageList += `
+      garageList +=
+        `
       <div class="w-1/3 p-2 h-[600px] relative">
-      <div class="absolute top-0 right-0 flex items-center mr-4 mt-4" onmouseover="showEditBox(${
+      <div class="absolute top-0 right-0 flex items-center mr-4 mt-4 bg-dark rounded-full" onmouseover="showEditBox(${
         index + 1
       })" onmouseout="hideEditBox(${index + 1})">
         <button type="button" class="h-full w-full"}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M10   10h4v4h-4zm0-6h4v4h-4zm0 12h4v4h-4z"></path>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;"><path d="M10   10h4v4h-4zm0-6h4v4h-4zm0 12h4v4h-4z"></path>
             </svg>
         </button>
       </div>
       <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
         index + 1
-      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${index + 1})">
+      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+          index + 1
+        })">
         <div class="bg-light p-3 rounded-xl text-left">
           <p class="flex hover:cursor-pointer" onClick="editGarage(${index})"><img src="/icons/edit.svg" class="h-4 mt-1 mr-2">Edit</img></p>
           <p class="flex mt-2 hover:cursor-pointer" onClick="deleteGarage(${
             garage.garage_id
-          } ` + `,` +`'${garage.garage_name}')"><img src="/icons/delete.svg" class="h-4 mt-1 mr-2">Delete</img></p>
+          } ` +
+        `,` +
+        `'${
+          garage.garage_name
+        }')"><img src="/icons/delete.svg" class="h-4 mt-1 mr-2">Delete</img></p>
         </div>
       </div>
-      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${garage.id}'>
+      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${
+        garage.id
+      }'>
       <a href="#" class="mb-4">
           <img class="rounded-t-lg w-full h-[280px]" src="/uploads/${
             garage.thumbnail
@@ -52,8 +63,8 @@ const fillGarages = async () => {
               <tag class="${
                 garage.status ? "bg-[#038117]" : "bg-[#ff5f5f]"
               } w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${
-        garage.status ? "OPEN" : "CLOSE"
-      }</tag>
+          garage.status ? "OPEN" : "CLOSE"
+        }</tag>
           </div>
           <div class="flex items-center mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2">
@@ -77,7 +88,9 @@ const fillGarages = async () => {
                       <path d="M13 8c2.1 0 3 .9 3 3h2c0-3.22-1.78-5-5-5z"></path>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-sm">+91 ${garage.contact_number}</p>
+              <p class="text-dark font-semibold text-sm">+91 ${
+                garage.contact_number
+              }</p>
           </div>
           <div class="flex items-center mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2">
@@ -134,7 +147,7 @@ const hideEditBox = (id) => {
 };
 
 const deleteGarage = (garageId, garageName) => {
-    console.log(garageId, garageName);
+  console.log(garageId, garageName);
   Swal.fire({
     title: "Are you sure?",
     text: `really you want to delete ${garageName} garage???`,
@@ -145,12 +158,16 @@ const deleteGarage = (garageId, garageName) => {
     icon: "question",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      let response = await callAPI(`/owner/garages/delete/${garageId}`, {}, "DELETE");
+      let response = await callAPI(
+        `/owner/garages/delete/${garageId}`,
+        {},
+        "DELETE"
+      );
       toast.show(response.success ? "success" : "error", response.message);
       if (response.success) {
-          setTimeout(() => {
-            location.href = "/owner/garages";
-          }, 1500);
+        setTimeout(() => {
+          location.href = "/owner/garages";
+        }, 1500);
       }
     }
   });

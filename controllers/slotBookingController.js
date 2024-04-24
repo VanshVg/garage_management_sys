@@ -1,5 +1,12 @@
 import { validationResult } from "express-validator";
-import { deleteSlot, getAllSlots, getAppointsByDateRange, insertSlot, updateSlot, bookSlotService } from "../utils/dbHandler.js";
+import {
+  deleteSlot,
+  getAllSlots,
+  getAppointsByDateRange,
+  insertSlot,
+  updateSlot,
+  bookSlotService,
+} from "../utils/dbHandler.js";
 import { findOne } from "../utils/common.js";
 
 export const slotBooking = async (req, res) => {
@@ -12,7 +19,9 @@ export const slotBooking = async (req, res) => {
     } else {
       const result = await insertSlot([garageId, startTime, endTime, 1]);
       if (!result)
-        res.status(301).json({ success: false, message: "something went wrong" });
+        res
+          .status(301)
+          .json({ success: false, message: "something went wrong" });
       else if (result.error) {
         res.status(301).json({
           success: false,
@@ -49,7 +58,9 @@ export const slotDelete = async (req, res) => {
     const slotId = req.params.slotId;
     const result = await deleteSlot([slotId]);
     if (result) {
-      res.status(201).json({ success: true, message: "slot was deleted successfully" });
+      res
+        .status(201)
+        .json({ success: true, message: "slot was deleted successfully" });
     } else {
       res.status(301).json({ success: false, message: "slot was not deleted" });
     }
@@ -62,10 +73,16 @@ export const getSlots = async (req, res) => {
   try {
     const { startIndex, endIndex } = req.pagination;
     const garage = req.query.garage;
+    const user = req.user.email;
 
-    const userExist = req.user;
+    const userExist = await findOne(user);
+    if (!userExist || userExist.length === 0 || !userExist[0].id) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
-    const result = await getAllSlots(startIndex, garage, userExist.id);
+    const result = await getAllSlots(startIndex, garage, userExist[0].id);
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({
@@ -89,10 +106,10 @@ export const appointmentsByDateRange = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
+};
 
 export const bookSlot = async (req, res) => {
-  const user = req.user.email
+  const user = req.user.email;
   const slotId = req.body.slotId;
 
   const userExist = await findOne(user);
@@ -103,5 +120,4 @@ export const bookSlot = async (req, res) => {
   } else {
     res.status(404).json({ success: false, message: "Slot is not added" });
   }
-
-}
+};
