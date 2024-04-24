@@ -19,6 +19,10 @@ export const customerSlotSelection = async (req, res) => {
   }
 }
 
+export const CustomerFeedback = async (req, res) => {
+  res.render("customerFeedback.ejs")
+}
+  
 export const CustomerFeedbackPost = async (req, res) => {
   try {
     let { customerId, garageId, rating, message } = req.body;
