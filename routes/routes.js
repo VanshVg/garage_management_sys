@@ -5,7 +5,7 @@ import authRoutes from "./authRoutes.js";
 import {
   notFound,
   landingPage,
-  sessionEnd
+  sessionEnd,
 } from "../controllers/staticControllers.js";
 import { isAlreadyLoggedIn } from "../middlewares/isAlreadyLoggedIn.js";
 import ownerRoutes from "./ownerRoutes.js";
@@ -16,6 +16,7 @@ import { validateRole } from "../services/roleServices.js";
 import { garageCount } from "../controllers/garageControllers.js";
 import { customerCount } from "../controllers/customerControllers.js";
 import { serviceCount } from "../controllers/serviceControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";
 
 const router = express.Router();
 
@@ -53,12 +54,17 @@ router.get('/serviceCount', serviceCount);
 router.get("/", isAlreadyLoggedIn, landingPage);
 
 // common routes used on both customer and owner side
-router.use('/',
+router.use(
+  "/",
   passport.authenticate("jwt", {
     session: false,
     failureRedirect: "/sessionEnd",
   }),
-  commonRoutes);
+  commonRoutes
+);
+
+// Invoice route
+router.post("/invoice/:appointmentId", customerInvoice);
 
 // 404 not found
 router.all("*", notFound);

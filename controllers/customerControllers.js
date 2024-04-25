@@ -6,12 +6,14 @@ import {
   ifFeedbackExist,
   insertFeedback,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const getAllCustomers = async (req, res) => {
   try {
     const result = await getCustomerNames(1);
     res.status(201).json({ success: true, result: result });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "something went wrong!" });
   }
 };
@@ -22,6 +24,7 @@ export const customerSlotSelection = async (req, res) => {
     const result = await customerSlotListing(garageId, date);
     res.status(201).json({ result });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "something went wrong" });
   }
 };
@@ -54,6 +57,7 @@ export const CustomerFeedbackPost = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -63,6 +67,7 @@ export const showAppointments = async (req, res) => {
     let appointments = await getCustomerAppointments(req.user.id);
     res.render("partials/customerAppointments", { appointments });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });

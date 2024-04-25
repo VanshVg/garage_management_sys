@@ -1,11 +1,21 @@
 import bcrypt from "bcrypt";
-import { countRevenue, insertData, selectByFieldName, updateFields } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
+import {
+  countRevenue,
+  insertData,
+  selectByFieldName,
+  updateFields,
+} from "../utils/dbHandler.js";
 
 export const getPaymentDetails = async (req, res) => {
   try {
     const { appointmentId } = req.params;
 
-    let paymentDetails = await selectByFieldName("appointment_payments", "appointment_id", appointmentId);
+    let paymentDetails = await selectByFieldName(
+      "appointment_payments",
+      "appointment_id",
+      appointmentId
+    );
     if (paymentDetails.length != 1) {
       return res.render("404", { title: "Some problem occured!" });
     }
@@ -18,9 +28,10 @@ export const getPaymentDetails = async (req, res) => {
     }
     return res.render("paymentDetails", { finalAmount });
   } catch (error) {
+    logger.error(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
 
 export const addPaymentDetails = async (req, res) => {
   try {
@@ -30,7 +41,16 @@ export const addPaymentDetails = async (req, res) => {
       }
     }
 
-    let { paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi } = req.body;
+    let {
+      paymentType,
+      bankName,
+      cardNumber,
+      accountHolder,
+      cvv,
+      expiryDate,
+      upi,
+      finalAmount,
+    } = req.body;
     const { appointmentId } = req.params;
 
     if (paymentType == "card") {
@@ -42,29 +62,71 @@ export const addPaymentDetails = async (req, res) => {
       bankName = null;
     }
 
-    let result = await insertData("payment_master", ["appointment_id", "payment_type", "bank_name", "card_number", "account_holder", "cvv", "expiry_date", "upi"], [appointmentId, paymentType, bankName, cardNumber, accountHolder, cvv, expiryDate, upi]);
+    let result = await insertData(
+      "payment_master",
+      [
+        "appointment_id",
+        "payment_type",
+        "bank_name",
+        "card_number",
+        "account_holder",
+        "cvv",
+        "expiry_date",
+        "upi",
+        "total_amount",
+      ],
+      [
+        appointmentId,
+        paymentType,
+        bankName,
+        cardNumber,
+        accountHolder,
+        cvv,
+        expiryDate,
+        upi,
+        finalAmount,
+      ]
+    );
+    console.log(result);
     if (!result.insertId) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
+      console.log("error");
+
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
     }
 
-    let updateStatus = await updateFields("appointment_payments", { status: 1 }, { appointment_id: appointmentId });
+    let updateStatus = await updateFields(
+      "appointment_payments",
+      { status: 1 },
+      { appointment_id: appointmentId }
+    );
     if (!updateStatus.affectedRows) {
-      return res.status(301).json({ success: false, message: "Something went wrong!" });
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
     }
-
-    return res.status(200).json({ success: true, message: "Payment done successfully" });
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Payment done successfully",
+        customerEmail: req.user.email,
+      });
   } catch (error) {
+    logger.error(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
 
 export const generateRevenue = async (req, res) => {
   try {
     let result = await countRevenue(req.user.id);
-    const formatter = Intl.NumberFormat('en', { notation: 'compact' });
+    const formatter = Intl.NumberFormat("en", { notation: "compact" });
     result[0].revenue = formatter.format(result[0].revenue);
     res.status(200).json({ success: true, result });
   } catch (error) {
+    logger.error(error);
     res.status(301).json({ success: false, message: "Something went wrong!" })
   }
-}
+};

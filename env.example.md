@@ -6,4 +6,5 @@ DB_USER = xxxx
 DB_PASSWORD = xxxx
 DB_NAME = xxxxxxxxxxxxxxxxxxxx
 SECRET_KEY = xxxxxxxxxxxxxxxxxx
+LOG_LEVEL = xxxx
 ```
