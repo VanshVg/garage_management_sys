@@ -24,7 +24,6 @@ export const addVehicle = async (req, res) => {
       numberPlate,
       description,
     } = req.body;
-    // console.log(req.body.vehicle);
 
     let [vId] = await selectByFieldName("vehicle_types", "name", vehicle);
 
