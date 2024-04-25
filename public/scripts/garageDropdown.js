@@ -40,7 +40,6 @@ const getInvoices = async () => {
       </tr>
     </thead>`;
     let i = 0;
-    console.log(invoiceResponse);
     invoiceResponse.appointments.forEach((element) => {
       garageAppointments += `<tr class="hover:bg-lightbg">
       <td class="mx-auto text-center p-4">${i + 1}</td>
