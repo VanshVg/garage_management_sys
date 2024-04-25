@@ -797,4 +797,4 @@ export const handleUpdateAppointments = async (status, appointmentId) => {
   } catch (error) {
     return { error };
   }
-}
+};
