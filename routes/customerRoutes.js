@@ -31,7 +31,8 @@ import {
 
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
-import { customerInvoice } from "../controllers/invoiceControllers.js";    
+import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { bookAppointment } from "../controllers/appointmentsController.js";
 
 const router = express.Router();
 
@@ -62,6 +63,7 @@ router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);
+router.post("/bookAppointment", bookAppointment);
 // router.post("");
 
 export default router;
