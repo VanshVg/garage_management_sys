@@ -7,6 +7,7 @@ import {
   insertData,
   selectByFieldName,
   selectByFieldNames,
+  updateFields,
 } from "../utils/dbHandler.js";
 
 export const appointmentsListing = async (req, res) => {
@@ -82,6 +83,12 @@ export const bookAppointment = async (req, res) => {
         .json({ success: false, message: "Unauthorised used" });
     }
 
+    let slot = await selectByFieldName("slot_master", "id", slotId);
+    if (!slot[0].availability_status) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Selected slot is already used" });
+    }
     let customerId = user[0].id;
 
     let appointmentResult = await insertData(
@@ -127,8 +134,11 @@ export const bookAppointment = async (req, res) => {
         }
       });
     });
+
     await servicePromise;
+
     let gst_amount = (sub_total * 12) / 100;
+
     let paymentResult = await insertData(
       "appointment_payments",
       ["appointment_id", "sub_total", "gst_amount"],
@@ -139,11 +149,24 @@ export const bookAppointment = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Something went wrong!" });
     }
+
+    let slotResult = await updateFields(
+      "slot_master",
+      { availability_status: 0 },
+      { id: slotId }
+    );
+    if (!slotResult.affectedRows) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Something went wrong!" });
+    }
+
     return res.status(200).json({
       success: true,
       message: "Appointment has been booked successfully",
     });
   } catch (error) {
+    console.log(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };
