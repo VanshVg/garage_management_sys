@@ -23,7 +23,7 @@
   <div class="section">
     <div class="show-data">
       <div class="card">
-        100 +
+        <div id="garageCount">100 +</div>
         Garage's Registered
       </div>
       <div class="card">
@@ -41,6 +41,13 @@
     </div>
   </div>
 
+  <script>
+    (async () => {
+      let data = await fetch('/garagesCount');
+      let json = await data.json();
+      document.getElementById('garageCount').innerHTML = json.count;
+    })();
+  </script>
 
 
   <%- include('./partials/foot') %>
