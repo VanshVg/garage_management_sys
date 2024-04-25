@@ -41,7 +41,9 @@
   <body class="bg-lightbg">
     <div class="mx-auto p-10" id="payment-container">
       <h1 class="text-center text-dark text-3xl font-bold">Payment Details</h1>
-      <p class="text-center mt-5 text-lg text-dark">Payment of : ₹ <%=finalAmount%> /-</p>
+      <p class="text-center mt-5 text-lg text-dark">
+        Payment of : ₹ <%=finalAmount%> /-
+      </p>
       <div class="mx-auto mt-10 bg-white rounded-[19px] py-10 px-7">
         <div class="flex mx-auto justify-center">
           <label class="text-dark text-lg">Choose a payment type:</label>
@@ -70,7 +72,10 @@
             <option value="axis">Axis Bank</option>
           </select>
         </div>
-        <div class="bg-dark h-[1px] w-[700px] mx-auto mt-10" id="payment-line"></div>
+        <div
+          class="bg-dark h-[1px] w-[700px] mx-auto mt-10"
+          id="payment-line"
+        ></div>
         <div class="mt-5" id="card-section">
           <h2 class="text-center text-2xl text-dark">Card Details</h2>
           <div class="flex justify-center mt-5">
@@ -128,7 +133,7 @@
         <div class="mt-10">
           <p
             class="text-center text-white mx-auto pt-[13px] rounded bg-dark w-[120px] h-[50px] hover:cursor-pointer"
-            onclick="addPayment()"
+            onclick="addPayment(`<%=finalAmount%>`)"
           >
             Pay Now
           </p>

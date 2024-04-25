@@ -12,9 +12,9 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-          errorMessage: "password must be at least 8 character..",
-          valid: false,
-        }
+            errorMessage: "password must be at least 8 character..",
+            valid: false,
+          }
         : { valid: true },
     digit10: (value) =>
       !/^\d{10}$/.test(value)
@@ -37,8 +37,8 @@ const Validation = {
         ? { errorMessage: "invalid email address..", valid: false }
         : { valid: true },
     match: (value) => {
-      return document.querySelector('#password').value != value ?
-        { errorMessage: "password not match...", valid: false }
+      return document.querySelector("#password").value != value
+        ? { errorMessage: "password not match...", valid: false }
         : { valid: true };
     },
     none: () => {
@@ -117,7 +117,6 @@ const Validation = {
           } else if (form == "u/register") {
             const activate = document.getElementById("activate");
             let href = document.createElement("a");
-            // console.log(data.userId.insertId);
             let text = `${location.origin}/u/activate/${data.userId.insertId}/${data.token}`;
             href.setAttribute("href", text);
             href.append(text);

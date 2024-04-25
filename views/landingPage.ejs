@@ -1,46 +1,74 @@
-<%- include('./partials/head.ejs') %>
+<%- include('./partials/head') %>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/styles/landingPage.css">
-  <div class="section">
-    <div class="container">
-
-      <div class="row-main flex">
-        <div class="col-1">
-          <h1 class="dark heading">Garage Management System</h1>
-          <div class='console-container'><span id='text'></span>
-            <div class='console-underscore' id='console'>&#95;</div>
-          </div>
-          <!-- <p class="dark para-1">Welcome to the ultimate and iconic world and explore our garage management system</p> -->
-
-          <div class="login button"><a href="/u/signIn" tabindex="1">Login</a></div>
-          <div class="signup button"><a href="/u">Register</a></div>
+  <%- include('./partials/navbar'); %>
+    <div class="section" id="landing-section">
+      <div class="container text-center type-writer py-[20%]">
+        <h1 class="text-white text-3xl font-bold">Garage Management System</h1>
+        <p class="text-teal-300">Welcome to the ultimate and iconic world and explore our garage management
+          system
+        </p>
+      </div>
+    </div>
+    <div class="section mt-8" id="section2">
+      <div class="show-data">
+        <div class="card">
+          <img src="/icons/car.svg" alt="car" class="w-10">
+          <h1 class="text-white font-bold">Oil Change</h1>
         </div>
-        <div class="col-2">
-          <div><img class="garage-logo" src="/assets/logo.png" alt="garage logo"></div>
+        <div class="card">
+          <img src="/icons/service.svg" alt="car" class="w-10">
+          <h1 class="text-white font-bold">Engine Repairing</h1>
+        </div>
+        <div class="card">
+          <img src="/icons/car.svg" alt="car" class="w-10">
+          <h1 class="text-white font-bold">General Service</h1>
+        </div>
+        <div class="card">
+          <img src="/icons/car.svg" alt="car" class="w-10">
+          <h1 class="text-white font-bold">Battery Repair</h1>
         </div>
       </div>
     </div>
-  </div>
-  <div class="section">
-    <div class="show-data">
-      <div class="card">
-        100 +
-        Garage's Registered
-      </div>
-      <div class="card">
-        1000+
-        Happy Customers
-      </div>
-      <div class="card">
-        5+
-        Years of experience
-      </div>
-      <div class="card">
-        100+
-        Services Available
+    <div class="section" id="section3">
+      <div class="show-data">
+        <div class="card">
+          <div id="garageCount">100 +</div>
+          Garage's Registered
+        </div>
+        <div class="card">
+          <div id="customerCount">1000 +</div>
+          Happy Customers
+        </div>
+        <div class="card">
+          <div id="yearsCount">5+</div>
+          Years of experience
+        </div>
+        <div class="card">
+          <div id="serviceCount">100+</div>
+          Services Available
+        </div>
       </div>
     </div>
-  </div>
+
+    <footer class="bg-dark text-white px-4 text-left">
+      <p>Copyright © 2024 Team Binary Vortex.</p>
+    </footer>
+
+    <script>
+      (async () => {
+        let data = await fetch('/garagesCount');
+        let json = await data.json();
+        document.getElementById('garageCount').innerHTML = json.count + " +";
+        data = await fetch('/customerCount');
+        json = await data.json();
+        document.getElementById('customerCount').innerHTML = json.count + " +";
+        data = await fetch('/serviceCount');
+        json = await data.json();
+        document.getElementById('serviceCount').innerHTML = json.count + " +";
+      })();
+    </script>
 
 
 
-  <%- include('./partials/foot') %>
+    <%- include('./partials/foot') %>

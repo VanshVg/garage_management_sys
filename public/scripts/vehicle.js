@@ -1,5 +1,5 @@
 const vehicleSelectionNext = () => {
-  console.log("Inside");
+  ("Inside");
   let fields = document.getElementsByName("vehicle");
   let type;
   fields.forEach((element) => {
@@ -26,6 +26,7 @@ const addVehicle = async () => {
       }
     }
   });
+  let typeId;
   let add = await fetch("/customer/addVehicle", {
     method: "POST",
     headers: {
@@ -33,7 +34,6 @@ const addVehicle = async () => {
     },
     body: JSON.stringify(vehicleData),
   });
-  console.log(add);
   let response = await add.json();
   if (response.success) {
     window.location.href = `/customer/addVehicle/${vehicleData.type}`;

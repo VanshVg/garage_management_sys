@@ -30,7 +30,6 @@ const handleUpdateForm = async (e) => {
     });
     response = await response.json();
 
-    console.log(response, "this is response");
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

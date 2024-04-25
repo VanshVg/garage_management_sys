@@ -35,6 +35,11 @@ import {
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { bookAppointment } from "../controllers/appointmentsController.js";
+import {
+  addPaymentDetails,
+  getPaymentDetails,
+} from "../controllers/paymentControllers.js";
 
 const router = express.Router();
 
@@ -69,6 +74,9 @@ router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);
+router.post("/bookAppointment", bookAppointment);
+router.get("/payment/:appointmentId", getPaymentDetails);
+router.post("/payment/:appointmentId", addPaymentDetails);
 // router.post("");
 
 export default router;

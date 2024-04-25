@@ -1,0 +1,22 @@
+<div class="service-container w-full">
+  <div class="flex justify-between items-center">
+    <select id="service-container-servicesList"
+      class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52">
+    </select>
+    <div class="service-button">
+      <p class="add-service-button" onclick="loadService('add-service-container')">Add Service</p>
+    </div>
+  </div>
+
+  <div class="services w-full m-0 p-0">
+    <div class="w-full flex flex-wrap -mx-2" id="services-row">
+
+    </div>
+  </div>
+</div>
+<script src="/scripts/loadServices.js"></script>
+<script src="/scripts/service.js"></script>
+<script>
+  loadService('service-container')
+</script>
+<%- include('./addService.ejs') %>

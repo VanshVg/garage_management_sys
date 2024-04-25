@@ -1,7 +1,7 @@
 <style>
     * {
         scroll-behavior: smooth;
-        transition: all .1s;
+        transition: all 0.1s;
     }
 
     ::placeholder {
@@ -16,12 +16,12 @@
         height: 0px;
     }
 
-    input[type=radio] {
+    input[type="radio"] {
         display: none;
     }
 
-    input[name=garage]:checked+label>div {
-        border: 1px solid white
+    input[name="garage"]:checked+label>div {
+        border: 1px solid white;
     }
 
     input[name=type]:checked+label>div,
@@ -30,112 +30,110 @@
         border: 1px solid white
     }
 
-    input[type=checkbox]:checked+label>div {
-        border: 1px solid white
+    input[type="checkbox"]:checked+label>div {
+        border: 1px solid white;
     }
 </style>
 <%- include('./customer/head.ejs') %>
     <link rel="stylesheet" href="/styles/mapOverlay.css">
     <toast></toast>
-    <% console.log(active) %>
-        <% var active=active || 'dashboard' ; %>
-            <div id="container" class="flex h-screen overflow-hidden w-full bg-lightbg">
-                <%- include('./customer/headbar.ejs') %>
-                    <div class="w-[78%] h-screen" id="mapScreen">
-                        <div class="h-screen w-full bg-lightbg relative">
-                            <div class="overlay absolute w-full h-full flex justify-center items-center"
-                                style="z-index: 99999;">
-                                <div class="ring">
-                                </div>
+    <% var active=active || 'dashboard' ; %>
+        <div id="container" class="flex h-screen overflow-hidden w-full bg-lightbg">
+            <%- include('./customer/headbar.ejs') %>
+                <div class="w-[78%] h-screen" id="mapScreen">
+                    <div class="h-screen w-full bg-lightbg relative">
+                        <div class="overlay absolute w-full h-full flex justify-center items-center"
+                            style="z-index: 99999;">
+                            <div class="ring">
                             </div>
-                            <%- include('./customer/dashboardMap.ejs')%>
-                                <div id="other"
-                                    class="absolute p-10 top-0 left-0 w-full h-full bg-[rgba(0,0,0,.2)] backdrop-blur-md flex justify-center items-center"
-                                    style="display: none;">
+                        </div>
+                        <%- include('./customer/dashboardMap.ejs')%>
+                            <div id="other"
+                                class="absolute p-10 top-0 left-0 w-full h-full bg-[rgba(0,0,0,.2)] backdrop-blur-md flex justify-center items-center"
+                                style="display: none;">
 
-                                </div>
-                                <div class=" absolute bottom-1 right-1" style="z-index: 99999999999;"
-                                    id="btn-container">
-                                    <button id="btn-prev" onclick="changePage('prev')"
-                                        class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6">
-                                        <<< </button>
-                                            <button id="btn-next"
-                                                class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6"
-                                                onclick="changePage('next')">
-                                                >>> </button>
-                                </div>
-                        </div>
+                            </div>
+                            <div class=" absolute bottom-1 right-1" style="z-index: 99999999999;" id="btn-container">
+                                <button id="btn-prev" onclick="changePage('prev')"
+                                    class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6">
+                                    <<< </button>
+                                        <button id="btn-next"
+                                            class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6"
+                                            onclick="changePage('next')">
+                                            >>> </button>
+                            </div>
                     </div>
-                    <div class="h-screen w-[22%] bg-dark" id="otherScreen">
-                        <div class="page-match-container w-full" id="dashboard-container">
-                            <strong class="text-white">Loading..</strong>
-                        </div>
-                        <div class="page-match-container w-full" id="vehicle-container" style="display: none;">
-                            <strong class="text-white">Loading..</strong>
-                        </div>
-                        <div class="page-match-container w-full" id="service-container" style="display: none;">
-                            <strong class="text-white">Loading..</strong>
-                        </div>
-                        <div class="page-match-container w-full" id="vehicleList-container" style="display: none;">
-                            <strong class="text-white">Vehicle Loading..</strong>
-                        </div>
-                        <div class="page-match-container w-full" id="slots-container" style="display: none;">
-                            <strong class="text-white">Slot..</strong>
-                        </div>
+                </div>
+                <div class="h-screen w-[22%] bg-dark" id="otherScreen">
+                    <div class="page-match-container w-full" id="dashboard-container">
+                        <strong class="text-white">Loading..</strong>
                     </div>
-                    <div class="page-match-container w-full relative" id="profile-container" style="display: none;">
-                        <strong class="text-white">Profile..</strong>
+                    <div class="page-match-container w-full" id="vehicle-container" style="display: none;">
+                        <strong class="text-white">Loading..</strong>
                     </div>
-            </div>
-            <script>
-                let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "payment", "profile"];
-                let nextOne = screen[screen.indexOf('<%= active%>')];
-                localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);
+                    <div class="page-match-container w-full" id="service-container" style="display: none;">
+                        <strong class="text-white">Loading..</strong>
+                    </div>
+                    <div class="page-match-container w-full" id="vehicleList-container" style="display: none;">
+                        <strong class="text-white">Vehicle Loading..</strong>
+                    </div>
+                    <div class="page-match-container w-full" id="slots-container" style="display: none;">
+                        <strong class="text-white">Slot..</strong>
+                    </div>
+                </div>
+                <div class="page-match-container w-full relative" id="profile-container" style="display: none;">
+                    <strong class="text-white">Profile..</strong>
+                </div>
+        </div>
+        <script>
+            let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "payment", "profile"];
+            let nextOne = screen[screen.indexOf('<%= active%>')];
+            localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);
 
-                const changePage = (step) => {
-                    let activeIndex = parseInt(localStorage.getItem("index"));
+            const changePage = (step) => {
+                let activeIndex = parseInt(localStorage.getItem("index"));
 
-                    if (activeIndex == 4 && step == "next") {
-                        validateStore.payment();
-                        return;
-                    }
-                    localStorage.setItem("index", (activeIndex + (step == 'prev' ? -1 : 1)))
-                    activeIndex = parseInt(localStorage.getItem("index"));
-                    if (activeIndex == 0) {
-                        document.getElementById('btn-prev').classList.add('hidden')
-                        document.getElementById('btn-next').classList.remove('hidden')
-                    }
-                    else if (activeIndex == screen.length - 1) {
-                        document.getElementById('btn-next').classList.add('hidden')
-                        document.getElementById('btn-prev').classList.remove('hidden')
-                    }
-                    else {
-                        document.getElementById('btn-prev').classList.remove('hidden')
-                        document.getElementById('btn-next').classList.remove('hidden')
-                    }
-                    if (activeIndex == 2) {
-                        addVehicleForm();
-                    }
-                    else {
-                        let formPlace = document.getElementById('other');
-                        formPlace.style.display = "none";
-                        formPlace.style.zIndex = 0
-                    }
-                    setActive(screen[activeIndex])
+                if (activeIndex == 4 && step == "next") {
+                    validateStore.payment();
+                    return;
                 }
-                const setActive = (activated = "dashboard") => {
-                    document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
-                    if (activated != "dashboard" && !localStorage.getItem('garageId') && activated != 'profile') {
-                        activated = "dashboard"
-                    }
-                    let matchScreen = document.querySelector(`#${activated}-container`);
-                    matchScreen.style.display = "block";
-                    steps[activated]();
-                    history.pushState(null, null, activated == "dashboard" ? "home" : activated)
+                localStorage.setItem("index", (activeIndex + (step == 'prev' ? -1 : 1)))
+                activeIndex = parseInt(localStorage.getItem("index"));
+                if (activeIndex == 0) {
+                    document.getElementById('btn-prev').classList.add('hidden')
+                    document.getElementById('btn-next').classList.remove('hidden')
                 }
-            </script>
-            <script src="/scripts/customer/profileFill.js"></script>
-            <script src="/scripts/customer/addVehicle.js"></script>
-            <script src="/scripts/customer/payment.js"></script>
-            <script src="/scripts/customer/stepHandler.js"></script>
-            <%- include('./customer/footer.ejs') %>
+                else if (activeIndex == screen.length - 1) {
+                    document.getElementById('btn-next').classList.add('hidden')
+                    document.getElementById('btn-prev').classList.remove('hidden')
+                }
+                else {
+                    document.getElementById('btn-prev').classList.remove('hidden')
+                    document.getElementById('btn-next').classList.remove('hidden')
+                }
+                if (activeIndex == 2) {
+                    addVehicleForm();
+                }
+                else {
+                    let formPlace = document.getElementById('other');
+                    formPlace.style.display = "none";
+                    formPlace.style.zIndex = 0
+                }
+                setActive(screen[activeIndex])
+            }
+            const setActive = (activated = "dashboard") => {
+                document.querySelectorAll('.page-match-container').forEach(page => page.style.display = "none")
+                if (activated != "dashboard" && !localStorage.getItem('garageId') && activated != 'profile') {
+                    activated = "dashboard"
+                }
+                let matchScreen = document.querySelector(`#${activated}-container`);
+                matchScreen.style.display = "block";
+                steps[activated]();
+                history.pushState(null, null, activated == "dashboard" ? "home" : activated)
+            }
+        </script>
+        <script src="/scripts/customer/profileFill.js"></script>
+        <script src="/scripts/customer/addVehicle.js"></script>
+        <script src="/scripts/customer/payment.js"></script>
+        <script src="/scripts/customer/stepHandler.js"></script>
+        <%- include('./customer/footer.ejs') %>

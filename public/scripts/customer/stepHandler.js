@@ -79,7 +79,6 @@ class APICaller {
     try {
       return await callAPI(APICaller.paths[step] + `${params}`);
     } catch (error) {
-      console.log(error);
       toast.show("error", error);
     }
   }

@@ -13,7 +13,6 @@ const updateDetails = async () => {
   userProfilePic.setAttribute("src", user.profile_pic);
   document.getElementById("name").innerHTML = user.name;
   document.getElementById("email").innerHTML = user.email;
-  console.log(userJson);
   document.getElementById("address").innerHTML =
     address.area +
     ", " +

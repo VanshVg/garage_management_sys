@@ -1,0 +1,41 @@
+<div class="container-slot" id="slot-container">
+  <div class="content">
+    <div class="title">
+      <div class="title-value">Slot List</div>
+      <div>
+        <input type="button" class="font-family add-slot" onclick="activeSub('slot-add')" value="Add Slot" />
+      </div>
+    </div>
+    <div class="serachbar-div">
+      <div class="flex w-full justify-end items-center">
+        <label for="garagesDropdown" class="font-family">Choose a Garage : </label>
+        <select name="garages" id="garagesDropdown" class="font-family dropdown-garage px-4 py-1 ml-4"
+          onchange="populateData()">
+          <option value="">All</option>
+        </select>
+      </div>
+    </div>
+    <div class="table">
+      <table id="table">
+        <tr class="table-head font-family">
+          <th>Sr. No</th>
+          <th>Garage Name</th>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </table>
+    </div>
+    <div class="pagination font-family">
+      <div class="font-family pagination-text"></div>
+      <div class="page-buttons button-group-pagination">
+        <input class="font-family buttons" type="button" value="Prev" id="prev" />
+        <div class="current font-family" id="pid">1</div>
+        <input class="font-family buttons" type="button" value="Next" id="next" />
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/scripts/garageList.js"></script>
