@@ -58,7 +58,6 @@ router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
 router.post("/getslots", customerSlotSelection);
-router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);

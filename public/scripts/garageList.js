@@ -19,6 +19,7 @@ getGarages();
 const deleteSlot = (id) => {
   Swal.fire({
     title: "Are you sure?",
+    text: `You want to delete this slot???`,
     showDenyButton: true,
     confirmButtonText: "Yes",
     denyButtonText: "No"
