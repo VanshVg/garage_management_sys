@@ -77,6 +77,15 @@ export const sessionEnd = (req, res) => {
 export const vehicles = async (req, res) => {
   res.render("customer", { active: "vehicle" });
 };
+export const vehiclesList = async (req, res) => {
+  res.render("customer", { active: "vehicleList" });
+};
+export const service = async (req, res) => {
+  res.render("customer", { active: "service" });
+};
+export const slot = async (req, res) => {
+  res.render("customer", { active: "slots" });
+};
 
 export const getCities = async (req, res) => {
   try {

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id=<%=  %>
+<form class="flex flex-col w-full h-max  rounded shadow-md p-4 bg-white" method="post" id=<%=formType %>
   onsubmit="handleGarage(event)" enctype="multipart/form-data">
   <h2 class="text-2xl font-bold mb-2 text-left text-dark">
     <%= formType=='addGarage' ? 'New' : 'Update' %> Garage
@@ -152,7 +152,5 @@
 </form>
 
 <script>
-  loadAddress("addGarage");
-  // imageSelection("garageAdd");
-  /*Map */
+  loadAddress('<%= formType %>');
 </script>

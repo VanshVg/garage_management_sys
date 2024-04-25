@@ -9,6 +9,9 @@ import {
   customerVehicleSelection,
   slotDisplay,
   vehicles,
+  vehiclesList,
+  service,
+  slot,
 } from "../controllers/staticControllers.js";
 import {
   addVehicle,
@@ -31,16 +34,20 @@ import {
 
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
-import { customerInvoice } from "../controllers/invoiceControllers.js";    
+import { customerInvoice } from "../controllers/invoiceControllers.js";
 
 const router = express.Router();
 
+/// for rendering
 router.get("/home", home);
 router.get("/vehicle", vehicles);
+router.get("/vehicleList", vehiclesList);
+router.get("/service", service);
+router.get("/slots", slot);
+
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
 router.get("/garageList", getGarages);
-router.get("/service");
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);
@@ -56,7 +63,7 @@ router.put("/profile/update", upload.single("thumbnail"), updateProfile);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);
-router.post("/getslots", customerSlotSelection);
+router.get("/getslots/:garageId/:date", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
 router.get("/appointments", showAppointments);

@@ -100,7 +100,7 @@ export const addVehicle = async (req, res) => {
 export const getVehicleTypes = async (req, res) => {
   try {
     let types = await getVehicleType();
-    res.status(200).json({ success: true, types });
+    res.status(200).json({ success: true, result: types });
   } catch (error) {
     res.status(503).json({ success: false, message: "Something went wrong!" });
   }

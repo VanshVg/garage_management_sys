@@ -134,8 +134,6 @@ button {
   color: var(--light-bg);
   font-size: 14px;
   letter-spacing: 1px;
-  font-family: "Kurale" serif;
-  text-align: center;
 }
 
 ::-webkit-scrollbar {

@@ -65,7 +65,7 @@ export const servicesListing = async (req, res) => {
   let { garageId } = req.params;
   try {
     const servicesList = await serviceListing(garageId);
-    res.json(servicesList);
+    res.json({ success: true, result: servicesList });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
