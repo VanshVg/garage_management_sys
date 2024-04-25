@@ -24,6 +24,52 @@ body {
   height: 700px;
 }
 
+#landing-section {
+  margin: 0 auto;
+  margin-top: 4rem;
+  background: linear-gradient(-180deg, rgba(0, 0, 0, 0.731), rgba(0, 15, 69, 0.731)), url('/assets/garage-background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 92vh;
+
+  .type-writer {
+    max-width: max-content;
+  }
+}
+
+.type-writer p {
+  overflow: hidden;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  animation:
+    typing 3.5s steps(40, end);
+  /* ,blink-caret .75s step-end infinite; */
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: orange;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 80%;
@@ -33,10 +79,6 @@ body {
 
 .dark {
   color: var(--dark);
-}
-
-.flex {
-  display: flex;
 }
 
 .col-1 {
@@ -94,4 +136,28 @@ body {
   font-size: 30px;
   color: var(--white);
   border-radius: 7px;
+}
+
+.list-container {
+  display: flex;
+  list-style-type: none;
+  justify-content: end;
+  gap: 1rem;
+  background-color: var(--dark);
+  color: white;
+
+  .list {
+    margin: 1rem 0;
+    margin-right: 1rem;
+    font-size: large;
+    font-weight: bold;
+  }
+}
+
+.bg-dark {
+  background-color: var(--dark);
+}
+
+.text-dark {
+  color: var(--dark);
 }

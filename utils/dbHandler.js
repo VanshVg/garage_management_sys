@@ -803,7 +803,27 @@ export const garagesCount = async () => {
   try {
     let query = "SELECT count(*) as count FROM garage_master;";
     let result = await conn.query(query);
-    return result.count;
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+}
+
+export const customersCount = async () => {
+  try {
+    let query = "SELECT count(*) as count FROM users where role_id = 0;"
+    let result = await conn.query(query);
+    return result[0];
+  } catch (error) {
+    return { error };
+  }
+}
+
+export const servicesCount = async () => {
+  try {
+    let query = "SELECT count(*) as count FROM service_master;"
+    let result = await conn.query(query);
+    return result[0];
   } catch (error) {
     return { error };
   }

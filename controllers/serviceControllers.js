@@ -7,6 +7,7 @@ import {
   insertGarageService,
   insertService,
   serviceListing,
+  servicesCount,
 } from "../utils/dbHandler.js";
 import { logger } from "../helpers/loger.js";
 
@@ -105,3 +106,16 @@ export const findOwnerService = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+export const serviceCount = async (req, res) => {
+  try {
+    let result = await servicesCount();
+    let count = result[0].count;
+    if (count > 1000) count = 1000;
+    else if (count > 100) count = 100;
+    else if (count > 10) count = 10;
+    res.status(201).json({ success: true, count });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+}

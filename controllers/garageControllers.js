@@ -241,8 +241,12 @@ export const showGarageAppointments = async (req, res) => {
 
 export const garageCount = async (req, res) => {
   try {
-    let count = await garagesCount();
-    res.status(201).json({ success: false, count });
+    let result = await garagesCount();
+    let count = result[0].count;
+    if (count > 1000) count = 1000;
+    else if (count > 100) count = 100;
+    else if (count > 10) count = 10;
+    res.status(201).json({ success: true, count });
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
