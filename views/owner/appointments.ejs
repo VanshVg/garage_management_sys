@@ -89,16 +89,26 @@
     if (id == 1) document.getElementById(divs[1]).classList.add('flex');
   }
   const handleAppointment = async (id, appointmentId) => {
-    let formData = new FormData();
-    formData.append("id", id);
-    formData.append("appointmentId", appointmentId);
-    const result = await fetch("/owner/updateAppointment", {
-      method: "POST",
-      body: new URLSearchParams(formData)
+    Swal.fire({
+      title: "Are you sure?",
+      text: id == 0 ? `You want to delete this appointment???` : `You want to approve this appointment???`,
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let formData = new FormData();
+        formData.append("id", id);
+        formData.append("appointmentId", appointmentId);
+        const result = await fetch("/owner/updateAppointment", {
+          method: "POST",
+          body: new URLSearchParams(formData)
+        });
+        const response = await result.json();
+        toast.show(response.success ? "success" : "error", response.message);
+        loadAppointments();
+      }
     });
-    const response = await result.json();
-    toast.show(response.success ? "success" : "error", response.message);
-    loadAppointments();
   }
 
   const updateTable = (appointments) => {

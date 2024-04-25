@@ -8,7 +8,7 @@ import {
 import { logger } from "../helpers/loger.js";
 // landing page
 export const landingPage = (req, res) => {
-  res.render("landing", { title: "Garage Management System" });
+  res.render("landingPage", { title: "Garage Management System" });
 };
 
 export const dashboard = (req, res) => {

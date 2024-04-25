@@ -1,3 +1,4 @@
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="/scripts/apiCall.js"></script>
 <script src="/scripts/loadAddress.js"></script>
 <script src="/scripts/updateDetails.js"></script>
@@ -46,12 +47,12 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow overflow-hidden"
                         style="display: none;" id="dashboard-screen">
                         <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>
-                            <%- include(`./partials/dashboard.ejs`) %>
+                            <%- include(`./owner/dashboard.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="profile-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Profile"})%>
-                            <%- include(`./partials/profile.ejs`) %>
+                            <%- include(`./owner/profile.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="profile-edit-screen">
@@ -61,47 +62,47 @@
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garages-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
-                            <%- include(`./partials/garages.ejs`) %>
+                            <%- include(`./owner/garages.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="services-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Services"})%>
-                            <%- include(`./partials/services.ejs`) %>
+                            <%- include(`./owner/services.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="slots-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Slots"})%>
-                            <%- include(`./partials/slots.ejs`) %>
+                            <%- include(`./owner/slots.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="slot-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Slots/Edit"})%>
-                            <%- include(`./partials/addSlot`) %>
+                            <%- include(`./owner/addSlot`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="appointment-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
-                            <%- include(`./partials/appointments.ejs`) %>
+                            <%- include(`./owner/appointments.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="inventory-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Inventory"})%>
-                            <%- include(`./partials/inventory.ejs`) %>
+                            <%- include(`./owner/inventory.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="employee-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Employees"})%>
-                            <%- include(`./partials/employee.ejs`) %>
+                            <%- include(`./owner/employee.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="employee-add-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Employees/Add"})%>
-                            <%- include(`./partials/addEmployee.ejs`, {formType: 'addEmployee'}) %>
+                            <%- include(`./owner/addEmployee.ejs`, {formType: 'addEmployee' }) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="invoice-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
-                            <%- include(`./partials/invoice.ejs`) %>
+                            <%- include(`./owner/invoice.ejs`) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="garage-add-screen">
@@ -116,9 +117,12 @@
 
 
             </div>
+
             <script>
+
                 updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
+                    
                     document.title = activated.charAt(0).toUpperCase() + activated.slice(1);
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {
@@ -159,6 +163,6 @@
                         history.pushState(null, null, li.id == "dashboard" ? "home" : li.id)
                     })
                 });
-            </script>
 
+            </script>
             <%- include('./partials/foot') %>

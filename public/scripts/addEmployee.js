@@ -27,7 +27,7 @@ const handleEmployeeAddForm = async (e) => {
       
       formData.append("userId", localStorage.getItem("userId"));
       formProps = Object.fromEntries(formData);
-      console.log(formProps);
+      // console.log(formProps);
     //   debugger
     //   let response = await fetch("/owner/profile/update", {
     //     method: "PUT",

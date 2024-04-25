@@ -16,18 +16,8 @@ export const addVehicle = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Invalid payload" });
     }
-    const {
-      vehicle,
-      vehicleImage,
-      brand,
-      model,
-      year,
-      numberPlate,
-      description,
-    } = req.body;
-    // console.log(req.body.vehicle);
-
-    let [vId] = await selectByFieldName("vehicle_types", "name", vehicle);
+    const { type, vehicleImage, brand, model, year, numberPlate, description } =
+      req.body;
 
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
@@ -56,7 +46,7 @@ export const addVehicle = async (req, res) => {
       let vehicleResult = await insertData(
         "vehicle_master",
         ["type_id", "brand", "model", "year"],
-        [vId.id, brand, model, year]
+        [type, brand, model, year]
       );
       if (!vehicleResult.insertId) {
         return res
@@ -85,13 +75,18 @@ export const addVehicle = async (req, res) => {
       ["condition_image", "description", "vehicle_id"],
       [vehicleImage, description, userVehicle.insertId]
     );
+
     if (!vehicleCondition.insertId) {
       return res
         .status(301)
         .json({ success: false, message: "something went wrong" });
     }
 
-    return res.render("customer", { active: "addVehicle" });
+    return res.status(200).json({
+      success: true,
+      message: "Vehicle added successfully",
+      vehicleId: userVehicle.insertId,
+    });
   } catch (error) {
     logger.error(error);
     return res

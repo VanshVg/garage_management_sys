@@ -16,6 +16,7 @@ import {
   getGarageAppointments,
   getGarageDuration,
   updateFields,
+  garagesCount,
 
 } from "../utils/dbHandler.js";
 
@@ -235,5 +236,14 @@ export const showGarageAppointments = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Something went wrong!" });
+  }
+}
+
+export const garageCount = async (req, res) => {
+  try {
+    let count = await garagesCount();
+    res.status(201).json({ success: false, count });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 }
