@@ -1,3 +1,4 @@
+import { logger } from "../helpers/loger.js";
 import { resolve } from "path";
 import {
   countAppointments,
@@ -21,6 +22,7 @@ export const appointmentsListing = async (req, res) => {
     });
     res.status(201).json({ success: true, appointments });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -40,6 +42,7 @@ export const bookedAppointments = async (req, res) => {
     });
     res.status(201).json({ success: false, appointments });
   } catch (error) {
+    logger.log(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -51,6 +54,7 @@ export const getAppointmentCount = async (req, res) => {
     );
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -166,7 +170,7 @@ export const bookAppointment = async (req, res) => {
       message: "Appointment has been booked successfully",
     });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };

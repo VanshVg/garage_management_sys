@@ -1,6 +1,6 @@
 import { getCity, getState } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
-// garage add
 export const stateList = async (req, res) => {
   try {
     let state = await getState();
@@ -10,6 +10,7 @@ export const stateList = async (req, res) => {
       message: "Success State List Found...",
     });
   } catch (error) {
+    logger.error(error);
     res.status(503).json({
       success: false,
       message: "Internal Server Error..!!",
@@ -27,10 +28,11 @@ export const cityList = async (req, res) => {
       message: "Success City List Found...",
     });
   } catch (error) {
+    logger.error(error);
     res.status(503).json({
       success: false,
       message: "Internal Server Error..!!",
     });
   }
 };
-// garage update
+

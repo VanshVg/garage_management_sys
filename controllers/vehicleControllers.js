@@ -6,6 +6,7 @@ import {
   selectByFieldName,
   selectByFieldNames,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const addVehicle = async (req, res) => {
   try {
@@ -87,6 +88,7 @@ export const addVehicle = async (req, res) => {
       vehicleId: userVehicle.insertId,
     });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });
@@ -97,6 +99,7 @@ export const getVehicleTypes = async (req, res) => {
     let types = await getVehicleType();
     res.status(200).json({ success: true, types });
   } catch (error) {
+    logger.error(error);
     res.status(503).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -107,6 +110,7 @@ export const getUserVehicle = async (req, res) => {
     let vehicleData = await findVehicleData(req.user.email, type);
     return res.json({ success: true, result: vehicleData });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });

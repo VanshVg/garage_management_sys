@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { logger } from "../helpers/loger.js";
 import {
   countRevenue,
   insertData,
@@ -27,9 +28,8 @@ export const getPaymentDetails = async (req, res) => {
     }
     return res.render("paymentDetails", { finalAmount });
   } catch (error) {
-    return res
-      .status(301)
-      .json({ success: false, message: "Something went wrong!" });
+    logger.error(error);
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -114,9 +114,8 @@ export const addPaymentDetails = async (req, res) => {
         customerEmail: req.user.email,
       });
   } catch (error) {
-    return res
-      .status(301)
-      .json({ success: false, message: "Something went wrong!" });
+    logger.error(error);
+    return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -127,6 +126,7 @@ export const generateRevenue = async (req, res) => {
     result[0].revenue = formatter.format(result[0].revenue);
     res.status(200).json({ success: true, result });
   } catch (error) {
-    res.status(301).json({ success: false, message: "Something went wrong!" });
+    logger.error(error);
+    res.status(301).json({ success: false, message: "Something went wrong!" })
   }
 };
