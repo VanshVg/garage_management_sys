@@ -18,6 +18,7 @@ import {
 import { insert, findOne } from '../utils/common.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { logger } from "../helpers/loger.js";
 
 export const register = async (req, res) => {
   try {
@@ -92,15 +93,15 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid email or password!" });
     } else {
       let userIp = req.socket.remoteAddress;
-      let userLog = await selectByFieldNames("login_logs", {user_id:user[0].id, attempt_sys_ip: userIp});
-      if(userLog.length == 0) {
+      let userLog = await selectByFieldNames("login_logs", { user_id: user[0].id, attempt_sys_ip: userIp });
+      if (userLog.length == 0) {
         let insertLog = await insertData("login_logs", ["user_id", "attempt_count", "attempt_sys_ip"], [user[0].id, 1, userIp]);
-        if(!insertLog.insertId) {
+        if (!insertLog.insertId) {
           return res.status(500).json({ success: false, message: "Something went wrong!" });
         }
       } else {
-        let updateLog = await updateFields("login_logs", {attempt_count:userLog[0].attempt_count+1}, {user_id: user[0].id, attempt_sys_ip: userIp});
-        if(!updateLog.affectedRows) {
+        let updateLog = await updateFields("login_logs", { attempt_count: userLog[0].attempt_count + 1 }, { user_id: user[0].id, attempt_sys_ip: userIp });
+        if (!updateLog.affectedRows) {
           return res.status(500).json({ success: false, message: "Something went wrong!" });
         }
       }
@@ -172,8 +173,8 @@ export const reset = async (req, res) => {
     let log = await insertData("password_change_logs", ["user_id", "password"], [result[0].id, result[0].password]);
 
     result = await updatePassword(result[0].id, hashedPassword);
-    
-    if(!log.affectedRows) {
+
+    if (!log.affectedRows) {
       return res.status(500).json({ success: false, message: "Something went wrong!" });
     }
 
@@ -253,6 +254,7 @@ export const daysCount = async (req, res) => {
     const days = Math.floor(time / (24 * 60 * 60 * 1000));
     res.status(201).json({ success: true, days });
   } catch (error) {
+    logger.error('Something went wrong!');
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 }

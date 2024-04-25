@@ -1,4 +1,5 @@
 import conn from "../config/dbConfig.js";
+import { logger } from "../helpers/loger.js";
 
 export const findOneById = async (userId) => {
   try {
@@ -785,6 +786,7 @@ export const countRevenue = async (userId) => {
     let result = await conn.query(query, [userId]);
     return result[0];
   } catch (err) {
+    logger.error('error in sql statement!');
     return { err };
   }
 };
