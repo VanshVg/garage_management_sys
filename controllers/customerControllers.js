@@ -20,9 +20,9 @@ export const getAllCustomers = async (req, res) => {
 
 export const customerSlotSelection = async (req, res) => {
   try {
-    let { garageId, date } = req.body;
+    let { garageId, date } = req.params;
     const result = await customerSlotListing(garageId, date);
-    res.status(201).json({ result });
+    res.status(201).json({ success: true, result });
   } catch (error) {
     logger.error(error);
     res.status(401).json({ success: false, message: "something went wrong" });
@@ -30,8 +30,8 @@ export const customerSlotSelection = async (req, res) => {
 };
 
 export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs")
-}
+  res.render("customerFeedback.ejs");
+};
 
 export const CustomerFeedbackPost = async (req, res) => {
   try {
@@ -85,4 +85,4 @@ export const customerCount = async (req, res) => {
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
-}
+};

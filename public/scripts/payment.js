@@ -53,7 +53,6 @@ const addPayment = async (finalAmount) => {
     body: JSON.stringify(data),
   });
   let paymentResponse = await paymentRequest.json();
-  console.log(paymentResponse);
   if (paymentResponse.success) {
     await generateInvoice(appointmentId, paymentResponse.customerEmail);
     Swal.fire({

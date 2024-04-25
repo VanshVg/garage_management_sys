@@ -292,7 +292,6 @@
         animateNumber(cancelled || 0, 2, 'cancelCount');
         animateNumber(10, 20000, "staffCount");
         const revenue = await callAPI('/owner/revenueCount');
-        console.log(revenue)
         document.getElementById('revenueCount').innerText = revenue.result[0]?.revenue || 0;
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
             const chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions(successful, pending, cancelled));

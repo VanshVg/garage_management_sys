@@ -1,13 +1,11 @@
 import conn from "../config/dbConfig.js";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 
 const socket = async (server) => {
-
   const io = new Server(server);
 
   io.on("connection", async (socket) => {
-
-    try{
+    try {
       let userNotification = `select c.id as id, d.name as customerName, b.start_time as startTime, 
       b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as 
       c join users as d 
@@ -24,19 +22,12 @@ const socket = async (server) => {
       );
 
       socket.emit("notification", notification);
-
-    }catch(err){
-      console.log(err);
-    }
+    } catch (err) {}
   });
 
-  io.on("chat", (msg) => {
-    console.log("chat");
-  })
+  io.on("chat", (msg) => {});
 
   return io;
-
-
 };
 
 export default socket;

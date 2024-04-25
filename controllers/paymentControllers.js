@@ -29,7 +29,9 @@ export const getPaymentDetails = async (req, res) => {
     return res.render("paymentDetails", { finalAmount });
   } catch (error) {
     logger.error(error);
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -87,10 +89,7 @@ export const addPaymentDetails = async (req, res) => {
         finalAmount,
       ]
     );
-    console.log(result);
     if (!result.insertId) {
-      console.log("error");
-
       return res
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
@@ -106,16 +105,16 @@ export const addPaymentDetails = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Payment done successfully",
-        customerEmail: req.user.email,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Payment done successfully",
+      customerEmail: req.user.email,
+    });
   } catch (error) {
     logger.error(error);
-    return res.status(301).json({ success: false, message: "Something went wrong!" });
+    return res
+      .status(301)
+      .json({ success: false, message: "Something went wrong!" });
   }
 };
 
@@ -127,6 +126,6 @@ export const generateRevenue = async (req, res) => {
     res.status(200).json({ success: true, result });
   } catch (error) {
     logger.error(error);
-    res.status(301).json({ success: false, message: "Something went wrong!" })
+    res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };

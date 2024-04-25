@@ -122,8 +122,9 @@ const fillGarages = async () => {
                       </g>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-justify tracking-tight text-sm">${garage.description?.substring(0, 150) || ""
-                }...</p>
+              <p class="text-dark font-semibold text-justify tracking-tight text-sm">${
+                garage.description?.substring(0, 150) || ""
+              }...</p>
           </div>
 
       </div>
@@ -146,7 +147,6 @@ const hideEditBox = (id) => {
 };
 
 const deleteGarage = (garageId, garageName) => {
-  console.log(garageId, garageName);
   Swal.fire({
     title: "Are you sure?",
     text: `really you want to delete ${garageName} garage???`,
