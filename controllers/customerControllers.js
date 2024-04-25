@@ -1,5 +1,6 @@
 import {
   customerSlotListing,
+  customersCount,
   getCustomerAppointments,
   getCustomerNames,
   ifFeedbackExist,
@@ -28,7 +29,7 @@ export const customerSlotSelection = async (req, res) => {
 export const CustomerFeedback = async (req, res) => {
   res.render("customerFeedback.ejs")
 }
-  
+
 export const CustomerFeedbackPost = async (req, res) => {
   try {
     let { customerId, garageId, rating, message } = req.body;
@@ -67,3 +68,16 @@ export const showAppointments = async (req, res) => {
       .json({ success: false, message: "Something went wrong!" });
   }
 };
+
+export const customerCount = async (req, res) => {
+  try {
+    let result = await customersCount();
+    let count = result[0].count;
+    if (count > 1000) count = 1000;
+    else if (count > 100) count = 100;
+    else if (count > 10) count = 10;
+    res.status(201).json({ success: true, count });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+}
