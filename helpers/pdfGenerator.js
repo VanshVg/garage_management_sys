@@ -10,7 +10,6 @@ export const generatePdf = async (fileContent, userId, appointmentId) => {
     format: "A4",
     printBackground: true,
   });
-  console.log("Here");
   await browser.close();
   return fileName;
 };
