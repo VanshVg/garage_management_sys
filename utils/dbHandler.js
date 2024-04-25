@@ -696,7 +696,7 @@ export const insertFeedback = async (
 
 export const getInvoiceDetails = async (appointmentDetails) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, users.name AS customer_name, address_master.area, address_master.pincode, city_name, service_master.description AS service_description, garage_has_services.price, appointment_payments.status AS payment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN users ON appointments.customer_id = users.id JOIN user_address ON users.id = user_address.user_id JOIN address_master ON user_address.address_id = address_master.id JOIN city_master ON address_master.city_id = city_master.id JOIN appointment_services ON appointments.id = appointment_services.appointment_id JOIN service_master ON appointment_services.service_id = service_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN garage_has_services ON garage_has_services.garage_id = garage_master.id WHERE appointments.id = ? AND users.id=?;`;
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, users.name AS customer_name, address_master.area, address_master.pincode, city_name, service_master.description AS service_description, appointment_payments.status AS payment_status, garage_has_services.price FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN users ON appointments.customer_id = users.id JOIN user_address ON users.id = user_address.user_id JOIN address_master ON user_address.address_id = address_master.id JOIN city_master ON address_master.city_id = city_master.id JOIN appointment_services ON appointments.id = appointment_services.appointment_id JOIN service_master ON appointment_services.service_id = service_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN garage_has_services ON garage_has_services.services_id = service_master.id WHERE appointments.id = ? AND users.id = ?;`;
     let [result] = await conn.query(query, appointmentDetails);
     return result;
   } catch (error) {
@@ -797,4 +797,14 @@ export const handleUpdateAppointments = async (status, appointmentId) => {
   } catch (error) {
     return { error };
   }
-}
+};
+
+export const garagesCount = async () => {
+  try {
+    let query = "SELECT count(*) as count FROM garage_master;";
+    let result = await conn.query(query);
+    return result.count;
+  } catch (error) {
+    return { error };
+  }
+};
