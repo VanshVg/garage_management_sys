@@ -786,7 +786,6 @@ export const countRevenue = async (userId) => {
     let result = await conn.query(query, [userId]);
     return result[0];
   } catch (err) {
-    logger.error('error in sql statement!');
     return { err };
   }
 };

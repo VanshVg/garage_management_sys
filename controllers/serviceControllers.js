@@ -8,6 +8,7 @@ import {
   insertService,
   serviceListing,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const addService = async (req, res) => {
   try {
@@ -40,6 +41,7 @@ export const addService = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Service added successfully" });
   } catch (err) {
+    logger.error(err);
     return res.status(301).json({ success: false, message: err.message });
   }
 };
@@ -57,6 +59,7 @@ export const deleteService = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Service deleted successfully" });
   } catch (err) {
+    logger.error(err);
     return res.status(301).json({ success: false, message: err.message });
   }
 };
@@ -67,6 +70,7 @@ export const servicesListing = async (req, res) => {
     const servicesList = await serviceListing(garageId);
     res.json(servicesList);
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -76,6 +80,7 @@ export const allServices = async (req, res) => {
     const services = await getServices();
     res.status(201).json({ success: true, services });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -85,7 +90,7 @@ export const getServiceCount = async (req, res) => {
     const serviceCount = await countServices(req.user.id);
     res.status(201).json({ success: true, serviceCount });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -96,6 +101,7 @@ export const findOwnerService = async (req, res) => {
     const services = await getOwnerService(req.user.id, garageId);
     res.status(201).json({ success: true, services });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };

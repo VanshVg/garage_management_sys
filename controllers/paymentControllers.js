@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { countRevenue, insertData, selectByFieldName, updateFields } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const getPaymentDetails = async (req, res) => {
   try {
@@ -18,6 +19,7 @@ export const getPaymentDetails = async (req, res) => {
     }
     return res.render("paymentDetails", { finalAmount });
   } catch (error) {
+    logger.error(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 }
@@ -54,6 +56,7 @@ export const addPaymentDetails = async (req, res) => {
 
     return res.status(200).json({ success: true, message: "Payment done successfully" });
   } catch (error) {
+    logger.error(error);
     return res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 }
@@ -65,6 +68,7 @@ export const generateRevenue = async (req, res) => {
     result[0].revenue = formatter.format(result[0].revenue);
     res.status(200).json({ success: true, result });
   } catch (error) {
+    logger.error(error);
     res.status(301).json({ success: false, message: "Something went wrong!" })
   }
 }

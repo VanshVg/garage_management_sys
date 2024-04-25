@@ -5,7 +5,7 @@ import {
   getNotAvailableService,
   serviceListing,
 } from "../utils/dbHandler.js";
-
+import { logger } from "../helpers/loger.js";
 // landing page
 export const landingPage = (req, res) => {
   res.render("landing", { title: "Garage Management System" });
@@ -87,6 +87,7 @@ export const getCities = async (req, res) => {
     );
     res.status(201).json({ cities });
   } catch (error) {
+    logger.error(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -107,6 +108,7 @@ export const getUserDetails = async (req, res) => {
       vehicleServices: vehicleServices,
     });
   } catch (error) {
+    logger.error(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -152,6 +154,7 @@ export const getGarageNotService = async (req, res) => {
     const services = await getNotAvailableService([id]);
     res.status(201).json({ services });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -162,6 +165,7 @@ export const servicesListing = async (req, res) => {
     const servicesList = await serviceListing(garageId);
     res.json(servicesList);
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -176,6 +180,7 @@ export const getGarageCount = async (req, res) => {
     );
     res.status(201).json({ success: true, garageCount });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -199,6 +204,7 @@ export const getAppointmentCount = async (req, res) => {
     );
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -216,6 +222,7 @@ export const getAllCustomers = async (req, res) => {
     const result = await getCustomerNames(1);
     res.json({ result: result });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -225,6 +232,7 @@ export const garageAddress = async (req, res) => {
     const result = await getGarageAddress([req.params.garageId]);
     res.status(201).json({ address: result });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };

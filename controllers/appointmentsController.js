@@ -1,4 +1,5 @@
 import { countAppointments, getAppointments, getBookedAppointments, handleUpdateAppointments } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ export const appointmentsListing = async (req, res) => {
     });
     res.status(201).json({ success: true, appointments });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 }
@@ -30,6 +32,7 @@ export const bookedAppointments = async (req, res) => {
     });
     res.status(201).json({ success: false, appointments });
   } catch (error) {
+    logger.log(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 }
@@ -39,6 +42,7 @@ export const getAppointmentCount = async (req, res) => {
     const { pending, successful, cancelled } = await countAppointments(req.user.id);
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -53,6 +57,7 @@ export const updateAppointment = async (req, res) => {
       , message: "Appointment updated successfully!"
     });
   } catch (error) {
+    logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 }

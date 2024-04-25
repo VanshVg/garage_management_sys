@@ -50,6 +50,7 @@ export const register = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -72,6 +73,7 @@ export const activate = async (req, res) => {
       });
     }
   } catch (err) {
+    logger.error(err);
     res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -134,6 +136,7 @@ export const login = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -153,6 +156,7 @@ export const forget = async (req, res) => {
       email,
     });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -183,6 +187,7 @@ export const reset = async (req, res) => {
       message: "password updated successfully",
     });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -230,6 +235,7 @@ export const updateProfile = async (req, res) => {
       .status(200)
       .json({ success: true, message: "User updated successfully" });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -242,6 +248,7 @@ export const getUserDetails = async (req, res) => {
     const vehicleServices = await getVehicleAssociatedServices(user.id)
     res.status(201).json({ user, address: address[0], vehicleServices: vehicleServices });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -254,7 +261,7 @@ export const daysCount = async (req, res) => {
     const days = Math.floor(time / (24 * 60 * 60 * 1000));
     res.status(201).json({ success: true, days });
   } catch (error) {
-    logger.error('Something went wrong!');
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 }
