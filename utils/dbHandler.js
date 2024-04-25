@@ -798,3 +798,13 @@ export const handleUpdateAppointments = async (status, appointmentId) => {
     return { error };
   }
 }
+
+export const garagesCount = async () => {
+  try {
+    let query = "SELECT count(*) as count FROM garage_master;"
+    let result = await conn.query(query);
+    return result.count;
+  } catch (error) {
+    return { error };
+  }
+}

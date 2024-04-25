@@ -13,6 +13,7 @@ import customerRoutes from "./customerRoutes.js";
 import commonRoutes from "./commonRoutes.js";
 import passport from "passport";
 import { validateRole } from "../services/roleServices.js";
+import { garageCount } from "../controllers/garageControllers.js";
 
 const router = express.Router();
 
@@ -42,6 +43,7 @@ router.use(
 
 // authentication routes
 router.use("/u", isAlreadyLoggedIn, authRoutes);
+router.get('/garagesCount', garageCount);
 
 // landing page
 router.get("/", isAlreadyLoggedIn, landingPage);
