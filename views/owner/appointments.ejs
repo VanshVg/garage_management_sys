@@ -105,6 +105,11 @@
           body: new URLSearchParams(formData)
         });
         const response = await result.json();
+
+        if(result.status == 201){
+          notification();
+        }
+
         toast.show(response.success ? "success" : "error", response.message);
         loadAppointments();
       }

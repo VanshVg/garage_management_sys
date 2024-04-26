@@ -573,10 +573,10 @@ export const getVehicleType = async () => {
 };
 export const findVehicleData = async (email, type) => {
   try {
-    let query = `SELECT user_has_vehicles.vehicle_id,users.email,vehicle_types.name, vehicle_master.brand, 
-    vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number
-    from vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
-    on vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
+    let query = `SELECT user_has_vehicles.id,users.email,vehicle_types.name, vehicle_master.brand, 
+    vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number,vehicle_condition.condition_image
+    from vehicle_condition inner join vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
+    on vehicle_condition.vehicle_id=user_has_vehicles.id and vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
     and users.id = user_has_vehicles.owner_id and users.email = ? and vehicle_types.id = ?;`;
     let [result] = await conn.query(query, [email, type]);
     return result;
@@ -606,6 +606,30 @@ export const getAppointments = async (ownerDetails) => {
     return { error };
   }
 };
+
+export const getNotifications = async (userId) => {
+  try{
+    let query = "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 0;"
+
+    let result = await conn.query(query,userId);
+    return result[0];
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const findOwner = async (garageId) => {
+  try{
+
+    let query = "select og.owner_id as 'owner_id' from garage_master as gm join owner_has_garages as og on gm.id = og.garage_id where garage_id = ?;"
+
+    let result = await conn.query(query,garageId);
+    return result[0];
+
+  }catch(err){
+    console.log(err);
+  }
+}
 
 export const getBookedAppointments = async (ownerDetails) => {
   try {
@@ -807,21 +831,21 @@ export const garagesCount = async () => {
   } catch (error) {
     return { error };
   }
-}
+};
 
 export const customersCount = async () => {
   try {
-    let query = "SELECT count(*) as count FROM users where role_id = 0;"
+    let query = "SELECT count(*) as count FROM users where role_id = 0;";
     let result = await conn.query(query);
     return result[0];
   } catch (error) {
     return { error };
   }
-}
+};
 
 export const servicesCount = async () => {
   try {
-    let query = "SELECT count(*) as count FROM service_master;"
+    let query = "SELECT count(*) as count FROM service_master;";
     let result = await conn.query(query);
     return result[0];
   } catch (error) {
