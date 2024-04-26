@@ -1,3 +1,4 @@
+import { logger } from "../helpers/loger.js";
 import { resolve } from "path";
 import {
   countAppointments,
@@ -8,7 +9,11 @@ import {
   selectByFieldName,
   selectByFieldNames,
   updateFields,
+  getNotifications,
+  findOwner
 } from "../utils/dbHandler.js";
+
+import {getInstance} from "../utils/socket.js"
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -21,6 +26,7 @@ export const appointmentsListing = async (req, res) => {
     });
     res.status(201).json({ success: true, appointments });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -40,6 +46,7 @@ export const bookedAppointments = async (req, res) => {
     });
     res.status(201).json({ success: false, appointments });
   } catch (error) {
+    logger.log(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -51,6 +58,7 @@ export const getAppointmentCount = async (req, res) => {
     );
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -63,6 +71,17 @@ export const updateAppointment = async (req, res) => {
       appointmentId
     );
     if (!result) throw "Something went wrong";
+    
+    let userId = req.user.id;
+
+    const notification = await getNotifications(userId);
+      
+    const io = getInstance();
+
+    io.on("connection", async (socket) => {
+        socket.emit('notification',notification);
+    })
+
     res.status(201).json({
       success: true,
       message: "Appointment updated successfully!",
@@ -104,11 +123,10 @@ export const bookAppointment = async (req, res) => {
     let appointmentId = appointmentResult.insertId;
     let sub_total = 0;
     let servicePromise = new Promise((resolve) => {
-      serviceId.forEach(async (element) => {
+      serviceId?.split(",").forEach(async (element) => {
         try {
           let serviceResult = await selectByFieldNames("garage_has_services", {
-            garage_id: garageId,
-            services_id: element,
+            id: element,
           });
           if (serviceResult.length < 1) {
             return res
@@ -161,12 +179,32 @@ export const bookAppointment = async (req, res) => {
         .json({ success: false, message: "Something went wrong!" });
     }
 
+    const ownerId = await findOwner(garageId);
+
+    console.log(ownerId[0].owner_id);
+
+    if(!ownerId[0].owner_id){
+      return res.status(500).json({success:false, message: "Something went wrong!"});
+    }
+
+    const notifyOwner = await getNotifications(ownerId[0].owner_id);
+
+    if(!notifyOwner){
+      return res.status(500).json({success:false, message: "Something went wrong!"});
+    }
+
+    const io = getInstance();
+
+    io.on("connection", async (socket) => {
+        socket.emit('notification',notifyOwner);
+    })
+
     return res.status(200).json({
       success: true,
       message: "Appointment has been booked successfully",
     });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };

@@ -6,6 +6,7 @@ import {
   selectByFieldName,
   selectByFieldNames,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const addVehicle = async (req, res) => {
   try {
@@ -15,9 +16,8 @@ export const addVehicle = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Invalid payload" });
     }
-    const { type, vehicleImage, brand, model, year, numberPlate, description } =
-      req.body;
-
+    const { type, brand, model, year, numberPlate, description } = req.body;
+    let vehicleImage = req.file?.filename || "";
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
       return res
@@ -74,7 +74,6 @@ export const addVehicle = async (req, res) => {
       ["condition_image", "description", "vehicle_id"],
       [vehicleImage, description, userVehicle.insertId]
     );
-
     if (!vehicleCondition.insertId) {
       return res
         .status(301)
@@ -87,6 +86,7 @@ export const addVehicle = async (req, res) => {
       vehicleId: userVehicle.insertId,
     });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });
@@ -95,8 +95,9 @@ export const addVehicle = async (req, res) => {
 export const getVehicleTypes = async (req, res) => {
   try {
     let types = await getVehicleType();
-    res.status(200).json({ success: true, types });
+    res.status(200).json({ success: true, result: types });
   } catch (error) {
+    logger.error(error);
     res.status(503).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -107,6 +108,7 @@ export const getUserVehicle = async (req, res) => {
     let vehicleData = await findVehicleData(req.user.email, type);
     return res.json({ success: true, result: vehicleData });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });

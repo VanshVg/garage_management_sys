@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/styles/simpleCalendar.css">
     <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css " rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/scripts/toast.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -40,17 +39,19 @@
     </script>
 
     <style>
-        [type=radio] + img {
+        [type=radio]+img {
             cursor: pointer;
         }
-        [type=radio]:checked + img {
+
+        [type=radio]:checked+img {
             background-color: rgb(125 211 252);
             border-color: rgb(107 114 128);
         }
     </style>
 
-<script src="/scripts/apiCall.js"></script>
-
+    <script src="/scripts/apiCall.js"></script>
+    <link rel="stylesheet" href="/styles/toast.css">
 </head>
 
 <body>
+    <toast></toast>

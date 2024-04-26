@@ -8,7 +8,6 @@ const handleUpdateForm = async (e) => {
     let formData = new FormData(e.target);
     let formProps = Object.fromEntries(formData);
     let fileds = Object.keys(formProps);
-    // console.log(formProps);
     formData = new FormData();
     fileds.forEach((filed) => {
       formData.append(
@@ -23,14 +22,13 @@ const handleUpdateForm = async (e) => {
     );
     formData.append("userId", localStorage.getItem("userId"));
     formProps = Object.fromEntries(formData);
-    debugger
+    debugger;
     let response = await fetch("/owner/profile/update", {
       method: "PUT",
       body: formData,
     });
     response = await response.json();
-    
-    console.log(response,"this is response");
+
     toast.show(response.success ? "success" : "error", response.message);
     if (response.success)
       setTimeout(() => {

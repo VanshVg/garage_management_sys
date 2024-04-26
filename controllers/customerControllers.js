@@ -1,26 +1,30 @@
 import {
   customerSlotListing,
+  customersCount,
   getCustomerAppointments,
   getCustomerNames,
   ifFeedbackExist,
   insertFeedback,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
 
 export const getAllCustomers = async (req, res) => {
   try {
     const result = await getCustomerNames(1);
     res.status(201).json({ success: true, result: result });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "something went wrong!" });
   }
 };
 
 export const customerSlotSelection = async (req, res) => {
   try {
-    let { garageId, date } = req.body;
+    let { garageId, date } = req.params;
     const result = await customerSlotListing(garageId, date);
-    res.status(201).json({ result });
+    res.status(201).json({ success: true, result });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "something went wrong" });
   }
 };
@@ -53,6 +57,7 @@ export const CustomerFeedbackPost = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -62,8 +67,22 @@ export const showAppointments = async (req, res) => {
     let appointments = await getCustomerAppointments(req.user.id);
     res.render("partials/customerAppointments", { appointments });
   } catch (error) {
+    logger.error(error);
     return res
       .status(301)
       .json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+export const customerCount = async (req, res) => {
+  try {
+    let result = await customersCount();
+    let count = result[0].count;
+    if (count > 1000) count = 1000;
+    else if (count > 100) count = 100;
+    else if (count > 10) count = 10;
+    res.status(201).json({ success: true, count });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };

@@ -1,5 +1,3 @@
-<script src="/scripts/slotDisplay.js"></script>
-
 <script>
 
   /*Map */
@@ -39,15 +37,23 @@
     };
     L.control.layers(overlayMaps).addTo(map);
   }
-  setTimeout(() => {
+  let active = '<%= active %>';
+  if (active != 'dashboard') {
     document.querySelector('.overlay').remove();
     changePage('next');
     setActive('<%= active %>');
-  }, 9500)
+  }
+  else {
+    setTimeout(() => {
+      document.querySelector('.overlay').remove();
+      changePage('next');
+      setActive('<%= active %>');
+    }, 9500)
+  }
   loadMap()
 </script>
 
-
+<script src="/scripts/toast.js"></script>
 </body>
 
 </html>

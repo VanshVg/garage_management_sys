@@ -3,15 +3,30 @@ import {
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
+  getNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
+import { logger } from "../helpers/loger.js";
+
+import {getInstance} from "../utils/socket.js"
 
 // landing page
 export const landingPage = (req, res) => {
   res.render("landingPage", { title: "Garage Management System" });
 };
 
-export const dashboard = (req, res) => {
+export const dashboard = async (req, res) => {
+  
+  let userId = req.user.id;
+
+  const notification = await getNotifications(userId);
+      
+  const io = getInstance();
+
+  io.on("connection", async (socket) => {
+      socket.emit('notification',notification);
+  })
+
   res.render("index", { title: "Home", active: "dashboard" });
 };
 
@@ -77,6 +92,15 @@ export const sessionEnd = (req, res) => {
 export const vehicles = async (req, res) => {
   res.render("customer", { active: "vehicle" });
 };
+export const vehiclesList = async (req, res) => {
+  res.render("customer", { active: "vehicleList" });
+};
+export const service = async (req, res) => {
+  res.render("customer", { active: "service" });
+};
+export const slot = async (req, res) => {
+  res.render("customer", { active: "slots" });
+};
 
 export const getCities = async (req, res) => {
   try {
@@ -87,6 +111,7 @@ export const getCities = async (req, res) => {
     );
     res.status(201).json({ cities });
   } catch (error) {
+    logger.error(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -107,6 +132,7 @@ export const getUserDetails = async (req, res) => {
       vehicleServices: vehicleServices,
     });
   } catch (error) {
+    logger.error(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -152,6 +178,7 @@ export const getGarageNotService = async (req, res) => {
     const services = await getNotAvailableService([id]);
     res.status(201).json({ services });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -162,6 +189,7 @@ export const servicesListing = async (req, res) => {
     const servicesList = await serviceListing(garageId);
     res.json(servicesList);
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -176,6 +204,7 @@ export const getGarageCount = async (req, res) => {
     );
     res.status(201).json({ success: true, garageCount });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -199,6 +228,7 @@ export const getAppointmentCount = async (req, res) => {
     );
     res.status(201).json({ success: true, pending, successful, cancelled });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -216,6 +246,7 @@ export const getAllCustomers = async (req, res) => {
     const result = await getCustomerNames(1);
     res.json({ result: result });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };
@@ -225,6 +256,7 @@ export const garageAddress = async (req, res) => {
     const result = await getGarageAddress([req.params.garageId]);
     res.status(201).json({ address: result });
   } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };

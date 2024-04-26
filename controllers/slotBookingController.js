@@ -8,6 +8,7 @@ import {
   bookSlotService,
 } from "../utils/dbHandler.js";
 import { findOne } from "../utils/common.js";
+import { logger } from "../helpers/loger.js";
 
 export const slotBooking = async (req, res) => {
   try {
@@ -29,6 +30,7 @@ export const slotBooking = async (req, res) => {
       } else res.status(201).json({ message: "slot inserted successfully" });
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -48,6 +50,7 @@ export const slotUpdate = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -64,6 +67,7 @@ export const slotDelete = async (req, res) => {
       res.status(301).json({ success: false, message: "slot was not deleted" });
     }
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
   }
 };
@@ -82,6 +86,7 @@ export const getSlots = async (req, res) => {
     }
 
     const result = await getAllSlots(startIndex, garage, userExist[0].id);
+
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({
@@ -92,7 +97,7 @@ export const getSlots = async (req, res) => {
       totalPage: totalPage,
     });
   } catch (error) {
-    console.error("Error in getSlots:", error);
+    logger.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -103,20 +108,26 @@ export const appointmentsByDateRange = async (req, res) => {
     const result = await getAppointsByDateRange([startDate, endDate, garageId]);
     res.status(201).json({ success: true, appointments: result });
   } catch (err) {
+    logger.error(err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
 export const bookSlot = async (req, res) => {
-  const user = req.user.email;
-  const slotId = req.body.slotId;
+  try {
+    const user = req.user.email;
+    const slotId = req.body.slotId;
 
-  const userExist = await findOne(user);
-  const [result] = await bookSlotService(userExist[0].id, slotId);
+    const userExist = await findOne(user);
+    const [result] = await bookSlotService(userExist[0].id, slotId);
 
-  if (result) {
-    res.status(200).json({ success: true, message: "Slot Added Successfully" });
-  } else {
-    res.status(404).json({ success: false, message: "Slot is not added" });
+    if (result) {
+      res.status(200).json({ success: true, message: "Slot Added Successfully" });
+    } else {
+      res.status(404).json({ success: false, message: "Slot is not added" });
+    }
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({ success: false, message: "Something Went Wrong!" });
   }
 };

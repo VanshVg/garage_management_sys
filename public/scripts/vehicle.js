@@ -1,5 +1,5 @@
 const vehicleSelectionNext = () => {
-  console.log("Inside");
+  ("Inside");
   let fields = document.getElementsByName("vehicle");
   let type;
   fields.forEach((element) => {
@@ -15,7 +15,6 @@ const vehicleSelectionNext = () => {
 };
 
 const addVehicle = async () => {
-  console.log("Inside");
   let vehicleData = {};
   let fields = document.querySelectorAll("*");
   fields.forEach((element) => {
