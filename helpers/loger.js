@@ -1,5 +1,5 @@
 import winston from "winston";
-const { combine, json, timestamp, colorize, printf } = winston.format;
+const { combine, json, timestamp, printf } = winston.format;
 
 export const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
