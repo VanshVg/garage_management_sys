@@ -86,6 +86,7 @@ export const getSlots = async (req, res) => {
     }
 
     const result = await getAllSlots(startIndex, garage, userExist[0].id);
+
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({

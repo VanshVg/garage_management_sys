@@ -609,10 +609,23 @@ export const getAppointments = async (ownerDetails) => {
 
 export const getNotifications = async (userId) => {
   try{
-    let query = "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 1;"
+    let query = "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 0;"
 
     let result = await conn.query(query,userId);
     return result[0];
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const findOwner = async (garageId) => {
+  try{
+
+    let query = "select og.owner_id as 'owner_id' from garage_master as gm join owner_has_garages as og on gm.id = og.garage_id where garage_id = ?;"
+
+    let result = await conn.query(query,garageId);
+    return result[0];
+
   }catch(err){
     console.log(err);
   }

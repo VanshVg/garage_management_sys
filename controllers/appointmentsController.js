@@ -9,7 +9,8 @@ import {
   selectByFieldName,
   selectByFieldNames,
   updateFields,
-  getNotifications
+  getNotifications,
+  findOwner
 } from "../utils/dbHandler.js";
 
 import {getInstance} from "../utils/socket.js"
@@ -123,7 +124,6 @@ export const bookAppointment = async (req, res) => {
     let sub_total = 0;
     let servicePromise = new Promise((resolve) => {
       serviceId?.split(",").forEach(async (element) => {
-        console.log(element, garageId);
         try {
           let serviceResult = await selectByFieldNames("garage_has_services", {
             id: element,
@@ -178,6 +178,26 @@ export const bookAppointment = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Something went wrong!" });
     }
+
+    const ownerId = await findOwner(garageId);
+
+    console.log(ownerId[0].owner_id);
+
+    if(!ownerId[0].owner_id){
+      return res.status(500).json({success:false, message: "Something went wrong!"});
+    }
+
+    const notifyOwner = await getNotifications(ownerId[0].owner_id);
+
+    if(!notifyOwner){
+      return res.status(500).json({success:false, message: "Something went wrong!"});
+    }
+
+    const io = getInstance();
+
+    io.on("connection", async (socket) => {
+        socket.emit('notification',notifyOwner);
+    })
 
     return res.status(200).json({
       success: true,
