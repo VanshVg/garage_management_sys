@@ -1,4 +1,10 @@
 <style>
+    error {
+        font-size: 14px;
+        color: #ff0000;
+        font-weight: lighter;
+    }
+
     * {
         scroll-behavior: smooth;
         transition: all 0.1s;
@@ -86,7 +92,7 @@
                 </div>
         </div>
         <script>
-            let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "payment", "profile"];
+            let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book", "profile"];
             let nextOne = screen[screen.indexOf('<%= active%>')];
             localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);
 
@@ -94,7 +100,7 @@
                 let activeIndex = parseInt(localStorage.getItem("index"));
 
                 if (activeIndex == 4 && step == "next") {
-                    validateStore.payment();
+                    validateStore.book();
                     return;
                 }
                 localStorage.setItem("index", (activeIndex + (step == 'prev' ? -1 : 1)))
@@ -134,6 +140,7 @@
         </script>
         <script src="/scripts/customer/profileFill.js"></script>
         <script src="/scripts/customer/addVehicle.js"></script>
-        <script src="/scripts/customer/payment.js"></script>
+        <script src="/scripts/customer/AppointmentBook.js"></script>
         <script src="/scripts/customer/stepHandler.js"></script>
+        <script src="/scripts/validation.js"></script>
         <%- include('./customer/footer.ejs') %>

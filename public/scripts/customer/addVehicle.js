@@ -20,31 +20,34 @@ const changeVehicleImage = () => {
 };
 
 const addVehicle = async () => {
-  let vehicleData = {};
-  let fields = document.querySelectorAll("*");
-  fields.forEach((element) => {
-    if (element.tagName == "INPUT" && element.value != "") {
-      if (element.type == "file") {
-        vehicleData[element.name] = element.files[0].name;
-      } else {
-        vehicleData[element.name] = element.value;
-      }
-    }
+  let vehicleData = new FormData();
+  let field = document.querySelectorAll("input[vehicle]").forEach((control) => {
+    vehicleData.append(control.id, control.value);
   });
-  let add = await fetch("/customer/addVehicle", {
+  document.querySelectorAll(`input[validation]`).forEach((ele) => {
+    Validation.isValid(ele);
+  });
+  if (document.querySelector("error")) {
+    return;
+  }
+  let vehicleImage = document.getElementById("vehicle-file").files[0];
+  let typeId = localStorage.getItem("typeId");
+  vehicleData.append("vehicleImage", vehicleImage);
+  vehicleData.append("type", typeId);
+  let response = await callApiWithFormData({
+    endpoint: "/customer/addVehicle",
+    body: vehicleData,
     method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(vehicleData),
   });
-  let response = await add.json();
   if (response.success) {
-    window.location.href = `/customer/addVehicle/${vehicleData.type}`;
+    localStorage.setItem("vehicleId", response.vehicleId);
+    setActive(screen[2]);
+    document
+      .querySelectorAll("input[vehicle]")
+      .forEach((control) => (control.value = ""));
+    toast.show("success", response.message);
   } else {
-    let error = document.getElementById("vehicle-error");
-    error.style.display = "block";
-    error.textContent = response.message;
+    toast.show("error", response.message);
   }
 };
 
@@ -55,8 +58,7 @@ const addVehicleForm = () => {
   formPlace.innerHTML = `
                     <div class="m-10 p-4 w-full bg-white my-20 mx-auto rounded-lg text-left" id="vehicle-form"
     style="box-shadow: 1px 1px 1px  grey, inset 1px 1px rgba(1,1,1,.1);">
-    <h3 class="pt-5 mx-8 text-3xl text-dark">Add new vehicle</h3>
-    
+    <h3 class="pt-5 mx-8 text-3xl text-dark">Add new vehicle</h3>    
     <hr class=" my-3 border-2 mx-8 border-dark">
     <div class="flex">
         <div class="flex items-center w-[30%] h-[200px]">
@@ -73,33 +75,38 @@ const addVehicleForm = () => {
         <div class="w-[70%] px-10">
             <div class="flex my-2 items-center justify-between w-full">
                 <label>Brand Name</label>
-                <input type="hidden" name="vehicleType" id="vehicleType" value="">
                 <input type="text"
+                  id="brand"
                     class="bg-white h-[40px] w-3/4 rounded  pl-2 border-dark placeholder:text-dark placeholder:opacity-45"
-                    placeholder="Enter vehicle brand name" name="brand"
-                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                    placeholder="Enter vehicle brand name" name="brand" vehicle="brand"
+                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" Validation="require multi_word" oninput="Validation.isValid(this)" />
             </div>
             <div class="flex my-2 items-center justify-between w-full">
                 <label>Vehicle Model</label>
                 <input type="text"
+                vehicle="model"
+                id="model"
                     class="bg-white h-[40px] w-3/4 rounded pl-2 placeholder:text-dark placeholder:opacity-45  text-left"
                     placeholder="Enter vehicle model" name="model"
-                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" Validation="require multi_word" oninput="Validation.isValid(this)"/>
             </div>
 
             <div class="flex my-2 items-center justify-between w-full">
                 <label>Model Year</label>
-                <input type="text"
+                <input type="text" vehicle="year"
+                  id="year"
                     class="bg-white h-[35px] w-3/4 rounded pl-2 placeholder:text-dark placeholder:opacity-45  text-left"
                     placeholder="Enter vehicle model year" name="year"
-                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" Validation="require year" oninput="Validation.isValid(this)" />
             </div>
             <div class="flex my-2 items-center justify-between w-full">
                 <label class="w-1/4">Registered Number</label>
                 <input type="text"
+                id="numberPlate"
+                vehicle="numberPlate"
                     class="bg-white h-[40px] w-3/4 rounded  pl-2 border-dark placeholder:text-dark placeholder:opacity-45  text-left"
-                    placeholder="Enter vehicle number plate" name="numberPlate"
-                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                    placeholder="xx 00 xx 0000" name="numberPlate"
+                    style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" Validation="require" oninput="Validation.isValid(this)" />
             </div>
         </div>
     </div>
@@ -108,9 +115,11 @@ const addVehicleForm = () => {
         <div class="flex flex-col my-2 w-full">
             <label>Vehicle description</label>
             <input type="text"
+            vehicle="description"
+              id="description"
                 class="bg-white h-[200px] w- full rounded  pl-2 border-dark placeholder:text-dark placeholder:opacity-45 text-left"
                 placeholder="Enter vehicle description" name="description"
-                style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" />
+                style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);" Validation="require"  oninput="Validation.isValid(this)"/>
         </div>
 
         <p class="hidden text-red" id="vehicle-error"></p>

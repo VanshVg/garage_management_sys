@@ -40,6 +40,7 @@ import {
   addPaymentDetails,
   getPaymentDetails,
 } from "../controllers/paymentControllers.js";
+import { vehicleValidator } from "../validators/vehicleValidation.js";
 
 const router = express.Router();
 
@@ -59,7 +60,7 @@ router.get("/singleGarage", getSingleGarage);
 router.get("/servicesList/:garageId", servicesListing);
 router.get("/vehicleType", getVehicleTypes);
 router.get("/viewVehicle/:type", getUserVehicle);
-router.post("/addVehicle", addVehicle);
+router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
