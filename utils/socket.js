@@ -5,6 +5,7 @@ let io;
 const socket = async (server) => {
 
   io = new Server(server);
+  
 };
 
 export function getInstance(){
