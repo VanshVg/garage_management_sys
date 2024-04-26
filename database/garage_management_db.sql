@@ -125,6 +125,7 @@ CREATE TABLE `appointments` (
   `status` tinyint(1) DEFAULT '0',
   `invoice_url` varchar(255) DEFAULT NULL,
   `comment` varchar(50) DEFAULT NULL,
+  vehicle_id int REFERENCES user_has_vehicles(id)
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -697,8 +698,8 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(256) NOT NULL,
   `activate_link` varchar(1000) NOT NULL,
-  `password_exp` timestamp NOT NULL,
-  `link_exp` timestamp NOT NULL,
+  `password_exp` timestamp NULL,
+  `link_exp` timestamp NULL,
   `is_active` tinyint(1) DEFAULT '1',
   `is_verified` tinyint(1) DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

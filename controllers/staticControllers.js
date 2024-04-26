@@ -3,15 +3,30 @@ import {
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
+  getNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
 import { logger } from "../helpers/loger.js";
+
+import {getInstance} from "../utils/socket.js"
+
 // landing page
 export const landingPage = (req, res) => {
   res.render("landingPage", { title: "Garage Management System" });
 };
 
-export const dashboard = (req, res) => {
+export const dashboard = async (req, res) => {
+  
+  let userId = req.user.id;
+
+  const notification = await getNotifications(userId);
+      
+  const io = getInstance();
+
+  io.on("connection", async (socket) => {
+      socket.emit('notification',notification);
+  })
+
   res.render("index", { title: "Home", active: "dashboard" });
 };
 
