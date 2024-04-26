@@ -29,11 +29,11 @@ class validateStore {
       location.href = "/customer/service";
     }
   }
-  static payment() {
+  static book() {
     validateStore.slots();
     if (!localStorage.getItem("slotId")) {
       location.href = "/customer/slots";
-    } else payment();
+    } else book();
   }
 }
 class storeHandler {
@@ -105,8 +105,8 @@ class htmlHandler {
     let html = `
     <div class="h-full w-full p-3">
         <strong class="text-white text-left">${Title}</strong><hr/>
-        <div class="max-h-[95%] h-max w-full overflow-scroll flex flex-wrap ${
-          stepHTML == "type" ? "flex-row" : "flex-col"
+        <div class="max-h-[95%] h-max w-full overflow-scroll flex  ${
+          stepHTML == "type" ? "flex-row flex-wrap" : "flex-col"
         } ">
     `;
     if (!data.result.length) {
@@ -182,8 +182,8 @@ class htmlHandler {
     let vehicleHTML = "";
     vehicleData.forEach((vehicle) => {
       vehicleHTML += `
-                            <input type='radio' id='vehicle-${vehicle.vehicle_id}' name='vehicle' value='${vehicle.vehicle_id}'/>
-                            <label for="vehicle-${vehicle.vehicle_id}" class="cursor-pointer">
+                            <input type='radio' id='vehicle-${vehicle.id}' name='vehicle' value='${vehicle.id}'/>
+                            <label for="vehicle-${vehicle.id}" class="cursor-pointer">
                             <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                           <div class="absolute top-0.5 right-0.5 bg-yellow-600 flex rounded-md px-1 justify-center items-center">
                             <span class="text-[12px] text-white text-semibold mx-0.5">${vehicle.year}</span>

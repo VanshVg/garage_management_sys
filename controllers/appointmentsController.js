@@ -108,11 +108,11 @@ export const bookAppointment = async (req, res) => {
     let appointmentId = appointmentResult.insertId;
     let sub_total = 0;
     let servicePromise = new Promise((resolve) => {
-      serviceId.forEach(async (element) => {
+      serviceId?.split(",").forEach(async (element) => {
+        console.log(element, garageId);
         try {
           let serviceResult = await selectByFieldNames("garage_has_services", {
-            garage_id: garageId,
-            services_id: element,
+            id: element,
           });
           if (serviceResult.length < 1) {
             return res
