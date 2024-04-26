@@ -183,13 +183,13 @@ class htmlHandler {
     vehicleData.forEach((vehicle) => {
       vehicleHTML += `
                             <input type='radio' id='vehicle-${vehicle.vehicle_id}' name='vehicle' value='${vehicle.vehicle_id}'/>
-                            <label for="vehicle-${vehicle.id}" class="cursor-pointer">
+                            <label for="vehicle-${vehicle.vehicle_id}" class="cursor-pointer">
                             <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                           <div class="absolute top-0.5 right-0.5 bg-yellow-600 flex rounded-md px-1 justify-center items-center">
                             <span class="text-[12px] text-white text-semibold mx-0.5">${vehicle.year}</span>
                             </div>
                                 <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
-                              <img src="/uploads/" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_m1Mo28LAzg1Kh1W_Shx1thW0sU_zgxM6LA&s'" class="h-full w-full bg-cover rounded-md" alt="garage">
+                              <img src="/uploads/${vehicle.condition_image}" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_m1Mo28LAzg1Kh1W_Shx1thW0sU_zgxM6LA&s'" class="h-full w-full bg-cover rounded-md" alt="garage">
                           </div>
                           <div class="garage-info w-3/4 p-2 flex flex-col ">
                             <div class="flex">
@@ -203,8 +203,8 @@ class htmlHandler {
                               </div>
                             
                             </div>
-                            <div class="absolute bottom-0.5 right-0.5 bg-purple-600 flex rounded-md px-1 justify-center items-center">
-                              <img class="mx-0.5 h-[20px] w-[20px] rounded-md" src="/icons/vehicleType/${vehicle.name}.svg" style="-webkit-filter: grayscale(1) invert(1);filter: grayscale(1) invert(1);" >
+                            <div class="absolute bottom-0.5 right-0.5 bg-purple-600 flex rounded-md p-1 justify-center items-center">
+                              <img class="mx-0.5 h-[20px] w-[20px] rounded-md" src="/icons/vehicleType/${vehicle.name}.svg" >
                               </div>
                           </div>
                       </div></label>

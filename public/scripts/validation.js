@@ -24,6 +24,11 @@ const Validation = {
       !/^\d{6}$/.test(value)
         ? { errorMessage: "only 6 digit allowed..", valid: false }
         : { valid: true },
+    year: (value) => {
+      return !(value >= 1970 && value <= new Date().getFullYear())
+        ? { errorMessage: "invalid year..", valid: false }
+        : { valid: true };
+    },
     mobile: (value) =>
       !/^[6789]{1,}/.test(value)
         ? { errorMessage: "mobile number start with 6,7,8,9..", valid: false }

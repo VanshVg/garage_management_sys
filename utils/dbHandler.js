@@ -574,9 +574,9 @@ export const getVehicleType = async () => {
 export const findVehicleData = async (email, type) => {
   try {
     let query = `SELECT user_has_vehicles.vehicle_id,users.email,vehicle_types.name, vehicle_master.brand, 
-    vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number
-    from vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
-    on vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
+    vehicle_master.model,vehicle_master.year, user_has_vehicles.register_plate_number,vehicle_condition.condition_image
+    from vehicle_condition inner join vehicle_types inner join vehicle_master inner join user_has_vehicles inner join users
+    on vehicle_condition.vehicle_id=user_has_vehicles.id and vehicle_types.id = vehicle_master.type_id and vehicle_master.id = user_has_vehicles.vehicle_id
     and users.id = user_has_vehicles.owner_id and users.email = ? and vehicle_types.id = ?;`;
     let [result] = await conn.query(query, [email, type]);
     return result;
@@ -807,21 +807,21 @@ export const garagesCount = async () => {
   } catch (error) {
     return { error };
   }
-}
+};
 
 export const customersCount = async () => {
   try {
-    let query = "SELECT count(*) as count FROM users where role_id = 0;"
+    let query = "SELECT count(*) as count FROM users where role_id = 0;";
     let result = await conn.query(query);
     return result[0];
   } catch (error) {
     return { error };
   }
-}
+};
 
 export const servicesCount = async () => {
   try {
-    let query = "SELECT count(*) as count FROM service_master;"
+    let query = "SELECT count(*) as count FROM service_master;";
     let result = await conn.query(query);
     return result[0];
   } catch (error) {

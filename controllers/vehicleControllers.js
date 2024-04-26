@@ -16,9 +16,8 @@ export const addVehicle = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Invalid payload" });
     }
-    const { type, vehicleImage, brand, model, year, numberPlate, description } =
-      req.body;
-
+    const { type, brand, model, year, numberPlate, description } = req.body;
+    let vehicleImage = req.file?.filename || "";
     let user = await selectByFieldName("users", "email", req.user.email);
     if (user.length < 1) {
       return res
@@ -75,7 +74,6 @@ export const addVehicle = async (req, res) => {
       ["condition_image", "description", "vehicle_id"],
       [vehicleImage, description, userVehicle.insertId]
     );
-
     if (!vehicleCondition.insertId) {
       return res
         .status(301)
