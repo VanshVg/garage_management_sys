@@ -1,3 +1,4 @@
+
 const home = () => (location.href = "/");
 class validateStore {
   static dashboard() {
@@ -338,10 +339,25 @@ class steps {
     document.querySelector("#profile-container").style.zIndex = 999999999999999;
     let profileHTML = `
     <div class="w-full p-2">
+    <div class="flex justify-between items-center">
     <div class="cursor-pointer  bg-dark w-[40px] h-[40px] rounded-full flex justify-center items-center" onclick="home()">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
-  <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
-</svg></div>
+      <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
+    </svg></div>
+    <div class="float-right">
+    <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
+    <div class="absolute bg-red rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center">
+        <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">1</div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+        <path
+            d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-7.414V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v4.586l-1.707 1.707A.996.996 0 0 0 3 17v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a.996.996 0 0 0-.293-.707L19 14.586z">
+        </path>
+    </svg>
+</div>
+    </div>
+</div>  
 <div class="w-full h-full flex" >
 <div class="w-[4%] mt-6 h-max flex  justify-start items-end rotate-90">
                 <div class="flex">
@@ -353,8 +369,7 @@ class steps {
                     <div id="btn-double"
                         class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180">Vehicles</div>
                 </div>
-
-            </div>            
+            </div>          
 <div class="w-[96%] h-full overflow-y-auto flex flex-wrap pt-5 pr-4 pl-10  flex-col ">
                 <div class="w-2/5 h-full">
                     <img src="" class="rounded-md h-[70%] w-[75%]"  id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
