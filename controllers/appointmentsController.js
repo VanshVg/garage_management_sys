@@ -8,7 +8,10 @@ import {
   selectByFieldName,
   selectByFieldNames,
   updateFields,
+  getNotifications
 } from "../utils/dbHandler.js";
+
+import {getInstance} from "../utils/socket.js"
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -63,6 +66,17 @@ export const updateAppointment = async (req, res) => {
       appointmentId
     );
     if (!result) throw "Something went wrong";
+    
+    let userId = req.user.id;
+
+    const notification = await getNotifications(userId);
+      
+    const io = getInstance();
+
+    io.on("connection", async (socket) => {
+        socket.emit('notification',notification);
+    })
+
     res.status(201).json({
       success: true,
       message: "Appointment updated successfully!",
