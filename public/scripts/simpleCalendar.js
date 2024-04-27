@@ -56,6 +56,9 @@ const addSlot = async (garageId, start, end, date, duration = 1) => {
     },
     "POST"
   );
+
+  toast.show(addedSlot.success ? "success" : "error", addedSlot.message);
+
   displaySlots(duration, date);
 };
 const generateSlots = ({

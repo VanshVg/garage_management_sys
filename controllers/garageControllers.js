@@ -17,6 +17,7 @@ import {
   getGarageDuration,
   updateFields,
   garagesCount,
+  countgarages
 
 } from "../utils/dbHandler.js";
 
@@ -215,11 +216,7 @@ export const getSingleGarage = async (req, res) => {
 
 export const getGarageCount = async (req, res) => {
   try {
-    const garageCount = await countByFieldName(
-      "owner_has_garages",
-      "owner_id",
-      req.user.id
-    );
+    const garageCount = await countgarages(req.user.id);
     res.status(201).json({ success: true, garageCount });
   } catch (error) {
     logger.error(error);
