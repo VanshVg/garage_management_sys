@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dark: "#152533",
+              lightBlue: "#D9D9D9",
+              blue: "#355364",
+              white: "#FFFFFF",
+              light: "#D9D9D9",
+              lightbg: "#d7e0e7",
+              lightorange: "burlywood",
+              card1bg: "rgba(255, 225, 200, 0.5)",
+              card1text: "#e96a00",
+              card2bg: "rgba(225, 246, 247, 0.5)",
+              card2text: "#34cdd0",
+              card3bg: "rgba(252, 226, 225, 0.5)",
+              card3text: "#df5e5e",
+              card4bg: "rgba(237, 231, 251, 0.5)",
+              card4text: "#9a78ea",
+              red: "#ff0000",
+              green: "#00FF00",
+              black: "#000000",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-lightbg">
+    <div>
+      <h1 class="text-center text-3xl mt-7 text-dark">Task Management</h1>
+      <div class="flex justify-evenly mt-12">
+        <div
+          class="py-5 px-5 bg-dark rounded-[7px] w-[317px] min-h-[300px] status"
+          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
+          draggable="false"
+          id="pending"
+        >
+          <h3 class="text-center text-2xl text-white top-0">Pending</h3>
+          <div class="overflow-scroll">
+            <div
+              style="transition: 0.3s ease"
+              class="bg-white rounded-[4px] p-5 mt-4 hover:cursor-move task hover:scale-[1.1]"
+              draggable="true"
+              id="card1"
+            >
+              <div class="flex">
+                <p>Customer Name:</p>
+                <p class="ml-2">Vansh Gandhi</p>
+              </div>
+              <div class="flex mt-3">
+                <p>Number Plate:</p>
+                <p class="ml-2">GJ 16 MP 8290</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="py-5 px-5 bg-dark rounded-[7px] w-[317px] status"
+          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
+          draggable="false"
+          id="inprogress"
+        >
+          <h3 class="text-center text-2xl text-white">In Progress</h3>
+        </div>
+        <div
+          class="py-5 px-5 bg-dark rounded-[7px] w-[317px] status"
+          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
+          draggable="false"
+          id="completed"
+        >
+          <h3 class="text-center text-2xl text-white">Completed</h3>
+        </div>
+      </div>
+    </div>
+    <script src="/scripts/tasks.js"></script>
+  </body>
+</html>

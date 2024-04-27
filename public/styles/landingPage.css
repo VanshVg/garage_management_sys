@@ -20,9 +20,9 @@ body {
   background-color: var(--white);
 }
 
-.section {
+/* .section {
   height: 700px;
-}
+} */
 
 #landing-section {
   margin: 0 auto;
@@ -30,11 +30,15 @@ body {
   background: linear-gradient(-180deg, rgba(0, 0, 0, 0.731), rgba(0, 15, 69, 0.731)), url('/assets/garage-background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  height: 92vh;
+
 
   .type-writer {
     max-width: max-content;
   }
+}
+
+#backgroundImage {
+  background: linear-gradient(-180deg, rgba(0, 0, 0, 0.731), rgba(0, 15, 69, 0.731))
 }
 
 .type-writer p {
