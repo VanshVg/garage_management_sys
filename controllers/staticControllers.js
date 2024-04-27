@@ -4,9 +4,12 @@ import {
   getGarageAddress,
   getNotAvailableService,
   getNotifications,
+  getUsersNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
+import {findOne} from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
+
 
 import {getInstance} from "../utils/socket.js"
 
@@ -145,6 +148,19 @@ export const servicesPage = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
+
+  const user = await findOne(req.user.email);
+
+  // console.log(user[0].id);
+
+  const notification = await getUsersNotifications(user[0].id);
+      
+  const io = getInstance();
+
+  io.on("connection", async (socket) => {
+    socket.emit('notification',notification);
+  })
+
   res.render("customer", { active: "profile" });
 };
 

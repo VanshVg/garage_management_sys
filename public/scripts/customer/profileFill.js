@@ -1,3 +1,15 @@
+const fillNotification = async () => {
+    const socketIo = io("");
+
+    socketIo.on('notification', (notification) => {
+        document.getElementById('userTotalNotification').innerHTML = notification.length;  
+      // console.log(notification.length);
+    })
+
+}
+
+fillNotification();
+
 const updateDetails = async () => {
   const userDetails = await fetch("/userDetails");
   const userJson = await userDetails.json();
