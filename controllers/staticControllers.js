@@ -3,12 +3,15 @@ import {
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
-  getNotifications,
+  getUsersNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
+import { findOne } from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
 
 import { getInstance } from "../utils/socket.js";
+
+const io = getInstance();
 
 // landing page
 export const landingPage = (req, res) => {
@@ -148,6 +151,8 @@ export const servicesPage = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
+  const user = await findOne(req.user.email);
+
   res.render("customer", { active: "profile" });
 };
 

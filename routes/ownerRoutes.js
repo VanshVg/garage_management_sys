@@ -19,6 +19,7 @@ import {
   bookedAppointments,
   getAppointmentCount,
   updateAppointment,
+  notification,
 } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
 import { generateRevenue } from "../controllers/paymentControllers.js";
@@ -63,6 +64,8 @@ router.get("/tasks", tasks);
 router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
+
+router.get("/notification", notification);
 
 router.post("/ownerServices", findOwnerService);
 
