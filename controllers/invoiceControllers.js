@@ -25,6 +25,7 @@ export const customerInvoice = async (req, res) => {
         .json({ success: false, message: "Something went wrong!" });
     }
     let invoiceDetails = await getInvoiceDetails([appointmentId, user[0].id]);
+
     if (invoiceDetails.length < 1) {
       return res
         .status(301)

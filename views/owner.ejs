@@ -122,7 +122,7 @@
 
                 updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
-                    
+
                     document.title = activated.charAt(0).toUpperCase() + activated.slice(1);
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {
