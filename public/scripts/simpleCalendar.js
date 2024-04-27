@@ -56,6 +56,9 @@ const addSlot = async (garageId, start, end, date, duration = 1) => {
     },
     "POST"
   );
+
+  toast.show(addedSlot.success ? "success" : "error", addedSlot.message);
+
   displaySlots(duration, date);
 };
 const generateSlots = ({
@@ -69,6 +72,7 @@ const generateSlots = ({
   newStart.setHours(start.split(":")[0], start.split(":")[1]);
   let newEnd = new Date(date.toISOString().split("T")[0]);
   newEnd.setHours(end.split(":")[0], end.split(":")[1]);
+  console.log(newStart, newEnd)
   while (newStart < newEnd) {
     let slot =
       (newStart.getHours() < 10 ? "0" : "") +
@@ -84,7 +88,7 @@ const generateSlots = ({
       ":" +
       (newStart.getMinutes() < 10 ? "0" : "") +
       newStart.getMinutes();
-    slots.push(slot);
+    if (newStart <= newEnd) slots.push(slot);
   }
   return slots;
 };
@@ -97,7 +101,8 @@ const fetchGarageSlots = async (id) => {
     return [];
   }
 };
-const displaySlots = async (duration = 1, date = new Date()) => {
+const displaySlots = async (duration = 1, dateVal) => {
+  if (dateVal) date = dateVal;
   if (duration == 0) {
     toast.show("error", "This feature is not available for you..!!");
   } else {
@@ -149,9 +154,8 @@ const displaySlots = async (duration = 1, date = new Date()) => {
       slots.forEach((slot) => {
         slotCard += `
       <div class="w-1/5 h-[110px] p-2 relative">
-                    <div onclick="addSlot('${selectedGarage}','${
-          slot.split("-")[0]
-        }','${slot.split("-")[1]}','${date}','${duration}')"
+                    <div onclick="addSlot('${selectedGarage}','${slot.split("-")[0]
+          }','${slot.split("-")[1]}','${date}','${duration}')"
                         class="bg-green w-[20px] h-[20px] absolute -top-0 -right-0 rounded-full text-white cursor-pointer">
                         +
                     </div>

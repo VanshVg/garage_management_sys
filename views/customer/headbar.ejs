@@ -1,6 +1,16 @@
 <script>
   const logout = () => {
-    location.href = "/logout"
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to logout???`,
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: "No"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        location.href = "/logout"
+      }
+    });
   }
 </script>
 <div class="h-screen w-[5%] bg-dark flex flex-col justify-between items-center">
@@ -13,8 +23,8 @@
       <br />G<br />a<br />r<br />a<br />g<br />e<br />G<br />u<br />r<br />u
     </p>
   </div>
-  <div class=" m-2 flex flex-col justify-evenly items-center h-[15%]" onclick="setActive('profile')">
-    <div>
+  <div class=" m-2 flex flex-col justify-evenly items-center h-[15%]">
+    <div onclick="setActive('profile')">
       <img src="" class="rounded-full w-[45px] h-[45px] border-4 border-blueborder cursor-pointer" alt="user"
         id="prifile_pic"
         onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'" />

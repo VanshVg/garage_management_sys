@@ -1,4 +1,6 @@
 const book = () => {
+  const socketIo = io("");
+  
   Swal.fire({
     title: "Are you sure ?",
     text: "you want to book Appointment..!!",
@@ -20,11 +22,19 @@ const book = () => {
           { garageId, serviceId, vehicleId, slotId },
           "POST"
         );
+
+        if(response.success){
+          socketIo.emit("notification",1);
+        }
+
         toast.show(response.success ? "success" : "error", response.message);
       } catch (error) {
         toast.show("error", error);
       }
     } else {
+      let formPlace = document.getElementById('other');
+      formPlace.style.display = "flex";
+      formPlace.style.zIndex = 9999999;
     }
   });
   //     Swal.fire({
