@@ -66,7 +66,7 @@ class storeHandler {
     let id = document.querySelector("input[name=slots]:checked").value;
     storeHandler.store("slotId", id);
   }
-  static paymentSelection() {}
+  static paymentSelection() { }
 }
 class APICaller {
   static paths = {
@@ -106,9 +106,8 @@ class htmlHandler {
     let html = `
     <div class="h-full w-full p-3">
         <strong class="text-white text-left">${Title}</strong><hr/>
-        <div class="max-h-[95%] h-max w-full overflow-scroll flex  ${
-          stepHTML == "type" ? "flex-row flex-wrap" : "flex-col"
-        } ">
+        <div class="max-h-[95%] h-max w-full overflow-scroll flex  ${stepHTML == "type" ? "flex-row flex-wrap" : "flex-col"
+      } ">
     `;
     if (!data.result.length) {
       html += htmlHandler.emptyHandler(message);
@@ -132,9 +131,8 @@ class htmlHandler {
       address =
         address.length > 50 ? address.substring(0, 50) + "..." : address;
       garageList += `
-                        <input type='radio' id='garage-${
-                          data.id
-                        }' name='garage' value='${data.id}'/>
+                        <input type='radio' id='garage-${data.id
+        }' name='garage' value='${data.id}'/>
                         <label for="garage-${data.id}" class="cursor-pointer">
                         <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                       <div class="absolute top-0.5 right-0.5 bg-yellow-600 flex rounded-md px-1 justify-center items-center">
@@ -142,16 +140,14 @@ class htmlHandler {
                         <span class="text-[12px] text-white text-semibold mx-0.5">5.0</span>
                         </div>
                             <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
-                          <img src="/uploads/${
-                            data.thumbnail
-                          }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover rounded-md" alt="garage">
+                          <img src="/uploads/${data.thumbnail
+        }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover rounded-md" alt="garage">
                       </div>
                       <div class="garage-info w-3/4 p-2">
-                          <h3 class="font-medium text-[14px] text-left text-white wrap-none" id="garageName">${
-                            data.garage_name.length > 15
-                              ? data.garage_name.substring(0, 12) + ".."
-                              : data.garage_name
-                          }</h3>
+                          <h3 class="font-medium text-[14px] text-left text-white wrap-none" id="garageName">${data.garage_name.length > 15
+          ? data.garage_name.substring(0, 12) + ".."
+          : data.garage_name
+        }</h3>
                           <div class="flex pt-2">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill:rgba(255,255,255,.6);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
                               <p class="pl-2 text-xs break-all text-[rgba(255,255,255,.6)] ">${address}</p>
@@ -218,9 +214,8 @@ class htmlHandler {
     let serviceList = "";
     serviceData.forEach((ele) => {
       serviceList += `
-                            <input type="checkbox" class="hidden" name="service" id="${
-                              ele.id
-                            }" value="${ele.id}">
+                            <input type="checkbox" class="hidden" name="service" id="${ele.id
+        }" value="${ele.id}">
                             <label for="${ele.id}" class="cursor-pointer">
                             <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                 <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
@@ -229,15 +224,14 @@ class htmlHandler {
                                         class="h-full w-full bg-cover" alt="garage" class="object-cover">
                 </div>
                 <div class="garage-info w-3/4 service-info pl-2">
-                                <h3 class="font-semibold text-[14px] text-left text-white wrap-none" id="serviceName">${
-                                  ele.name.length > 15
-                                    ? ele.name.substring(0, 12) + ".."
-                                    : ele.name
-                                }</h3>
+                                <h3 class="font-semibold text-[14px] text-left text-white wrap-none" id="serviceName">${ele.name.length > 15
+          ? ele.name.substring(0, 12) + ".."
+          : ele.name
+        }</h3>
                                 <p class=" text-xs text-left text-white">${ele.description.substring(
-                                  0,
-                                  40
-                                )}..</p>
+          0,
+          40
+        )}..</p>
                                 </div>
                                 <div class="flex justify-end items-center absolute bottom-2 right-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
@@ -245,9 +239,8 @@ class htmlHandler {
                                                 <path fill="white"
                                                         d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2z" />
                                         </svg>
-                                        <p class="text-white text-md text-bold">${
-                                          ele.price
-                                        }</p>
+                                        <p class="text-white text-md text-bold">${ele.price
+        }</p>
                                 </div>
                 </div>
                 </label>
@@ -259,14 +252,12 @@ class htmlHandler {
     let slotHTML = "";
     slotData.forEach((slot) => {
       slotHTML += `
-                            <input type='radio' id='slot-${
-                              slot.id
-                            }' name='slots' value='${slot.id}'/>
+                            <input type='radio' id='slot-${slot.id
+        }' name='slots' value='${slot.id}'/>
                             <label for="slot-${slot.id}" class="cursor-pointer">
                             <div class="flex justify-center items-center relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg " style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
-                            <strong class="text-white text-bold text-2xl">${
-                              slot.start_time.split(" ")[1]
-                            } - ${slot.end_time.split(" ")[1]}</strong>
+                            <strong class="text-white text-bold text-2xl">${slot.start_time.split(" ")[1]
+        } - ${slot.end_time.split(" ")[1]}</strong>
                                 </div></label>
                             `;
     });
@@ -319,10 +310,11 @@ class steps {
       "serviceSelection"
     );
   }
-  static slots() {
+  static slots(date) {
+    console.log(date)
     validateStore.slots();
     let id = localStorage.getItem("garageId");
-    let date = new Date().toISOString().split("T")[0];
+    date = date || new Date().toISOString().split("T")[0];
     htmlHandler.getData(
       "slots",
       "Slot List",
