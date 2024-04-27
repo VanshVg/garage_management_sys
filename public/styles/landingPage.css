@@ -20,9 +20,17 @@ body {
   background-color: var(--white);
 }
 
-/* .section {
-  height: 700px;
-} */
+.section {
+  height: 850px;
+}
+
+#section2 {
+  height: 450px;
+}
+
+#section3 {
+  height: 450px;
+}
 
 #landing-section {
   margin: 0 auto;
@@ -123,6 +131,10 @@ body {
   justify-content: center;
 }
 
+.nav-button:hover {
+  background-color: burlywood;
+}
+
 .show-data {
   display: flex;
   justify-content: center;
@@ -135,11 +147,19 @@ body {
   justify-content: center;
   margin: 0px 10px;
   width: 20%;
-  height: 250px;
+  height: 300px;
   background-color: var(--dark);
+  border: 1px solid black;
+  border-radius: 7px;
+  color: black;
   font-size: 30px;
   color: var(--white);
   border-radius: 7px;
+}
+
+.card:hover {
+  background-color: #355364;
+  margin-top: -20px;
 }
 
 .list-container {
