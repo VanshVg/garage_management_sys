@@ -3,7 +3,6 @@ import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import routes from "./routes/routes.js";
-// import socket from "./utils/socket.js";
 import {Server} from "socket.io";
 config();
 const app = express();
