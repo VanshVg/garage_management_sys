@@ -6,10 +6,10 @@ import {
   getUsersNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
-import {findOne} from "../utils/common.js";
+import { findOne } from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
 
-import {getInstance} from "../utils/socket.js"
+import { getInstance } from "../utils/socket.js";
 
 const io = getInstance();
 
@@ -19,7 +19,16 @@ export const landingPage = (req, res) => {
 };
 
 export const dashboard = async (req, res) => {
-  
+  let userId = req.user.id;
+
+  const notification = await getNotifications(userId);
+
+  const io = getInstance();
+
+  io.on("connection", async (socket) => {
+    socket.emit("notification", notification);
+  });
+
   res.render("index", { title: "Home", active: "dashboard" });
 };
 
@@ -52,6 +61,10 @@ export const appointments = (req, res) => {
 };
 export const inventory = (req, res) => {
   res.render("index", { title: "Inventory", active: "inventory" });
+};
+
+export const tasks = (req, res) => {
+  res.render("index", { title: "Tasks", active: "tasks" });
 };
 
 export const employee = (req, res) => {
@@ -104,7 +117,7 @@ export const getCities = async (req, res) => {
     );
     res.status(201).json({ cities });
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -125,7 +138,7 @@ export const getUserDetails = async (req, res) => {
       vehicleServices: vehicleServices,
     });
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -138,9 +151,7 @@ export const servicesPage = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
-
   const user = await findOne(req.user.email);
-
 
   res.render("customer", { active: "profile" });
 };
