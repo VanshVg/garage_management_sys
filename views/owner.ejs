@@ -100,6 +100,11 @@
                             <%- include(`./owner/addEmployee.ejs`, {formType: 'addEmployee' }) %>
                     </div>
                     <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
+                        id="tasks-screen">
+                        <%- include(`./partials/topBar.ejs`,{active:"tasks"})%>
+                            <%- include(`./owner/tasks.ejs`) %>
+                    </div>
+                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
                         id="invoice-screen">
                         <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
                             <%- include(`./owner/invoice.ejs`) %>
