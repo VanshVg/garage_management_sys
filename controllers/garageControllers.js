@@ -217,7 +217,6 @@ export const getSingleGarage = async (req, res) => {
 export const getGarageCount = async (req, res) => {
   try {
     const garageCount = await countgarages(req.user.id);
-    console.log(garageCount);
     res.status(201).json({ success: true, garageCount });
   } catch (error) {
     logger.error(error);
