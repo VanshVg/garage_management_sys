@@ -22,6 +22,7 @@ import {
 } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
 import { generateRevenue } from "../controllers/paymentControllers.js";
+import { getVehicleStatus } from "../controllers/tasksControllers.js";
 
 const router = express.Router();
 
@@ -67,4 +68,5 @@ router.get("/getCustomerList", getAllCustomers);
 router.get("/daysCount", daysCount);
 
 router.get("/revenueCount", generateRevenue);
+router.get("/getVehicleStatus/:garageId", getVehicleStatus);
 export default router;
