@@ -151,7 +151,6 @@ export const profile = async (req, res) => {
 
   const user = await findOne(req.user.email);
 
-  // console.log(user[0].id);
 
   const notification = await getUsersNotifications(user[0].id);
       

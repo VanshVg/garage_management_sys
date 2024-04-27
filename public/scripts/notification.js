@@ -2,10 +2,6 @@
 const notification = () => {
   const socketIo = io("");
 
-  // socketIo.on('connect', ()=> {
-  //   console.log("Socket Io is working");
-  // })
-
   socketIo.on('notification', (notification) => {
     document.querySelectorAll('.totalNotification').forEach((notify=>{
         notify.innerHTML = notification.length;
@@ -24,14 +20,6 @@ const notification = () => {
       
       document.getElementById('userNotification').innerHTML = notified;
     })
-
-    // console.log(notified);
-
-    // document.getElementById('userNotification').innerHTML = notified;
-
-    // document.querySelectorAll('.userNotification').forEach((notify) => {
-    //   notify.innerHTML = notified;
-    // })
 
   })
 

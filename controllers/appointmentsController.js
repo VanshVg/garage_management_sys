@@ -181,7 +181,6 @@ export const bookAppointment = async (req, res) => {
 
     const ownerId = await findOwner(garageId);
 
-    console.log(ownerId[0].owner_id);
 
     if(!ownerId[0].owner_id){
       return res.status(500).json({success:false, message: "Something went wrong!"});
@@ -196,7 +195,7 @@ export const bookAppointment = async (req, res) => {
     const io = getInstance();
 
     io.on("connection", async (socket) => {
-        socket.emit('notification',notifyOwner);
+        socket.emit('userNotification',notifyOwner);
     })
 
     return res.status(200).json({

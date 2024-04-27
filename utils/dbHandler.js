@@ -517,6 +517,17 @@ export const countByFieldName = async (tableName, fieldName, value) => {
   }
 };
 
+export const countgarages = async (ownerId) => {
+  try{
+    let query = " select COUNT(*) as count from owner_has_garages join garage_master on owner_has_garages.garage_id = garage_master.id where owner_has_garages.owner_id = ? and garage_master.is_deleted = '0';"
+
+    let [results] = await conn.query(query, [ownerId]);
+    return results[0].count;
+  }catch(err){
+    return {err};
+  }
+}
+
 export const insertData = async (tableName, fields, values) => {
   try {
     let query = `INSERT INTO ` + tableName + `(`;

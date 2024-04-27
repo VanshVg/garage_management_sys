@@ -27,7 +27,7 @@ export const slotBooking = async (req, res) => {
           success: false,
           message: "error adding slot please try again",
         });
-      } else res.status(201).json({ message: "slot inserted successfully" });
+      } else res.status(201).json({ success:true, message: "slot inserted successfully" });
     }
   } catch (error) {
     logger.error(error);
