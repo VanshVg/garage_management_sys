@@ -13,7 +13,7 @@ import slotRoutes from "./owner/slotRoutes.js";
 import profileRoutes from "./owner/profileRoutes.js";
 import serviceRoutes from "./owner/serviceRoutes.js";
 import { findOwnerService } from "../controllers/serviceControllers.js";
-import { appointmentsListing, bookedAppointments, getAppointmentCount, updateAppointment } from "../controllers/appointmentsController.js";
+import { appointmentsListing, bookedAppointments, getAppointmentCount, updateAppointment,notification } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
 import { generateRevenue } from "../controllers/paymentControllers.js";
 
@@ -51,6 +51,8 @@ router.get("/employee", employee)
 router.get("/invoice", invoice);
 
 router.get("/appointmentCount", getAppointmentCount);
+
+router.get("/notification",notification);
 
 router.post("/ownerServices", findOwnerService);
 

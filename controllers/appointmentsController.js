@@ -9,11 +9,9 @@ import {
   selectByFieldName,
   selectByFieldNames,
   updateFields,
-  getNotifications,
-  findOwner
+  getNotifications
 } from "../utils/dbHandler.js";
-
-import {getInstance} from "../utils/socket.js"
+import { error } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -70,17 +68,7 @@ export const updateAppointment = async (req, res) => {
       id == 1 ? "2" : "3",
       appointmentId
     );
-    if (!result) throw "Something went wrong";
-    
-    let userId = req.user.id;
-
-    const notification = await getNotifications(userId);
-      
-    const io = getInstance();
-
-    io.on("connection", async (socket) => {
-        socket.emit('notification',notification);
-    })
+    if (!result) throw "Something went wrong"; 
 
     res.status(201).json({
       success: true,
@@ -179,26 +167,6 @@ export const bookAppointment = async (req, res) => {
         .json({ success: false, message: "Something went wrong!" });
     }
 
-    const ownerId = await findOwner(garageId);
-
-    console.log(ownerId[0].owner_id);
-
-    if(!ownerId[0].owner_id){
-      return res.status(500).json({success:false, message: "Something went wrong!"});
-    }
-
-    const notifyOwner = await getNotifications(ownerId[0].owner_id);
-
-    if(!notifyOwner){
-      return res.status(500).json({success:false, message: "Something went wrong!"});
-    }
-
-    const io = getInstance();
-
-    io.on("connection", async (socket) => {
-        socket.emit('notification',notifyOwner);
-    })
-
     return res.status(200).json({
       success: true,
       message: "Appointment has been booked successfully",
@@ -208,3 +176,24 @@ export const bookAppointment = async (req, res) => {
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+export const notification = async (req,res) => {
+  try{
+
+    let userId = req.user.id;
+    // console.log(userId);
+    let notifications = await getNotifications(userId);
+
+    if(!notifications){
+      logger.error(error);
+      res.status(501).json({success:false,message:"Something went wrong"});
+    }
+
+    // console.log(notifications);
+    res.status(200).json({success:true, notifications});
+
+  }catch(err){
+    logger.error(error);
+    res.status(501).json({success:false, message: "Something went wrong!"});
+  }
+}
