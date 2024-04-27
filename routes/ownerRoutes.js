@@ -72,6 +72,6 @@ router.get("/daysCount", daysCount);
 
 router.get("/revenueCount", generateRevenue);
 router.get("/vehicleStatus/:garageId", getVehicleStatus);
-router.put("/vehicleStatus/:garageId", changeVehicleStatus);
+router.put("/vehicleStatus/:appointmentId", changeVehicleStatus);
 
 export default router;

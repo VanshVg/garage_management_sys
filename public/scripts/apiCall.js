@@ -28,6 +28,5 @@ const callApiWithFormData = async ({ endpoint, body, method = "POST" }) => {
     method,
     body,
   });
-  console.log(response);
   return await response.json();
 };
