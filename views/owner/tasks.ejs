@@ -34,58 +34,40 @@
       };
     </script>
   </head>
+
   <body class="bg-lightbg">
     <div>
-      <h1 class="text-center text-3xl mt-7 text-dark">Task Management</h1>
-      <div class="flex justify-evenly mt-12">
-        <div
-          class="py-5 px-5 bg-dark rounded-[7px] w-[325px] min-h-[300px] status"
-          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
-          draggable="false"
-          id="pending"
-        >
-          <h3 class="text-center text-2xl text-white top-0">Pending</h3>
-          <div>
-            <div
-              style="transition: 0.3s ease"
-              class="bg-white rounded-[4px] p-5 mt-4 hover:cursor-move task hover:scale-[1.1]"
-              draggable="true"
-              id="card1"
-            >
-              <p class="text-center text-lg font-bold border-b-2">Vansh</p>
-              <div class="flex mt-3">
-                <p class="font-bold">Brand:</p>
-                <p class="ml-2">Mercedes</p>
-              </div>
-              <div class="flex mt-3">
-                <p class="font-bold">Model:</p>
-                <p class="ml-2">M4</p>
-              </div>
-              <div class="flex mt-3">
-                <p class="font-bold">Number Plate:</p>
-                <p class="ml-2">GJ 16 MP 8290</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="py-5 px-5 bg-dark rounded-[7px] w-[317px] status"
-          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
-          draggable="false"
-          id="inprogress"
-        >
-          <h3 class="text-center text-2xl text-white">In Progress</h3>
-        </div>
-        <div
-          class="py-5 px-5 bg-dark rounded-[7px] w-[317px] status"
-          style="box-shadow: 3px 3px 3px grey, inset 1px 1px rgba(2, 1, 1, 0.1)"
-          draggable="false"
-          id="completed"
-        >
-          <h3 class="text-center text-2xl text-white">Completed</h3>
-        </div>
+      <h1 class="text-3xl text-dark font-bold">Tasks List</h1>
+      <div class="mt-10 bg-white p-10 rounded-2xl">
+        <table class="mx-auto w-full">
+          <thead class="text-xl">
+            <tr class="bg-dark text-white">
+              <th class="px-5 py-3">Sr. No.</th>
+              <th class="px-5 py-3">Customer Name</th>
+              <th class="px-5 py-3">Vehicle Brand</th>
+              <th class="px-5 py-3">Vehicle Model</th>
+              <th class="px-5 py-3">Model year</th>
+              <th class="px-5 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-lg border-b-2 border-dark hover:bg-lightbg">
+              <td class="py-5">1</td>
+              <td>Vansh Gandhi</td>
+              <td>Bmw</td>
+              <td>X4</td>
+              <td>2016</td>
+              <td>
+                <select class="bg-dark text-white rounded-xl p-2">
+                  <option>Pending</option>
+                  <option>Inprogress</option>
+                  <option>Completed</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <script src="/scripts/tasks.js"></script>
   </body>
 </html>
