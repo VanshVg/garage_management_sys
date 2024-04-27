@@ -346,7 +346,7 @@ class steps {
     </svg></div>
     <div class="float-right">
     <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
-    <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background:rgb(239 68 68)">
+    <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
         <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">1</div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
