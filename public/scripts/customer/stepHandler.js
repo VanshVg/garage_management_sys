@@ -34,7 +34,12 @@ class validateStore {
     validateStore.slots();
     if (!localStorage.getItem("slotId")) {
       location.href = "/customer/slots";
-    } else book();
+    } else {
+      let formPlace = document.getElementById('other');
+      formPlace.style.display = "none";
+      formPlace.style.zIndex = 0;
+      book();
+    }
   }
 }
 class storeHandler {

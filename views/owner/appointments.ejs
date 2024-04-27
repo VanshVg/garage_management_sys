@@ -106,7 +106,7 @@
         });
         const response = await result.json();
 
-        if(result.status == 201){
+        if (result.status == 201) {
           notification();
         }
 
@@ -144,7 +144,8 @@
     document.getElementById("currentDay").click();
   }
   const loadAppointments = async () => {
-    const appointmentsDetails = await callAPI('/owner/appointmentsList');
+    let garageId = document.getElementById('garageList').value;
+    const appointmentsDetails = await callAPI('/owner/appointmentsList/' + garageId);
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments);
   }

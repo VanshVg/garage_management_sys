@@ -13,7 +13,7 @@ import {
   findOwner
 } from "../utils/dbHandler.js";
 
-import {getInstance} from "../utils/socket.js"
+import { getInstance } from "../utils/socket.js"
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -71,15 +71,15 @@ export const updateAppointment = async (req, res) => {
       appointmentId
     );
     if (!result) throw "Something went wrong";
-    
+
     let userId = req.user.id;
 
     const notification = await getNotifications(userId);
-      
+
     const io = getInstance();
 
     io.on("connection", async (socket) => {
-        socket.emit('notification',notification);
+      socket.emit('notification', notification);
     })
 
     res.status(201).json({
@@ -94,13 +94,7 @@ export const updateAppointment = async (req, res) => {
 export const bookAppointment = async (req, res) => {
   try {
     const { garageId, serviceId, vehicleId, slotId } = req.body;
-    const { email } = req.user;
-    let user = await selectByFieldName("users", "email", email);
-    if (user.length < 1) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Unauthorised used" });
-    }
+    let user = req.user;
 
     let slot = await selectByFieldName("slot_master", "id", slotId);
     if (!slot[0].availability_status) {
@@ -108,12 +102,11 @@ export const bookAppointment = async (req, res) => {
         .status(403)
         .json({ success: false, message: "Selected slot is already used" });
     }
-    let customerId = user[0].id;
 
     let appointmentResult = await insertData(
       "appointments",
       ["slot_id", "customer_id", "vehicle_id"],
-      [slotId, customerId, vehicleId]
+      [slotId, user.id, vehicleId]
     );
     if (!appointmentResult.insertId) {
       return res
@@ -181,22 +174,20 @@ export const bookAppointment = async (req, res) => {
 
     const ownerId = await findOwner(garageId);
 
-    console.log(ownerId[0].owner_id);
-
-    if(!ownerId[0].owner_id){
-      return res.status(500).json({success:false, message: "Something went wrong!"});
+    if (!ownerId[0].owner_id) {
+      return res.status(500).json({ success: false, message: "Something went wrong!" });
     }
 
     const notifyOwner = await getNotifications(ownerId[0].owner_id);
 
-    if(!notifyOwner){
-      return res.status(500).json({success:false, message: "Something went wrong!"});
+    if (!notifyOwner) {
+      return res.status(500).json({ success: false, message: "Something went wrong!" });
     }
 
     const io = getInstance();
 
     io.on("connection", async (socket) => {
-        socket.emit('notification',notifyOwner);
+      socket.emit('notification', notifyOwner);
     })
 
     return res.status(200).json({
