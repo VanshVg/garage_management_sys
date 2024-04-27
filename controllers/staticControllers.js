@@ -3,15 +3,10 @@ import {
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
-  getUsersNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
 import { findOne } from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
-
-import { getInstance } from "../utils/socket.js";
-
-const io = getInstance();
 
 // landing page
 export const landingPage = (req, res) => {
@@ -19,16 +14,6 @@ export const landingPage = (req, res) => {
 };
 
 export const dashboard = async (req, res) => {
-  let userId = req.user.id;
-
-  const notification = await getNotifications(userId);
-
-  const io = getInstance();
-
-  io.on("connection", async (socket) => {
-    socket.emit("notification", notification);
-  });
-
   res.render("index", { title: "Home", active: "dashboard" });
 };
 

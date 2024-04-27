@@ -11,7 +11,6 @@ import {
   updateFields,
   getNotifications
 } from "../utils/dbHandler.js";
-import { error } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
@@ -68,7 +67,7 @@ export const updateAppointment = async (req, res) => {
       id == 1 ? "2" : "3",
       appointmentId
     );
-    if (!result) throw "Something went wrong"; 
+    if (!result) throw "Something went wrong";
 
     res.status(201).json({
       success: true,
@@ -82,13 +81,7 @@ export const updateAppointment = async (req, res) => {
 export const bookAppointment = async (req, res) => {
   try {
     const { garageId, serviceId, vehicleId, slotId } = req.body;
-    const { email } = req.user;
-    let user = await selectByFieldName("users", "email", email);
-    if (user.length < 1) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Unauthorised used" });
-    }
+    let user = req.user;
 
     let slot = await selectByFieldName("slot_master", "id", slotId);
     if (!slot[0].availability_status) {
@@ -96,12 +89,11 @@ export const bookAppointment = async (req, res) => {
         .status(403)
         .json({ success: false, message: "Selected slot is already used" });
     }
-    let customerId = user[0].id;
 
     let appointmentResult = await insertData(
       "appointments",
       ["slot_id", "customer_id", "vehicle_id"],
-      [slotId, customerId, vehicleId]
+      [slotId, user.id, vehicleId]
     );
     if (!appointmentResult.insertId) {
       return res
@@ -177,23 +169,23 @@ export const bookAppointment = async (req, res) => {
   }
 };
 
-export const notification = async (req,res) => {
-  try{
+export const notification = async (req, res) => {
+  try {
 
     let userId = req.user.id;
     // console.log(userId);
     let notifications = await getNotifications(userId);
 
-    if(!notifications){
+    if (!notifications) {
       logger.error(error);
-      res.status(501).json({success:false,message:"Something went wrong"});
+      res.status(501).json({ success: false, message: "Something went wrong" });
     }
 
     // console.log(notifications);
-    res.status(200).json({success:true, notifications});
+    res.status(200).json({ success: true, notifications });
 
-  }catch(err){
+  } catch (err) {
     logger.error(error);
-    res.status(501).json({success:false, message: "Something went wrong!"});
+    res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 }

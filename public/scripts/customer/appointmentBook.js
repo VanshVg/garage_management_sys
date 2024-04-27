@@ -32,6 +32,9 @@ const book = () => {
         toast.show("error", error);
       }
     } else {
+      let formPlace = document.getElementById('other');
+      formPlace.style.display = "flex";
+      formPlace.style.zIndex = 9999999;
     }
   });
   //     Swal.fire({

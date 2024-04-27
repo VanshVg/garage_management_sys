@@ -21,7 +21,9 @@ export const getAllCustomers = async (req, res) => {
 export const customerSlotSelection = async (req, res) => {
   try {
     let { garageId, date } = req.params;
-    const result = await customerSlotListing(garageId, date);
+    let date2 = new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000);
+    date2 = date2.toISOString().slice(0, 10);
+    const result = await customerSlotListing(garageId, date, date2);
     res.status(201).json({ success: true, result });
   } catch (error) {
     logger.error(error);

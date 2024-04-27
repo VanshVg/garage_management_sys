@@ -518,13 +518,13 @@ export const countByFieldName = async (tableName, fieldName, value) => {
 };
 
 export const countgarages = async (ownerId) => {
-  try{
+  try {
     let query = " select COUNT(*) as count from owner_has_garages join garage_master on owner_has_garages.garage_id = garage_master.id where owner_has_garages.owner_id = ? and garage_master.is_deleted = '0';"
 
     let [results] = await conn.query(query, [ownerId]);
     return results[0].count;
-  }catch(err){
-    return {err};
+  } catch (err) {
+    return { err };
   }
 }
 
@@ -620,8 +620,7 @@ export const getAppointments = async (ownerDetails) => {
 
 export const getNotifications = async (userId) => {
   try {
-    let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 0;";
+    let query = "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 0;"
 
     let result = await conn.query(query, userId);
     return result[0];
@@ -631,25 +630,24 @@ export const getNotifications = async (userId) => {
 };
 
 export const getUsersNotifications = async (userId) => {
-  try{
-
+  try {
     let query = "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where owner_id = ? and c.status = 2;"
 
-    let result = await conn.query(query,userId);
+    let result = await conn.query(query, userId);
     return result[0];
 
-  }catch(err){
-    console.log(err);
+  } catch (err) {
+    logger.error(err);
   }
 }
 
 export const findOwner = async (garageId) => {
   try {
-    let query =
-      "select og.owner_id as 'owner_id' from garage_master as gm join owner_has_garages as og on gm.id = og.garage_id where garage_id = ?;";
+    let query = "select og.owner_id as 'owner_id' from garage_master as gm join owner_has_garages as og on gm.id = og.garage_id where garage_id = ?;"
 
     let result = await conn.query(query, garageId);
     return result[0];
+
   } catch (err) {
     console.log(err);
   }
@@ -666,9 +664,9 @@ export const getBookedAppointments = async (ownerDetails) => {
   }
 };
 // fetching garage wise slots at customer side
-export const customerSlotListing = async (garageId, date) => {
+export const customerSlotListing = async (garageId, date, date2) => {
   try {
-    let query = `select * from slot_master where garage_id= ? and start_time like '${date}%' and is_deleted=0 and availability_status=1`;
+    let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and is_deleted=0`;
     const result = await conn.query(query, [garageId]);
     return result[0];
   } catch (error) {
@@ -829,7 +827,7 @@ export const bookSlotService = async (userId, slotId) => {
 
 export const countRevenue = async (userId) => {
   try {
-    let query = `SELECT SUM(sub_total) AS revenue FROM appointment_payments ap JOIN payment_master pm  ON ap.appointment_id= pm.appointment_id JOIN appointments at on at.id = pm.appointment_id JOIN slot_master sm on sm.id = at.slot_id join garage_master gm on gm.id = sm.garage_id JOIN owner_has_garages og on og.garage_id = gm.id  WHERE og.owner_id = ?;`;
+    let query = `SELECT SUM(ap.sub_total) AS revenue FROM appointment_payments ap JOIN payment_master pm  ON ap.appointment_id= pm.appointment_id JOIN appointments at on at.id = pm.appointment_id JOIN slot_master sm on sm.id = at.slot_id join garage_master gm on gm.id = sm.garage_id JOIN owner_has_garages og on og.garage_id = gm.id  WHERE og.owner_id = ?;`;
     let result = await conn.query(query, [userId]);
     return result[0];
   } catch (err) {
