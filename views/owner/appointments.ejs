@@ -143,6 +143,7 @@
     updateTable(appointments);
     document.getElementById("currentDay").click();
   }
+  
   const loadAppointments = async () => {
     const appointmentsDetails = await callAPI('/owner/appointmentsList');
     const appointments = appointmentsDetails.appointments;

@@ -15,8 +15,8 @@ import { error } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
-    let garage = req.params.garageId || 1;
-    const appointments = await getAppointments([garage, req.user.id]);
+    let garage = req.params.garageId || 14;
+    const appointments = await getAppointments([garage,req.user.id]);
     appointments.forEach((appointment) => {
       appointment.date = appointment.startTime.slice(0, 10);
       appointment.startTime = appointment.startTime.slice(11, 16);
@@ -100,8 +100,8 @@ export const bookAppointment = async (req, res) => {
 
     let appointmentResult = await insertData(
       "appointments",
-      ["slot_id", "customer_id", "vehicle_id"],
-      [slotId, customerId, vehicleId]
+      ["slot_id", "customer_id", "vehicle_id", "status"],
+      [slotId, customerId, vehicleId,1]
     );
     if (!appointmentResult.insertId) {
       return res
@@ -181,7 +181,6 @@ export const notification = async (req,res) => {
   try{
 
     let userId = req.user.id;
-    // console.log(userId);
     let notifications = await getNotifications(userId);
 
     if(!notifications){
@@ -189,7 +188,6 @@ export const notification = async (req,res) => {
       res.status(501).json({success:false,message:"Something went wrong"});
     }
 
-    // console.log(notifications);
     res.status(200).json({success:true, notifications});
 
   }catch(err){

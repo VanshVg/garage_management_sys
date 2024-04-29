@@ -5,8 +5,6 @@ const notification = async() => {
 
   let data = await callAPI("/owner/notification")
 
-  console.log(data.notifications.length);
-
     document.querySelectorAll('.totalNotification').forEach((notify=>{
         notify.innerHTML = data.notifications.length;
     }))
@@ -15,6 +13,5 @@ const notification = async() => {
 notification();
 
 socketIo.on("Recevied", (message) => {
-  console.log(message);
   if(message === 1) notification();
 })

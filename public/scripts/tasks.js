@@ -1,7 +1,6 @@
 let zones = document.querySelectorAll(".status");
 
 let tasks = document.querySelectorAll(".task");
-console.log(tasks);
 
 tasks.forEach((element) => {
   element.addEventListener("dragstart", () => {

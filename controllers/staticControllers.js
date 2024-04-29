@@ -3,15 +3,11 @@ import {
   getCustomerNames,
   getGarageAddress,
   getNotAvailableService,
-  getUsersNotifications,
   serviceListing,
 } from "../utils/dbHandler.js";
 import {findOne} from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
 
-import {getInstance} from "../utils/socket.js"
-
-const io = getInstance();
 
 // landing page
 export const landingPage = (req, res) => {
