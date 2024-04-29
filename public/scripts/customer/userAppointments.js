@@ -3,6 +3,9 @@ const showAppointments = async () => {
   document.getElementById("user-appointments").classList.add("flex");
   document.getElementById("user-profile").classList.remove("flex");
   document.getElementById("user-profile").classList.add("hidden");
+  document.getElementById("user-vehicles").classList.remove("flex");
+  document.getElementById("user-vehicles").classList.add("hidden");
+
   let appointmentRequest = await callAPI(`/customer/appointments`);
   let userAppointments = `<table class="mx-auto w-full">
   <thead class="text-xl">
@@ -30,6 +33,7 @@ const showAppointments = async () => {
       userAppointments += `<td class="py-5 text-red">Rejected</td>`;
     }
     userAppointments += `</tr>`;
+    i++;
   });
   userAppointments += `</tbody> </table>`;
   document.getElementById("user-appointments").innerHTML = userAppointments;

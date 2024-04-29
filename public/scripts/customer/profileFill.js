@@ -14,6 +14,9 @@ const updateDetails = async () => {
   document.getElementById("user-profile").classList.add("flex");
   document.getElementById("user-appointments").classList.remove("flex");
   document.getElementById("user-appointments").classList.add("hidden");
+  document.getElementById("user-vehicles").classList.remove("flex");
+  document.getElementById("user-vehicles").classList.add("hidden");
+
   const userDetails = await fetch("/userDetails");
   const userJson = await userDetails.json();
   const user = userJson.user;

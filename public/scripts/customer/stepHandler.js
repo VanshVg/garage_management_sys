@@ -372,12 +372,12 @@ class steps {
                         class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()" id="appointments-button"
                         >Appointments</div>
                     <div id="btn-double"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="vehicles-button">Vehicles</div>
+                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" onclick=showUserVehicles() id="vehicles-button">Vehicles</div>
                 </div>
             </div>          
 <div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 flex" id="user-profile">
                 <div class="w-2/5 h-full">
-                    <img src="" class="rounded-md h-[70%] w-[75%]"  id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
+                    <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
                     <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
                     <p id="email"></p>
                     <address></address>
@@ -390,7 +390,13 @@ class steps {
             </div>
     <div id="user-appointments" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">
     </div>
-            
+    <div id="user-vehicles" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">
+      <div class="flex flex-wrap mx-auto h-full w-full" id="vehicle-card">
+        
+      </div>
+    </div>
+    </div>
+
         </div>
 </div>
                 </div>    `;
