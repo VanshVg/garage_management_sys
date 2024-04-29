@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 import {
+  findAllUserVehicles,
   findVehicleData,
   getVehicleType,
   insertData,
@@ -111,6 +112,18 @@ export const getUserVehicle = async (req, res) => {
     logger.error(error);
     return res
       .status(301)
+      .json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+export const getAllUserVehicles = async (req, res) => {
+  try {
+    const { email } = req.user;
+    let vehicles = await findAllUserVehicles(email);
+    return res.json({ success: true, result: vehicles });
+  } catch (error) {
+    return res
+      .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
 };

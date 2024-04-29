@@ -15,6 +15,7 @@ import {
 } from "../controllers/staticControllers.js";
 import {
   addVehicle,
+  getAllUserVehicles,
   getUserVehicle,
   getVehicleTypes,
 } from "../controllers/vehicleControllers.js";
@@ -60,6 +61,7 @@ router.get("/singleGarage", getSingleGarage);
 router.get("/servicesList/:garageId", servicesListing);
 router.get("/vehicleType", getVehicleTypes);
 router.get("/viewVehicle/:type", getUserVehicle);
+router.get("/viewVehicles", getAllUserVehicles);
 router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
 
 router.get("/services", selectServices);

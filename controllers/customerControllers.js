@@ -67,7 +67,7 @@ export const CustomerFeedbackPost = async (req, res) => {
 export const showAppointments = async (req, res) => {
   try {
     let appointments = await getCustomerAppointments(req.user.id);
-    res.render("partials/customerAppointments", { appointments });
+    return res.status(200).json({ success: true, result: appointments });
   } catch (error) {
     logger.error(error);
     return res
