@@ -1,13 +1,16 @@
-const fillNotification = async () => {
-  const socketIo = io("");
+const socketIo = io("");
 
-  socketIo.on("notification", (notification) => {
-    document.getElementById("userTotalNotification").innerHTML =
-      notification.length;
-  });
+const fillNotification = async () => {
+  let data = await callAPI("/customer/notification");
+  document.getElementById("userTotalNotification").innerHTML =
+    data.notification.length;
 };
 
 fillNotification();
+
+socketIo.on("Recevied", (message) => {
+  if (message) fillNotification();
+});
 
 const updateDetails = async () => {
   document.getElementById("user-profile").classList.remove("hidden");

@@ -36,7 +36,7 @@ import {
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
-import { bookAppointment } from "../controllers/appointmentsController.js";
+import { bookAppointment, customerNotification } from "../controllers/appointmentsController.js";
 import {
   addPaymentDetails,
   getPaymentDetails,
@@ -74,6 +74,8 @@ router.get("/slots", slotDisplay);
 router.get("/getslots/:garageId/:date", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
+
+router.get("/notification",customerNotification);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);

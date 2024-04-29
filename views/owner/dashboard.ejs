@@ -129,23 +129,8 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="h-[200px] overflow-y-scroll bg-dark" id="dashboard-appointments-body">
+                    <tbody class="overflow-y-scroll bg-dark" id="dashboard-appointments-body">
                         <tr class="bg-white border-b hover:bg-gray-100">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                Garage 1
-                            </td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                Customer 1
-                            </td>
-                            <td class="px-6 py-4">
-                                2024-04-20
-                            </td>
-                            <td class="px-6 py-4">
-                                10:30 AM
-                            </td>
-                            <td class="px-6 py-4">
-                                11:30 AM
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -303,19 +288,19 @@
         let table = "";
         json.appointments.forEach(appointment => {
             table += `<tr class="bg-white border-b hover:bg-gray-100">
-                            <td class="text-left px-1 py-1 font-medium text-gray-900 whitespace-nowrap">
+                            <td class="float-left py-3 px-1">
                                 ${appointment.garageName}
                             </td>
-                            <td class="text-left px-1 py-1 font-medium text-gray-900 whitespace-nowrap">
+                            <td class="text-left py-3 px-1">
                                 ${appointment.customerName}
                             </td>
-                            <td class="text-left px-1 py-1">
+                            <td class="text-left py-3 px-1">
                                 ${appointment.date}
                             </td>
-                            <td class="text-left px-1 py-1">
+                            <td class="text-left py-3 px-1">
                                 ${appointment.startTime}
                             </td>
-                            <td class="text-left px-1 py-1">
+                            <td class="text-left py-3 px-1">
                                 ${appointment.endTime}
                             </td>
                         </tr>`;

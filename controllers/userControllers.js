@@ -43,7 +43,6 @@ export const register = async (req, res) => {
           ["role_id", "name", "email", "password", "activate_link"],
           [role_id, name, email, hashedPassword, token]
         );
-        console.log(result);
         if (!result.length)
           res.status(201).json({
             success: true,

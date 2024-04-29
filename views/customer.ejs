@@ -106,6 +106,9 @@
                     let activeIndex = parseInt(localStorage.getItem("index"));
                     if (activeIndex == 4 && step == "next") {
                         validateStore.book();
+                        let formPlace = document.getElementById('other');
+                        formPlace.style.display = "none";
+                        formPlace.style.zIndex = 0;
                         return;
                     }
                     localStorage.setItem("index", (activeIndex + (step == 'prev' ? -1 : 1)))
