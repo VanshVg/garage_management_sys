@@ -1,15 +1,19 @@
 const fillNotification = async () => {
-    const socketIo = io("");
+  const socketIo = io("");
 
-    socketIo.on('notification', (notification) => {
-        document.getElementById('userTotalNotification').innerHTML = notification.length; 
-    })
-
-}
+  socketIo.on("notification", (notification) => {
+    document.getElementById("userTotalNotification").innerHTML =
+      notification.length;
+  });
+};
 
 fillNotification();
 
 const updateDetails = async () => {
+  document.getElementById("user-profile").classList.remove("hidden");
+  document.getElementById("user-profile").classList.add("flex");
+  document.getElementById("user-appointments").classList.remove("flex");
+  document.getElementById("user-appointments").classList.add("hidden");
   const userDetails = await fetch("/userDetails");
   const userJson = await userDetails.json();
   const user = userJson.user;
