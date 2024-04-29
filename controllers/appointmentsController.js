@@ -1,6 +1,6 @@
 import { logger } from "../helpers/loger.js";
-import { resolve } from "path";
 import {
+  getOwnerGarages,
   countAppointments,
   getAppointments,
   getBookedAppointments,
@@ -9,12 +9,24 @@ import {
   selectByFieldName,
   selectByFieldNames,
   updateFields,
-  getNotifications
+  getNotifications,
+  userNotification
 } from "../utils/dbHandler.js";
+import { error, log } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
-    let garage = req.params.garageId || 14;
+
+    let ownerId = req.user.id;
+
+    const garages = await getOwnerGarages(ownerId);
+
+    if(!garages){
+      res.status(301).json({success:false,message:"Something went wrong"});
+    }
+
+    let garage = garages[0].garage_id;
+
     const appointments = await getAppointments([garage,req.user.id]);
     appointments.forEach((appointment) => {
       appointment.date = appointment.startTime.slice(0, 10);
@@ -81,7 +93,6 @@ export const updateAppointment = async (req, res) => {
 export const bookAppointment = async (req, res) => {
   try {
     const { garageId, serviceId, vehicleId, slotId } = req.body;
-    let user = req.user;
 
     let slot = await selectByFieldName("slot_master", "id", slotId);
     if (!slot[0].availability_status) {
@@ -90,11 +101,12 @@ export const bookAppointment = async (req, res) => {
         .json({ success: false, message: "Selected slot is already used" });
     }
 
-    let appointmentResult = await insertData(
-      "appointments",
-      ["slot_id", "customer_id", "vehicle_id", "status"],
-      [slotId, customerId, vehicleId,1]
-    );
+      let appointmentResult = await insertData(
+        "appointments",
+        ["slot_id", "customer_id", "vehicle_id", "status"],
+        [slotId, req.user.id, vehicleId,1]
+      );
+
     if (!appointmentResult.insertId) {
       return res
         .status(500)
@@ -177,7 +189,7 @@ export const notification = async (req, res) => {
 
     if (!notifications) {
       logger.error(error);
-      res.status(501).json({ success: false, message: "Something went wrong" });
+      res.status(301).json({ success: false, message: "Something went wrong" });
     }
 
     res.status(200).json({success:true, notifications});
@@ -185,5 +197,24 @@ export const notification = async (req, res) => {
   } catch (err) {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
+  }
+}
+
+export const customerNotification = async (req,res) => {
+  try{
+
+    let userId = req.user.id;
+    let notification = await userNotification(userId);
+
+    if (!notification) {
+      logger.error(error);
+      res.status(301).json({ success: false, message: "Something went wrong" });
+    }
+
+    res.status(200).json({success:true, notification});
+
+  }catch(err){
+    logger.error(error);
+    res.status(501).json({success:false, message: "Something went wrong!"});
   }
 }

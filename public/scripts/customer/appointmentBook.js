@@ -23,6 +23,8 @@ const book = () => {
           "POST"
         );
 
+        console.log(response);
+
         if(response.success){
           socketIo.emit("notification",1);
         }
