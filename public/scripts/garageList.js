@@ -135,11 +135,7 @@ next.addEventListener("click", async () => {
     const pageCount = await populateData(pageNumber);
 
     document.querySelector(".current").innerText = pid + 1;
-    if (pid + 1 == pageCount) {
-      next.disabled = true;
-    } else {
-      prev.disabled = false;
-    }
+    
   }
 
 });

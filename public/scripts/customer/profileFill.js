@@ -1,13 +1,16 @@
+const socketIo = io("");
+
 const fillNotification = async () => {
-    const socketIo = io("");
-
-    socketIo.on('notification', (notification) => {
-        document.getElementById('userTotalNotification').innerHTML = notification.length; 
-    })
-
+   
+    let data = await callAPI("/customer/notification");
+    document.getElementById('userTotalNotification').innerHTML = data.notification.length; 
 }
 
 fillNotification();
+
+socketIo.on("Recevied", (message) => {
+  if(message) fillNotification();
+})
 
 const updateDetails = async () => {
   const userDetails = await fetch("/userDetails");
