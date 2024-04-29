@@ -367,25 +367,26 @@ class steps {
 <div class="w-[4%] mt-6 h-max flex  justify-start items-end rotate-90">
                 <div class="flex">
                     <div id="btn-half"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="updateDetails()" id="profile-button">Profile</div>
+                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="updateDetails()">Profile</div>
                     <div id="btn-full"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()" id="appointments-button"
+                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()"
                         >Appointments</div>
                     <div id="btn-double"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" onclick=showUserVehicles() id="vehicles-button">Vehicles</div>
+                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" onclick=showUserVehicles() >Vehicles</div>
                 </div>
             </div>          
 <div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 flex" id="user-profile">
                 <div class="w-2/5 h-full">
                     <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
                     <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
-                    <p id="email"></p>
+                    <p id="email" class="mt-3 text-lg"></p>
+                    <p id="address" class="mt-3 text-lg"></p>
                     <address></address>
                 </div>
                 <div class="w-3/5">
                   <h3 class="font-bold">Bio:</h3>
                   <hr/>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                  <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                 </div>
             </div>
     <div id="user-appointments" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">

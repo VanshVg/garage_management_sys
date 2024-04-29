@@ -5,6 +5,12 @@ const showAppointments = async () => {
   document.getElementById("user-profile").classList.add("hidden");
   document.getElementById("user-vehicles").classList.remove("flex");
   document.getElementById("user-vehicles").classList.add("hidden");
+  document.getElementById("btn-half").classList.remove("opacity-100");
+  document.getElementById("btn-half").classList.add("opacity-50");
+  document.getElementById("btn-full").classList.remove("opacity-50");
+  document.getElementById("btn-full").classList.add("opacity-100");
+  document.getElementById("btn-double").classList.remove("opacity-100");
+  document.getElementById("btn-double").classList.add("opacity-50");
 
   let appointmentRequest = await callAPI(`/customer/appointments`);
   let userAppointments = `<table class="mx-auto w-full">
