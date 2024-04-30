@@ -350,7 +350,7 @@ class steps {
       <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
     </svg></div>
     <div class="float-right">
-    <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
+    <div class="float-right cursor-pointer relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showAppointments()">
     <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
         <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">1</div>
     </div>
