@@ -21,32 +21,30 @@ export const customerInvoice = async (req, res) => {
     } else {
       email = req.user.email;
     }
-    
+
     let user = await selectByFieldName("users", "email", email);
-    
+
     if (user.length < 1) {
       return res
-      .status(500)
-      .json({ success: false, message: "Something went wrong!" });
+        .status(500)
+        .json({ success: false, message: "Something went wrong!" });
     }
     let invoiceDetails = await getInvoiceDetails([appointmentId, user[0].id]);
     if (invoiceDetails.length < 1) {
       return res
-      .status(301)
-      .json({ success: false, message: "Something went wrong!" });
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
     }
-
     let fileContent = await ejs.renderFile(
       __dirname + "/../views/partials/customerInvoice.ejs",
       {
         data: JSON.stringify(invoiceDetails),
       }
-      );
+    );
 
+    let result = await generatePdf(fileContent, user[0].id, appointmentId);
 
-      let result = await generatePdf(fileContent, user[0].id, appointmentId);
-
-      // if (!result) throw "Something went wrong!";
+    // if (!result) throw "Something went wrong!";
 
     let updateResult = await updateFields(
       "appointments",

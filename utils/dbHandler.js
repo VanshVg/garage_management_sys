@@ -761,7 +761,7 @@ export const getInvoiceDetails = async (appointmentDetails) => {
     JOIN city_master ON address_master.city_id = city_master.id 
     JOIN appointment_services ON appointments.id = appointment_services.appointment_id 
     JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id 
-    JOIN garage_has_services ON garage_has_services.services_id = appointment_services.service_id 
+    JOIN garage_has_services ON garage_has_services.id = appointment_services.service_id 
     JOIN service_master ON garage_has_services.services_id = service_master.id 
     WHERE appointments.id = ? AND users.id = ?;`;
     let [result] = await conn.query(query, appointmentDetails);
@@ -828,7 +828,7 @@ export const updateFields = async (tableName, fields, conditions) => {
 
 export const getGarageAppointments = async (garageId) => {
   try {
-    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=?;`;
+    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
     let [result] = await conn.query(query, [garageId]);
     return result;
   } catch (error) {
