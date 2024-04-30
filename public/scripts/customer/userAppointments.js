@@ -34,38 +34,34 @@ const showAppointments = async () => {
     <td class="py-5">${element.garage_name}</td>
     <td class="py-5">${element.start_time}</td>`;
     if (element.status == 1) {
-      userAppointments += `<td class="py-5 text-red">Pending</td>`;
+      userAppointments += `<td class="py-5 text-yellow-600">Pending</td>`;
     } else if (element.status == 2) {
-      userAppointments += `<td class="py-5 text-green">Approved</td>`;
+      userAppointments += `<td class="py-5 text-green-700">Approved</td>`;
     } else {
-      userAppointments += `<td class="py-5 text-red">Rejected</td>`;
+      userAppointments += `<td class="py-5 text-red-600">Rejected</td>`;
     }
     if (element.vehicle_status == 1 && element.status != 3) {
-      userAppointments += `<td class="py-5 text-red">To Do</td>`;
+      userAppointments += `<td class="py-5 text-yellow-600">To Do</td>`;
     } else if (element.vehicle_status == 2 && element.status != 3) {
       if (element.payment_status == 2) {
-        userAppointments += `<td class="py-5 text-green">Completed</td>`;
+        userAppointments += `<td class="py-5 text-green-700">Completed</td>`;
       } else {
         userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
       }
     } else {
-      userAppointments += `<td class="py-5 text-red">In Progress</td>`;
+      userAppointments += `<td class="py-5 text-yellow-600">In Progress</td>`;
     }
     if (
       element.vehicle_status == 2 &&
       element.status == 2 &&
       element.payment_status == 2
     ) {
-      if (element.invoice_url != null && element.invoice_url != "") {
-        userAppointments += `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice" href="/invoices/${element.invoice_url}.pdf" download="invoice.pdf"><p class="hover:cursor-pointer">Download here</p></a></td>`;
-      } else {
-        userAppointments +=
-          `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
-          `${element.appointment_id}` +
-          `,` +
-          `  '${element.customer_email}'` +
-          `)">Generate Invoice</p></a></td>`;
-      }
+      userAppointments +=
+        `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
+        `${element.appointment_id}` +
+        `,` +
+        `  '${element.customer_email}'` +
+        `)">Download Invoice</p></a></td>`;
     } else {
       userAppointments += `<td>-</td></td>`;
     }
