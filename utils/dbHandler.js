@@ -794,7 +794,7 @@ export const getAppointsByDateRange = async (payload) => {
 
 export const getCustomerAppointments = async (customerId) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`;
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status, appointments.vehicle_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`;
     let [result] = await conn.query(query, [customerId]);
     return result;
   } catch (error) {

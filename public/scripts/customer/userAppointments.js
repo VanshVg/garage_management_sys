@@ -20,6 +20,7 @@ const showAppointments = async () => {
       <th class="py-3">Garage Name</th>
       <th class="py-3">Appointment Date</th>
       <th class="py-3">Appointment Status</th>
+      <th class="py-3">Vehicle Status</th>
     </tr>
   </thead>
   <tbody>`;
@@ -37,6 +38,13 @@ const showAppointments = async () => {
       userAppointments += `<td class="py-5 text-green">Approved</td>`;
     } else {
       userAppointments += `<td class="py-5 text-red">Rejected</td>`;
+    }
+    if (element.vehicle_status == 1 && element.status != 3) {
+      userAppointments += `<td class="py-5 text-red">To Do</td>`;
+    } else if (element.vehicle_status == 2 && element.status != 3) {
+      userAppointments += `<td class="py-5 text-green">Completed</td>`;
+    } else if (element.vehicle_status == 3 && element.status != 3) {
+      userAppointments += `<td class="py-5 text-red">In Progress</td>`;
     }
     userAppointments += `</tr>`;
     i++;
