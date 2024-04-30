@@ -1,5 +1,6 @@
 const updateDetails = async (fieldList) => {
   const userDetails = await callAPI("/userDetails");
+  console.log(userDetails);
   const user = userDetails.user;
   user.address = !userDetails.address
     ? `please update your address..!!`

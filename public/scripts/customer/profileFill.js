@@ -8,11 +8,13 @@ const fillNotification = async () => {
 
 fillNotification();
 
-socketIo.on("Recevied", (message) => {
+socketIo.on("Received", (message) => {
   if (message) fillNotification();
 });
 
+
 const updateDetails = async () => {
+  
   document.getElementById("user-profile").classList.remove("hidden");
   document.getElementById("user-profile").classList.add("flex");
   document.getElementById("user-appointments").classList.remove("flex");
@@ -75,3 +77,12 @@ const updateDetails = async () => {
     tbody.appendChild(tr);
   });
 };
+
+const handleProfile = (id) => {
+  console.log(id);
+  let divs = ["profile", "editProfile"];
+  if (id == 0) console.log("Hello"); document.getElementById(divs[1]).classList.remove('hidden');
+  document.getElementById(divs[id]).classList.remove('hidden');
+  document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
+  if (id == 1) document.getElementById(divs[1]).classList.add('block');
+}
