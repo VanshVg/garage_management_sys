@@ -73,9 +73,9 @@ export const addPaymentDetails = async (req, res) => {
         "card_number",
         "account_holder",
         "cvv",
-        "expiry_date",
-        "upi",
-        "total_amount",
+        "card_expiry_date",
+        "upi_id",
+        "amount",
       ],
       [
         appointmentId,
@@ -97,7 +97,7 @@ export const addPaymentDetails = async (req, res) => {
 
     let updateStatus = await updateFields(
       "appointment_payments",
-      { status: 1 },
+      { status: 2 },
       { appointment_id: appointmentId }
     );
     if (!updateStatus.affectedRows) {

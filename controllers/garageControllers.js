@@ -17,8 +17,7 @@ import {
   getGarageDuration,
   updateFields,
   garagesCount,
-  countgarages
-
+  countgarages,
 } from "../utils/dbHandler.js";
 
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
@@ -59,7 +58,9 @@ export const garageAdd = async (req, res) => {
     closeTime = dateTimeConvertor(closeTime);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(500).json({ success: false, message: "Something went wrong!" });
+      res
+        .status(500)
+        .json({ success: false, message: "Something went wrong!" });
     } else {
       let addressId = await insertGarageAddress([cityId, area, pincode]);
       if (addressId) {
@@ -135,10 +136,8 @@ export const garageUpdate = async (req, res) => {
         ]);
         if (result) {
           res.status(200).json({ success: true, message: "garage updated" });
-        }
-        else throw "Something went wrong";
-      }
-      else throw "Something went wrong";
+        } else throw "Something went wrong";
+      } else throw "Something went wrong";
     }
   } catch (error) {
     logger.error(error);
@@ -149,20 +148,41 @@ export const garageUpdate = async (req, res) => {
 export const garageDelete = async (req, res) => {
   try {
     const { garageId } = req.params;
-    let garageResult = await updateFields("garage_master", { is_deleted: 1 }, { id: garageId });
+    let garageResult = await updateFields(
+      "garage_master",
+      { is_deleted: 1 },
+      { id: garageId }
+    );
 
-    let garageAddressResult = await updateFields("garage_address", { is_deleted: 1 }, { garage_id: garageId });
+    let garageAddressResult = await updateFields(
+      "garage_address",
+      { is_deleted: 1 },
+      { garage_id: garageId }
+    );
 
-    await updateFields("garage_events", { is_deleted: 1 }, { garage_id: garageId });
+    await updateFields(
+      "garage_events",
+      { is_deleted: 1 },
+      { garage_id: garageId }
+    );
 
-    let garageServiceResult = await updateFields("garage_has_services", { is_deleted: 1 }, { garage_id: garageId });
+    let garageServiceResult = await updateFields(
+      "garage_has_services",
+      { is_deleted: 1 },
+      { garage_id: garageId }
+    );
 
-    if (!garageResult.affectedRows || !garageAddressResult || !garageServiceResult) {
-      return res.status(500).json({ success: false, message: "Something went wrong" });
+    if (
+      !garageResult.affectedRows ||
+      !garageAddressResult ||
+      !garageServiceResult
+    ) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Something went wrong" });
     }
 
     return res.status(200).json({ success: true, message: "garage deleted" });
-
   } catch (error) {
     logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong" });
@@ -234,7 +254,7 @@ export const showGarageAppointments = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
-}
+};
 
 export const garageCount = async (req, res) => {
   try {
@@ -247,4 +267,4 @@ export const garageCount = async (req, res) => {
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
