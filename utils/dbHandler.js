@@ -245,7 +245,7 @@ export const updateGarage = async (garageInfo) => {
 // update garage address
 export const updateGarageAddress = async (addressInfo) => {
   try {
-    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = (select id from garage_address where garage_id=?)`;
+    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = (select address_id from garage_address where garage_id=?)`;
     let result = await conn.query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
