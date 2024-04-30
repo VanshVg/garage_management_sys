@@ -17,11 +17,24 @@ const livePopup = async () => {
 
   let data = await callAPI("/owner/notification");
 
-  console.log(data);
+  let userName = data.notifications[0].customerName
+  let userNotification = `${userName} has requested for slot Approval`;
+
+  document.getElementById('userNameNotification').innerHTML = userName;
+
+  document.getElementById('userNameNotification').innerHTML = userNotification;
 
   document.getElementById('notificationPopup').style.visibility = "visible";
 }
 
 socketIo.on("Recevied", (message) => {
-  if(message === 1) notification(); livePopup();
+  if(message === 1) { 
+    notification();
+     
+    setTimeout(function(){
+      document.getElementById('notificationPopup').style.visibility = "hidden";
+    },5000)
+    livePopup();
+
+  }
 })

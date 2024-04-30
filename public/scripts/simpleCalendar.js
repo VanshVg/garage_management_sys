@@ -102,7 +102,7 @@ const fetchGarageSlots = async (id) => {
   }
 };
 const displaySlots = async (duration = 1, dateVal) => {
-  if (dateVal) date = dateVal; else date = new Date();
+  if (dateVal){ date = dateVal; } else {date = new Date();}
   if (duration == 0) {
     toast.show("error", "This feature is not available for you..!!");
   } else {

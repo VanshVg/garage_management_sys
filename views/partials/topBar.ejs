@@ -4,11 +4,11 @@
     </strong>
 
     <div class="flex p-2 justify-center items-center text-left  bg-emerald-400
-             max-w-fit rounded-xl z-10" id="notificationPopup">
+             max-w-fit rounded-xl z-10 invisible" id="notificationPopup">
 
         <div class="ml-3 overflow-hidden">
             <div class="flex justify-between items-center">
-                <p class="font-medium text-gray-700">Jan Doe</p>
+                <p class="font-medium text-gray-700" id="userNameNotification"></p>
                 <div class="border-2" onclick="closeNotification()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
                         <path
@@ -16,7 +16,7 @@
                         </path>
                     </svg></div>
             </div>
-            <p class="max-w-xs text-sm text-gray-500">
+            <p class="max-w-xs text-sm text-gray-500" id="userNameNotification">
                 Jan Doe has requested for slot approvement.
             </p>
         </div>
