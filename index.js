@@ -29,7 +29,7 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on("notification", (notification) => {
-    notification ? io.emit("Recevied", notification) : 0;
+    notification ? io.emit("Received", notification) : 0;
   });
 
 })
