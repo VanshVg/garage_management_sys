@@ -23,47 +23,37 @@ const fillGarages = async () => {
       garageList +=
         `
       <div class="w-1/3 p-2 h-[600px] relative">
-      <div class="absolute top-0 right-0 flex items-center mr-4 mt-4 bg-dark rounded-full" onmouseover="showEditBox(${
-        index + 1
-      })" onmouseout="hideEditBox(${index + 1})">
+      <div class="absolute top-0 right-0 flex items-center mr-4 mt-4 bg-dark rounded-full" onmouseover="showEditBox(${index + 1
+        })" onmouseout="hideEditBox(${index + 1})">
         <button type="button" class="h-full w-full"}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;"><path d="M10   10h4v4h-4zm0-6h4v4h-4zm0 12h4v4h-4z"></path>
             </svg>
         </button>
       </div>
-      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
-        index + 1
-      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
-          index + 1
+      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${index + 1
+        }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${index + 1
         })">
         <div class="bg-light p-3 rounded-xl text-left">
           <p class="flex hover:cursor-pointer" onClick="editGarage(${index})"><img src="/icons/edit.svg" class="h-4 mt-1 mr-2">Edit</img></p>
-          <p class="flex mt-2 hover:cursor-pointer" onClick="deleteGarage(${
-            garage.garage_id
-          } ` +
+          <p class="flex mt-2 hover:cursor-pointer" onClick="deleteGarage(${garage.garage_id
+        } ` +
         `,` +
-        `'${
-          garage.garage_name
+        `'${garage.garage_name
         }')"><img src="/icons/delete.svg" class="h-4 mt-1 mr-2">Delete</img></p>
         </div>
       </div>
-      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${
-        garage.id
-      }'>
+      <div class="w-full h-full border border-gray-200 rounded-lg shadow" id='${garage.id
+        }'>
       <a href="#" class="mb-4">
-          <img class="rounded-t-lg w-full h-[280px]" src="/uploads/${
-            garage.thumbnail
-          }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" />
+          <img class="rounded-t-lg w-full h-[280px]" src="/uploads/${garage.thumbnail
+        }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" />
       </a>
       <div class="p-5">
           <div class="flex justify-between mb-2">
-              <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">${
-                garage.garage_name
-              }</h5>
-              <tag class="${
-                garage.status ? "bg-[#038117]" : "bg-[#ff5f5f]"
-              } w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${
-          garage.status ? "OPEN" : "CLOSE"
+              <h5 class="mb-2 text-2xl font-bold tracking-wide text-dark ">${garage.garage_name
+        }</h5>
+              <tag class="${garage.status ? "bg-[#038117]" : "bg-[#ff5f5f]"
+        } w-max h-max px-4 py-[6px] rounded-xl text-white tracking-wide">${garage.status ? "OPEN" : "CLOSE"
         }</tag>
           </div>
           <div class="flex items-center mt-2">
@@ -88,9 +78,8 @@ const fillGarages = async () => {
                       <path d="M13 8c2.1 0 3 .9 3 3h2c0-3.22-1.78-5-5-5z"></path>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-sm">+91 ${
-                garage.contact_number
-              }</p>
+              <p class="text-dark font-semibold text-sm">+91 ${garage.contact_number
+        }</p>
           </div>
           <div class="flex items-center mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2">
@@ -103,8 +92,8 @@ const fillGarages = async () => {
                   </svg>
               </icon>
               <p class="text-dark font-semibold text-sm">${formatTimeAMPM(
-                garage.open_time.split(" ")[1]
-              )} to ${formatTimeAMPM(garage.close_time.split(" ")[1])}</p>
+          garage.open_time.split(" ")[1]
+        )} to ${formatTimeAMPM(garage.close_time.split(" ")[1])}</p>
           </div>
           <div class="flex mt-2">
               <icon class="bg-dark p-1 rounded-full mr-2 h-max">
@@ -122,9 +111,8 @@ const fillGarages = async () => {
                       </g>
                   </svg>
               </icon>
-              <p class="text-dark font-semibold text-justify tracking-tight text-sm">${
-                garage.description?.substring(0, 150) || ""
-              }...</p>
+              <p class="text-dark font-semibold text-justify tracking-tight text-sm">${garage.description?.substring(0, 150) || ""
+        }...</p>
           </div>
 
       </div>
@@ -136,7 +124,6 @@ const fillGarages = async () => {
   }
   document.getElementById("garage-container").innerHTML = garageList;
 };
-fillGarages();
 
 const showEditBox = (id) => {
   document.getElementById(`editBox${id}`).style.display = "flex";

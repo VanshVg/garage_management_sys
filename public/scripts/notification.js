@@ -1,14 +1,8 @@
 const socketIo = io("");
 
-const notification = async() => {
-
+const notification = async () => {
   let data = await callAPI("/owner/notification")
-
-    document.querySelectorAll('.totalNotification').forEach((notify=>{
-        notify.innerHTML = data.notifications.length;
-    }))
-
-
+  document.querySelector('.totalNotification').innerHTML = data.notifications.length;
 }
 
 notification();
@@ -28,13 +22,13 @@ const livePopup = async () => {
 }
 
 socketIo.on("Received", (message) => {
-  if(message === 1) { 
+  if (message === 1) {
     notification();
     getOwnerData();
     loadAppointments();
-    setTimeout(function(){
+    setTimeout(function () {
       document.getElementById('notificationPopup').style.visibility = "hidden";
-    },5000)
+    }, 5000)
     livePopup();
 
   }

@@ -3,7 +3,7 @@ import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import routes from "./routes/routes.js";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import { ReadableStream } from "web-streams-polyfill";
 config();
 const app = express();

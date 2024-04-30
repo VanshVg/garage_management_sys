@@ -43,7 +43,6 @@ const showUserVehicles = async () => {
         </div>
       </div>
     </div> </div>`;
-    console.log(userVehicles);
   });
   document.getElementById("vehicle-card").innerHTML = userVehicles;
 };
