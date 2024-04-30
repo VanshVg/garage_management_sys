@@ -6,6 +6,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="/scripts/imageSelection.js"></script>
 <script src="/scripts/loadMap.js"></script>
+<script src="/scripts/garageDropdown.js"></script>
+<script src="/scripts/loadServices.js"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -124,10 +126,38 @@
             </div>
 
             <script>
-
-                updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
-
+                    switch (activated) {
+                        case "dashboard":
+                            break;
+                        case "profile":
+                            updateDetails(["name", "email", "bio", "address", "profile_pic"]);
+                            break;
+                        case "garages":
+                            fillGarages();
+                            break;
+                        case "services":
+                            loadService('service-container');
+                            break;
+                        case "slots":
+                            getGarages();
+                            populateData();
+                            simpleCalendar();
+                            manipulate();
+                            break;
+                        case 'appointment':
+                            buttons();
+                            loadCalendar();
+                            setTimeout(() => {
+                                document.getElementById("currentDay").click();
+                            }, 500);
+                            break;
+                        case "invoice":
+                            garagesList();
+                            break;
+                        default:
+                            break;
+                    }
                     document.title = activated.charAt(0).toUpperCase() + activated.slice(1);
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {
@@ -140,6 +170,7 @@
                     screen.style.display = 'flex'
                 }
                 const activeSub = (activated) => {
+                    if (activated == 'profile-edit') myFetch();
                     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex';

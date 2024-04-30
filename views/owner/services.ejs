@@ -4,7 +4,8 @@
       class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52">
     </select>
     <div class="service-button">
-      <button type="button" class="bg-dark w-max p-4 text-sm px-6 rounded-md mt-4" onclick="loadService('add-service-container')">Add Service</button>
+      <button type="button" class="bg-dark w-max p-4 text-sm px-6 rounded-md mt-4"
+        onclick="loadService('add-service-container')">Add Service</button>
     </div>
   </div>
 
@@ -14,9 +15,4 @@
     </div>
   </div>
 </div>
-<script src="/scripts/loadServices.js"></script>
-<script src="/scripts/service.js"></script>
-<script>
-  loadService('service-container')
-</script>
 <%- include('./addService.ejs') %>

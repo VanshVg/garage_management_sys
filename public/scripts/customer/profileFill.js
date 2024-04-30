@@ -42,7 +42,6 @@ const updateDetails = async () => {
   document.getElementById(
     "email"
   ).innerHTML = `<b class="text-xl mr-2">Email:</b> ${user.email}`;
-  console.log(address);
   document.getElementById("address").innerHTML =
     `<b class="text-xl mr-2">Address:</b>` +
     address.area +

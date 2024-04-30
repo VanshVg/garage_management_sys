@@ -627,8 +627,8 @@ export const getNotifications = async (userId) => {
 
     let result = await conn.query(query, userId);
     return result[0];
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    logger.log(error);
   }
 };
 
@@ -653,15 +653,15 @@ export const findOwner = async (garageId) => {
 
     let result = await conn.query(query, garageId);
     return result[0];
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    logger.log(error);
   }
 };
 
 export const getBookedAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select d.id, b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 2 and owner_id = ? and c.start_time >= SUBDATE(NOW(),1) order by c.start_time;";
+      "select d.id, b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 2 and owner_id = ? and c.start_time >= NOW() order by c.start_time;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -761,7 +761,7 @@ export const getInvoiceDetails = async (appointmentDetails) => {
     JOIN city_master ON address_master.city_id = city_master.id 
     JOIN appointment_services ON appointments.id = appointment_services.appointment_id 
     JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id 
-    JOIN garage_has_services ON garage_has_services.services_id = appointment_services.service_id 
+    JOIN garage_has_services ON garage_has_services.id = appointment_services.service_id 
     JOIN service_master ON garage_has_services.services_id = service_master.id 
     WHERE appointments.id = ? AND users.id = ?;`;
     let [result] = await conn.query(query, appointmentDetails);

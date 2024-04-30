@@ -1,6 +1,6 @@
 const book = () => {
   const socketIo = io("");
-  
+
   Swal.fire({
     title: "Are you sure ?",
     text: "you want to book Appointment..!!",
@@ -23,10 +23,8 @@ const book = () => {
           "POST"
         );
 
-        console.log(response);
-
-        if(response.success){
-          socketIo.emit("notification",1);
+        if (response.success) {
+          socketIo.emit("notification", 1);
         }
 
         toast.show(response.success ? "success" : "error", response.message);

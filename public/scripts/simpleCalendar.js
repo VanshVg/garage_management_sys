@@ -4,18 +4,17 @@ let month = date.getMonth();
 let slots;
 let slotDate;
 let btns = ["btn-half", "btn-full", "btn-double"];
-(async () => {
+const simpleCalendar = async () => {
   const result = await callAPI("/owner/garages/getGaragesList");
   garages = result.garages;
   let options = "";
-  var i = 0;
   garages.forEach((garage) => {
     options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
   });
   const select = document.getElementById("garage-select");
   select.innerHTML = options;
   select.addEventListener("change", garageChanged);
-})();
+};
 
 const garageChanged = () => {
   displaySlots();
@@ -72,7 +71,6 @@ const generateSlots = ({
   newStart.setHours(start.split(":")[0], start.split(":")[1]);
   let newEnd = new Date(date.toISOString().split("T")[0]);
   newEnd.setHours(end.split(":")[0], end.split(":")[1]);
-  console.log(newStart, newEnd)
   while (newStart < newEnd) {
     let slot =
       (newStart.getHours() < 10 ? "0" : "") +
@@ -97,7 +95,6 @@ const fetchGarageSlots = async (id) => {
     let slots = await callAPI("/owner/garages/slots", { garageId: id }, "POST");
     return slots;
   } catch (error) {
-    console.log("Something wen't wrong..");
     return [];
   }
 };
@@ -307,8 +304,6 @@ const manipulate = () => {
     });
   });
 };
-
-manipulate();
 
 preNexIcons.forEach((icon) => {
   icon.addEventListener("click", () => {

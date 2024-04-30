@@ -66,9 +66,7 @@ const manipulate = () => {
   day.innerHTML = lit;
 
   const dates = document.querySelectorAll("#calendarScreen .date");
-  console.log(dates)
   dates.forEach((date) => {
-    console.log(date)
     date.onclick = (e) => {
       slotDate = e.target.innerText;
       let active = document.getElementsByClassName("activeDate")[0];
@@ -80,7 +78,6 @@ const manipulate = () => {
       if (slotDate.length == 1) startDate += 0;
       startDate += slotDate;
       // setActive("slots");
-      console.log("date", startDate)
       steps.slots(startDate);
     }
   });

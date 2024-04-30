@@ -1,21 +1,7 @@
-const holidays = [
-  {
-    date: "13-04-2024",
-    holiday: "saturday",
-  },
-];
-
 const calendar = document.querySelector("#calendar");
 const monthBanner = document.querySelector("#calendar-month");
 let navigation = 0;
 let clicked = null;
-
-let events = [
-  {
-    date: "14-04-2024",
-    title: "something",
-  },
-];
 
 const weekdays = [
   "Sunday",
@@ -63,8 +49,6 @@ const loadCalendar = () => {
     const dateText = `${year}-${monthVal}-${dateVal}`;
     if (i > emptyDays) {
       dayBox.innerText = i - emptyDays;
-      const eventOfTheDay = events.find((e) => e.date == dateText);
-      const holidayOfTheDay = holidays.find((e) => e.date == dateText);
 
       if (i - emptyDays === day && navigation == 0) {
         dayBox.id = "currentDay";
@@ -159,9 +143,3 @@ const closeModal = () => {
   clicked = null;
   loadCalendar();
 };
-
-buttons();
-loadCalendar();
-setTimeout(() => {
-  document.getElementById("currentDay").click();
-}, 500);
