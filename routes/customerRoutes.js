@@ -12,6 +12,7 @@ import {
   vehiclesList,
   service,
   slot,
+  payment,
 } from "../controllers/staticControllers.js";
 import {
   addVehicle,
@@ -51,6 +52,7 @@ router.get("/vehicle", vehicles);
 router.get("/vehicleList", vehiclesList);
 router.get("/service", service);
 router.get("/slots", slot);
+router.get("/payment", payment);
 
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
@@ -75,7 +77,7 @@ router.get("/getslots/:garageId/:date", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
 
-router.get("/notification",customerNotification);
+router.get("/notification", customerNotification);
 router.get("/appointments", showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);

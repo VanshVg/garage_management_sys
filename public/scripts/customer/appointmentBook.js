@@ -28,6 +28,9 @@ const book = () => {
         }
 
         toast.show(response.success ? "success" : "error", response.message);
+        setTimeout(() => {
+          location.href = "/customer/profile";
+        }, 1000);
       } catch (error) {
         toast.show("error", error);
       }

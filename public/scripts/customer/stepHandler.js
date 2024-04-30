@@ -29,16 +29,22 @@ class validateStore {
       location.href = "/customer/service";
     }
   }
-  static book() {
+  static payment() {
     validateStore.slots();
     if (!localStorage.getItem("slotId")) {
       location.href = "/customer/slots";
-    } else {
-      let formPlace = document.getElementById("other");
-      formPlace.style.display = "none";
-      formPlace.style.zIndex = 0;
-      book();
     }
+  }
+  static book() {
+    validateStore.payment();
+    // if (!localStorage.getItem("paymentId")) {
+    // location.href = "/customer/payment";
+    // } else {
+    let formPlace = document.getElementById("other");
+    formPlace.style.display = "none";
+    formPlace.style.zIndex = 0;
+    book();
+    // }
   }
 }
 class storeHandler {
@@ -70,7 +76,10 @@ class storeHandler {
     let id = document.querySelector("input[name=slots]:checked").value;
     storeHandler.store("slotId", id);
   }
-  static paymentSelection() { }
+  static paymentSelection() {
+    let id = document.querySelector("input[name=payment]:checked").value;
+    storeHandler.store("paymentId", id);
+  }
 }
 class APICaller {
   static paths = {
@@ -315,7 +324,7 @@ class steps {
     );
   }
   static slots(date) {
-    validateStore.slots();
+    validateStore.service();
     let id = localStorage.getItem("garageId");
     date = date || new Date().toISOString().split("T")[0];
     htmlHandler.getData(
@@ -327,70 +336,83 @@ class steps {
       "slotSelection"
     );
   }
+  static payment() {
+    validateStore.slots();
+    // htmlHandler.getData(
+    //   "payment",
+    //   "Payment Details",
+    //   "",
+    //   "No payment methods added..!!",
+    //   "payment",
+    //   "payment"
+    // );
+  }
   static profile() {
-    updateDetails();
     document.querySelector("#mapScreen").style.display = "none";
     document.querySelector("#otherScreen").style.display = "none";
     document.querySelector("#profile-container").style.zIndex = 999999999999999;
     let profileHTML = `
     <div class="w-full p-2">
-    <div class="flex justify-between items-center">
-    <div class="cursor-pointer  bg-dark w-[40px] h-[40px] rounded-full flex justify-center items-center" onclick="home()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
-      <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z"></path>
-    </svg></div>
-    <div class="float-right">
-    <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
-    <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
-        <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">1</div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-        <path
-            d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-7.414V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v4.586l-1.707 1.707A.996.996 0 0 0 3 17v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a.996.996 0 0 0-.293-.707L19 14.586z">
-        </path>
-    </svg>
-</div>
-    </div>
-</div>  
-<div class="w-full h-full flex" >
-<div class="w-[4%] mt-6 h-max flex  justify-start items-end rotate-90">
-                <div class="flex">
-                    <div id="btn-half"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="updateDetails()">Profile</div>
-                    <div id="btn-full"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()"
-                        >Appointments</div>
-                    <div id="btn-double"
-                        class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" onclick=showUserVehicles() >Vehicles</div>
-                </div>
-            </div>          
-<div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 flex" id="user-profile">
-                <div class="w-2/5 h-full">
-                    <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
-                    <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
-                    <p id="email" class="mt-3 text-lg"></p>
-                    <p id="address" class="mt-3 text-lg"></p>
-                    <address></address>
-                </div>
-                <div class="w-3/5">
-                  <h3 class="font-bold">Bio:</h3>
-                  <hr/>
-                  <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                </div>
+      <div class="flex justify-between items-center">
+        <div class="cursor-pointer  bg-dark w-[40px] h-[40px] rounded-full flex justify-center items-center" onclick="home()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
+            <path d="M13.939 4.939 6.879 12l7.06 7.061 2.122-2.122L11.121 12l4.94-4.939z">
+            </path>
+          </svg>
+        </div>
+        <div class="float-right">
+          <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
+            <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
+              <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">
+                1
+              </div>
             </div>
-    <div id="user-appointments" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">
-    </div>
-    <div id="user-vehicles" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">
-      <div class="flex flex-wrap mx-auto h-full w-full" id="vehicle-card">
-        
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+              <path d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-7.414V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v4.586l-1.707 1.707A.996.996 0 0 0 3 17v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a.996.996 0 0 0-.293-.707L19 14.586z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>  
+      <div class="w-full h-full flex">
+        <div class="w-[4%] mt-6 h-max flex justify-start items-end rotate-90">
+          <div class="flex">
+            <div id="btn-half" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="updateDetails()">
+            Profile
+            </div>
+            <div id="btn-full" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()">
+            Appointments
+            </div>
+            <div id="btn-double" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" onclick=showUserVehicles() >
+            Vehicles
+            </div>
+          </div>
+        </div>          
+        <div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10" id="user-profile">
+          <div class="w-2/5 h-full">
+            <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
+            <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
+            <p id="email" class="mt-3 text-lg"></p>
+            <p id="address" class="mt-3 text-lg"></p>
+            <address></address>
+          </div>
+            <div class="w-3/5">
+              <h3 class="font-bold">Bio:</h3>
+              <hr/>
+              <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            </div>
+          </div>
+          <div id="user-appointments" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10">
+          </div>
+          <div id="user-vehicles" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10 hidden">
+            <div class="flex flex-wrap mx-auto h-full w-full" id="vehicle-card">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    </div>
-
-        </div>
-</div>
-                </div>    `;
+  </div>`;
     document.getElementById("profile-container").innerHTML = profileHTML;
+    updateDetails();
   }
 }

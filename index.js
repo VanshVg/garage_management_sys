@@ -3,7 +3,7 @@ import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import routes from "./routes/routes.js";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import { ReadableStream } from "web-streams-polyfill";
 config();
 const app = express();
@@ -29,6 +29,6 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on("notification", (notification) => {
-    notification ? io.emit("Recevied", notification) : 0;
+    notification ? io.emit("Received", notification) : 0;
   });
 })
