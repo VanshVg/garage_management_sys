@@ -8,6 +8,10 @@ let generateInvoice = async (appointmentId, customerEmail) => {
   });
   let response = await pdfRequest.json();
   if (response.success) {
-    window.location.href = "/owner/invoice";
+    if (window.location.href.includes("customer")) {
+      window.location.href = "/customer/profile";
+    } else {
+      window.location.href = "/owner/invoice";
+    }
   }
 };
