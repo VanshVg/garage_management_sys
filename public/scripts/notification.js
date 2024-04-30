@@ -30,7 +30,8 @@ const livePopup = async () => {
 socketIo.on("Recevied", (message) => {
   if(message === 1) { 
     notification();
-     
+    getOwnerData();
+    loadAppointments();
     setTimeout(function(){
       document.getElementById('notificationPopup').style.visibility = "hidden";
     },5000)
