@@ -10,13 +10,12 @@ import {
   selectByFieldNames,
   updateFields,
   getNotifications,
-  userNotification
+  userNotification,
 } from "../utils/dbHandler.js";
 import { error, log } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
-
     let ownerId = req.user.id;
 
     const garages = await getOwnerGarages(ownerId);
@@ -94,7 +93,6 @@ export const updateAppointment = async (req, res) => {
 export const bookAppointment = async (req, res) => {
   try {
     const { serviceId, vehicleId, slotId } = req.body;
-
     let slot = await selectByFieldName("slot_master", "id", slotId);
     if (!slot[0].availability_status) {
       return res
@@ -107,7 +105,6 @@ export const bookAppointment = async (req, res) => {
       ["slot_id", "customer_id", "vehicle_id", "status"],
       [slotId, req.user.id, vehicleId, 1]
     );
-
     if (!appointmentResult.insertId) {
       return res
         .status(500)
@@ -184,7 +181,6 @@ export const bookAppointment = async (req, res) => {
 
 export const notification = async (req, res) => {
   try {
-
     let userId = req.user.id;
     let notifications = await getNotifications(userId);
 
@@ -194,7 +190,6 @@ export const notification = async (req, res) => {
     }
 
     res.status(200).json({ success: true, notifications });
-
   } catch (err) {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
@@ -203,7 +198,6 @@ export const notification = async (req, res) => {
 
 export const customerNotification = async (req, res) => {
   try {
-
     let userId = req.user.id;
     let notification = await userNotification(userId);
 
@@ -213,9 +207,8 @@ export const customerNotification = async (req, res) => {
     }
 
     res.status(200).json({ success: true, notification });
-
   } catch (err) {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
-}
+};

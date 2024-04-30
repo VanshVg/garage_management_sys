@@ -10,6 +10,7 @@ socketIo.on("Received", (message) => {
   if (message) fillNotification();
 });
 
+
 const updateDetails = async () => {
   document.getElementById("user-profile")?.classList.remove("hidden");
   document.getElementById("user-profile").classList.add("flex");
@@ -50,3 +51,11 @@ const updateDetails = async () => {
     ", Pincode: " +
     address.pincode;
 };
+
+const handleProfile = (id) => {
+  let divs = ["profile", "editProfile"];
+  document.getElementById(divs[1]).classList.remove('hidden');
+  document.getElementById(divs[id]).classList.remove('hidden');
+  document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
+  if (id == 1) document.getElementById(divs[1]).classList.add('block');
+}

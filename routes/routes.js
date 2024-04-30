@@ -16,7 +16,10 @@ import { validateRole } from "../services/roleServices.js";
 import { garageCount } from "../controllers/garageControllers.js";
 import { customerCount } from "../controllers/customerControllers.js";
 import { serviceCount } from "../controllers/serviceControllers.js";
-import { customerInvoice } from "../controllers/invoiceControllers.js";
+import {
+  customerInvoice,
+  deletePdf,
+} from "../controllers/invoiceControllers.js";
 
 const router = express.Router();
 
@@ -46,7 +49,6 @@ router.use(
 
 // authentication routes
 router.use("/u", isAlreadyLoggedIn, authRoutes);
-router.get('/garagesCount', garageCount);
 router.get('/customerCount', customerCount);
 router.get('/serviceCount', serviceCount);
 
@@ -65,6 +67,7 @@ router.use(
 
 // Invoice route
 router.post("/invoice/:appointmentId", customerInvoice);
+router.delete("/invoice/:fileName", deletePdf);
 
 // 404 not found
 router.all("*", notFound);

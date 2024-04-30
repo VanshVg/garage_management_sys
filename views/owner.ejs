@@ -44,7 +44,10 @@
     <% var active=active || 'dashboard' ; %>
 
         <body class="overlow-hidden">
-            <div class="dashboard-container h-screen w-screen flex overflow-hidden" ondblclick="hideNotification()">
+
+            
+
+            <div class="dashboard-container h-screen w-screen flex overflow-hidden">
                 <%- include('./partials/sidebar', {active}) %>
                     <div class="flex flex-col h-full bg-lightbg p-5 flex-grow overflow-hidden">
                         <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>

@@ -1,9 +1,9 @@
-import express from 'express';
-import { logout } from '../controllers/staticControllers.js';
-import { cityList, stateList } from '../controllers/addressControllers.js';
-import { customerInvoice } from '../controllers/invoiceControllers.js';
-import { getUserDetails } from '../controllers/userControllers.js';
-import { allServices } from '../controllers/serviceControllers.js';
+import express from "express";
+import { logout } from "../controllers/staticControllers.js";
+import { cityList, stateList } from "../controllers/addressControllers.js";
+import { customerInvoice } from "../controllers/invoiceControllers.js";
+import { getUserDetails } from "../controllers/userControllers.js";
+import { allServices } from "../controllers/serviceControllers.js";
 
 const router = express.Router();
 

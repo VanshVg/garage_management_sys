@@ -50,16 +50,13 @@ const getInvoices = async () => {
       } else {
         garageAppointments += `<td class="mx-auto text-center text-green">Completed</td>`;
       }
-      if (element.invoice_url != null && element.invoice_url != "") {
-        garageAppointments += `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice" href="/invoices/${element.invoice_url}.pdf" download="invoice.pdf"><p class="hover:cursor-pointer">Download here</p></a></td>`;
-      } else {
-        garageAppointments +=
-          `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
-          `${element.appointment_id}` +
-          `,` +
-          `  '${element.customer_email}'` +
-          `)">Generate Invoice</p></a></td>`;
-      }
+      garageAppointments +=
+        `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
+        `${element.appointment_id}` +
+        `,` +
+        `  '${element.customer_email}'` +
+        `)">Download Invoice</p></a></td>`;
+
       garageAppointments += `</tr>`;
       i++;
     });

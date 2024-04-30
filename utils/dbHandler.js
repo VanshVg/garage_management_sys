@@ -245,7 +245,7 @@ export const updateGarage = async (garageInfo) => {
 // update garage address
 export const updateGarageAddress = async (addressInfo) => {
   try {
-    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = (select id from garage_address where garage_id=?)`;
+    let query = `UPDATE address_master SET city_id = ?, area = ?, pincode = ? WHERE id = (select address_id from garage_address where garage_id=?)`;
     let result = await conn.query(query, addressInfo);
     return result[0].affectedRows;
   } catch (error) {
@@ -794,7 +794,7 @@ export const getAppointsByDateRange = async (payload) => {
 
 export const getCustomerAppointments = async (customerId) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id WHERE appointments.customer_id=?;`;
+    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status, appointments.vehicle_status, users.email AS customer_email FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE appointments.customer_id=?;`;
     let [result] = await conn.query(query, [customerId]);
     return result;
   } catch (error) {
@@ -828,7 +828,7 @@ export const updateFields = async (tableName, fields, conditions) => {
 
 export const getGarageAppointments = async (garageId) => {
   try {
-    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=?;`;
+    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
     let [result] = await conn.query(query, [garageId]);
     return result;
   } catch (error) {

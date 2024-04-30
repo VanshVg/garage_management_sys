@@ -8,6 +8,12 @@ let generateInvoice = async (appointmentId, customerEmail) => {
   });
   let response = await pdfRequest.json();
   if (response.success) {
-    window.location.href = "/owner/invoice";
+    window.open(`/invoices/${response.pdf}.pdf`, "_blank");
+    let deletePdf = await fetch(`/invoice/${response.pdf}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 };
