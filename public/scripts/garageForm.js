@@ -1,4 +1,6 @@
 const changeStep = (form, hide, show) => {
+  const openTime = document.getElementById('openTime');
+  const closeTime = document.getElementById('closeTime');
   document.querySelectorAll("error").forEach((er) => er.remove());
   document
     .querySelectorAll(
@@ -7,6 +9,12 @@ const changeStep = (form, hide, show) => {
     .forEach((ele) => {
       Validation.isValid(ele);
     });
+  const diff = (new Date("1970-1-1 " + closeTime.value) - new Date("1970-1-1 " + openTime.value)) / 1000 / 60 / 60;
+  if (diff < 1) {
+    let errorElement = document.createElement("error");
+    errorElement.innerText = 'close time must be 1hr greater than opentime';
+    closeTime.insertAdjacentElement("afterend", errorElement);
+  }
   if (!document.querySelectorAll("error").length) {
     document.querySelector(`#${form} #${hide}`).classList.add("hidden");
     document.querySelector(`#${form} #${show}`).classList.remove("hidden");
@@ -59,10 +67,10 @@ const handleGarage = async (e) => {
         e.target.id == "addGarage"
           ? { endpoint: `/owner/garages/add`, body: formData }
           : {
-              endpoint: `/owner/garages/update`,
-              body: formData,
-              method: "PUT",
-            }
+            endpoint: `/owner/garages/update`,
+            body: formData,
+            method: "PUT",
+          }
       );
     } catch (error) {
       response = error;
