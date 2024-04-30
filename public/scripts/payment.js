@@ -54,7 +54,6 @@ const addPayment = async (finalAmount) => {
   });
   let paymentResponse = await paymentRequest.json();
   if (paymentResponse.success) {
-    await generateInvoice(appointmentId, paymentResponse.customerEmail);
     Swal.fire({
       title: "Good job!",
       text: "Payment is done",
@@ -62,6 +61,8 @@ const addPayment = async (finalAmount) => {
       showConfirmButton: false,
       timer: 1500,
       allowOutsideClick: false,
+    }).then(() => {
+      window.location.href = "/customer/profile";
     });
   }
 };
