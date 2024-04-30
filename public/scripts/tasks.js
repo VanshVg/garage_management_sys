@@ -46,8 +46,8 @@ const getVehicleTasks = async () => {
         `${element.id}` +
         `,` +
         `${i})">
-          <option value="0">Pending</option>
-          <option value="1">In progress</option>
+          <option value="1">Pending</option>
+          <option value="3">In progress</option>
           <option value="2">Completed</option>
         </select>
       </td>

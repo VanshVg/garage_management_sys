@@ -48,7 +48,7 @@ const showAppointments = async () => {
       } else {
         userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
       }
-    } else if (element.vehicle_status == 3 && element.status != 3) {
+    } else {
       userAppointments += `<td class="py-5 text-red">In Progress</td>`;
     }
     if (
