@@ -27,10 +27,11 @@ const livePopup = async () => {
   document.getElementById('notificationPopup').style.visibility = "visible";
 }
 
-socketIo.on("Recevied", (message) => {
+socketIo.on("Received", (message) => {
   if(message === 1) { 
     notification();
-     
+    getOwnerData();
+    loadAppointments();
     setTimeout(function(){
       document.getElementById('notificationPopup').style.visibility = "hidden";
     },5000)
