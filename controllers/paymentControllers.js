@@ -73,9 +73,9 @@ export const addPaymentDetails = async (req, res) => {
         "card_number",
         "account_holder",
         "cvv",
-        "expiry_date",
-        "upi",
-        "total_amount",
+        "card_expiry_date",
+        "upi_id",
+        "amount",
       ],
       [
         appointmentId,
