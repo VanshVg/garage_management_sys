@@ -179,7 +179,6 @@
                         default:
                             break;
                     }
-                    console.log(activeIndex);
                     setActive(screen[activeIndex])
                 }
                 const setActive = (activated = "dashboard") => {
@@ -195,11 +194,17 @@
                 }
             </script>
             <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+            <script src="/scripts/loadAddress.js"></script>
             <script src="/scripts/customer/profileFill.js"></script>
+            <script src="/scripts/appointments.js"></script>
+            <script src="/scripts/customer/userAppointments.js"></script>
+            <script src="/scripts/customer/userVehicles.js"></script>
             <script src="/scripts/customer/addVehicle.js"></script>
             <script src="/scripts/customer/appointmentBook.js"></script>
             <script src="/scripts/customer/stepHandler.js"></script>
             <script src="/scripts/customer/calendar.js"></script>
+            <script src="/scripts/customer/payment.js"></script>
             <script src="/scripts/validation.js"></script>
             <%- include('./customer/footer.ejs') %>
+
     </body>

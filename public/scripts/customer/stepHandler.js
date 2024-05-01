@@ -49,14 +49,15 @@ class validateStore {
     } else return true;
   }
   static book() {
-    validateStore.payment();
+    if (validateStore.payment()) {
+      book();
+    }
     // if (!localStorage.getItem("paymentId")) {
     // location.href = "/customer/payment";
     // } else {
     // let formPlace = document.getElementById("other");
     // formPlace.style.display = "none";
     // formPlace.style.zIndex = 0;
-    // book();
     // }
     return false;
   }
