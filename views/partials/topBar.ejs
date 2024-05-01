@@ -1,28 +1,28 @@
 <div class="top-nav flex justify-between items-center w-full h-[32px] mb-4 ">
-    <strong>
+    <strong id="currentPage">
         <%= active.charAt(0).toUpperCase()+active.substring(1) %>
     </strong>
 
     <div class="flex p-2 justify-center items-center text-left  bg-emerald-400
-             max-w-fit rounded-xl z-10" id="notificationPopup">
+             max-w-fit rounded-xl z-10 invisible" id="notificationPopup">
 
         <div class="ml-3 overflow-hidden">
             <div class="flex justify-between items-center">
-                <p class="font-medium text-gray-700">Jan Doe</p>
-                <div class="border-2" onclick="closeNotification()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                <p class="font-medium text-gray-700" id="userNameNotification"></p>
+                <div class="border-2" onclick="closeNotification()"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
                         <path
                             d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z">
                         </path>
                     </svg></div>
             </div>
-            <p class="max-w-xs text-sm text-gray-500">
+            <p class="max-w-xs text-sm text-gray-500" id="userNameNotification">
                 Jan Doe has requested for slot approvement.
             </p>
         </div>
     </div>
 
-    
+
 
     <div class="right h-full flex">
         <div class="user-profile flex justify-between items-center h-full p-1 rounded-[15px] w-max shadow">
@@ -46,13 +46,14 @@
                 </svg>
             </div>
             <div class="userNotification" id="userNotification">
-                <!-- <div class="bg-slate-400 max-w-fit p-2 mt-10 -ml-[315px] float-left rounded-lg absolute hidden" id="detailedNotification">
+                <div class="bg-slate-400 max-w-fit p-2 mt-10 -ml-[315px] float-left rounded-lg absolute hidden"
+                    id="detailedNotification">
                     <div class="bg-slate-400 p-3 w-10 h-10 -mt-2 mb-3 float-right rotate-45 "></div>
                     <div class="bg-light py-1 px-2 m-2 rounded-lg text-left relative">
-                    <h4>Nitin</h4>
-                    <p>Nitin had requested for approval of slot</p>
+                        <h4>Nitin</h4>
+                        <p>Nitin had requested for approval of slot</p>
                     </div>
-                </div> -->
+                </div>
             </div>
 
         </div>
@@ -63,10 +64,12 @@
 </div>
 
 <script>
-    function showNotification() {
-        // let notification = document.getElementById("detailedNotification");
-        // notification.style.display = "block";
-        let active = "Appointments";
+    async function showNotification() {
+        // let notification = document.querySelectorAll("#detailedNotification");
+        // notification.forEach((n => {
+        // n.style.display = "block";
+        // }));
+        let active = "appointment";
         setActive(active);
     }
 

@@ -67,5 +67,3 @@ const getInvoices = async () => {
       garageAppointments;
   }
 };
-
-garagesList();

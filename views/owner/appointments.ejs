@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="/styles/calendar.css">
 
 <div class="select-container flex" id="garage-select">
-  <select name="garage" class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52" id="garageList">
+  <select name="garage"
+    class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52"
+    id="garageList">
     <option value="1">garage 1</option>
     <option value="2">garage 2</option>
   </select>
@@ -110,7 +112,7 @@
 
         if (result.status == 201) {
           // notification();
-          socketIo.emit("notification",1);
+          socketIo.emit("notification", 1);
         }
 
         toast.show(response.success ? "success" : "error", response.message);
@@ -121,19 +123,19 @@
 
   const updateTable = (appointments) => {
     let table = "";
-    appointments.forEach((appointment,i) => {
+    appointments.forEach((appointment, i) => {
       let status;
 
-      if(appointment.status == 2){
+      if (appointment.status == 2) {
         status = "<div class='text-white font-semibold bg-lime-700 w-[100px] m-auto p-1 rounded-lg'>Approved</div>";
-      }else if(appointment.status == 3){
+      } else if (appointment.status == 3) {
         status = "<div class='text-white font-semibold bg-rose-600 w-[100px] m-auto p-1 rounded-lg'>rejected</div>";
-      }else if(appointment.status == 1){
+      } else if (appointment.status == 1) {
         status = "<div class='text-white font-semibold bg-yellow-600 w-[100px] m-auto p-1 rounded-lg'>Pending</div>";
       }
 
       table += `<tr class="border-b-2 border-black hover:bg-sky-100">
-              <td class="p-2 text-base">${i+1}</td>
+              <td class="p-2 text-base">${i + 1}</td>
               <td class="text-lg">${appointment.customerName}</td>
               <td class="text-base">${appointment.date}</td>
               <td class="text-base">${appointment.startTime} - ${appointment.endTime}</td>
@@ -158,7 +160,7 @@
     updateTable(appointments);
     document.getElementById("currentDay").click();
   }
-  
+
   const loadAppointments = async () => {
     let garageId = document.getElementById('garageList').value;
     const appointmentsDetails = await callAPI('/owner/appointmentsList/' + garageId);

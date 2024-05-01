@@ -6,14 +6,13 @@ const fillNotification = async () => {
     data.notification.length;
 };
 
-fillNotification();
-
-socketIo.on("Recevied", (message) => {
+socketIo.on("Received", (message) => {
   if (message) fillNotification();
 });
 
+
 const updateDetails = async () => {
-  document.getElementById("user-profile").classList.remove("hidden");
+  document.getElementById("user-profile")?.classList.remove("hidden");
   document.getElementById("user-profile").classList.add("flex");
   document.getElementById("user-appointments").classList.remove("flex");
   document.getElementById("user-appointments").classList.add("hidden");
@@ -51,27 +50,12 @@ const updateDetails = async () => {
     address.stateName +
     ", Pincode: " +
     address.pincode;
-  var tbody = document.querySelector("tbody");
-  vehicleServices.forEach((element) => {
-    var tr = document.createElement("tr");
-    tr.classList.add("bg-white");
-    tr.classList.add("border-b");
-    tr.classList.add("hover:bg-lightbg");
-    Object.keys(vehicleServices[0]).forEach((ele) => {
-      td = document.createElement("td");
-      td.classList.add("px-6");
-      td.classList.add("py-3");
-      if (ele == "status") {
-        if (element[ele] == 1) {
-          td.innerText = "Completed";
-        } else {
-          td.innerText = "Pending";
-        }
-      } else {
-        td.innerText = element[ele];
-      }
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-  });
 };
+
+const handleProfile = (id) => {
+  let divs = ["profile", "editProfile"];
+  document.getElementById(divs[1]).classList.remove('hidden');
+  document.getElementById(divs[id]).classList.remove('hidden');
+  document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
+  if (id == 1) document.getElementById(divs[1]).classList.add('block');
+}

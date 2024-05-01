@@ -49,9 +49,8 @@ router.use(
 
 // authentication routes
 router.use("/u", isAlreadyLoggedIn, authRoutes);
-router.get("/garagesCount", garageCount);
-router.get("/customerCount", customerCount);
-router.get("/serviceCount", serviceCount);
+router.get('/customerCount', customerCount);
+router.get('/serviceCount', serviceCount);
 
 // landing page
 router.get("/", isAlreadyLoggedIn, landingPage);

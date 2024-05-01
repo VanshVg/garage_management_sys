@@ -92,6 +92,9 @@ export const service = async (req, res) => {
 export const slot = async (req, res) => {
   res.render("customer", { active: "slots" });
 };
+export const payment = async (req, res) => {
+  res.render("customer", { active: "payment" });
+};
 
 export const getCities = async (req, res) => {
   try {

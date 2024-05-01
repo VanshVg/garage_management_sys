@@ -244,7 +244,7 @@ export const updateProfile = async (req, res) => {
         if (!userAddressResult) throw "Something went wrong!";
         return res
           .status(200)
-          .json({ success: true, message: "User updated successfully" });
+          .json({ success: true, message: "Your profile updated successfully" });
       }
     }
 
@@ -258,7 +258,7 @@ export const updateProfile = async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: "User updated successfully" });
+      .json({ success: true, message: "Your Profile updated successfully" });
   } catch (error) {
     logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });

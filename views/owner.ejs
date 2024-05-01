@@ -6,6 +6,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="/scripts/imageSelection.js"></script>
 <script src="/scripts/loadMap.js"></script>
+<script src="/scripts/garageDropdown.js"></script>
+<script src="/scripts/loadServices.js"></script>
 <script>
     tailwind.config = {
         theme: {
@@ -45,92 +47,108 @@
 
             
 
-            <div class="dashboard-container h-screen w-screen flex overflow-hidden" ondblclick="hideNotification()">
+            <div class="dashboard-container h-screen w-screen flex overflow-hidden">
                 <%- include('./partials/sidebar', {active}) %>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow overflow-hidden"
-                        style="display: none;" id="dashboard-screen">
+                    <div class="flex flex-col h-full bg-lightbg p-5 flex-grow overflow-hidden">
                         <%- include(`./partials/topBar.ejs`, {active:"Dashboard"})%>
-                            <%- include(`./owner/dashboard.ejs`) %>
+                            <div class="page-container bg-lightbg flex-grow overflow-hidden" style="display: none;"
+                                id="dashboard-screen">
+                                <%- include(`./owner/dashboard.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="profile-screen">
+                                <%- include(`./owner/profile.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="profile-edit-screen">
+                                <%- include(`./garage/updateProfile.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="garages-screen">
+                                <%- include(`./owner/garages.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="services-screen">
+                                <%- include(`./owner/services.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="slots-screen">
+                                <%- include(`./owner/slots.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="slot-add-screen">
+                                <%- include(`./owner/addSlot`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="appointment-screen">
+                                <%- include(`./owner/appointments.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="inventory-screen">
+                                <%- include(`./owner/inventory.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="employee-screen">
+                                <%- include(`./owner/employee.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="employee-add-screen">
+                                <%- include(`./owner/addEmployee.ejs`, {formType: 'addEmployee' }) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="tasks-screen">
+                                <%- include(`./owner/tasks.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="invoice-screen">
+                                <%- include(`./owner/invoice.ejs`) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="garage-add-screen">
+                                <%- include(`./garage/add.ejs`, { formType: 'addGarage' }) %>
+                            </div>
+                            <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow"
+                                style="display: none;" id="garage-edit-screen">
+                                <%- include(`./garage/add.ejs`, { formType: 'editGarage' }) %>
+                            </div>
                     </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="profile-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Profile"})%>
-                            <%- include(`./owner/profile.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="profile-edit-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Profile/Edit"})%>
-                            <%- include(`./garage/updateProfile.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="garages-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Garages"})%>
-                            <%- include(`./owner/garages.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="services-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Services"})%>
-                            <%- include(`./owner/services.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="slots-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Slots"})%>
-                            <%- include(`./owner/slots.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="slot-add-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Slots/Edit"})%>
-                            <%- include(`./owner/addSlot`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="appointment-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Appointments"})%>
-                            <%- include(`./owner/appointments.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="inventory-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Inventory"})%>
-                            <%- include(`./owner/inventory.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="employee-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Employees"})%>
-                            <%- include(`./owner/employee.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="employee-add-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Employees/Add"})%>
-                            <%- include(`./owner/addEmployee.ejs`, {formType: 'addEmployee' }) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="tasks-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"tasks"})%>
-                            <%- include(`./owner/tasks.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="invoice-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Invoice"})%>
-                            <%- include(`./owner/invoice.ejs`) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="garage-add-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Garages/add"})%>
-                            <%- include(`./garage/add.ejs`, { formType: 'addGarage' }) %>
-                    </div>
-                    <div class="page-container flex flex-col h-full bg-lightbg p-5 flex-grow" style="display: none;"
-                        id="garage-edit-screen">
-                        <%- include(`./partials/topBar.ejs`,{active:"Garages/Edit"})%>
-                            <%- include(`./garage/add.ejs`, { formType: 'editGarage' }) %>
-                    </div>
-
-
             </div>
-
             <script>
-
-                updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
-
+                    document.getElementById('currentPage').innerHTML = activated.charAt(0).toUpperCase() + activated.substring(1);
+                    switch (activated) {
+                        case "dashboard":
+                            getOwnerData();
+                            updateDetails(["name", "email", "bio", "address", "profile_pic"]);
+                            break;
+                        case "profile":
+                            updateDetails(["name", "email", "bio", "address", "profile_pic"]);
+                            break;
+                        case "garages":
+                            fillGarages();
+                            break;
+                        case "services":
+                            loadService('service-container');
+                            break;
+                        case "slots":
+                            getGarages();
+                            populateData();
+                            simpleCalendar();
+                            manipulate();
+                            break;
+                        case 'appointment':
+                            buttons();
+                            loadCalendar();
+                            setTimeout(() => {
+                                document.getElementById("currentDay").click();
+                            }, 500);
+                            break;
+                        case "invoice":
+                            garagesList();
+                            break;
+                        default:
+                            break;
+                    }
                     document.title = activated.charAt(0).toUpperCase() + activated.slice(1);
                     document.querySelectorAll('#sidebar li').forEach(li => { li.classList.remove('bg-blue'); li.classList.add('opacity-50') });
                     if (activated != 'profile-edit') {
@@ -143,10 +161,13 @@
                     screen.style.display = 'flex'
                 }
                 const activeSub = (activated) => {
+                    if (activated == 'profile-edit') myFetch();
                     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex';
                     loadMap('addGarage-map');
+                    activated = activated.replace('-', '/')
+                    document.getElementById('currentPage').innerHTML = activated.charAt(0).toUpperCase() + activated.substring(1);
                 }
                 setActive('<%= active %>');
                 document.querySelectorAll('#sidebar li').forEach(li => {

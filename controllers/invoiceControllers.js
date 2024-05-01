@@ -72,7 +72,6 @@ export const deletePdf = async (req, res) => {
       path.join(__dirname, "../public/invoices/", fileName + ".pdf"),
       (err) => {
         if (err) {
-          console.log(err);
           throw "Something went wrong!";
         } else {
           return res

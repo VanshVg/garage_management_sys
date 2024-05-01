@@ -53,5 +53,3 @@ const myFetch = async () => {
     document.querySelector("#updateOwner #pincode").value = address.pincode;
   }
 };
-
-myFetch();

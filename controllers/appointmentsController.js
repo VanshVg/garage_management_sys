@@ -25,6 +25,7 @@ export const appointmentsListing = async (req, res) => {
     }
 
     let garage = garages[0].garage_id;
+    garage = req.params.garageId || garage;
 
     const appointments = await getAppointments([garage, req.user.id]);
     appointments.forEach((appointment) => {
@@ -193,7 +194,7 @@ export const notification = async (req, res) => {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
-};
+}
 
 export const customerNotification = async (req, res) => {
   try {
