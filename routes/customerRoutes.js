@@ -20,6 +20,7 @@ import {
   getUserVehicle,
   getUserVehicleDetails,
   getVehicleTypes,
+  updateUserVehicle,
 } from "../controllers/vehicleControllers.js";
 
 import {
@@ -66,6 +67,7 @@ router.get("/vehicleType", getVehicleTypes);
 router.get("/viewVehicle/:type", getUserVehicle);
 router.get("/viewVehicles", getAllUserVehicles);
 router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
+router.post("/updateVehicle", upload.single("vehicleImage"), updateUserVehicle)
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);

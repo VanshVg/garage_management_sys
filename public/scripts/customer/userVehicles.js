@@ -15,7 +15,7 @@ const showUserVehicles = async () => {
 
   let appointmentRequest = await callAPI(`/customer/viewVehicles`);
   let userVehicles = ``;
-  const index = 0;
+  let index = 0;
   appointmentRequest.result.forEach((element) => {
     userVehicles += `
   <div class="w-[calc(100%/3)] px-5 mt-5 relative">
@@ -70,6 +70,7 @@ const showUserVehicles = async () => {
         
       </div>
     </div> </div>`;
+    index++;
   });
   document.getElementById("vehicle-card").innerHTML = userVehicles;
 };
@@ -187,10 +188,18 @@ const updateVehicle = async (id) => {
   vehicleData.append("vehicleImage", vehicleImage);
   vehicleData.append("id", id)
   console.log(vehicleData);
-  // let response = await callApiWithFormData({
-  //   endpoint: "/customer/addVehicle",
-  //   body: vehicleData,
-  //   method: "POST",
-  // });
+  let response = await callApiWithFormData({
+    endpoint: "/customer/updateVehicle",
+    body: vehicleData,
+    method: "POST",
+  });
+  if (response.success) {
+    toast.show("success", response.message);
+    setTimeout(() => {
+      showUserVehicles();
+    }, 2000);
 
+  } else {
+    toast.show("error", response.message);
+  }
 }

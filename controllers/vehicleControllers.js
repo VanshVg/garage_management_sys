@@ -7,6 +7,7 @@ import {
   insertData,
   selectByFieldName,
   selectByFieldNames,
+  updateVehicleDetails,
 } from "../utils/dbHandler.js";
 import { logger } from "../helpers/loger.js";
 
@@ -139,5 +140,23 @@ export const getUserVehicleDetails = async (req, res) => {
     logger.error(error);
     return res.status(500)
       .json({ success: false, message: "Something Went Wrong!" })
+  }
+}
+
+export const updateUserVehicle = async (req, res) => {
+  try {
+    const { brand, model, year, numberPlate, description, id } = req.body;
+    const vehicleImage = 'dummyUrl';
+    console.log(req.body)
+    let result = await updateVehicleDetails([numberPlate, brand, model, year, description, vehicleImage, id]);
+    console.log(result);
+    if (result.error) {
+      res.status(400).json({ success: false, message: "Something Went Wrong!" });
+    } else {
+      res.status(200).json({ success: true, message: "Vehicle Updated" });
+    }
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({ success: false, message: "Something Went Wrong!" })
   }
 }
