@@ -1,6 +1,6 @@
 const changeStep = (form, hide, show) => {
-  const openTime = document.getElementById('openTime');
-  const closeTime = document.getElementById('closeTime');
+  const openTime = document.querySelector(`#${form} #openTime`);
+  const closeTime = document.querySelector(`#${form} #closeTime`);
   document.querySelectorAll("error").forEach((er) => er.remove());
   document
     .querySelectorAll(

@@ -3,7 +3,7 @@ import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import routes from "./routes/routes.js";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import { ReadableStream } from "web-streams-polyfill";
 config();
 const app = express();
@@ -25,11 +25,14 @@ const server = app.listen(port, () => {
   console.log(`Server is running at:http://localhost:${port}`);
 });
 
-const io = new Server(server); 
+const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on("notification", (notification) => {
     notification ? io.emit("Received", notification) : 0;
+  });
+  socket.on("newSlotAdded", () => {
+    io.emit("newSlotAdded");
   });
 
 })

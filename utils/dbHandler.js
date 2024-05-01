@@ -308,7 +308,7 @@ export const getNotAvailableService = async (id) => {
 };
 export const getGaragesService = async () => {
   try {
-    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
+    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
@@ -611,7 +611,7 @@ export const getUserAddress = async (userId) => {
 export const getAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ?;";
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -627,8 +627,8 @@ export const getNotifications = async (userId) => {
 
     let result = await conn.query(query, userId);
     return result[0];
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    logger.log(error);
   }
 };
 
@@ -653,15 +653,15 @@ export const findOwner = async (garageId) => {
 
     let result = await conn.query(query, garageId);
     return result[0];
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    logger.log(error);
   }
 };
 
 export const getBookedAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select d.id, b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 2 and owner_id = ? and c.start_time >= SUBDATE(NOW(),1) order by c.start_time;";
+      "select d.id, b.garage_name as garageName, e.name as customerName,  c.start_time as startTime, c.end_time as endTime from owner_has_garages as a join garage_master as b join slot_master as c join appointments as d join users as e on a.garage_id = b.id and a.garage_id = c.garage_id and c.id = d.slot_id and d.customer_id = e.id where d.status = 2 and owner_id = ? and c.start_time >= NOW() order by c.start_time;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -672,7 +672,7 @@ export const getBookedAppointments = async (ownerDetails) => {
 // fetching garage wise slots at customer side
 export const customerSlotListing = async (garageId, date, date2) => {
   try {
-    let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and availability_status = 1 and is_deleted=0`;
+    let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and availability_status = 1 and is_deleted=0 and start_time > now()`;
     const result = await conn.query(query, [garageId]);
     return result[0];
   } catch (error) {

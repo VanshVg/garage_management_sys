@@ -1,21 +1,21 @@
+const socketIO = io("");
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
 let slots;
 let slotDate;
 let btns = ["btn-half", "btn-full", "btn-double"];
-(async () => {
+const simpleCalendar = async () => {
   const result = await callAPI("/owner/garages/getGaragesList");
   garages = result.garages;
   let options = "";
-  var i = 0;
   garages.forEach((garage) => {
     options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
   });
   const select = document.getElementById("garage-select");
   select.innerHTML = options;
   select.addEventListener("change", garageChanged);
-})();
+};
 
 const garageChanged = () => {
   displaySlots();
@@ -57,6 +57,9 @@ const addSlot = async (garageId, start, end, date, duration = 1) => {
     "POST"
   );
 
+  if (addedSlot.success) {
+    socketIO.emit("newSlotAdded");
+  }
   toast.show(addedSlot.success ? "success" : "error", addedSlot.message);
 
   displaySlots(duration, date);
@@ -72,7 +75,6 @@ const generateSlots = ({
   newStart.setHours(start.split(":")[0], start.split(":")[1]);
   let newEnd = new Date(date.toISOString().split("T")[0]);
   newEnd.setHours(end.split(":")[0], end.split(":")[1]);
-  console.log(newStart, newEnd)
   while (newStart < newEnd) {
     let slot =
       (newStart.getHours() < 10 ? "0" : "") +
@@ -97,12 +99,16 @@ const fetchGarageSlots = async (id) => {
     let slots = await callAPI("/owner/garages/slots", { garageId: id }, "POST");
     return slots;
   } catch (error) {
-    console.log("Something wen't wrong..");
     return [];
   }
 };
 const displaySlots = async (duration = 1, dateVal) => {
-  if (dateVal){ date = dateVal; } else {date = new Date();}
+  if (dateVal) {
+    date = dateVal;
+  }
+  else {
+    date = new Date();
+  }
   if (duration == 0) {
     toast.show("error", "This feature is not available for you..!!");
   } else {
@@ -169,79 +175,6 @@ const displaySlots = async (duration = 1, dateVal) => {
     }
     document.getElementById("slots-list").innerHTML = slotCard;
   }
-  // displaySlots(1);
-  // if (e && e.target.id == "slotDiff") {
-  // }
-  // else {
-  //   if (e && e.target.innerText != '') {
-  //     slotDate = e.target.innerText;
-  //     let active = document.getElementsByClassName('activeDate')[0];
-  //     if (active) active.classList.remove('activeDate');
-  //     e.target.classList.add('activeDate')
-  //   }
-  //   let startDate = year + "-";
-  //   if (month + 1 < 10) startDate += 0;
-  //   startDate += month + 1 + "-";
-  //   if (slotDate.length == 1) startDate += 0;
-  //   startDate += slotDate;
-  //   const time = new Date(startDate).getTime();
-  //   const tempDate = new Date(time + 24 * 60 * 60 * 1000);
-  //   const endYear = tempDate.getFullYear();
-  //   const endMonth = tempDate.getMonth();
-  //   const endDay = tempDate.getDate();
-  //   let endDate = endYear + "-";
-  //   if (endMonth + 1 < 10) endDate += 0;
-  //   endDate += endMonth + 1 + "-";
-  //   if (endDay.length == 1) endDate += 0;
-  //   endDate += endDay;
-  //   let formData = new FormData();
-  //   let index = document.getElementById('garage-select').value;
-  //   formData.append("garageId", garages[index].garage_id);
-  //   formData.append("startDate", startDate);
-  //   formData.append("endDate", endDate);
-  //   const slotDetails = await fetch('/owner/garages/slots', {
-  //     method: "POST",
-  //     body: new URLSearchParams(formData),
-  //   });
-  //   slots = await slotDetails.json();
-  // }
-  // let slotListing = document.getElementById('slot-listing');
-  // slotListing.style.display = '';
-  // let slotBody = document.getElementById('slot-body');
-  // const index = document.getElementById('garage-select').value;
-  // let interval = document.getElementById('slotDiff').value || 1;
-  // const garage = garages[index];
-  // let startTime = new Date(garage.open_time);
-  // startTime.setFullYear(year);
-  // startTime.setMonth(month);
-  // startTime.setDate(slotDate);
-  // startTime = startTime.getTime();
-  // let endTime = new Date(garage.close_time);
-  // endTime.setFullYear(year);
-  // endTime.setMonth(month);
-  // endTime.setDate(slotDate);
-  // endTime = endTime.getTime();
-  // let increment = 3600000 * interval;
-  // let str = "";
-  // while (startTime < endTime && startTime + increment < endTime) {
-  //   let flag = false;
-  //   slots.forEach(slot => {
-  //     let start = new Date(slot.startTime).getTime();
-  //     let end = new Date(slot.endTime).getTime();
-  //     if ((start >= startTime && start < startTime + increment) || (end > startTime && end < startTime + increment)) {
-  //       while (startTime < end) {
-  //         str += `<tr><td class="red">${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td class="red">add</td></tr>`;
-  //         startTime += increment;
-  //       }
-  //       flag = true;
-  //       return;
-  //     }
-  //   });
-  //   if (flag) continue;
-  //   str += `<tr><td>${('0' + new Date(startTime).getHours()).slice(-2)}:${('0' + new Date(startTime).getMinutes()).slice(-2)} - ${('0' + new Date(startTime + increment).getHours()).slice(-2)}:${('0' + new Date(startTime + increment).getMinutes()).slice(-2)}</td><td onclick="addSlot(event)" class="btn">add</td></tr>`;
-  //   startTime += increment;
-  // }
-  // slotBody.innerHTML = str;
 };
 
 const manipulate = () => {
@@ -307,8 +240,6 @@ const manipulate = () => {
     });
   });
 };
-
-manipulate();
 
 preNexIcons.forEach((icon) => {
   icon.addEventListener("click", () => {

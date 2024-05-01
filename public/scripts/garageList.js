@@ -14,8 +14,6 @@ const getGarages = async () => {
   });
 };
 
-getGarages();
-
 const deleteSlot = (id) => {
   Swal.fire({
     title: "Are you sure?",
@@ -121,8 +119,6 @@ const populateData = async (pageNumber = 1) => {
   return [data[4]];
 };
 
-populateData();
-
 var next = document.querySelector("#next");
 var prev = document.querySelector("#prev");
 next.addEventListener("click", async () => {
@@ -135,7 +131,7 @@ next.addEventListener("click", async () => {
     const pageCount = await populateData(pageNumber);
 
     document.querySelector(".current").innerText = pid + 1;
-    
+
   }
 
 });

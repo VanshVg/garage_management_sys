@@ -1,6 +1,51 @@
 <script>
 
   /*Map */
+  const ListPlace = () => {
+    $("#map").append(`
+     <div id="" class="place"   style="display:flex;justify-content:space-between" >
+                            <img src=""
+                                alt="garage" width="90px" height="85px">
+                            <div class="place-detail-container">
+                                <span class="place-name"></span>
+                                <div class="rating"
+                                    style="width: 70px;display: flex;justify-content: space-between;margin-bottom: 5px;">
+                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
+                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
+                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
+                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
+                                </div>
+                                <span class="distance"><i id="expand-icon" class="fa-solid fa-map-location-dot"
+                                        style="font-size: larger;"></i><span>35KM</span></span>
+                            </div>
+                            <div style="display:flex;flex-direction:column;height:100px;justify-content:space-between;align-items: flex-end;">
+                                <div class="wether" style="display: flex;">
+                                    <div class="whtext"
+                                    style="text-align: right;color:rgba(217, 217, 217, .74);font-size: small;">
+                                    67<sup style="color:rgba(217, 217, 217, .74)">o</sup><br />SUNNY</div>
+                                    <img src="./assest/Images/sun.png" alt=""
+                                        style="height:35px;width:35px;margin-left: 5px;">
+                                </div>
+                            </div>
+                        </div>
+    `);
+  }
+
+  const fetchGarages = async () => {
+    let locations = await (new Promise(async (resolve, reject) => {
+      let data = await callAPI('/customer/garageList');
+      let garages = data.result;
+      let result = [];
+      let i = 0;
+
+      garages.forEach(garage => {
+        result[i] = [];
+        result[i++].push(garage.garage_name, garage.latitude, garage.longitude, garage.thumbnail);
+      });
+      resolve(result);
+    }));
+    return locations;
+  }
   const getUserLocation = async () => {
     let location = await (new Promise((resolve, reject) => {
       if (navigator.geolocation) {
@@ -18,7 +63,8 @@
   }
   const loadMap = async () => {
     const position = await getUserLocation();
-    const map = L.map('map').setView(position, 8);
+    let map = L.map('map').setView(position, 8);
+    const locations = await fetchGarages();
 
     // Google layer (HTTPS URL)
     const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
@@ -35,7 +81,29 @@
     const overlayMaps = {
       "Marker": MyLoc
     };
+    for (var i = 0; i < locations.length; i++) {
+      const myIcon = L.icon({
+        iconUrl: '/uploads/' + locations[i][3],
+        iconSize: [50, 50],
+        className: "shadow-xl iconPin",
+        // className: "border-2 border-sky-500",
+      });
+      let marker = new L.marker([locations[i][1], locations[i][2]], {
+        icon: myIcon, draggable: false
+      }).bindPopup(locations[i][0]).addTo(map);
+      marker._icon.id = i;
+    }
     L.control.layers(overlayMaps).addTo(map);
+    let icons = document.querySelectorAll('.iconPin');
+    for (var i = 0; i < icons.length; i++) {
+      icons[i].addEventListener("click", (e) => {
+        let inputs = document.querySelectorAll("input[name=garage]");
+        inputs.forEach(input => {
+          input.setAttribute("checked", false);
+        });
+        inputs[e.target.id].setAttribute("checked", true);
+      });
+    }
   }
   let active = '<%= active %>';
   if (active != 'dashboard') {

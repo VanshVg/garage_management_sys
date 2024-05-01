@@ -1,5 +1,4 @@
 let generateInvoice = async (appointmentId, customerEmail) => {
-  console.log(appointmentId);
   let pdfRequest = await fetch(`/invoice/${appointmentId}`, {
     method: "POST",
     headers: {

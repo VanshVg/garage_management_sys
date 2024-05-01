@@ -1,3 +1,4 @@
+const socketIO = io("");
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
@@ -66,9 +67,7 @@ const manipulate = () => {
   day.innerHTML = lit;
 
   const dates = document.querySelectorAll("#calendarScreen .date");
-  console.log(dates)
   dates.forEach((date) => {
-    console.log(date)
     date.onclick = (e) => {
       slotDate = e.target.innerText;
       let active = document.getElementsByClassName("activeDate")[0];
@@ -80,7 +79,6 @@ const manipulate = () => {
       if (slotDate.length == 1) startDate += 0;
       startDate += slotDate;
       // setActive("slots");
-      console.log("date", startDate)
       steps.slots(startDate);
     }
   });
@@ -144,3 +142,7 @@ const addCalendar = () => {
     document.querySelector('.activeDate').click();
   }, 500)
 };
+
+socketIO.on("newSlotAdded", () => {
+  document.querySelector('.activeDate').click();
+});

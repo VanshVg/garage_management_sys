@@ -58,13 +58,25 @@ const getVehicleTasks = async () => {
     tasksList += `</tbody>`;
     document.getElementById("task-list").innerHTML = tasksList;
     statuses.forEach((element, index) => {
-      document.getElementById(`status${index + 1}`).value = element;
+      let select = document.getElementById(`status${index + 1}`);
+      select.value = element;
+      select.removeAttribute('class');
+      select.setAttribute('class', 'text-black rounded-xl p-2');
+      if (element == 2) select.classList.add('bg-green-500');
+      else if (element == 3) select.classList.add('bg-orange-600');
+      else select.classList.add('bg-amber-400');
     });
   }
 };
 
 const updateVehicleStatus = async (appointmentId, index) => {
-  let status = document.getElementById(`status${index}`).value;
+  let select = document.getElementById(`status${index}`);
+  let status = select.value;
+  select.removeAttribute('class');
+  select.setAttribute('class', 'text-black rounded-xl p-2');
+  if (status == 2) select.classList.add('bg-green-500');
+  else if (status == 3) select.classList.add('bg-orange-600');
+  else select.classList.add('bg-amber-400');
   const formData = new FormData();
   formData.append("status", status);
   await callApiWithFormData({
