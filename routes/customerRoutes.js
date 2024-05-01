@@ -39,7 +39,10 @@ import {
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
-import { bookAppointment, customerNotification } from "../controllers/appointmentsController.js";
+import {
+  bookAppointment,
+  customerNotification,
+} from "../controllers/appointmentsController.js";
 import {
   addPaymentDetails,
   getPaymentDetails,
@@ -67,7 +70,7 @@ router.get("/vehicleType", getVehicleTypes);
 router.get("/viewVehicle/:type", getUserVehicle);
 router.get("/viewVehicles", getAllUserVehicles);
 router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
-router.post("/updateVehicle", upload.single("vehicleImage"), updateUserVehicle)
+router.post("/updateVehicle", upload.single("vehicleImage"), updateUserVehicle);
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);

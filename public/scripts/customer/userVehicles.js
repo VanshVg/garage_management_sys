@@ -12,7 +12,6 @@ const showUserVehicles = async () => {
   document.getElementById("btn-half").classList.remove("opacity-100");
   document.getElementById("btn-half").classList.add("opacity-50");
 
-
   let appointmentRequest = await callAPI(`/customer/viewVehicles`);
   let userVehicles = ``;
   let index = 0;
@@ -20,8 +19,9 @@ const showUserVehicles = async () => {
     userVehicles += `
   <div class="w-[calc(100%/3)] px-5 mt-5 relative">
       <div class="absolute top-0 right-1 flex items-center mr-4 mt-4 bg-dark rounded-full"
-          onmouseover="showEditBox(${index + 1
-      })" onmouseout="hideEditBox(${index + 1})">
+          onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
           <button type="button" class="h-full w-full" }>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
@@ -29,12 +29,16 @@ const showUserVehicles = async () => {
               </svg>
           </button>
       </div>
-      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${index + 1
-      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${index + 1
-      })">
+      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
+        index + 1
+      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
           <div class="bg-light p-3 rounded-xl text-left">
               <p class="flex hover:cursor-pointer"
-                  onClick="editVehicle(${element.id})"><img src="/icons/edit.svg"
+                  onClick="editVehicle(${
+                    element.id
+                  })"><img src="/icons/edit.svg"
                       class="h-4 mt-1 mr-2">Edit</img></p>
           </div>
       </div>
@@ -59,7 +63,9 @@ const showUserVehicles = async () => {
             >
           </p>
           <p class="mt-3">
-            Model: <span class="text-lg ml-2 text-[silver]"> ${element.model} </span>
+            Model: <span class="text-lg ml-2 text-[silver]"> ${
+              element.model
+            } </span>
           </p>
         </div>
         
@@ -158,7 +164,7 @@ const editVehicle = async (id) => {
 </div>
  `;
   document.getElementById("vehicle-card").innerHTML = userVehicles;
-}
+};
 
 const showEditBox = (id) => {
   document.getElementById(`editBox${id}`).style.display = "flex";
@@ -181,8 +187,7 @@ const updateVehicle = async (id) => {
   }
   let vehicleImage = document.getElementById("vehicle-file").files[0];
   vehicleData.append("vehicleImage", vehicleImage);
-  vehicleData.append("id", id)
-  console.log(vehicleData);
+  vehicleData.append("id", id);
   let response = await callApiWithFormData({
     endpoint: "/customer/updateVehicle",
     body: vehicleData,
@@ -193,8 +198,7 @@ const updateVehicle = async (id) => {
     setTimeout(() => {
       showUserVehicles();
     }, 2000);
-
   } else {
     toast.show("error", response.message);
   }
-}
+};
