@@ -312,7 +312,7 @@ export const getGaragesService = async () => {
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
-    and a.city_id = c.id and c.sid = s.id;`;
+    and a.city_id = c.id and c.sid = s.id WHERE gm.is_deleted = 0;`;
     let result = await conn.query(query);
     return result[0];
   } catch (err) {
@@ -635,8 +635,7 @@ export const getNotifications = async (userId) => {
 // Get Customerside Notification
 export const userNotification = async (userId) => {
   try {
-    let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where d.id = ? and c.status = 2;";
+    let query = `SELECT * FROM appointments JOIN appointment_payments ON appointments.id = appointment_payments.appointment_id WHERE appointments.status = 2 AND appointments.vehicle_status = 2 AND appointment_payments.status = 1 AND appointments.customer_id = ?;`;
 
     let result = await conn.query(query, userId);
     return result[0];

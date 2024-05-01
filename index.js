@@ -25,11 +25,10 @@ const server = app.listen(port, () => {
   console.log(`Server is running at:http://localhost:${port}`);
 });
 
-const io = new Server(server); 
+const io = new Server(server);
 
 io.on("connection", (socket) => {
   socket.on("notification", (notification) => {
     notification ? io.emit("Received", notification) : 0;
   });
-
-})
+});
