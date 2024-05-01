@@ -1,50 +1,64 @@
 const home = () => (location.href = "/");
 class validateStore {
-  static dashboard() {
-    if (!localStorage.getItem("garageId")) {
-      location.href = "/customer/dashboard";
-    }
+  static garage() {
+    return true;
   }
-  static vehicleType() {
-    validateStore.dashboard();
-    if (!localStorage.getItem("garageId")) {
-      location.href = "/customer/dashboard";
-    }
+  static type() {
+    validateStore.garage();
+    let id = localStorage.getItem("garageId");
+    if (isNaN(parseInt(id))) {
+      setActive(screen[0]);
+      return false;
+    } else return true;
   }
   static vehicle() {
-    validateStore.vehicleType();
-    if (!localStorage.getItem("typeId")) {
-      location.href = "/customer/vehicle";
-    }
+    validateStore.type();
+    let id = localStorage.getItem("typeId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 1);
+      setActive(screen[1]);
+      return false;
+    } else return true;
   }
   static service() {
     validateStore.vehicle();
-    if (!localStorage.getItem("vehicleId")) {
-      location.href = "/customer/vehicleList";
-    }
+    let id = localStorage.getItem("vehicleId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 2);
+      setActive(screen[2]);
+      return false;
+    } else return true;
   }
   static slots() {
     validateStore.service();
-    if (!localStorage.getItem("serviceId")) {
-      location.href = "/customer/service";
-    }
+    let id = localStorage.getItem("serviceId");
+    console.log(isNaN(parseInt(id)));
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 3);
+      setActive(screen[3]);
+      return false;
+    } else return true;
   }
   static payment() {
     validateStore.slots();
-    if (!localStorage.getItem("slotId")) {
-      location.href = "/customer/slots";
-    }
+    let id = localStorage.getItem("slotId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 4);
+      setActive(screen[4]);
+      return false;
+    } else return true;
   }
   static book() {
     validateStore.payment();
     // if (!localStorage.getItem("paymentId")) {
     // location.href = "/customer/payment";
     // } else {
-    let formPlace = document.getElementById("other");
-    formPlace.style.display = "none";
-    formPlace.style.zIndex = 0;
-    book();
+    // let formPlace = document.getElementById("other");
+    // formPlace.style.display = "none";
+    // formPlace.style.zIndex = 0;
+    // book();
     // }
+    return false;
   }
 }
 class storeHandler {
@@ -52,15 +66,15 @@ class storeHandler {
     localStorage.setItem(id, value);
   }
   static garageSelection() {
-    let id = document.querySelector("input[name=garage]:checked").value;
+    let id = document.querySelector("input[name=garage]:checked")?.value;
     storeHandler.store("garageId", id);
   }
   static vehicleTypeSelection() {
-    let id = document.querySelector("input[name=type]:checked").value;
+    let id = document.querySelector("input[name=type]:checked")?.value;
     storeHandler.store("typeId", id);
   }
   static vehicleSelection() {
-    let id = document.querySelector("input[name=vehicle]:checked").value;
+    let id = document.querySelector("input[name=vehicle]:checked")?.value;
     storeHandler.store("vehicleId", id);
   }
   static serviceSelection() {
@@ -73,11 +87,11 @@ class storeHandler {
     storeHandler.store("serviceId", selectedServices);
   }
   static slotSelection() {
-    let id = document.querySelector("input[name=slots]:checked").value;
+    let id = document.querySelector("input[name=slots]:checked")?.value;
     storeHandler.store("slotId", id);
   }
   static paymentSelection() {
-    let id = document.querySelector("input[name=payment]:checked").value;
+    let id = document.querySelector("input[name=payment]:checked")?.value;
     storeHandler.store("paymentId", id);
   }
 }
@@ -106,10 +120,16 @@ class htmlHandler {
     container,
     eventListenter
   ) {
+    if (!validateStore[step]()) {
+      console.log(step);
+      return;
+    }
     let data = await APICaller.callAPIHandler(step, params);
     let html = htmlHandler.fillHtml(data, errorMessage, step, stepTitle);
     document.getElementById(`${container}-container`).innerHTML = html;
-    document.querySelector(`input[name=${step}]`).setAttribute("checked", true);
+    document
+      .querySelector(`input[name=${step}]`)
+      ?.setAttribute("checked", true);
     storeHandler[eventListenter]();
     document.querySelectorAll(`input[name=${step}]`).forEach((control) => {
       control.addEventListener("change", storeHandler[eventListenter]);
@@ -119,8 +139,9 @@ class htmlHandler {
     let html = `
     <div class="h-full w-full p-3">
         <strong class="text-white text-left">${Title}</strong><hr/>
-        <div class="max-h-[95%] h-max w-full overflow-scroll flex  ${stepHTML == "type" ? "flex-row flex-wrap" : "flex-col"
-      } ">
+        <div class="max-h-[95%] h-max w-full overflow-scroll flex  ${
+          stepHTML == "type" ? "flex-row flex-wrap" : "flex-col"
+        } ">
     `;
     if (!data.result.length) {
       html += htmlHandler.emptyHandler(message);
@@ -144,8 +165,9 @@ class htmlHandler {
       address =
         address.length > 50 ? address.substring(0, 50) + "..." : address;
       garageList += `
-                        <input type='radio' id='garage-${data.id
-        }' name='garage' value='${data.id}'/>
+                        <input type='radio' id='garage-${
+                          data.id
+                        }' name='garage' value='${data.id}'/>
                         <label for="garage-${data.id}" class="cursor-pointer">
                         <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                       <div class="absolute top-0.5 right-0.5 bg-yellow-600 flex rounded-md px-1 justify-center items-center">
@@ -153,14 +175,16 @@ class htmlHandler {
                         <span class="text-[12px] text-white text-semibold mx-0.5">5.0</span>
                         </div>
                             <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
-                          <img src="/uploads/${data.thumbnail
-        }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover rounded-md" alt="garage">
+                          <img src="/uploads/${
+                            data.thumbnail
+                          }" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'" class="h-full w-full bg-cover rounded-md" alt="garage">
                       </div>
                       <div class="garage-info w-3/4 p-2">
-                          <h3 class="font-medium text-[14px] text-left text-white wrap-none" id="garageName">${data.garage_name.length > 15
-          ? data.garage_name.substring(0, 12) + ".."
-          : data.garage_name
-        }</h3>
+                          <h3 class="font-medium text-[14px] text-left text-white wrap-none" id="garageName">${
+                            data.garage_name.length > 15
+                              ? data.garage_name.substring(0, 12) + ".."
+                              : data.garage_name
+                          }</h3>
                           <div class="flex pt-2">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" style="fill:rgba(255,255,255,.6);"><path d="M11.42 21.815a1.004 1.004 0 0 0 1.16 0C12.884 21.598 20.029 16.44 20 10c0-4.411-3.589-8-8-8S4 5.589 4 9.996c-.029 6.444 7.116 11.602 7.42 11.819zM12 4c3.309 0 6 2.691 6 6.004.021 4.438-4.388 8.423-6 9.731-1.611-1.308-6.021-5.293-6-9.735 0-3.309 2.691-6 6-6z"></path><path d="M11 14h2v-3h3V9h-3V6h-2v3H8v2h3z"></path></svg>
                               <p class="pl-2 text-xs break-all text-[rgba(255,255,255,.6)] ">${address}</p>
@@ -176,12 +200,14 @@ class htmlHandler {
     let vehicleList = "";
     typeData.forEach((type) => {
       vehicleList += `
-        <input type="radio" class="type hidden" id="type-${type.id}" name="type" value="${type.id}"/>
+        <input type="radio" class="type hidden" id="type-${
+          type.id
+        }" name="type" value="${type.id}"/>
         <label for="type-${type.id}" class="w-1/3 h-[100px] p-2 " >
             <div class="h-full w-full rounded-md overflow-hidden cursor-pointer">
-                <div class="bg-[rgba(0,0,0,.2)] w-full h-full flex flex-col justify-center items-center p-2 rounded-md" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
-                    <img src='/icons/vehicleType/${type.name}.svg' style="-webkit-filter: grayscale(1) invert(1);filter: grayscale(1) invert(1);" />
-                    <p class="text-white">${type.name}</p>
+                <div class="bg-[rgba(0,0,0,.2)] w-full h-full flex flex-col justify-center items-center p-3 rounded-md" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
+                    <img class="h-[80%] w-full" src='/icons/vehicleType/${type.name.toLowerCase()}.svg' style="-webkit-filter: grayscale(1) invert(1);filter: grayscale(1) invert(1);" />
+                    <p class="text-white font-semibold">${type.name}</p>
                 </div>
         </div></label>
                         `;
@@ -227,8 +253,9 @@ class htmlHandler {
     let serviceList = "";
     serviceData.forEach((ele) => {
       serviceList += `
-                            <input type="checkbox" class="hidden" name="service" id="${ele.id
-        }" value="${ele.id}">
+                            <input type="checkbox" class="hidden" name="service" id="${
+                              ele.id
+                            }" value="${ele.id}">
                             <label for="${ele.id}" class="cursor-pointer">
                             <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                 <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
@@ -237,14 +264,15 @@ class htmlHandler {
                                         class="h-full w-full bg-cover" alt="garage" class="object-cover">
                 </div>
                 <div class="garage-info w-3/4 service-info pl-2">
-                                <h3 class="font-semibold text-[14px] text-left text-white wrap-none" id="serviceName">${ele.name.length > 15
-          ? ele.name.substring(0, 12) + ".."
-          : ele.name
-        }</h3>
+                                <h3 class="font-semibold text-[14px] text-left text-white wrap-none" id="serviceName">${
+                                  ele.name.length > 15
+                                    ? ele.name.substring(0, 12) + ".."
+                                    : ele.name
+                                }</h3>
                                 <p class=" text-xs text-left text-white">${ele.description.substring(
-          0,
-          40
-        )}..</p>
+                                  0,
+                                  40
+                                )}..</p>
                                 </div>
                                 <div class="flex justify-end items-center absolute bottom-2 right-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
@@ -252,8 +280,9 @@ class htmlHandler {
                                                 <path fill="white"
                                                         d="M17 6V4H6v2h3.5c1.302 0 2.401.838 2.815 2H6v2h6.315A2.994 2.994 0 0 1 9.5 12H6v2.414L11.586 20h2.828l-6-6H9.5a5.007 5.007 0 0 0 4.898-4H17V8h-2.602a4.933 4.933 0 0 0-.924-2z" />
                                         </svg>
-                                        <p class="text-white text-md text-bold">${ele.price
-        }</p>
+                                        <p class="text-white text-md text-bold">${
+                                          ele.price
+                                        }</p>
                                 </div>
                 </div>
                 </label>
@@ -265,12 +294,14 @@ class htmlHandler {
     let slotHTML = "";
     slotData.forEach((slot) => {
       slotHTML += `
-                            <input type='radio' id='slot-${slot.id
-        }' name='slots' value='${slot.id}'/>
+                            <input type='radio' id='slot-${
+                              slot.id
+                            }' name='slots' value='${slot.id}'/>
                             <label for="slot-${slot.id}" class="cursor-pointer">
                             <div class="flex justify-center items-center relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg " style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
-                            <strong class="text-white text-bold text-2xl">${slot.start_time.split(" ")[1]
-        } - ${slot.end_time.split(" ")[1]}</strong>
+                            <strong class="text-white text-bold text-2xl">${
+                              slot.start_time.split(" ")[1]
+                            } - ${slot.end_time.split(" ")[1]}</strong>
                                 </div></label>
                             `;
     });
@@ -289,7 +320,6 @@ class steps {
     );
   }
   static vehicle() {
-    validateStore.dashboard();
     htmlHandler.getData(
       "type",
       "Vehicle Types",
@@ -300,7 +330,6 @@ class steps {
     );
   }
   static vehicleList() {
-    validateStore.vehicleType();
     let typeId = localStorage.getItem("typeId");
     htmlHandler.getData(
       "vehicle",
@@ -312,7 +341,6 @@ class steps {
     );
   }
   static service() {
-    validateStore.vehicle();
     let id = localStorage.getItem("garageId");
     htmlHandler.getData(
       "service",
@@ -324,7 +352,6 @@ class steps {
     );
   }
   static slots(date) {
-    validateStore.service();
     let id = localStorage.getItem("garageId");
     date = date || new Date().toISOString().split("T")[0];
     htmlHandler.getData(
@@ -337,7 +364,6 @@ class steps {
     );
   }
   static payment() {
-    validateStore.slots();
     // htmlHandler.getData(
     //   "payment",
     //   "Payment Details",
@@ -350,7 +376,7 @@ class steps {
   static profile() {
     document.querySelector("#mapScreen").style.display = "none";
     document.querySelector("#otherScreen").style.display = "none";
-    document.querySelector("#profile-container").style.zIndex = 999999999999999;
+    document.querySelector("#profile-container").style.zIndex = 404;
     let profileHTML = `
     <div class="w-full p-2">
       <div class="flex justify-between items-center">
@@ -416,4 +442,3 @@ class steps {
     updateDetails();
   }
 }
-
