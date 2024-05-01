@@ -672,9 +672,9 @@ export const getBookedAppointments = async (ownerDetails) => {
 // fetching garage wise slots at customer side
 export const customerSlotListing = async (garageId, date, date2) => {
   try {
+    console.log(date, date2)
     let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and availability_status = 1 and is_deleted=0 and start_time > now()`;
     const result = await conn.query(query, [garageId]);
-    return result[0];
   } catch (error) {
     return { error };
   }

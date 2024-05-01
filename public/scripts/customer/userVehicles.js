@@ -36,11 +36,6 @@ const showUserVehicles = async () => {
               <p class="flex hover:cursor-pointer"
                   onClick="editVehicle(${element.id})"><img src="/icons/edit.svg"
                       class="h-4 mt-1 mr-2">Edit</img></p>
-              <p class="flex mt-2 hover:cursor-pointer" onClick="deleteVehicle(${element.id
-      } ` +
-      `,` +
-      `'${element.id
-      }')"><img src="/icons/delete.svg" class="h-4 mt-1 mr-2">Delete</img></p>
           </div>
       </div>
       <div class="bg-dark text-white border-2 border-[silver]">
@@ -98,7 +93,7 @@ const editVehicle = async (id) => {
                 upload
                 pic</label>
             <input type="file" id="vehicle-file" name="vehicleImage"
-                onchange="changeVehicleImage()" hidden />
+                onchange="changeVehicleImage()" Validation="require" oninput="Validation.isValid(this)" hidden />
         </div>
         <div class="w-[70%] px-10">
             <div class="flex my-2 items-center justify-between w-full">
