@@ -26,7 +26,7 @@ export const getPaymentDetails = async (req, res) => {
     if (paymentDetails[0].discount != null) {
       finalAmount += parseFloat(paymentDetails[0].discount);
     }
-    return res.render("paymentDetails", { finalAmount });
+    return res.render("customer/paymentDetails", { finalAmount });
   } catch (error) {
     logger.error(error);
     return res
