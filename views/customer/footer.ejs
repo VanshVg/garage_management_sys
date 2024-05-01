@@ -1,5 +1,10 @@
 <script>
-
+  // const socketIO = io("");
+  socketIO.on("newServiceAdded", () => {
+    if (parseInt(localStorage.getItem("index")) == 3) {
+      steps.service();
+    }
+  });
   /*Map */
   const ListPlace = () => {
     $("#map").append(`

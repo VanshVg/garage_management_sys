@@ -34,5 +34,8 @@ io.on("connection", (socket) => {
   socket.on("newSlotAdded", () => {
     io.emit("newSlotAdded");
   });
+  socket.on("newServiceAdded", () => {
+    io.emit("newServiceAdded");
+  });
 
 })
