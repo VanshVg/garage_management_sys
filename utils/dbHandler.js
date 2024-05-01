@@ -611,7 +611,7 @@ export const getUserAddress = async (userId) => {
 export const getAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {

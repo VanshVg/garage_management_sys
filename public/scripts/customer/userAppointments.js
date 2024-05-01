@@ -66,7 +66,7 @@ const getUserAppointments = async () => {
       element.payment_status == 2
     ) {
       userAppointments +=
-        `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
+        `<td class="mx-auto text-center underline" style="color:blue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
         `${element.appointment_id}` +
         `,` +
         `  '${element.customer_email}'` +
