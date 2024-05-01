@@ -897,7 +897,7 @@ export const servicesCount = async () => {
 
 export const findVehicleStatus = async (garageId) => {
   try {
-    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ?;`;
+    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2;`;
     let [result] = await conn.query(query, [garageId]);
     return result;
   } catch (error) {

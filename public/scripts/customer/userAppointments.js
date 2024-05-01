@@ -40,16 +40,18 @@ const showAppointments = async () => {
     } else {
       userAppointments += `<td class="py-5 text-red-600">Rejected</td>`;
     }
-    if (element.vehicle_status == 1 && element.status != 3) {
+    if (element.vehicle_status == 1 && element.status == 2) {
       userAppointments += `<td class="py-5 text-yellow-600">To Do</td>`;
-    } else if (element.vehicle_status == 2 && element.status != 3) {
+    } else if (element.vehicle_status == 2 && element.status == 2) {
       if (element.payment_status == 2) {
         userAppointments += `<td class="py-5 text-green-700">Completed</td>`;
       } else {
         userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
       }
-    } else {
+    } else if (element.vehicle_status == 3 && element.status == 2) {
       userAppointments += `<td class="py-5 text-yellow-600">In Progress</td>`;
+    } else {
+      userAppointments += `<td class="py-5">-</td>`;
     }
     if (
       element.vehicle_status == 2 &&
