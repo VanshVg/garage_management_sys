@@ -64,14 +64,18 @@ const getVehicleTasks = async () => {
 };
 
 const updateVehicleStatus = async (appointmentId, index) => {
+  const socketIo = io("");
   let status = document.getElementById(`status${index}`).value;
   const formData = new FormData();
   formData.append("status", status);
-  await callApiWithFormData({
+  let updateStatus = await callApiWithFormData({
     endpoint: `/owner/vehicleStatus/${appointmentId}`,
     body: new URLSearchParams(formData),
     method: "PUT",
   });
+  if (updateStatus.success) {
+    socketIo.emit("status", 1);
+  }
 };
 
 getTaskGarages();

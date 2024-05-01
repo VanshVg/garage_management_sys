@@ -11,7 +11,14 @@ const showAppointments = async () => {
   document.getElementById("btn-full").classList.add("opacity-100");
   document.getElementById("btn-double").classList.remove("opacity-100");
   document.getElementById("btn-double").classList.add("opacity-50");
+  getUserAppointments();
+};
 
+const getPayment = (appointmentId) => {
+  window.location.href = `/customer/payment/${appointmentId}`;
+};
+
+const getUserAppointments = async () => {
   let appointmentRequest = await callAPI(`/customer/appointments`);
   let userAppointments = `<table class="mx-auto w-full">
   <thead class="text-xl">
@@ -74,6 +81,6 @@ const showAppointments = async () => {
   document.getElementById("user-appointments").innerHTML = userAppointments;
 };
 
-const getPayment = (appointmentId) => {
-  window.location.href = `/customer/payment/${appointmentId}`;
-};
+socketIo.on("appointments", () => {
+  getUserAppointments();
+});
