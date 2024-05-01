@@ -44,9 +44,6 @@
     <% var active=active || 'dashboard' ; %>
 
         <body class="overlow-hidden">
-
-            
-
             <div class="dashboard-container h-screen w-screen flex overflow-hidden">
                 <%- include('./partials/sidebar', {active}) %>
                     <div class="flex flex-col h-full bg-lightbg p-5 flex-grow overflow-hidden">
@@ -114,15 +111,12 @@
                     </div>
             </div>
             <script>
+                updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                 const setActive = (activated) => {
                     document.getElementById('currentPage').innerHTML = activated.charAt(0).toUpperCase() + activated.substring(1);
                     switch (activated) {
                         case "dashboard":
                             getOwnerData();
-                            updateDetails(["name", "email", "bio", "address", "profile_pic"]);
-                            break;
-                        case "profile":
-                            updateDetails(["name", "email", "bio", "address", "profile_pic"]);
                             break;
                         case "garages":
                             fillGarages();

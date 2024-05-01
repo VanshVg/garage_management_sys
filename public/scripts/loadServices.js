@@ -31,26 +31,29 @@ const showServices = async (parent) => {
       if (parent == "service-container")
         string += `<div class="cursor-pointer absolute top-1 right-1 bg-red p-1 rounded-full" onclick="deleteService('${service.id}','${service.name}')" ><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="white" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"/></svg></div>`;
       else
-        string += `<div class="cursor-pointer absolute top-1 right-1 bg-green p-1 rounded-full" onclick="newService('${service.id
-          }','${option}','${service.name}','${service?.description.substring(
-            0,
-            100
-          )}')"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="white" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2"/></svg></div>`;
+        string += `<div class="cursor-pointer absolute top-1 right-1 bg-green p-1 rounded-full" onclick="newService('${
+          service.id
+        }','${option}','${service.name}','${service?.description.substring(
+          0,
+          100
+        )}')"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="white" d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2"/></svg></div>`;
       string += `<div class="w-full h-full rounded-md overflow-hidden flex bg-white p-2">  
       <div class="w-[150px] rounded-md overflow-hidden h-full">
           <img class="object-cover h-full" src="/assets/service.png" alt="product image" />
       </div>
       <div class="p-2 pt-0 h-full w-full relative">
-        <h5 class="text-lg text-dark font-bold tracking-wide text-left">${service.name
+        <h5 class="text-lg text-dark font-bold tracking-wide text-left">${
+          service.name
         }</h5>
             <div class="mt-2 mb-5  text-left">
           <p class=" text-blue text-sm">
             ${service?.description.substring(0, 100)}
           </p>
-          ${parent == "service-container"
-          ? `<span class="text-xl font-bold text-slate-900 absolute bottom-0 right-0">${service.price}</span>`
-          : ""
-        }
+          ${
+            parent == "service-container"
+              ? `<span class="text-xl font-bold text-slate-900 absolute bottom-0 right-0">${service.price}</span>`
+              : ""
+          }
         </div>
       </div>
       </div>
@@ -60,12 +63,11 @@ const showServices = async (parent) => {
   }
   document.querySelector(`.${parent} #services-row`).innerHTML = string;
 };
-const loadService = async (parent, id) => {
+const loadService = async (parent) => {
   let panel = document.querySelector(`.${parent}`);
-  if (id == 0) {
+  if (parent == "service-container") {
     document.querySelector(".add-service-container").style.display = "none";
-  }
-  else {
+  } else {
     document.querySelector(".service-container").style.display = "none";
   }
   panel.style.display = "block";
@@ -102,7 +104,7 @@ const addServiceBtnClick = async (e, id, garage_id) => {
     // setTimeout(() => {
     //   location.href = "/owner/services";
     // }, 3000);
-    showServices('add-service-container');
+    showServices("add-service-container");
   }
 };
 const newService = (id, garage_id, name, description) => {
@@ -147,7 +149,7 @@ const deleteService = (id, name) => {
         // setTimeout(() => {
         //   location.href = "/owner/services";
         // }, 2500);
-        showServices('service-container');
+        showServices("service-container");
       }
     }
   });

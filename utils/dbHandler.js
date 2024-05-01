@@ -256,11 +256,11 @@ export const updateGarageAddress = async (addressInfo) => {
 export const deleteGarage = async (garageId, addressId, referenceID) => {
   try {
     let query = `UPDATE garage_master SET is_delete = 1 WHERE id = ?`;
-    let query2 = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
-    let query3 = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
     let result = await conn.query(query, [garageId]);
-    let result2 = await conn.query(query2, [referenceID]);
-    let result3 = await conn.query(query3, [addressId]);
+    query = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
+    result = await conn.query(query2, [referenceID]);
+    query = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
+    result = await conn.query(query3, [addressId]);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -308,7 +308,7 @@ export const getNotAvailableService = async (id) => {
 };
 export const getGaragesService = async () => {
   try {
-    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
+    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
@@ -672,8 +672,8 @@ export const getBookedAppointments = async (ownerDetails) => {
 export const customerSlotListing = async (garageId, date, date2) => {
   try {
     let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and availability_status = 1 and is_deleted=0 and start_time > now()`;
-    const result = await conn.query(query, [garageId]);
-    return result[0];
+    const [result] = await conn.query(query, [garageId]);
+    return result;
   } catch (error) {
     return { error };
   }
@@ -914,6 +914,26 @@ export const findAllUserVehicles = async (email) => {
     and users.id = user_has_vehicles.owner_id and users.email = ?;`;
     let [result] = await conn.query(query, [email]);
     return result;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const fetchUserVehicle = async (id) => {
+  try {
+    let query = `SELECT uv.id,vm.brand,vm.model,vm.year,vc.description,vc.condition_image,uv.register_plate_number FROM vehicle_master vm JOIN user_has_vehicles uv ON vm.id = uv.vehicle_id JOIN vehicle_condition vc ON vc.vehicle_id = uv.id WHERE uv.id = ?`;
+    let [result] = await conn.query(query, [id]);
+    return result;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const updateVehicleDetails = async (vehicleInfo) => {
+  try {
+    let query = `UPDATE user_has_vehicles uv ,vehicle_master vm ,vehicle_condition vc SET uv.register_plate_number = ?,vm.brand = ?,vm.model = ?,vm.year = ?,vc.description = ?,vc.condition_image= ?  where uv.id = ? AND vm.id=uv.vehicle_id and vc.vehicle_id = uv.id`;
+    let result = await conn.query(query, vehicleInfo);
+    return result[0];
   } catch (error) {
     return { error };
   }

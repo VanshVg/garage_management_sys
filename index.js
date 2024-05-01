@@ -34,4 +34,7 @@ io.on("connection", (socket) => {
   socket.on("status", (status) => {
     status ? io.emit("appointments", status) : 0;
   });
+  socket.on("newSlotAdded", () => {
+    io.emit("newSlotAdded");
+  });
 });

@@ -156,17 +156,13 @@
               <td class="text-base">${appointment.startTime} - ${
         appointment.endTime
       }</td>
-              <td>${status}</td>`;
-
-      let appointmentDate = new Date(
-        `${appointment.date} ` + `${appointment.startTime}`
-      );
-      let currDate = new Date(Date.now());
-
-      if (appointmentDate - currDate > 0 && appointment.vehicle_status == 1) {
-        table += `<td><div class="flex justify-center"><span class="cursor-pointer" onclick="handleAppointment(1, ${appointment.id})"><img src="/icons/check.svg" alt="approve" title="approve"></span><span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span></div></td>
-            </tr>`;
-      }
+              <td>${status}</td>
+              <td><div class="flex justify-center">`;
+      if (appointment.status != 2)
+        table += `<span class="cursor-pointer" onclick="handleAppointment(1, ${appointment.id})"><img src="/icons/check.svg" alt="approve" title="approve"></span>`;
+      if (appointment.status != 3)
+        table += `<span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span>`;
+      table += `</div></td></tr>`;
     });
     let appointmentsTable = document.getElementById("appointments-table-body");
     if (table == "") {
