@@ -9,6 +9,7 @@ import {
 } from "../utils/dbHandler.js";
 import { findOne } from "../utils/common.js";
 import { logger } from "../helpers/loger.js";
+import { Socket } from "socket.io";
 
 export const slotBooking = async (req, res) => {
   try {
@@ -27,7 +28,9 @@ export const slotBooking = async (req, res) => {
           success: false,
           message: "error adding slot please try again",
         });
-      } else res.status(201).json({ success:true, message: "slot inserted successfully" });
+      } else {
+        res.status(201).json({ success: true, message: "slot inserted successfully" });
+      }
     }
   } catch (error) {
     logger.error(error);

@@ -1,4 +1,4 @@
-const loadMap = (mapId) => {
+const loadMap = async (mapId) => {
   try {
     const position = [22.684282675883896, 72.88051636361853];
     const map = L.map(mapId).setView(position, 8);
@@ -77,5 +77,7 @@ const loadMap = (mapId) => {
       Marker: MyLoc,
     };
     L.control.layers(base, overlayMaps).addTo(map);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 };

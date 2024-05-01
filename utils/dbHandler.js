@@ -308,7 +308,7 @@ export const getNotAvailableService = async (id) => {
 };
 export const getGaragesService = async () => {
   try {
-    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name
+    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
