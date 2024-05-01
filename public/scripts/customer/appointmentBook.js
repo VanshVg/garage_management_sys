@@ -1,6 +1,4 @@
 const book = () => {
-  const socketIo = io("");
-
   Swal.fire({
     title: "Are you sure ?",
     text: "you want to book Appointment..!!",

@@ -11,7 +11,14 @@ const showAppointments = async () => {
   document.getElementById("btn-full").classList.add("opacity-100");
   document.getElementById("btn-double").classList.remove("opacity-100");
   document.getElementById("btn-double").classList.add("opacity-50");
+  getUserAppointments();
+};
 
+const getPayment = (appointmentId) => {
+  window.location.href = `/customer/payment/${appointmentId}`;
+};
+
+const getUserAppointments = async () => {
   let appointmentRequest = await callAPI(`/customer/appointments`);
   let userAppointments = `<table class="mx-auto w-full">
   <thead class="text-xl">
@@ -40,16 +47,18 @@ const showAppointments = async () => {
     } else {
       userAppointments += `<td class="py-5 text-red-600">Rejected</td>`;
     }
-    if (element.vehicle_status == 1 && element.status != 3) {
+    if (element.vehicle_status == 1 && element.status == 2) {
       userAppointments += `<td class="py-5 text-yellow-600">To Do</td>`;
-    } else if (element.vehicle_status == 2 && element.status != 3) {
+    } else if (element.vehicle_status == 2 && element.status == 2) {
       if (element.payment_status == 2) {
         userAppointments += `<td class="py-5 text-green-700">Completed</td>`;
       } else {
         userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
       }
-    } else {
+    } else if (element.vehicle_status == 3 && element.status == 2) {
       userAppointments += `<td class="py-5 text-yellow-600">In Progress</td>`;
+    } else {
+      userAppointments += `<td class="py-5">-</td>`;
     }
     if (
       element.vehicle_status == 2 &&
@@ -57,7 +66,7 @@ const showAppointments = async () => {
       element.payment_status == 2
     ) {
       userAppointments +=
-        `<td class="mx-auto text-center underline text-linkBlue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
+        `<td class="mx-auto text-center underline" style="color:blue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
         `${element.appointment_id}` +
         `,` +
         `  '${element.customer_email}'` +
@@ -72,6 +81,6 @@ const showAppointments = async () => {
   document.getElementById("user-appointments").innerHTML = userAppointments;
 };
 
-const getPayment = (appointmentId) => {
-  window.location.href = `/customer/payment/${appointmentId}`;
-};
+socketIo.on("appointments", () => {
+  getUserAppointments();
+});
