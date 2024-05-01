@@ -919,3 +919,13 @@ export const findAllUserVehicles = async (email) => {
     return { error };
   }
 };
+
+export const fetchUserVehicle = async (id) => {
+  try {
+    let query = `select uv.id,vm.brand,vm.model,vm.year,vc.description,vc.condition_image,uv.register_plate_number from vehicle_master vm join user_has_vehicles uv on vm.id = uv.vehicle_id join vehicle_condition vc on vc.vehicle_id = uv.id where uv.id = ?`;
+    let [result] = await conn.query(query, [id]);
+    return result;
+  } catch (error) {
+    return { error }
+  }
+}

@@ -18,6 +18,7 @@ import {
   addVehicle,
   getAllUserVehicles,
   getUserVehicle,
+  getUserVehicleDetails,
   getVehicleTypes,
 } from "../controllers/vehicleControllers.js";
 
@@ -70,6 +71,7 @@ router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
 router.put("/profile/update", upload.single("thumbnail"), updateProfile);
 
+router.get("/fetchVehicleDetails/:id", getUserVehicleDetails);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);

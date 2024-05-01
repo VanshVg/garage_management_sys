@@ -74,9 +74,13 @@ const showUserVehicles = async () => {
   document.getElementById("vehicle-card").innerHTML = userVehicles;
 };
 
-const editVehicle = (id) => {
-  console.log(id);
+const editVehicle = async (id) => {
+  let userVehicleDetails = await callAPI(`/customer/fetchVehicleDetails/${id}`);
+  let userData = userVehicleDetails.result[0];
   let userVehicles = `
+  <input type="button" value="Back"
+          class="bg-dark text-white cursor-pointer text-xl mb-1.5 mt-0.5  p-1.5 font-bold rounded-md"
+          onclick="showUserVehicles()">
 <div class="m-10 p-4 w-full bg-white my-20 mx-auto rounded-lg text-left"
     id="vehicle-form"
     style="box-shadow: 1px 1px 1px  grey, inset 1px 1px rgba(1,1,1,.1);">
@@ -104,7 +108,8 @@ const editVehicle = (id) => {
                     vehicle="brand"
                     style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);"
                     Validation="require multi_word"
-                    oninput="Validation.isValid(this)" />
+                    oninput="Validation.isValid(this)"
+                    value = "${userData.brand}" />
             </div>
             <div class="flex my-2 items-center justify-between w-full">
                 <label>Vehicle Model</label>
@@ -113,7 +118,8 @@ const editVehicle = (id) => {
                     placeholder="Enter vehicle model" name="model"
                     style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);"
                     Validation="require multi_word"
-                    oninput="Validation.isValid(this)" />
+                    oninput="Validation.isValid(this)"
+                    value = "${userData.model}"  />
             </div>
             <div class="flex my-2 items-center justify-between w-full">
                 <label>Model Year</label>
@@ -122,7 +128,8 @@ const editVehicle = (id) => {
                     placeholder="Enter vehicle model year" name="year"
                     style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);"
                     Validation="require year"
-                    oninput="Validation.isValid(this)" />
+                    oninput="Validation.isValid(this)"
+                    value = "${userData.year}"   />
             </div>
             <div class="flex my-2 items-center justify-between w-full">
                 <label class="w-1/4">Registered Number</label>
@@ -130,7 +137,8 @@ const editVehicle = (id) => {
                     class="bg-white h-[40px] w-3/4 rounded  pl-2 border-dark placeholder:text-dark placeholder:opacity-45  text-left"
                     placeholder="xx 00 xx 0000" name="numberPlate"
                     style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);"
-                    Validation="require" oninput="Validation.isValid(this)" />
+                    Validation="require" oninput="Validation.isValid(this)"
+                    value = "${userData.register_plate_number}"  />
             </div>
         </div>
     </div>
@@ -141,17 +149,18 @@ const editVehicle = (id) => {
                 class="bg-white h-[200px] w- full rounded  pl-2 border-dark placeholder:text-dark placeholder:opacity-45 text-left"
                 placeholder="Enter vehicle description" name="description"
                 style="box-shadow: 1px 1px 1px  #152533, inset 1px 1px rgba(1,1,1,.3);"
-                Validation="require" oninput="Validation.isValid(this)" />
+                Validation="require" oninput="Validation.isValid(this)"
+                value = "${userData.description}"  />
         </div>
         <p class="hidden text-red" id="vehicle-error"></p>
         <div>
             <input type="button" value="Save"
                 class="float-right text-center px-5 py-2 rounded bg-dark max-w-20 flex-end hover:cursor-pointer text-white"
-                onclick="addVehicle()">
+                onclick="updateVehicle(${userData.id})">
         </div>
     </div>
 </div>
-  `;
+ `;
   document.getElementById("vehicle-card").innerHTML = userVehicles;
 }
 
@@ -162,3 +171,26 @@ const showEditBox = (id) => {
 const hideEditBox = (id) => {
   document.getElementById(`editBox${id}`).style.display = "none";
 };
+
+const updateVehicle = async (id) => {
+  let vehicleData = new FormData();
+  let field = document.querySelectorAll("input[vehicle]").forEach((control) => {
+    vehicleData.append(control.id, control.value);
+  });
+  document.querySelectorAll(`input[validation]`).forEach((ele) => {
+    Validation.isValid(ele);
+  });
+  if (document.querySelector("error")) {
+    return;
+  }
+  let vehicleImage = document.getElementById("vehicle-file").files[0];
+  vehicleData.append("vehicleImage", vehicleImage);
+  vehicleData.append("id", id)
+  console.log(vehicleData);
+  // let response = await callApiWithFormData({
+  //   endpoint: "/customer/addVehicle",
+  //   body: vehicleData,
+  //   method: "POST",
+  // });
+
+}
