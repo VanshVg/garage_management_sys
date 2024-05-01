@@ -85,12 +85,25 @@
       const myIcon = L.icon({
         iconUrl: '/uploads/' + locations[i][3],
         iconSize: [50, 50],
+        className: "shadow-xl iconPin",
+        // className: "border-2 border-sky-500",
       });
-      new L.marker([locations[i][1], locations[i][2]], {
+      let marker = new L.marker([locations[i][1], locations[i][2]], {
         icon: myIcon, draggable: false
       }).bindPopup(locations[i][0]).addTo(map);
+      marker._icon.id = i;
     }
     L.control.layers(overlayMaps).addTo(map);
+    let icons = document.querySelectorAll('.iconPin');
+    for (var i = 0; i < icons.length; i++) {
+      icons[i].addEventListener("click", (e) => {
+        let inputs = document.querySelectorAll("input[name=garage]");
+        inputs.forEach(input => {
+          input.setAttribute("checked", false);
+        });
+        inputs[e.target.id].setAttribute("checked", true);
+      });
+    }
   }
   let active = '<%= active %>';
   if (active != 'dashboard') {
