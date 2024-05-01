@@ -1,3 +1,4 @@
+const socketIO = io("");
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
@@ -56,6 +57,9 @@ const addSlot = async (garageId, start, end, date, duration = 1) => {
     "POST"
   );
 
+  if (addedSlot.success) {
+    socketIO.emit("newSlotAdded");
+  }
   toast.show(addedSlot.success ? "success" : "error", addedSlot.message);
 
   displaySlots(duration, date);
