@@ -60,12 +60,13 @@ const showServices = async (parent) => {
   }
   document.querySelector(`.${parent} #services-row`).innerHTML = string;
 };
-const loadService = async (parent, id) => {
+const loadService = async (parent) => {
   let panel = document.querySelector(`.${parent}`);
-  if (id == 0) {
+  if (parent == 'service-container') {
     document.querySelector(".add-service-container").style.display = "none";
   }
   else {
+    console.log('inside service container')
     document.querySelector(".service-container").style.display = "none";
   }
   panel.style.display = "block";
