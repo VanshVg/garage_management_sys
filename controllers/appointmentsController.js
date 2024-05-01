@@ -17,7 +17,6 @@ import { error, log } from "console";
 export const appointmentsListing = async (req, res) => {
   try {
     let ownerId = req.user.id;
-
     const garages = await getOwnerGarages(ownerId);
 
     if (!garages) {
@@ -194,7 +193,7 @@ export const notification = async (req, res) => {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
 
 export const customerNotification = async (req, res) => {
   try {

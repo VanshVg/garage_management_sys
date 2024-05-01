@@ -18,7 +18,9 @@ import {
   addVehicle,
   getAllUserVehicles,
   getUserVehicle,
+  getUserVehicleDetails,
   getVehicleTypes,
+  updateUserVehicle,
 } from "../controllers/vehicleControllers.js";
 
 import {
@@ -37,7 +39,10 @@ import {
 import { updateProfile } from "../controllers/userControllers.js";
 import { servicesListing } from "../controllers/serviceControllers.js";
 import { customerInvoice } from "../controllers/invoiceControllers.js";
-import { bookAppointment, customerNotification } from "../controllers/appointmentsController.js";
+import {
+  bookAppointment,
+  customerNotification,
+} from "../controllers/appointmentsController.js";
 import {
   addPaymentDetails,
   getPaymentDetails,
@@ -65,11 +70,13 @@ router.get("/vehicleType", getVehicleTypes);
 router.get("/viewVehicle/:type", getUserVehicle);
 router.get("/viewVehicles", getAllUserVehicles);
 router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
+router.post("/updateVehicle", upload.single("vehicleImage"), updateUserVehicle);
 
 router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
 router.put("/profile/update", upload.single("thumbnail"), updateProfile);
 
+router.get("/fetchVehicleDetails/:id", getUserVehicleDetails);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
 router.get("/slots", slotDisplay);

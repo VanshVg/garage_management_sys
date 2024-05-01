@@ -1,9 +1,11 @@
-<link rel="stylesheet" href="/styles/calendar.css">
+<link rel="stylesheet" href="/styles/calendar.css" />
 
 <div class="select-container flex" id="garage-select">
-  <select name="garage"
-    class="bg-dark border  text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52"
-    id="garageList">
+  <select
+    name="garage"
+    class="bg-dark border text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52"
+    id="garageList"
+  >
     <option value="1">garage 1</option>
     <option value="2">garage 2</option>
   </select>
@@ -11,13 +13,17 @@
 
 <div class="w-full min-h-full flex bg-white rounded-md mt-4">
   <div class="w-full h-full hidden bg-white rounded-md" id="calendar-display">
-    <div class="ounded-md  w-1/2">
+    <div class="ounded-md w-1/2">
       <div class="w-full">
         <div class="header">
           <div id="calendar-month" class="text-3xl font-bold"></div>
           <div class="flex gap-2 -mr-2">
-            <button id="btnBack" class="flex justify-center"><img src="/icons/left.svg" alt="&lt;"></button>
-            <button id="btnNext" class="flex justify-center"><img src="/icons/right.svg" alt="&gt;"></button>
+            <button id="btnBack" class="flex justify-center">
+              <img src="/icons/left.svg" alt="&lt;" />
+            </button>
+            <button id="btnNext" class="flex justify-center">
+              <img src="/icons/right.svg" alt="&gt;" />
+            </button>
           </div>
         </div>
         <div class="weekdays">
@@ -31,40 +37,44 @@
         </div>
         <div id="calendar"></div>
       </div>
-
     </div>
 
     <div id="modal"></div>
     <div id="viewAppointments" class="w-1/2 p-2">
       <div class="flex justify-between max-h-min">
         <div class="text-3xl font-bold">Appointments</div>
-        <input type="button" value="Back"
-          class="bg-dark text-white cursor-pointer text-xl mb-1.5 mt-0.5  p-1.5 font-bold rounded-md"
-          onclick="handleCalendar(0)">
+        <input
+          type="button"
+          value="Back"
+          class="bg-dark text-white cursor-pointer text-xl mb-1.5 mt-0.5 p-1.5 font-bold rounded-md"
+          onclick="handleCalendar(0)"
+        />
       </div>
       <table class="w-full border-collapse">
-        <thead class="bg-dark text-white font-semibold ">
+        <thead class="bg-dark text-white font-semibold">
           <tr>
             <th class="text-white p-3">Sr. NO.</th>
             <th class="text-white p-3">Customer Name</th>
             <th class="text-white p-3">slot</th>
           </tr>
         </thead>
-        <tbody id="appointment-body">
-
-        </tbody>
+        <tbody id="appointment-body"></tbody>
       </table>
     </div>
-
   </div>
 
   <div class="w-full h-full bg-white rounded-md m-4" id="normal-slot-listing">
     <div class="flex justify-end">
-      <img src="/icons/calendar2.svg" alt="calendar" class="cursor-pointer w-10" onclick="handleCalendar(1)"
-        title="Calendar">
+      <img
+        src="/icons/calendar2.svg"
+        alt="calendar"
+        class="cursor-pointer w-10"
+        onclick="handleCalendar(1)"
+        title="Calendar"
+      />
     </div>
     <table id="appointment-table" class="w-full border-collapse">
-      <thead class="bg-dark text-white font-semibold ">
+      <thead class="bg-dark text-white font-semibold">
         <tr>
           <th class="text-white p-2.5">Sr. No</th>
           <th class="text-white p-2.5">Customer Name</th>
@@ -87,18 +97,21 @@
 <script>
   const handleCalendar = (id) => {
     let divs = ["normal-slot-listing", "calendar-display"];
-    if (id == 0) document.getElementById(divs[1]).classList.remove('flex');
-    document.getElementById(divs[id]).classList.remove('hidden');
-    document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
-    if (id == 1) document.getElementById(divs[1]).classList.add('flex');
-  }
+    if (id == 0) document.getElementById(divs[1]).classList.remove("flex");
+    document.getElementById(divs[id]).classList.remove("hidden");
+    document.getElementById(divs[(id + 1) % 2]).classList.add("hidden");
+    if (id == 1) document.getElementById(divs[1]).classList.add("flex");
+  };
   const handleAppointment = async (id, appointmentId) => {
     Swal.fire({
       title: "Are you sure?",
-      text: id == 0 ? `You want to delete this appointment???` : `You want to approve this appointment???`,
+      text:
+        id == 0
+          ? `You want to delete this appointment???`
+          : `You want to approve this appointment???`,
       showDenyButton: true,
       confirmButtonText: "Yes",
-      denyButtonText: "No"
+      denyButtonText: "No",
     }).then(async (result) => {
       if (result.isConfirmed) {
         let formData = new FormData();
@@ -106,7 +119,7 @@
         formData.append("appointmentId", appointmentId);
         const result = await fetch("/owner/updateAppointment", {
           method: "POST",
-          body: new URLSearchParams(formData)
+          body: new URLSearchParams(formData),
         });
         const response = await result.json();
 
@@ -119,7 +132,7 @@
         loadAppointments();
       }
     });
-  }
+  };
 
   const updateTable = (appointments) => {
     let table = "";
@@ -127,25 +140,31 @@
       let status;
 
       if (appointment.status == 2) {
-        status = "<div class='text-white font-semibold bg-lime-700 w-[100px] m-auto p-1 rounded-lg'>Approved</div>";
+        status =
+          "<div class='text-white font-semibold bg-lime-700 w-[100px] m-auto p-1 rounded-lg'>Approved</div>";
       } else if (appointment.status == 3) {
-        status = "<div class='text-white font-semibold bg-rose-600 w-[100px] m-auto p-1 rounded-lg'>rejected</div>";
+        status =
+          "<div class='text-white font-semibold bg-rose-600 w-[100px] m-auto p-1 rounded-lg'>rejected</div>";
       } else if (appointment.status == 1) {
-        status = "<div class='text-white font-semibold bg-yellow-600 w-[100px] m-auto p-1 rounded-lg'>Pending</div>";
+        status =
+          "<div class='text-white font-semibold bg-yellow-600 w-[100px] m-auto p-1 rounded-lg'>Pending</div>";
       }
-
       table += `<tr class="border-b-2 border-black hover:bg-sky-100">
               <td class="p-2 text-base">${i + 1}</td>
               <td class="text-lg">${appointment.customerName}</td>
               <td class="text-base">${appointment.date}</td>
-              <td class="text-base">${appointment.startTime} - ${appointment.endTime}</td>
+              <td class="text-base">${appointment.startTime} - ${
+        appointment.endTime
+      }</td>
               <td>${status}</td>
               <td><div class="flex justify-center">`;
-      if (appointment.status != 2) table += `<span class="cursor-pointer" onclick="handleAppointment(1, ${appointment.id})"><img src="/icons/check.svg" alt="approve" title="approve"></span>`;
-      if (appointment.status != 3) table += `<span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span>`;
+      if (appointment.status != 2)
+        table += `<span class="cursor-pointer" onclick="handleAppointment(1, ${appointment.id})"><img src="/icons/check.svg" alt="approve" title="approve"></span>`;
+      if (appointment.status != 3)
+        table += `<span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span>`;
       table += `</div></td></tr>`;
     });
-    let appointmentsTable = document.getElementById('appointments-table-body');
+    let appointmentsTable = document.getElementById("appointments-table-body");
     if (table == "") {
       appointmentsTable.innerHTML = `<tr>
     <td colspan="4">
@@ -153,34 +172,37 @@
         <svg class="fill-[#ef4444]" width="100px" height="100px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M520.741 163.801a10.234 10.234 0 00-3.406-3.406c-4.827-2.946-11.129-1.421-14.075 3.406L80.258 856.874a10.236 10.236 0 00-1.499 5.335c0 5.655 4.585 10.24 10.24 10.24h846.004c1.882 0 3.728-.519 5.335-1.499 4.827-2.946 6.352-9.248 3.406-14.075L520.742 163.802zm43.703-26.674L987.446 830.2c17.678 28.964 8.528 66.774-20.436 84.452a61.445 61.445 0 01-32.008 8.996H88.998c-33.932 0-61.44-27.508-61.44-61.44a61.445 61.445 0 018.996-32.008l423.002-693.073c17.678-28.964 55.488-38.113 84.452-20.436a61.438 61.438 0 0120.436 20.436zM512 778.24c22.622 0 40.96-18.338 40.96-40.96s-18.338-40.96-40.96-40.96-40.96 18.338-40.96 40.96 18.338 40.96 40.96 40.96zm0-440.32c-22.622 0-40.96 18.338-40.96 40.96v225.28c0 22.622 18.338 40.96 40.96 40.96s40.96-18.338 40.96-40.96V378.88c0-22.622-18.338-40.96-40.96-40.96z"/></svg>
         <h2 class="text-[#ef4444] font-bold text-2xl">Oops..!!</h2><p class="text-[#ef4444]"><b>No pending Appointments...!!!</b></p>
   </div></td></tr>`;
-    }
-    else appointmentsTable.innerHTML = table;
-  }
+    } else appointmentsTable.innerHTML = table;
+  };
   const garageChange = async (e) => {
-    const appointmentsDetails = await callAPI('/owner/appointmentsList/' + e.target.value);
+    const appointmentsDetails = await callAPI(
+      "/owner/appointmentsList/" + e.target.value
+    );
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments);
     document.getElementById("currentDay").click();
-  }
+  };
 
   const loadAppointments = async () => {
-    let garageId = document.getElementById('garageList').value;
-    const appointmentsDetails = await callAPI('/owner/appointmentsList/' + garageId);
+    let garageId = document.getElementById("garageList").value;
+    const appointmentsDetails = await callAPI(
+      "/owner/appointmentsList/" + garageId
+    );
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments);
-  }
+  };
   (async () => {
-    const garageList = await callAPI('/owner/garages/getGaragesList');
+    const garageList = await callAPI("/owner/garages/getGaragesList");
     const garages = garageList.garages;
     let options = "";
-    garages.forEach(garage => {
+    garages.forEach((garage) => {
       options += `<option value=${garage.garage_id}>${garage.garage_name}</option>`;
     });
-    let select = document.getElementById('garageList');
+    let select = document.getElementById("garageList");
     select.innerHTML = options;
-    select.addEventListener('change', garageChange);
+    select.addEventListener("change", garageChange);
     loadAppointments();
-  })()
+  })();
 </script>
 
 <script src="/scripts/calendar.js"></script>

@@ -31,6 +31,9 @@ io.on("connection", (socket) => {
   socket.on("notification", (notification) => {
     notification ? io.emit("Received", notification) : 0;
   });
+  socket.on("status", (status) => {
+    status ? io.emit("appointments", status) : 0;
+  });
   socket.on("newSlotAdded", () => {
     io.emit("newSlotAdded");
   });

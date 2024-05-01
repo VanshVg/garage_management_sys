@@ -256,11 +256,11 @@ export const updateGarageAddress = async (addressInfo) => {
 export const deleteGarage = async (garageId, addressId, referenceID) => {
   try {
     let query = `UPDATE garage_master SET is_delete = 1 WHERE id = ?`;
-    let query2 = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
-    let query3 = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
     let result = await conn.query(query, [garageId]);
-    let result2 = await conn.query(query2, [referenceID]);
-    let result3 = await conn.query(query3, [addressId]);
+    query = `UPDATE garage_addresses SET is_delete = 1 WHERE id= ?`;
+    result = await conn.query(query2, [referenceID]);
+    query = `UPDATE address_master SET is_delete=1 WHERE id= ?`;
+    result = await conn.query(query3, [addressId]);
     return result[0].affectedRows;
   } catch (error) {
     return { error };
@@ -312,7 +312,7 @@ export const getGaragesService = async () => {
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
-    and a.city_id = c.id and c.sid = s.id;`;
+    and a.city_id = c.id and c.sid = s.id WHERE gm.is_deleted = 0;`;
     let result = await conn.query(query);
     return result[0];
   } catch (err) {
@@ -611,7 +611,7 @@ export const getUserAddress = async (userId) => {
 export const getAppointments = async (ownerDetails) => {
   try {
     let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -635,8 +635,7 @@ export const getNotifications = async (userId) => {
 // Get Customerside Notification
 export const userNotification = async (userId) => {
   try {
-    let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where d.id = ? and c.status = 2;";
+    let query = `SELECT * FROM appointments JOIN appointment_payments ON appointments.id = appointment_payments.appointment_id WHERE appointments.status = 2 AND appointments.vehicle_status = 2 AND appointment_payments.status = 1 AND appointments.customer_id = ?;`;
 
     let result = await conn.query(query, userId);
     return result[0];
@@ -673,8 +672,8 @@ export const getBookedAppointments = async (ownerDetails) => {
 export const customerSlotListing = async (garageId, date, date2) => {
   try {
     let query = `select * from slot_master where garage_id= ? and start_time > '${date}' and end_time <= '${date2}' and availability_status = 1 and is_deleted=0 and start_time > now()`;
-    const result = await conn.query(query, [garageId]);
-    return result[0];
+    const [result] = await conn.query(query, [garageId]);
+    return result;
   } catch (error) {
     return { error };
   }
@@ -898,7 +897,7 @@ export const servicesCount = async () => {
 
 export const findVehicleStatus = async (garageId) => {
   try {
-    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ?;`;
+    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2;`;
     let [result] = await conn.query(query, [garageId]);
     return result;
   } catch (error) {
@@ -915,6 +914,26 @@ export const findAllUserVehicles = async (email) => {
     and users.id = user_has_vehicles.owner_id and users.email = ?;`;
     let [result] = await conn.query(query, [email]);
     return result;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const fetchUserVehicle = async (id) => {
+  try {
+    let query = `SELECT uv.id,vm.brand,vm.model,vm.year,vc.description,vc.condition_image,uv.register_plate_number FROM vehicle_master vm JOIN user_has_vehicles uv ON vm.id = uv.vehicle_id JOIN vehicle_condition vc ON vc.vehicle_id = uv.id WHERE uv.id = ?`;
+    let [result] = await conn.query(query, [id]);
+    return result;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const updateVehicleDetails = async (vehicleInfo) => {
+  try {
+    let query = `UPDATE user_has_vehicles uv ,vehicle_master vm ,vehicle_condition vc SET uv.register_plate_number = ?,vm.brand = ?,vm.model = ?,vm.year = ?,vc.description = ?,vc.condition_image= ?  where uv.id = ? AND vm.id=uv.vehicle_id and vc.vehicle_id = uv.id`;
+    let result = await conn.query(query, vehicleInfo);
+    return result[0];
   } catch (error) {
     return { error };
   }

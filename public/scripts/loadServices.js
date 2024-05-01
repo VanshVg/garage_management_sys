@@ -60,12 +60,11 @@ const showServices = async (parent) => {
   }
   document.querySelector(`.${parent} #services-row`).innerHTML = string;
 };
-const loadService = async (parent, id) => {
+const loadService = async (parent) => {
   let panel = document.querySelector(`.${parent}`);
-  if (id == 0) {
+  if (parent == "service-container") {
     document.querySelector(".add-service-container").style.display = "none";
-  }
-  else {
+  } else {
     document.querySelector(".service-container").style.display = "none";
   }
   panel.style.display = "block";
@@ -102,7 +101,7 @@ const addServiceBtnClick = async (e, id, garage_id) => {
     // setTimeout(() => {
     //   location.href = "/owner/services";
     // }, 3000);
-    showServices('add-service-container');
+    showServices("add-service-container");
   }
 };
 const newService = (id, garage_id, name, description) => {
