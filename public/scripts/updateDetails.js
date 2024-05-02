@@ -10,6 +10,10 @@ const updateDetails = async (fieldList) => {
         control.src = !user.profile_pic
           ? "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg"
           : "/uploads/" + user["profile_pic"];
+        control.addEventListener("error", () => {
+          control.src =
+            "https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg";
+        });
         return;
       }
       control.innerHTML = user[field] || `please update your ${field}..!!`;

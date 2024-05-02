@@ -80,14 +80,14 @@ const manipulate = () => {
       startDate += slotDate;
       // setActive("slots");
       steps.slots(startDate);
-    }
+    };
   });
 };
 
 const addCalendar = () => {
   let formPlace = document.getElementById("other");
   formPlace.style.display = "flex";
-  formPlace.style.zIndex = 9999999999;
+  formPlace.style.zIndex = 1003;
   formPlace.innerHTML = `<div class="p-4 m-4 bg-white rounded-md" id="calendarScreen">
   <header class="calendar-header flex justify-between items-center px-12">
     <p class="calendar-current-date" id="month"></p>
@@ -139,10 +139,10 @@ const addCalendar = () => {
 
   manipulate();
   setTimeout(() => {
-    document.querySelector('.activeDate').click();
-  }, 500)
+    document.querySelector(".activeDate").click();
+  }, 500);
 };
 
 socketIO.on("newSlotAdded", () => {
-  document.querySelector('.activeDate').click();
+  document.querySelector(".activeDate").click();
 });
