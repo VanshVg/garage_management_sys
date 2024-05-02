@@ -1,6 +1,7 @@
 import { getCity, getState } from "../utils/dbHandler.js";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
+// return list of states
 export const stateList = async (req, res) => {
   try {
     let state = await getState();
@@ -18,6 +19,7 @@ export const stateList = async (req, res) => {
   }
 };
 
+// return list of cities with state id
 export const cityList = async (req, res) => {
   let stateId = req.params.stateId;
   try {

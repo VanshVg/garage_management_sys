@@ -872,6 +872,7 @@ export const garagesCount = async () => {
     let result = await conn.query(query);
     return result[0];
   } catch (error) {
+    logger.error(error)
     return { error };
   }
 };

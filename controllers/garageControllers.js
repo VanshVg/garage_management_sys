@@ -18,11 +18,12 @@ import {
   updateFields,
   garagesCount,
   countgarages,
+  getGarageAddress,
 } from "../utils/dbHandler.js";
 
 import { dateTimeConvertor } from "../helpers/dateTimeConvertor.js";
 import { findOne } from "../utils/common.js";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
 // display garage form with data
 export const garageDisplay = async (req, res) => {
@@ -35,7 +36,8 @@ export const garageDisplay = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
-// garage add
+
+// add new garage
 export const garageAdd = async (req, res) => {
   try {
     let {
@@ -95,7 +97,8 @@ export const garageAdd = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
-// garage update
+
+// update garage if exists
 export const garageUpdate = async (req, res) => {
   try {
     let {
@@ -144,7 +147,8 @@ export const garageUpdate = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
-// garage delete
+
+// delete garage if exists
 export const garageDelete = async (req, res) => {
   try {
     const { garageId } = req.params;
@@ -189,10 +193,11 @@ export const garageDelete = async (req, res) => {
   }
 };
 
+// get all garages of an owner
 export const getGarageListing = async (req, res) => {
   try {
-    const user = await findOne([req.user.email]);
-    const result = await getOwnerGarages([user[0].id]);
+    const user = req.user;
+    const result = await getOwnerGarages([user.id]);
     res.json({ garages: result });
   } catch (error) {
     logger.error(error);
@@ -200,6 +205,7 @@ export const getGarageListing = async (req, res) => {
   }
 };
 
+// get all slots of a garage
 export const getGarageSlots = async (req, res) => {
   try {
     let { garageId } = req.body;
@@ -213,6 +219,7 @@ export const getGarageSlots = async (req, res) => {
   }
 };
 
+// get garages details of an owner
 export const getGarages = async (req, res) => {
   try {
     const result = await getGaragesService();
@@ -223,6 +230,7 @@ export const getGarages = async (req, res) => {
   }
 };
 
+// get details of a specific garage with id
 export const getSingleGarage = async (req, res) => {
   try {
     let garageId = req.params.id;
@@ -234,6 +242,7 @@ export const getSingleGarage = async (req, res) => {
   }
 };
 
+// get number of garages owned by a user
 export const getGarageCount = async (req, res) => {
   try {
     const garageCount = await countgarages(req.user.id);
@@ -243,6 +252,8 @@ export const getGarageCount = async (req, res) => {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
+
+// get all appointments of a garage
 export const showGarageAppointments = async (req, res) => {
   try {
     const { garageId } = req.params;
@@ -256,6 +267,7 @@ export const showGarageAppointments = async (req, res) => {
   }
 };
 
+// get number of garages registered on the platform
 export const garageCount = async (req, res) => {
   try {
     let result = await garagesCount();
@@ -266,5 +278,16 @@ export const garageCount = async (req, res) => {
     res.status(201).json({ success: true, count });
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+// get address of garage
+export const garageAddress = async (req, res) => {
+  try {
+    const result = await getGarageAddress([req.params.garageId]);
+    res.status(201).json({ address: result });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({ success: false, message: "Something went wrong!" });
   }
 };

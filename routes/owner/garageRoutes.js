@@ -1,7 +1,5 @@
 import express from "express";
 import {
-  customer,
-  garageAddress,
   garageForm,
   garageList,
   garageListing,
@@ -9,6 +7,7 @@ import {
 import {
   garageAdd,
   garageDelete,
+  garageAddress,
   garageUpdate,
   garageDisplay,
   getGarageListing,
@@ -29,7 +28,6 @@ router.delete("/delete/:garageId", garageDelete);
 router.get("/garageList", garageList);
 router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
-router.get("/customerList", customer);
 router.get("/address/:garageId", garageAddress);
 router.post("/slots", getGarageSlots);
 router.get("/appointments/:garageId", showGarageAppointments);

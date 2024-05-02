@@ -1,4 +1,4 @@
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 import {
   getOwnerGarages,
   countAppointments,
@@ -12,8 +12,8 @@ import {
   getNotifications,
   userNotification,
 } from "../utils/dbHandler.js";
-import { error, log } from "console";
 
+// get all the appointments of a specific garage for owner
 export const appointmentsListing = async (req, res) => {
   try {
     let ownerId = req.user.id;
@@ -39,6 +39,7 @@ export const appointmentsListing = async (req, res) => {
   }
 };
 
+// get all the booked appointments for owner
 export const bookedAppointments = async (req, res) => {
   try {
     let result = await getBookedAppointments(req.user.id);
@@ -59,6 +60,7 @@ export const bookedAppointments = async (req, res) => {
   }
 };
 
+// get number of appointments booked
 export const getAppointmentCount = async (req, res) => {
   try {
     const { pending, successful, cancelled } = await countAppointments(
@@ -71,6 +73,7 @@ export const getAppointmentCount = async (req, res) => {
   }
 };
 
+// update status of appointment
 export const updateAppointment = async (req, res) => {
   try {
     let { appointmentId, id } = req.body;
@@ -85,10 +88,12 @@ export const updateAppointment = async (req, res) => {
       message: "Appointment updated successfully!",
     });
   } catch (error) {
+    logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };
 
+// appointment booking by customer
 export const bookAppointment = async (req, res) => {
   try {
     const { serviceId, vehicleId, slotId } = req.body;
@@ -135,6 +140,7 @@ export const bookAppointment = async (req, res) => {
           }
           resolve(sub_total);
         } catch (error) {
+          logger.error(error);
           return res
             .status(501)
             .json({ success: false, message: "Something went wrong!" });
@@ -178,6 +184,7 @@ export const bookAppointment = async (req, res) => {
   }
 };
 
+// get pending appointments for owner to count notifications
 export const notification = async (req, res) => {
   try {
     let userId = req.user.id;
@@ -189,12 +196,13 @@ export const notification = async (req, res) => {
     }
 
     res.status(200).json({ success: true, notifications });
-  } catch (err) {
+  } catch (error) {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
 };
 
+// get pending appointments for customer to count notifications
 export const customerNotification = async (req, res) => {
   try {
     let userId = req.user.id;
@@ -206,7 +214,7 @@ export const customerNotification = async (req, res) => {
     }
 
     res.status(200).json({ success: true, notification });
-  } catch (err) {
+  } catch (error) {
     logger.error(error);
     res.status(501).json({ success: false, message: "Something went wrong!" });
   }
