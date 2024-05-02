@@ -6,10 +6,22 @@ import {
 
 export const getVehicleStatus = async (req, res) => {
   try {
+    const { page, startIndex, endIndex, limit } = req.pagination;
     const { garageId } = req.params;
-    let result = await findVehicleStatus(garageId);
-    return res.status(200).json({ success: true, result });
+    let result = await findVehicleStatus(garageId, startIndex);
+    return res.status(200).json({
+      success: true,
+      result: result[0],
+      pagination: {
+        totalRecords: result[1][0].count,
+        page,
+        startIndex,
+        endIndex,
+        totalPages: Math.ceil(result[1][0].count / limit),
+      },
+    });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ success: false, message: "Something went wrong!" });

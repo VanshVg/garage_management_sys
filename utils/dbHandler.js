@@ -79,7 +79,7 @@ export const deleteSlot = async (slotId) => {
 
 export const getAllSlots = async (offset, garage, user) => {
   try {
-    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time,        availability_status 
+    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time, availability_status 
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
@@ -896,10 +896,11 @@ export const servicesCount = async () => {
   }
 };
 
-export const findVehicleStatus = async (garageId) => {
+export const findVehicleStatus = async (garageId, limit) => {
   try {
-    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2;`;
-    let [result] = await conn.query(query, [garageId]);
+    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2 LIMIT ?, 10;
+    SELECT COUNT(appointments.id) AS count FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2`;
+    let [result] = await conn.query(query, [garageId, limit, garageId]);
     return result;
   } catch (error) {
     return { error };
