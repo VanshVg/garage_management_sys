@@ -1,3 +1,4 @@
+
 const paymentPage = () => {
   let formPlace = document.getElementById("other");
   formPlace.style.display = "flex";
@@ -198,6 +199,7 @@ const addPayment = async (finalAmount) => {
   let paymentResponse = await paymentRequest.json();
   
   if (paymentResponse.success) {
+
     await generateInvoice(appointmentId, paymentResponse.customerEmail);
     Swal.fire({
       title: "Good job!",

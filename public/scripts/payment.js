@@ -1,3 +1,4 @@
+const socketIo = io("");
 const changePayment = () => {
   let paymentType = document.getElementById("payment-type");
   let bankSection = document.getElementById("bank-section");
@@ -57,7 +58,8 @@ const addPayment = async (finalAmount) => {
   });
   let paymentResponse = await paymentRequest.json();
   if (paymentResponse.success) {
-    socketIo.emit("payment",appointmentId);
+    socketIo.emit("paymentSuccess", 1);
+    socketIo.emit("payment", appointmentId);
     Swal.fire({
       title: "Good job!",
       text: "Payment is done",

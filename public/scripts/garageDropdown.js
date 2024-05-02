@@ -1,3 +1,4 @@
+// socketIo = io("");
 const garagesList = async () => {
   let garageRequest = await fetch(`/owner/garages/getGaragesList`);
   let garageResponse = await garageRequest.json();
@@ -66,3 +67,7 @@ const getInvoices = async () => {
     document.getElementById("garage-appointments").innerHTML = garageAppointments;
   }
 };
+
+socketIo.on("paymentSuccessStatus", () => {
+  getInvoices();
+});
