@@ -4,11 +4,15 @@ const getGarages = async () => {
   var dropdown = document.querySelector("#garagesDropdown");
 
   garageData.garages.forEach((element) => {
+    if (document.getElementById(element.garage_id)) {
+      document.getElementById(element.garage_id).remove();
+    }
     var option = document.createElement("option");
     option.setAttribute("value", element.garage_name);
     option.classList.add("font-family");
     option.classList.add("options");
     option.innerText = element.garage_name;
+    option.id = element.garage_id;
     option.value = element.garage_name;
     dropdown.appendChild(option);
   });
@@ -20,10 +24,10 @@ const deleteSlot = (id) => {
     text: `You want to delete this slot???`,
     showDenyButton: true,
     confirmButtonText: "Yes",
-    denyButtonText: "No"
+    denyButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const result = await fetch('/owner/slots/delete/' + id, {
+      const result = await fetch("/owner/slots/delete/" + id, {
         method: "POST",
       });
       const json = await result.json();
@@ -31,7 +35,7 @@ const deleteSlot = (id) => {
       populateData();
     }
   });
-}
+};
 
 const getData = async (page = 1, garage) => {
   const jsonData = await fetch(
@@ -110,11 +114,9 @@ const populateData = async (pageNumber = 1) => {
   if (data[4] == pageNumber) {
     text.innerText =
       "Showing " + max + " to " + data[3] + " of " + data[3] + " entries ";
-  }
-  else {
+  } else {
     text.innerText =
       "Showing " + max + " to " + data[2] + " of " + data[3] + " entries ";
-
   }
   return [data[4]];
 };
@@ -122,18 +124,15 @@ const populateData = async (pageNumber = 1) => {
 var next = document.querySelector("#next");
 var prev = document.querySelector("#prev");
 next.addEventListener("click", async () => {
-
   var pid = parseInt(document.querySelector(".current").innerText);
   const pageNumber = pid + 1;
-  var select = document.querySelector("#garagesDropdown")
+  var select = document.querySelector("#garagesDropdown");
   var maxPage = await getData(pageNumber, select.value);
   if (maxPage[4] >= pid + 1) {
     const pageCount = await populateData(pageNumber);
 
     document.querySelector(".current").innerText = pid + 1;
-
   }
-
 });
 
 prev.addEventListener("click", async () => {

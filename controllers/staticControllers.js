@@ -157,7 +157,7 @@ export const slotDisplay = async (req, res) => {
 };
 
 export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs");
+  res.render("customer/customerFeedback.ejs");
 };
 
 export const garageList = (req, res) => {

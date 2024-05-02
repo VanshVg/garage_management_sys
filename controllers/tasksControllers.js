@@ -30,9 +30,10 @@ export const changeVehicleStatus = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Something went wrong!" });
     }
+
     let updateResult = await updateFields(
       "appointments",
-      { vehicle_status: status },
+      { vehicle_status: status, status: 2 },
       { id: appointmentId }
     );
     if (!updateResult.affectedRows) {
