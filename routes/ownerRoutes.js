@@ -4,7 +4,6 @@ import {
   calendar,
   dashboard,
   employee,
-  getAllCustomers,
   inventory,
   invoice,
   tasks,
@@ -73,8 +72,6 @@ router.get("/appointmentCount", getAppointmentCount);
 router.get("/notification", notification);
 
 router.post("/ownerServices", findOwnerService);
-
-router.get("/getCustomerList", getAllCustomers);
 
 router.get("/daysCount", daysCount);
 

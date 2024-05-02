@@ -6,8 +6,9 @@ import {
   ifFeedbackExist,
   insertFeedback,
 } from "../utils/dbHandler.js";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
+// get customer details
 export const getAllCustomers = async (req, res) => {
   try {
     const result = await getCustomerNames(1);
@@ -18,7 +19,8 @@ export const getAllCustomers = async (req, res) => {
   }
 };
 
-export const  customerSlotSelection = async (req, res) => {
+// get slots for specific date with garage id for customers
+export const customerSlotSelection = async (req, res) => {
   try {
     let { garageId, date } = req.params;
     let date2 = new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000);
@@ -31,10 +33,7 @@ export const  customerSlotSelection = async (req, res) => {
   }
 };
 
-export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs");
-};
-
+// insert feedback data submitted by customer
 export const CustomerFeedbackPost = async (req, res) => {
   try {
     let { customerId, garageId, rating, message } = req.body;
@@ -64,6 +63,7 @@ export const CustomerFeedbackPost = async (req, res) => {
   }
 };
 
+// get appointments of customer
 export const showAppointments = async (req, res) => {
   try {
     let appointments = await getCustomerAppointments(req.user.id);
@@ -76,6 +76,7 @@ export const showAppointments = async (req, res) => {
   }
 };
 
+// find number of customer for an owner
 export const customerCount = async (req, res) => {
   try {
     let result = await customersCount();
@@ -85,6 +86,7 @@ export const customerCount = async (req, res) => {
     else if (count > 10) count = 10;
     res.status(201).json({ success: true, count });
   } catch (error) {
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };

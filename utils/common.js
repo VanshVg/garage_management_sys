@@ -1,5 +1,6 @@
-import conn from '../config/conn.js';
+import conn from '../config/dbConfig.js';
 
+// dynamic insert with table name, fields and respective values
 export const insert = async (tableName, fields, values) => {
   try {
     let query = `INSERT INTO ${tableName} (${fields}) VALUES(?);`;
@@ -10,6 +11,7 @@ export const insert = async (tableName, fields, values) => {
   }
 }
 
+// dynamic update with table name, fields, values, column name and column values of conditions
 export const update = async (tableName, fields, values, columnName, columnValue) => {
   try {
     let res = {};
@@ -27,6 +29,7 @@ export const update = async (tableName, fields, values, columnName, columnValue)
   }
 }
 
+// dynamic delete with table name and condition fields and values
 export const deleteFrom = async (tableName, fieldName, values) => {
   try {
     let query = `DELETE FROM ${tableName} WHERE ${fieldName} = ?;`;
@@ -37,6 +40,7 @@ export const deleteFrom = async (tableName, fieldName, values) => {
   }
 }
 
+// dynamic select with table name
 export const select = async (tableName) => {
   try {
     let query = "SELECT * FROM " + tableName + ";";
@@ -47,6 +51,7 @@ export const select = async (tableName) => {
   }
 };
 
+// get user details with email id
 export const findOne = async (email) => {
   try {
     let query = "SELECT * FROM users WHERE email = ?";

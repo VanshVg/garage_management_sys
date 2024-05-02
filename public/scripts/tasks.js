@@ -135,5 +135,3 @@ const updateVehicleStatus = async (appointmentId, index) => {
     socketIo.emit("status", 1);
   }
 };
-
-getTaskGarages();

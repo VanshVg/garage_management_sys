@@ -7,10 +7,9 @@ import {
   updateSlot,
   bookSlotService,
 } from "../utils/dbHandler.js";
-import { findOne } from "../utils/common.js";
-import { logger } from "../helpers/loger.js";
-import { Socket } from "socket.io";
+import { logger } from "../helpers/logger.js";
 
+// slot booking by customer
 export const slotBooking = async (req, res) => {
   try {
     const { garageId, startTime, endTime } = req.body;
@@ -40,6 +39,7 @@ export const slotBooking = async (req, res) => {
   }
 };
 
+// update slot timings -- not needed
 export const slotUpdate = async (req, res) => {
   try {
     const { startTime, endTime, slotId } = req.body;
@@ -60,6 +60,7 @@ export const slotUpdate = async (req, res) => {
   }
 };
 
+// delete a slot with id
 export const slotDelete = async (req, res) => {
   try {
     const slotId = req.params.slotId;
@@ -77,20 +78,15 @@ export const slotDelete = async (req, res) => {
   }
 };
 
+// get all slots of a specific garage 
 export const getSlots = async (req, res) => {
   try {
     const { startIndex, endIndex } = req.pagination;
     const garage = req.query.garage;
-    const user = req.user.email;
+    const user = req.user;
 
-    const userExist = await findOne(user);
-    if (!userExist || userExist.length === 0 || !userExist[0].id) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
+    const result = await getAllSlots(startIndex, garage, user.id);
 
-    const result = await getAllSlots(startIndex, garage, userExist[0].id);
     const totalPage = Math.ceil(result[1][0].count / 10);
 
     res.json({
@@ -106,24 +102,25 @@ export const getSlots = async (req, res) => {
   }
 };
 
+// get appointments between specified date range
 export const appointmentsByDateRange = async (req, res) => {
   try {
     const { garageId, startDate, endDate } = req.body;
     const result = await getAppointsByDateRange([startDate, endDate, garageId]);
     res.status(201).json({ success: true, appointments: result });
-  } catch (err) {
-    logger.error(err);
+  } catch (error) {
+    logger.error(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
+// slot booking for customer
 export const bookSlot = async (req, res) => {
   try {
-    const user = req.user.email;
+    const user = req.user;
     const slotId = req.body.slotId;
 
-    const userExist = await findOne(user);
-    const [result] = await bookSlotService(userExist[0].id, slotId);
+    const [result] = await bookSlotService(user.id, slotId);
 
     if (result) {
       res

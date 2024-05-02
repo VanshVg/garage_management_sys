@@ -9,8 +9,9 @@ import {
   selectByFieldNames,
   updateVehicleDetails,
 } from "../utils/dbHandler.js";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
+// add new vehicle for customer
 export const addVehicle = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -95,6 +96,8 @@ export const addVehicle = async (req, res) => {
       .json({ success: false, message: "Something went wrong!" });
   }
 };
+
+// get types of vehicles available
 export const getVehicleTypes = async (req, res) => {
   try {
     let types = await getVehicleType();
@@ -105,6 +108,7 @@ export const getVehicleTypes = async (req, res) => {
   }
 };
 
+// get vehicles of customer by vehicle type
 export const getUserVehicle = async (req, res) => {
   try {
     const { type } = req.params;
@@ -118,6 +122,7 @@ export const getUserVehicle = async (req, res) => {
   }
 };
 
+// get all vehicles of customer
 export const getAllUserVehicles = async (req, res) => {
   try {
     const { email } = req.user;
@@ -130,6 +135,7 @@ export const getAllUserVehicles = async (req, res) => {
   }
 };
 
+// get details of customer vehicle
 export const getUserVehicleDetails = async (req, res) => {
   try {
     const vehicleId = req.params.id;
@@ -143,6 +149,7 @@ export const getUserVehicleDetails = async (req, res) => {
   }
 };
 
+// update customer vehicle
 export const updateUserVehicle = async (req, res) => {
   try {
     const { brand, model, year, numberPlate, description, thumbnail, id } =

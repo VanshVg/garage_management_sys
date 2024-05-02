@@ -8,11 +8,12 @@ import {
   selectByFieldName,
   updateFields,
 } from "../utils/dbHandler.js";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// generate invoice for customer
 export const customerInvoice = async (req, res) => {
   try {
     const { appointmentId } = req.params;
@@ -44,8 +45,6 @@ export const customerInvoice = async (req, res) => {
 
     let result = await generatePdf(fileContent, user[0].id, appointmentId);
 
-    // if (!result) throw "Something went wrong!";
-
     let updateResult = await updateFields(
       "appointments",
       { invoice_url: result },
@@ -65,6 +64,7 @@ export const customerInvoice = async (req, res) => {
   }
 };
 
+// delete generated invoice after download
 export const deletePdf = async (req, res) => {
   try {
     const { fileName } = req.params;

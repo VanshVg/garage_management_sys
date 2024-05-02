@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 import {
   countRevenue,
   insertData,
@@ -8,6 +8,7 @@ import {
   getPaymentStatusService
 } from "../utils/dbHandler.js";
 
+// get payment details of an appointment
 export const getPaymentDetails = async (req, res) => {
   try {
     const { appointmentId } = req.params;
@@ -36,6 +37,7 @@ export const getPaymentDetails = async (req, res) => {
   }
 };
 
+// add payment details 
 export const addPaymentDetails = async (req, res) => {
   try {
     for (let element in req.body) {
@@ -129,6 +131,7 @@ export const addPaymentDetails = async (req, res) => {
   }
 };
 
+// generate revenue for a garage owner
 export const generateRevenue = async (req, res) => {
   try {
     let result = await countRevenue(req.user.id);
