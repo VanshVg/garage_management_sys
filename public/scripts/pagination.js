@@ -1,48 +1,8 @@
-const getGarages = async () => {
-  var garageData = await fetch("/owner/garages/getGaragesList");
-  var garageData = await garageData.json();
-  var dropdown = document.querySelector("#garagesDropdown");
-
-  garageData.garages.forEach((element) => {
-    if (document.getElementById(element.garage_id)) {
-      document.getElementById(element.garage_id).remove();
-    }
-    var option = document.createElement("option");
-    option.setAttribute("value", element.garage_name);
-    option.classList.add("font-family");
-    option.classList.add("options");
-    option.innerText = element.garage_name;
-    option.id = element.garage_id;
-    option.value = element.garage_name;
-    dropdown.appendChild(option);
-  });
-};
-
-const deleteSlot = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: `You want to delete this slot???`,
-    showDenyButton: true,
-    confirmButtonText: "Yes",
-    denyButtonText: "No",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      const result = await fetch("/owner/slots/delete/" + id, {
-        method: "POST",
-      });
-      const json = await result.json();
-      toast.show(json.success ? "success" : "error", json.message);
-      populateData();
-    }
-  });
-};
-
 const getData = async (page = 1, garage) => {
   const jsonData = await fetch(
     "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage
   );
   var data = await jsonData.json();
-  console.log(data);
   return [
     data.result,
     data.startIndex,

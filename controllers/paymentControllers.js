@@ -5,6 +5,7 @@ import {
   insertData,
   selectByFieldName,
   updateFields,
+  getPaymentStatusService
 } from "../utils/dbHandler.js";
 
 // get payment details of an appointment
@@ -107,6 +108,16 @@ export const addPaymentDetails = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     }
+    let updateAppointment = await updateFields(
+      "appointments",
+      { status: 4 },
+      { id: appointmentId }
+    );
+    if (!updateAppointment.affectedRows) {
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
+    }
     return res.status(200).json({
       success: true,
       message: "Payment done successfully",
@@ -130,5 +141,17 @@ export const generateRevenue = async (req, res) => {
   } catch (error) {
     logger.error(error);
     res.status(301).json({ success: false, message: "Something went wrong!" });
+  }
+};
+
+export const getPaymentStatus = async (req,res) => {
+  try{
+    const { appointmentId } = req.params;
+    const result = await getPaymentStatusService(appointmentId);
+    console.log(result);
+    res.status(200).json({success:true, result});
+  }catch(err){
+    logger.error(error);
+    res.status(301).json({success:false, message: "Something went wrong!"});
   }
 };

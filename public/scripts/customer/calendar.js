@@ -1,4 +1,4 @@
-const socketIO = io("");
+// const socketIo = io("");
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
@@ -143,6 +143,6 @@ const addCalendar = () => {
   }, 500);
 };
 
-socketIO.on("newSlotAdded", () => {
+socketIo.on("newSlotAdded", () => {
   document.querySelector(".activeDate").click();
 });
