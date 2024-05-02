@@ -2,9 +2,7 @@ const socketIo = io("");
 
 const fillNotification = async () => {
   let data = await callAPI("/customer/notification");
-  console.log(data.notification);
-  document.getElementById("userTotalNotification").innerHTML =
-    data.notification.length;
+  document.getElementById("userTotalNotification").innerHTML = data.notification.length;
 };
 
 socketIo.on("Received", (message) => {

@@ -63,7 +63,6 @@ const getInvoices = async () => {
     garageAppointments += `</tbody></table>`;
   }
   if (document.getElementById("garage-appointments")) {
-    document.getElementById("garage-appointments").innerHTML =
-      garageAppointments;
+    document.getElementById("garage-appointments").innerHTML = garageAppointments;
   }
 };

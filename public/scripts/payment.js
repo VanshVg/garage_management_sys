@@ -32,6 +32,9 @@ const changePayment = () => {
 };
 
 const addPayment = async (finalAmount) => {
+
+  const socketIo = io("");
+
   let fields = document
     .getElementById("payment-container")
     .querySelectorAll("*");
@@ -54,6 +57,7 @@ const addPayment = async (finalAmount) => {
   });
   let paymentResponse = await paymentRequest.json();
   if (paymentResponse.success) {
+    socketIo.emit("payment",appointmentId);
     Swal.fire({
       title: "Good job!",
       text: "Payment is done",

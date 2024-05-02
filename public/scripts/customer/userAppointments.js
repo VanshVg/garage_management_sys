@@ -83,4 +83,5 @@ const getUserAppointments = async () => {
 
 socketIo.on("appointments", () => {
   getUserAppointments();
+  fillNotification();
 });
