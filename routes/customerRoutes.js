@@ -58,7 +58,7 @@ router.get("/payment", payment);
 
 router.get("/vehicle/:id", getSingleGarage);
 router.get("/addvehicle", addVehicles);
-router.get("/garageList", getGarages);
+router.get("/garageList/:dist?/:lat?/:long?", getGarages);
 router.get("/profile", profile);
 router.get("/appointment", appointment);
 router.get("/singleGarage", getSingleGarage);

@@ -10,7 +10,7 @@ import {
   displayGarage,
   getOwnerGarages,
   garageSlotListing,
-  getGaragesService,
+  getNearByGarage,
   getSingleGarageService,
   countByFieldName,
   getGarageAppointments,
@@ -222,7 +222,10 @@ export const getGarageSlots = async (req, res) => {
 // get garages details of an owner
 export const getGarages = async (req, res) => {
   try {
-    const result = await getGaragesService();
+    let distance = req.params.dist || 10;
+    let lat = req.params.lat;
+    let long = req.params.long;
+    const result = await getNearByGarage(distance, lat, long);
     res.json({ result });
   } catch (error) {
     logger.error(error);
