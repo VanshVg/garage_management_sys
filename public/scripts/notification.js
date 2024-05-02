@@ -1,4 +1,4 @@
-const socketIo = io("");
+// const socketIo = io("");
 
 const notification = async () => {
   let data = await callAPI("/owner/notification")

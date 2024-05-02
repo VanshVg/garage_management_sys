@@ -1,8 +1,7 @@
-const socketIo = io("");
+// const socketIo = io("");
 
 const fillNotification = async () => {
   let data = await callAPI("/customer/notification");
-  console.log(data.notification);
   document.getElementById("userTotalNotification").innerHTML =
     data.notification.length;
 };
@@ -62,9 +61,7 @@ const updateDetails = async () => {
 
   const profilePic = document.querySelector("#prifile_pic");
   profilePic.setAttribute("src", user.profile_pic);
-  console.log(user.profile_pic);
   const userProfilePic = document.querySelector("#user_profile_pic");
-  console.log(userProfilePic)
   userProfilePic.setAttribute("src", `/uploads/${user.profile_pic}`);
   document.getElementById("name").innerHTML = user.name;
   document.getElementById(
@@ -82,7 +79,6 @@ const updateDetails = async () => {
 };
 
 const handleProfile = (id) => {
-  console.log('inside')
   let divs = ["profile", "editProfile"];
   document.getElementById(divs[1]).classList.remove("hidden");
   document.getElementById(divs[id]).classList.remove("hidden");

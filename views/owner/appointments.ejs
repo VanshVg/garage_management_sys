@@ -1,11 +1,9 @@
 <link rel="stylesheet" href="/styles/calendar.css" />
 
 <div class="select-container flex" id="garage-select">
-  <select
-    name="garage"
+  <select name="garage"
     class="bg-dark border text-gray-900 text-sm text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-52"
-    id="garageList"
-  >
+    id="garageList">
     <option value="1">garage 1</option>
     <option value="2">garage 2</option>
   </select>
@@ -43,12 +41,9 @@
     <div id="viewAppointments" class="w-1/2 p-2">
       <div class="flex justify-between max-h-min">
         <div class="text-3xl font-bold">Appointments</div>
-        <input
-          type="button"
-          value="Back"
+        <input type="button" value="Back"
           class="bg-dark text-white cursor-pointer text-xl mb-1.5 mt-0.5 p-1.5 font-bold rounded-md"
-          onclick="handleCalendar(0)"
-        />
+          onclick="handleCalendar(0)" />
       </div>
       <table class="w-full border-collapse">
         <thead class="bg-dark text-white font-semibold">
@@ -65,13 +60,8 @@
 
   <div class="w-full h-full bg-white rounded-md m-4" id="normal-slot-listing">
     <div class="flex justify-end">
-      <img
-        src="/icons/calendar2.svg"
-        alt="calendar"
-        class="cursor-pointer w-10"
-        onclick="handleCalendar(1)"
-        title="Calendar"
-      />
+      <img src="/icons/calendar2.svg" alt="calendar" class="cursor-pointer w-10" onclick="handleCalendar(1)"
+        title="Calendar" />
     </div>
     <table id="appointment-table" class="w-full border-collapse">
       <thead class="bg-dark text-white font-semibold">
@@ -153,9 +143,8 @@
               <td class="p-2 text-base">${i + 1}</td>
               <td class="text-lg">${appointment.customerName}</td>
               <td class="text-base">${appointment.date}</td>
-              <td class="text-base">${appointment.startTime} - ${
-        appointment.endTime
-      }</td>
+              <td class="text-base">${appointment.startTime} - ${appointment.endTime
+        }</td>
               <td>${status}</td>
               <td><div class="flex justify-center">`;
       if (appointment.status != 2)

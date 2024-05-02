@@ -116,7 +116,10 @@
                         <strong class="text-white">Profile..</strong>
                     </div>
             </div>
+            <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
             <script>
+                const socketIo = io("");
+
                 let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book", "profile"];
                 let nextOne = screen[screen.indexOf('<%= active%>')];
                 localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);
@@ -142,44 +145,44 @@
                         formPlace.style.display = "none";
                         formPlace.style.zIndex = 0
                     }
-                    console.log(activeIndex);
-                    switch (activeIndex) {
-                        case 1:
-                            showMap();
-                            break;
-                        case 2:
-                            if (validateStore.vehicle())
-                                addVehicleForm();
-                            else
-                                return
-                            break;
-                        case 3:
-                            if (!validateStore.service())
-                                return
-                            showMap();
-                            break;
-                        case 4:
-                            console.log(validateStore.slots());
-                            if (validateStore.slots()) addCalendar()
-                            else
-                                return
-                            break;
-                        case 5:
-                            if (validateStore.payment())
-                                showMap();
-                            validateStore.book();
-                            // else
+                    .log(activeIndex);
+                switch (activeIndex) {
+                    case 1:
+                        showMap();
+                        break;
+                    case 2:
+                        if (validateStore.vehicle())
+                            addVehicleForm();
+                        else
                             return
-                            break;
-                        case 7:
-                            // fillNotification();
+                        break;
+                    case 3:
+                        if (!validateStore.service())
+                            return
+                        showMap();
+                        break;
+                    case 4:
+                        console.log(validateStore.slots());
+                        if (validateStore.slots()) addCalendar()
+                        else
+                            return
+                        break;
+                    case 5:
+                        if (validateStore.payment())
                             showMap();
-                            // paymentPage();
-                            break
-                        default:
-                            break;
-                    }
-                    setActive(screen[activeIndex])
+                        validateStore.book();
+                        // else
+                        return
+                        break;
+                    case 7:
+                        // fillNotification();
+                        showMap();
+                        // paymentPage();
+                        break
+                    default:
+                        break;
+                }
+                setActive(screen[activeIndex])
                 }
                 const setActive = (activated = "dashboard") => {
                     localStorage.setItem("index", screen.indexOf(activated) || 0);
@@ -193,7 +196,6 @@
                     history.pushState(null, null, activated == "dashboard" ? "home" : activated)
                 }
             </script>
-            <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
             <script src="/scripts/loadAddress.js"></script>
             <script src="/scripts/customer/profileFill.js"></script>
             <script src="/scripts/appointments.js"></script>

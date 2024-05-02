@@ -32,7 +32,6 @@ class validateStore {
   static slots() {
     validateStore.service();
     let id = localStorage.getItem("serviceId");
-    console.log(isNaN(parseInt(id)));
     if (isNaN(parseInt(id))) {
       localStorage.setItem("index", 3);
       setActive(screen[3]);
