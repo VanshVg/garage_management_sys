@@ -380,7 +380,7 @@ class steps {
           <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
             <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
               <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">
-                1
+                0
               </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" class="hover:cursor-pointer" onclick="showAppointments()" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">

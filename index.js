@@ -43,4 +43,8 @@ io.on("connection", (socket) => {
   socket.on("paymentSuccess", (status) => {
     status ? io.emit("paymentSuccessStatus", status) : 0;
   });
+  socket.on("payment", (status) => {
+    status ? io.emit("paymentNotification", status) : 0;
+  });
+
 })

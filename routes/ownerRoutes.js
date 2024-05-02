@@ -22,7 +22,7 @@ import {
   notification,
 } from "../controllers/appointmentsController.js";
 import { daysCount } from "../controllers/userControllers.js";
-import { generateRevenue } from "../controllers/paymentControllers.js";
+import { generateRevenue,getPaymentStatus } from "../controllers/paymentControllers.js";
 import {
   changeVehicleStatus,
   getVehicleStatus,
@@ -76,5 +76,6 @@ router.get("/daysCount", daysCount);
 router.get("/revenueCount", generateRevenue);
 router.get("/vehicleStatus/:garageId", getVehicleStatus);
 router.put("/vehicleStatus/:appointmentId", changeVehicleStatus);
+router.get("/paymentStatus/:appointmentId",getPaymentStatus);
 
 export default router;

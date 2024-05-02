@@ -1,24 +1,20 @@
 // const socketIo = io("");
 
+
 const notification = async () => {
-  let data = await callAPI("/owner/notification")
+  let data = await callAPI("/owner/notification");
+
+  livePopup(data);
+
   document.querySelector('.totalNotification').innerHTML = data.notifications.length;
 }
 
 notification();
 
-const livePopup = async () => {
+const livePopup = async (data) => {
 
-  let data = await callAPI("/owner/notification");
 
-  let userName = data.notifications[0].customerName
-  let userNotification = `${userName} has requested for slot Approval`;
-
-  document.getElementById('userNameNotification').innerHTML = userName;
-
-  document.getElementById('userNameNotification').innerHTML = userNotification;
-
-  document.getElementById('notificationPopup').style.visibility = "visible";
+  
 }
 
 socketIo.on("Received", (message) => {
@@ -26,10 +22,39 @@ socketIo.on("Received", (message) => {
     notification();
     getOwnerData();
     loadAppointments();
-    setTimeout(function () {
-      document.getElementById('notificationPopup').style.visibility = "hidden";
-    }, 5000)
-    livePopup();
+  }
+})
 
+
+const successfulPayments = async (id) => {
+  let data = await callAPI(`/owner/paymentStatus/${id}`);
+  console.log(data.result.length);
+
+  let currentNotificationCount = Number(document.getElementById('totalNotification').innerHTML);  
+
+  document.querySelector('.totalNotification').innerHTML = (currentNotificationCount + data.result.length);
+
+  let userName = data.result[0].name;
+  let startTime = data.result[0].start_time;
+  let endTime = data.result[0].end_time;
+
+  let userNotification = `${userName} had completed payment for slot ${startTime} to ${endTime}`;
+
+  document.getElementById('userNameNotification').innerHTML = userName;
+
+  document.getElementById('userNameNotification').innerHTML = userNotification;
+
+  document.getElementById('notificationPopup').style.visibility = "visible";
+
+  setTimeout(function () {
+      document.getElementById('notificationPopup').style.visibility = "hidden";
+  }, 9000)
+
+}
+
+
+socketIo.on("paymentNotification",(status) => {
+  if(status !== 0){
+    successfulPayments(status);
   }
 })
