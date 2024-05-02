@@ -71,7 +71,7 @@
             <div id="container" class="flex h-screen overflow-hidden w-full bg-lightbg">
                 <%- include('./customer/headbar.ejs') %>
                     <div class="w-[78%] h-screen" id="mapScreen">
-                        <div class="h-screen w-full bg-lightbg relative">
+                        <div class="h-screen w-full bg-lightbg relative" id="mapParent">
                             <div class="overlay absolute w-full h-full flex justify-center items-center"
                                 style="z-index: 1002;">
                                 <div class="ring">
@@ -199,6 +199,7 @@
             <script src="/scripts/customer/calendar.js"></script>
             <script src="/scripts/customer/payment.js"></script>
             <script src="/scripts/validation.js"></script>
+
             <%- include('./customer/footer.ejs') %>
 
     </body>

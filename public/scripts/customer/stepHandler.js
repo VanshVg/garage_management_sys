@@ -138,7 +138,6 @@ class htmlHandler {
     if (!validateStore[step]()) {
       return;
     }
-    console.log(step);
     let data = await APICaller.callAPIHandler(step, params);
     let html = htmlHandler.fillHtml(data, errorMessage, step, stepTitle);
     document.getElementById(`${container}-container`).innerHTML = html;
@@ -324,11 +323,13 @@ class htmlHandler {
   }
 }
 class steps {
-  static dashboard() {
+  static async dashboard() {
+    let location = await getUserLocation();
+    let [lat, long] = location;
     htmlHandler.getData(
       "garage",
       "Near by Garages",
-      "",
+      `/10/${lat}/${long}`,
       "No garage Found..!!",
       "dashboard",
       "garageSelection"

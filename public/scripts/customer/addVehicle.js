@@ -70,7 +70,7 @@ const addVehicleForm = () => {
                     class="m-auto h-[50%]" alt="upload" src="/icons/upload-white.svg"></img> Click here to
                 upload
                 pic</label>
-            <input type="file" id="vehicle-file" name="vehicleImage" onchange="changeVehicleImage()" hidden />
+            <input type="file" id="vehicle-file" name="vehicleImage" onchange="changeVehicleImage()"  accept="[image/png,image/jpg,image/jpeg]" hidden />
         </div>
         <div class="w-[70%] px-10">
             <div class="flex my-2 items-center justify-between w-full">

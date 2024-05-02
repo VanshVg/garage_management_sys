@@ -306,13 +306,30 @@ export const getNotAvailableService = async (id) => {
     return { err };
   }
 };
-export const getGaragesService = async () => {
+export const getNearByGarage = async (
+  distance = 50,
+  latitude = 0,
+  longitude = 0
+) => {
+  latitude = parseFloat(latitude);
+  longitude = parseFloat(longitude);
+
+  let longSize = 0.001 * distance;
+  let latSize = 0.01 * distance;
+  let minLong = longitude - longSize; // formula for calculating longitude Min (original longitude minus shift)
+  let maxLong = longitude + longSize; // formula for calculating longitude Max (original longitude plus shift)
+  let minLat = latitude - latSize; // formula for calculating latitude Min (initial latitude minus shift)
+  let maxLat = latitude + latSize; // formula for calculating latitude Max (original latitude plus shift)
+
   try {
     let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude
     from garage_master as gm inner join garage_address as ga inner join address_master as a 
     inner join city_master as c inner join state_master as s
     on gm.id = ga.garage_id and ga.address_id = a.id
-    and a.city_id = c.id and c.sid = s.id WHERE gm.is_deleted = 0;`;
+    and a.city_id = c.id and c.sid = s.id WHERE gm.is_deleted = 0
+     and ga.longitude >= '${minLong}' and ga.longitude <='${maxLong}'
+    and ga.latitude >= '${minLat}' and  ga.latitude<= '${maxLat}'
+    ;`;
     let result = await conn.query(query);
     return result[0];
   } catch (err) {
@@ -872,7 +889,7 @@ export const garagesCount = async () => {
     let result = await conn.query(query);
     return result[0];
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
     return { error };
   }
 };

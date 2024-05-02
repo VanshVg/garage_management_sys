@@ -78,7 +78,6 @@ const manipulate = () => {
       startDate += month + 1 + "-";
       if (slotDate.length == 1) startDate += 0;
       startDate += slotDate;
-      // setActive("slots");
       steps.slots(startDate);
     };
   });
