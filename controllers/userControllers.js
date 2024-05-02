@@ -18,8 +18,9 @@ import {
 import { insert, findOne } from "../utils/common.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { logger } from "../helpers/loger.js";
+import { logger } from "../helpers/logger.js";
 
+// register new user
 export const register = async (req, res) => {
   try {
     const { role_id, name, email, password } = req.body;
@@ -59,6 +60,7 @@ export const register = async (req, res) => {
   }
 };
 
+// verify user identity with email
 export const activate = async (req, res) => {
   try {
     let id = req.params.id;
@@ -82,6 +84,7 @@ export const activate = async (req, res) => {
   }
 };
 
+// verify user credentials and set token if user is valid
 export const login = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -160,6 +163,7 @@ export const login = async (req, res) => {
   }
 };
 
+// send link to reset user password
 export const forget = async (req, res) => {
   try {
     const email = req.body.email;
@@ -180,6 +184,7 @@ export const forget = async (req, res) => {
   }
 };
 
+// update user password
 export const reset = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -217,6 +222,7 @@ export const reset = async (req, res) => {
   }
 };
 
+// update user profile
 export const updateProfile = async (req, res) => {
   try {
     let { name, city, area, pincode, bio } = req.body;
@@ -265,6 +271,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+// get details of user
 export const getUserDetails = async (req, res) => {
   try {
     const user = req.user;
@@ -280,6 +287,7 @@ export const getUserDetails = async (req, res) => {
   }
 };
 
+// count number of days from which user is registered
 export const daysCount = async (req, res) => {
   try {
     const user = req.user;

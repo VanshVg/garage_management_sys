@@ -1,21 +1,25 @@
+import { logger } from "../helpers/logger.js";
 import {
   findVehicleStatus,
   selectByFieldName,
   updateFields,
 } from "../utils/dbHandler.js";
 
+// get current status of vehicle
 export const getVehicleStatus = async (req, res) => {
   try {
     const { garageId } = req.params;
     let result = await findVehicleStatus(garageId);
     return res.status(200).json({ success: true, result });
   } catch (error) {
+    logger.error(error);
     return res
       .status(500)
       .json({ success: false, message: "Something went wrong!" });
   }
 };
 
+// change status of vehicle
 export const changeVehicleStatus = async (req, res) => {
   try {
     const { appointmentId } = req.params;
@@ -44,6 +48,7 @@ export const changeVehicleStatus = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Status updated successfully!" });
   } catch (error) {
+    logger.error(error);
     return res
       .status(500)
       .json({ success: false, message: "Something went wrong!" });

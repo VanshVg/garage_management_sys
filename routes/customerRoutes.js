@@ -2,12 +2,10 @@ import express from "express";
 import {
   CustomerFeedback,
   appointment,
-  selectServices,
   home,
   profile,
   addVehicles,
   customerVehicleSelection,
-  slotDisplay,
   vehicles,
   vehiclesList,
   service,
@@ -47,7 +45,6 @@ import {
   addPaymentDetails,
   getPaymentDetails,
 } from "../controllers/paymentControllers.js";
-import { vehicleValidator } from "../validators/vehicleValidation.js";
 
 const router = express.Router();
 
@@ -72,14 +69,12 @@ router.get("/viewVehicles", getAllUserVehicles);
 router.post("/addVehicle", upload.single("vehicleImage"), addVehicle);
 router.post("/updateVehicle", upload.single("vehicleImage"), updateUserVehicle);
 
-router.get("/services", selectServices);
 router.post("/servicesList", servicesListing);
 router.put("/profile/update", upload.single("thumbnail"), updateProfile);
 
 router.get("/fetchVehicleDetails/:id", getUserVehicleDetails);
 router.get("/vehicleSelection", customerVehicleSelection);
 router.get("/getCustomerName", getAllCustomers);
-router.get("/slots", slotDisplay);
 router.get("/getslots/:garageId/:date", customerSlotSelection);
 router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
