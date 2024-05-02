@@ -28,7 +28,9 @@ export const slotBooking = async (req, res) => {
           message: "error adding slot please try again",
         });
       } else {
-        res.status(201).json({ success: true, message: "slot inserted successfully" });
+        res
+          .status(201)
+          .json({ success: true, message: "slot inserted successfully" });
       }
     }
   } catch (error) {
@@ -121,7 +123,9 @@ export const bookSlot = async (req, res) => {
     const [result] = await bookSlotService(user.id, slotId);
 
     if (result) {
-      res.status(200).json({ success: true, message: "Slot Added Successfully" });
+      res
+        .status(200)
+        .json({ success: true, message: "Slot Added Successfully" });
     } else {
       res.status(404).json({ success: false, message: "Slot is not added" });
     }

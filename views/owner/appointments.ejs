@@ -92,6 +92,7 @@
         </tr> -->
       </tbody>
     </table>
+    <div class="pagination font-family mt-5" id="appointment-pagination"></div>
   </div>
 </div>
 <script>
@@ -134,9 +135,11 @@
     });
   };
 
-  const updateTable = (appointments) => {
+  const updateTable = (appointments, pagination) => {
     let table = "";
-    appointments.forEach((appointment, i) => {
+    let { totalRecords, page, startIndex, endIndex, totalPages } = pagination;
+    let i = (page - 1) * 10 + 1;
+    appointments.forEach((appointment) => {
       let status;
 
       if (appointment.status == 2) {
@@ -150,12 +153,10 @@
           "<div class='text-white font-semibold bg-yellow-600 w-[100px] m-auto p-1 rounded-lg'>Pending</div>";
       }
       table += `<tr class="border-b-2 border-black hover:bg-sky-100">
-              <td class="p-2 text-base">${i + 1}</td>
+              <td class="p-2 text-base">${i}</td>
               <td class="text-lg">${appointment.customerName}</td>
               <td class="text-base">${appointment.date}</td>
-              <td class="text-base">${appointment.startTime} - ${
-        appointment.endTime
-      }</td>
+              <td class="text-base">${appointment.startTime} - ${appointment.endTime}</td>
               <td>${status}</td>
               <td><div class="flex justify-center">`;
       if (appointment.status != 2)
@@ -163,6 +164,7 @@
       if (appointment.status != 3)
         table += `<span class="cursor-pointer" onclick="handleAppointment(0, ${appointment.id})"><img src="/icons/x.svg" alt="x" title="reject"></span>`;
       table += `</div></td></tr>`;
+      i++;
     });
     let appointmentsTable = document.getElementById("appointments-table-body");
     if (table == "") {
@@ -173,23 +175,70 @@
         <h2 class="text-[#ef4444] font-bold text-2xl">Oops..!!</h2><p class="text-[#ef4444]"><b>No pending Appointments...!!!</b></p>
   </div></td></tr>`;
     } else appointmentsTable.innerHTML = table;
+
+    totalRecords < endIndex ? (endIndex = totalRecords) : 0;
+    let paginationDiv = `
+          <div class="font-family pagination-text">Showing ${
+            startIndex + 1
+          } to ${endIndex} out of ${totalRecords} Entries</div>
+          <div class="page-buttons button-group-pagination">`;
+    if (page == 1) {
+      paginationDiv += `<input
+            class="font-family buttons"
+            type="button"
+            value="Prev"
+            id="prev"
+            disabled
+            />`;
+    } else {
+      paginationDiv +=
+        `<input
+            class="font-family buttons"
+            type="button"
+            value="Prev"
+            id="prev"
+            onclick='loadAppointments(` +
+        `${page - 1})'
+        />`;
+    }
+    paginationDiv += `<div class="current font-family" id="pid">${page}</div>`;
+    if (page != totalPages) {
+      paginationDiv +=
+        `<input
+        class="font-family buttons"
+        type="button"
+        value="Next"
+        id="next"
+        onclick='loadAppointments(` +
+        `${page + 1})'
+        />`;
+    } else {
+      paginationDiv += `<input
+        class="font-family buttons"
+        type="button"
+        value="Next"
+        id="next"
+        disabled
+      />`;
+    }
+    paginationDiv += `</div>`;
+    document.getElementById("appointment-pagination").innerHTML = paginationDiv;
   };
-  const garageChange = async (e) => {
+  const garageChange = async (e, page = 1) => {
     const appointmentsDetails = await callAPI(
-      "/owner/appointmentsList/" + e.target.value
+      "/owner/appointmentsList/" + e.target.value + `?page=${page}`
     );
     const appointments = appointmentsDetails.appointments;
-    updateTable(appointments);
     document.getElementById("currentDay").click();
   };
 
-  const loadAppointments = async () => {
+  const loadAppointments = async (page = 1) => {
     let garageId = document.getElementById("garageList").value;
     const appointmentsDetails = await callAPI(
-      "/owner/appointmentsList/" + garageId
+      "/owner/appointmentsList/" + garageId + `?page=${page}`
     );
     const appointments = appointmentsDetails.appointments;
-    updateTable(appointments);
+    updateTable(appointments, appointmentsDetails.pagination);
   };
   (async () => {
     const garageList = await callAPI("/owner/garages/getGaragesList");

@@ -1,6 +1,6 @@
 <script>
-  // const socketIO = io("");
-  socketIO.on("newServiceAdded", () => {
+  // const socketIo = io("");
+  socketIo.on("newServiceAdded", () => {
     if (parseInt(localStorage.getItem("index")) == 3) {
       steps.service();
     }

@@ -1,4 +1,4 @@
-const socketIO = io("");
+// const socketIo = io("");
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
@@ -58,7 +58,7 @@ const addSlot = async (garageId, start, end, date, duration = 1) => {
   );
 
   if (addedSlot.success) {
-    socketIO.emit("newSlotAdded");
+    socketIo.emit("newSlotAdded");
   }
   toast.show(addedSlot.success ? "success" : "error", addedSlot.message);
 
@@ -75,6 +75,9 @@ const generateSlots = ({
   newStart.setHours(start.split(":")[0], start.split(":")[1]);
   let newEnd = new Date(date.toISOString().split("T")[0]);
   newEnd.setHours(end.split(":")[0], end.split(":")[1]);
+  // while (newStart < new Date()) {
+  //   newStart.setMinutes(newStart.getMinutes() + duration * 60);
+  // }
   while (newStart < newEnd) {
     let slot =
       (newStart.getHours() < 10 ? "0" : "") +

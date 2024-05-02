@@ -116,6 +116,7 @@
                         <strong class="text-white">Profile..</strong>
                     </div>
             </div>
+            <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
             <script>
                 let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book"];
                 let nextOne = screen[screen.indexOf('<%= active%>')];
@@ -187,7 +188,6 @@
                     history.pushState(null, null, activated == "dashboard" ? "home" : activated)
                 }
             </script>
-            <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
             <script src="/scripts/loadAddress.js"></script>
             <script src="/scripts/customer/profileFill.js"></script>
             <script src="/scripts/appointments.js"></script>
@@ -199,7 +199,7 @@
             <script src="/scripts/customer/calendar.js"></script>
             <script src="/scripts/customer/payment.js"></script>
             <script src="/scripts/validation.js"></script>
-
+            <script src="/scripts/imageSelection.js"></script>
             <%- include('./customer/footer.ejs') %>
 
     </body>

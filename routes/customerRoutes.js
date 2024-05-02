@@ -43,7 +43,7 @@ import {
 } from "../controllers/appointmentsController.js";
 import {
   addPaymentDetails,
-  getPaymentDetails,
+  getPaymentDetails
 } from "../controllers/paymentControllers.js";
 
 const router = express.Router();
@@ -86,6 +86,7 @@ router.post("/feedback", CustomerFeedbackPost);
 router.post("/bookAppointment", bookAppointment);
 router.get("/payment/:appointmentId", getPaymentDetails);
 router.post("/payment/:appointmentId", addPaymentDetails);
+
 // router.post("");
 
 export default router;

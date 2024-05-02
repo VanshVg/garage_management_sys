@@ -125,7 +125,7 @@ export const customerVehicleSelection = (req, res) => {
 };
 
 export const CustomerFeedback = async (req, res) => {
-  res.render("customerFeedback.ejs");
+  res.render("customer/customerFeedback.ejs");
 };
 
 // garages listing

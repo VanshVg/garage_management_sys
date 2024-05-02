@@ -35,7 +35,6 @@ class validateStore {
   static slots() {
     validateStore.service();
     let id = localStorage.getItem("serviceId");
-    console.log(parseInt(id));
     if (isNaN(parseInt(id))) {
       localStorage.setItem("index", 3);
       setActive(screen[3]);
@@ -407,7 +406,7 @@ class steps {
           <div class="float-right relative bg-lightbg rounded-full shadow p-1 -mt-[1px]" id="notification" onclick="showNotification()">
             <div class="absolute rounded-full w-[20px] h-[20px] ml-3 -mt-1 text-center flex justify-center items-center" style="background-color: rgb(248 113 113);">
               <div class="absolute text-sm text-white text-center totalNotification" id="userTotalNotification">
-                1
+                0
               </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" class="hover:cursor-pointer" onclick="showAppointments()" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
@@ -420,7 +419,7 @@ class steps {
       <div class="w-full h-full flex">
         <div class="w-[4%] mt-6 h-max flex justify-start items-end rotate-90">
           <div class="flex">
-            <div id="btn-half" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="updateDetails()">
+            <div id="btn-half" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-100 rotate-180" id="user-profile" onclick="fillProfile()">
             Profile
             </div>
             <div id="btn-full" class="hours cursor-pointer rounded-md w-max mx-2 p-2 px-4 h-full text-white bg-dark opacity-50 rotate-180" id="user-appointments" onclick="showAppointments()">
@@ -432,28 +431,6 @@ class steps {
           </div>
         </div>          
         <div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10" id="user-profile">
-        <div class="absolute top-20 right-10 flex items-center mr-4 mt-4">
-        <button type="button" class="bg-dark focus:outline-none rounded-full h-full w-full">
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"
-                style="fill: rgba(255, 255, 255, 1);" onclick="">
-                <path
-                    d="M4 21a1 1 0 0 0 .24 0l4-1a1 1 0 0 0 .47-.26L21 7.41a2 2 0 0 0 0-2.82L19.42 3a2 2 0 0 0-2.83 0L4.3 15.29a1.06 1.06 0 0 0-.27.47l-1 4A1 1 0 0 0 3.76 21 1 1 0 0 0 4 21zM18 4.41 19.59 6 18 7.59 16.42 6zM5.91 16.51 15 7.41 16.59 9l-9.1 9.1-2.11.52z">
-                </path>
-            </svg>
-        </button>
-    </div>
-          <div class="w-2/5 h-full">
-            <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
-            <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
-            <p id="email" class="mt-3 text-lg"></p>
-            <p id="address" class="mt-3 text-lg"></p>
-            <address></address>
-          </div>
-            <div class="w-3/5">
-              <h3 class="font-bold">Bio:</h3>
-              <hr/>
-              <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </div>
           </div>
           <div id="user-appointments" class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10">
           </div>
@@ -464,8 +441,9 @@ class steps {
         </div>
       </div>
     </div>
-  </div>`;
+  </div>
+ `;
     document.getElementById("profile-container").innerHTML = profileHTML;
-    updateDetails();
+    fillProfile();
   }
 }

@@ -128,7 +128,7 @@ const newService = (id, garage_id, name, description) => {
     `,
     showConfirmButton: false,
   }).then(() => {
-    socketIO.emit("newServiceAdded");
+    socketIo.emit("newServiceAdded");
   });
 };
 const deleteService = (id, name) => {
@@ -145,7 +145,7 @@ const deleteService = (id, name) => {
       let response = await callAPI(`/owner/services/${id}`, {}, "DELETE");
       toast.show(response.success ? "success" : "error", response.message);
       if (response.success) {
-        socketIO.emit("newServiceAdded");
+        socketIo.emit("newServiceAdded");
         showServices('service-container');
       }
     }

@@ -68,9 +68,7 @@ const showUserVehicles = async () => {
             } </span>
           </p>
         </div>
-        
-      </div>
-    </div> </div>`;
+      </div> </div>`;
     index++;
   });
   document.getElementById("vehicle-card").innerHTML = userVehicles;
@@ -98,7 +96,7 @@ const editVehicle = async (id) => {
                     src="/icons/upload-white.svg"></img> Click here to
                 upload
                 pic</label>
-            <input type="file" id="vehicle-file" name="vehicleImage"
+            <input type="file" id="vehicle-file" name="vehicleImage" accept="image/*"
                 onchange="changeVehicleImage()" Validation="require" oninput="Validation.isValid(this)" hidden />
         </div>
         <div class="w-[70%] px-10">

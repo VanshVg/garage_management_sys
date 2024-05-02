@@ -20,7 +20,15 @@ const getPayment = (appointmentId) => {
 
 const getUserAppointments = async () => {
   let appointmentRequest = await callAPI(`/customer/appointments`);
-  let userAppointments = `<table class="mx-auto w-full">
+  let userAppointments = ``;
+  if (appointmentRequest.result.length == 0) {
+    userAppointments += `<div class="flex flex-col mx-auto">
+    <p class="text-xl mx-auto mt-12 text-red-500">No appointments have been booked yet...</p>
+    <p class="bg-dark mx-auto hover:cursor-pointer h-12 px-5 mt-5 max-w-[200px] text-center pt-2 text-lg rounded-lg text-white" onclick="window.location.href='/customer/home'">Book appointment</p>
+    </div>
+    `;
+  } else {
+    userAppointments += `<table class="mx-auto w-full">
   <thead class="text-xl">
     <tr class="bg-dark text-white">
       <th class="py-3">Sr. No.</th>
@@ -32,55 +40,62 @@ const getUserAppointments = async () => {
     </tr>
   </thead>
   <tbody>`;
-  let i = 1;
-  appointmentRequest.result.forEach((element) => {
-    userAppointments += `<tr
+    let i = 1;
+    appointmentRequest.result.forEach((element) => {
+      userAppointments += `<tr
     class="text-lg border-b-2 border-dark hover:bg-lightbg text-center"
   >
     <td class="py-5">${i}</td>
     <td class="py-5">${element.garage_name}</td>
     <td class="py-5">${element.start_time}</td>`;
-    if (element.status == 1) {
-      userAppointments += `<td class="py-5 text-yellow-600">Pending</td>`;
-    } else if (element.status == 2) {
-      userAppointments += `<td class="py-5 text-green-700">Approved</td>`;
-    } else {
-      userAppointments += `<td class="py-5 text-red-600">Rejected</td>`;
-    }
-    if (element.vehicle_status == 1 && element.status == 2) {
-      userAppointments += `<td class="py-5 text-yellow-600">To Do</td>`;
-    } else if (element.vehicle_status == 2 && element.status == 2) {
-      if (element.payment_status == 2) {
+      if (element.status == 1) {
+        userAppointments += `<td class="py-5 text-yellow-600">Pending</td>`;
+      } else if (element.status == 2) {
+        userAppointments += `<td class="py-5 text-green-700">Approved</td>`;
+      } else if (element.status == 3) {
+        userAppointments += `<td class="py-5 text-red-600">Rejected</td>`;
+      } else if (element.status == 4 && element.payment_status == 2) {
         userAppointments += `<td class="py-5 text-green-700">Completed</td>`;
-      } else {
-        userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
       }
-    } else if (element.vehicle_status == 3 && element.status == 2) {
-      userAppointments += `<td class="py-5 text-yellow-600">In Progress</td>`;
-    } else {
-      userAppointments += `<td class="py-5">-</td>`;
-    }
-    if (
-      element.vehicle_status == 2 &&
-      element.status == 2 &&
-      element.payment_status == 2
-    ) {
-      userAppointments +=
-        `<td class="mx-auto text-center underline" style="color:blue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
-        `${element.appointment_id}` +
-        `,` +
-        `  '${element.customer_email}'` +
-        `)">Download Invoice</p></a></td>`;
-    } else {
-      userAppointments += `<td>-</td></td>`;
-    }
-    userAppointments += `</tr>`;
-    i++;
-  });
-  userAppointments += `</tbody> </table>`;
+      if (element.vehicle_status == 1 && element.status == 2) {
+        userAppointments += `<td class="py-5 text-yellow-600">To Do</td>`;
+      } else if (
+        element.vehicle_status == 2 &&
+        (element.status == 2 || element.status == 4)
+      ) {
+        if (element.payment_status == 2) {
+          userAppointments += `<td class="py-5 text-green-700">Completed</td>`;
+        } else {
+          userAppointments += `<td class="py-5"><p class="bg-dark text-white p-2 w-[150px] mx-auto rounded-md hover:cursor-pointer" onclick="getPayment(${element.appointment_id})"}>Pay Now</p></td>`;
+        }
+      } else if (element.vehicle_status == 3 && element.status == 2) {
+        userAppointments += `<td class="py-5 text-yellow-600">In Progress</td>`;
+      } else {
+        userAppointments += `<td class="py-5">-</td>`;
+      }
+      if (
+        element.vehicle_status == 2 &&
+        (element.status == 2 || element.status == 4) &&
+        element.payment_status == 2
+      ) {
+        userAppointments +=
+          `<td class="mx-auto text-center underline" style="color:blue"><a id="download-invoice"><p class="hover:cursor-pointer" onclick="generateInvoice(` +
+          `${element.appointment_id}` +
+          `,` +
+          `  '${element.customer_email}'` +
+          `)">Download Invoice</p></a></td>`;
+      } else {
+        userAppointments += `<td>-</td></td>`;
+      }
+      userAppointments += `</tr>`;
+      i++;
+    });
+    userAppointments += `</tbody> </table>`;
+  }
   document.getElementById("user-appointments").innerHTML = userAppointments;
 };
 
 socketIo.on("appointments", () => {
   getUserAppointments();
+  fillNotification();
 });

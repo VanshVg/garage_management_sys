@@ -16,6 +16,16 @@ const updateDetails = async (fieldList) => {
         });
         return;
       }
+      if (field == 'name') {
+        let name = user[field];
+        name = name.split(" ");
+        let i = 0;
+        name.forEach((n => {
+          name[i++] = n.charAt(0).toUpperCase() + n.slice(1);
+        }));
+        control.innerHTML = name.join(" ");
+        return;
+      }
       control.innerHTML = user[field] || `please update your ${field}..!!`;
     });
   });

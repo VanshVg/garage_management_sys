@@ -1,7 +1,37 @@
+// socketIo = io("");
 const garagesList = async () => {
   let garageRequest = await fetch(`/owner/garages/getGaragesList`);
   let garageResponse = await garageRequest.json();
-  let selectGarage = document.getElementById("select-garage");
+  if (document.getElementById("select-garage")) {
+    document.getElementById("select-garage").remove();
+  }
+  let selectGarage = document.createElement("select");
+  selectGarage.id = "select-garage";
+  selectGarage.setAttribute("onchange", "getInvoices()");
+
+  selectGarage.classList.add(
+    "bg-dark",
+    "border",
+    "text-gray-900",
+    "text-sm",
+    "text-white",
+    "rounded-lg",
+    "focus:ring-blue-500",
+    "focus:border-blue-500",
+    "block",
+    "p-2.5",
+    "dark:bg-gray-700",
+    "dark:border-gray-600",
+    "dark:placeholder-gray-400",
+    "dark:text-white",
+    "dark:focus:ring-blue-500",
+    "dark:focus:border-blue-500",
+    "w-52"
+  );
+
+  document
+    .getElementsByClassName("garage-dropdown")[0]
+    .appendChild(selectGarage);
   garageResponse.garages.forEach((element) => {
     let option = document.createElement("option");
     option.name = element.garage_id;
@@ -63,7 +93,10 @@ const getInvoices = async () => {
     garageAppointments += `</tbody></table>`;
   }
   if (document.getElementById("garage-appointments")) {
-    document.getElementById("garage-appointments").innerHTML =
-      garageAppointments;
+    document.getElementById("garage-appointments").innerHTML = garageAppointments;
   }
 };
+
+socketIo.on("paymentSuccessStatus", () => {
+  getInvoices();
+});
