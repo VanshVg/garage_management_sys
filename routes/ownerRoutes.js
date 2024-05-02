@@ -27,6 +27,7 @@ import {
   changeVehicleStatus,
   getVehicleStatus,
 } from "../controllers/tasksControllers.js";
+import { paginationMiddleware } from "../helpers/pagination.js";
 
 const router = express.Router();
 
@@ -50,8 +51,12 @@ router.use("/profile", profileRoutes);
 
 router.get("/appointment", appointments);
 
-router.get("/appointmentsList", appointmentsListing);
-router.get("/appointmentsList/:garageId", appointmentsListing);
+router.get("/appointmentsList", paginationMiddleware(1), appointmentsListing);
+router.get(
+  "/appointmentsList/:garageId",
+  paginationMiddleware(10),
+  appointmentsListing
+);
 router.get("/bookedAppointments/:id", bookedAppointments);
 router.post("/updateAppointment", updateAppointment);
 
@@ -74,7 +79,11 @@ router.get("/getCustomerList", getAllCustomers);
 router.get("/daysCount", daysCount);
 
 router.get("/revenueCount", generateRevenue);
-router.get("/vehicleStatus/:garageId", getVehicleStatus);
+router.get(
+  "/vehicleStatus/:garageId",
+  paginationMiddleware(10),
+  getVehicleStatus
+);
 router.put("/vehicleStatus/:appointmentId", changeVehicleStatus);
 router.get("/paymentStatus/:appointmentId",getPaymentStatus);
 

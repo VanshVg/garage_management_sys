@@ -16,6 +16,7 @@ import { error, log } from "console";
 
 export const appointmentsListing = async (req, res) => {
   try {
+    const { page, startIndex, endIndex, limit } = req.pagination;
     let ownerId = req.user.id;
     const garages = await getOwnerGarages(ownerId);
 
@@ -26,13 +27,29 @@ export const appointmentsListing = async (req, res) => {
     let garage = garages[0].garage_id;
     garage = req.params.garageId || garage;
 
-    const appointments = await getAppointments([garage, req.user.id]);
-    appointments.forEach((appointment) => {
+    const appointments = await getAppointments([
+      garage,
+      req.user.id,
+      startIndex,
+      garage,
+      req.user.id,
+    ]);
+    appointments[0].forEach((appointment) => {
       appointment.date = appointment.startTime.slice(0, 10);
       appointment.startTime = appointment.startTime.slice(11, 16);
       appointment.endTime = appointment.endTime.slice(11, 16);
     });
-    res.status(201).json({ success: true, appointments });
+    res.status(201).json({
+      success: true,
+      appointments: appointments[0],
+      pagination: {
+        totalRecords: appointments[1][0].count,
+        page,
+        startIndex,
+        endIndex,
+        totalPages: Math.ceil(appointments[1][0].count / limit),
+      },
+    });
   } catch (error) {
     logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });

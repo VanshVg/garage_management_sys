@@ -106,6 +106,16 @@ export const addPaymentDetails = async (req, res) => {
         .status(301)
         .json({ success: false, message: "Something went wrong!" });
     }
+    let updateAppointment = await updateFields(
+      "appointments",
+      { status: 4 },
+      { id: appointmentId }
+    );
+    if (!updateAppointment.affectedRows) {
+      return res
+        .status(301)
+        .json({ success: false, message: "Something went wrong!" });
+    }
     return res.status(200).json({
       success: true,
       message: "Payment done successfully",

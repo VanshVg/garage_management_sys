@@ -19,8 +19,9 @@ const showUserVehicles = async () => {
     userVehicles += `
   <div class="w-[calc(100%/3)] px-5 mt-5 relative">
       <div class="absolute top-0 right-1 flex items-center mr-4 mt-4 bg-dark rounded-full"
-          onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${index + 1
-      })">
+          onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
           <button type="button" class="h-full w-full" }>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
@@ -28,13 +29,16 @@ const showUserVehicles = async () => {
               </svg>
           </button>
       </div>
-      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${index + 1
-      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${index + 1
-      })">
+      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
+        index + 1
+      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
           <div class="bg-light p-3 rounded-xl text-left">
               <p class="flex hover:cursor-pointer"
-                  onClick="editVehicle(${element.id
-      })"><img src="/icons/edit.svg"
+                  onClick="editVehicle(${
+                    element.id
+                  })"><img src="/icons/edit.svg"
                       class="h-4 mt-1 mr-2">Edit</img></p>
           </div>
       </div>
@@ -59,13 +63,12 @@ const showUserVehicles = async () => {
             >
           </p>
           <p class="mt-3">
-            Model: <span class="text-lg ml-2 text-[silver]"> ${element.model
-      } </span>
+            Model: <span class="text-lg ml-2 text-[silver]"> ${
+              element.model
+            } </span>
           </p>
         </div>
-        
-      </div>
-    </div> </div>`;
+      </div> </div>`;
     index++;
   });
   document.getElementById("vehicle-card").innerHTML = userVehicles;

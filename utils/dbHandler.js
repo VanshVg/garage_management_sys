@@ -79,7 +79,7 @@ export const deleteSlot = async (slotId) => {
 
 export const getAllSlots = async (offset, garage, user) => {
   try {
-    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time,        availability_status 
+    let query = `SELECT slot_master.id, garage_master.garage_name as garageName, start_time, end_time, availability_status 
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
@@ -610,8 +610,8 @@ export const getUserAddress = async (userId) => {
 
 export const getAppointments = async (ownerDetails) => {
   try {
-    let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;";
+    let query = `select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4 LIMIT ?, 10;
+      select COUNT(c.id) as count from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;`;
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -896,10 +896,11 @@ export const servicesCount = async () => {
   }
 };
 
-export const findVehicleStatus = async (garageId) => {
+export const findVehicleStatus = async (garageId, limit) => {
   try {
-    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2;`;
-    let [result] = await conn.query(query, [garageId]);
+    let query = `SELECT appointments.id, vehicle_status, register_plate_number, users.name AS customer_name, brand, model, year FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2 LIMIT ?, 10;
+    SELECT COUNT(appointments.id) AS count FROM appointments JOIN user_has_vehicles ON appointments.vehicle_id = user_has_vehicles.id JOIN vehicle_master ON user_has_vehicles.vehicle_id = vehicle_master.id JOIN users ON user_has_vehicles.owner_id = users.id JOIN slot_master ON appointments.slot_id = slot_master.id WHERE garage_id = ? AND appointments.status = 2`;
+    let [result] = await conn.query(query, [garageId, limit, garageId]);
     return result;
   } catch (error) {
     return { error };
