@@ -11,6 +11,33 @@ socketIo.on("Received", (message) => {
   if (message) fillNotification();
 });
 
+const fillProfile = () => {
+  const profile = document.getElementById('user-profile');
+  profile.innerHTML = `<div class="absolute top-20 right-10 flex items-center mr-4 mt-4">
+  <button type="button" class="bg-dark focus:outline-none rounded-full h-full w-full">
+      <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"
+          style="fill: rgba(255, 255, 255, 1);" onclick="fillUpdateForm()">
+          <path
+              d="M4 21a1 1 0 0 0 .24 0l4-1a1 1 0 0 0 .47-.26L21 7.41a2 2 0 0 0 0-2.82L19.42 3a2 2 0 0 0-2.83 0L4.3 15.29a1.06 1.06 0 0 0-.27.47l-1 4A1 1 0 0 0 3.76 21 1 1 0 0 0 4 21zM18 4.41 19.59 6 18 7.59 16.42 6zM5.91 16.51 15 7.41 16.59 9l-9.1 9.1-2.11.52z">
+          </path>
+      </svg>
+  </button>
+</div>
+    <div class="w-2/5 h-full">
+      <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
+      <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
+      <p id="email" class="mt-3 text-lg"></p>
+      <p id="address" class="mt-3 text-lg"></p>
+      <address></address>
+    </div>
+      <div class="w-3/5">
+        <h3 class="font-bold">Bio:</h3>
+        <hr/>
+        <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+      </div>`;
+  updateDetails();
+}
+
 const updateDetails = async () => {
   document.getElementById("user-profile")?.classList.remove("hidden");
   document.getElementById("user-profile").classList.add("flex");
@@ -37,6 +64,7 @@ const updateDetails = async () => {
   profilePic.setAttribute("src", user.profile_pic);
   console.log(user.profile_pic);
   const userProfilePic = document.querySelector("#user_profile_pic");
+  console.log(userProfilePic)
   userProfilePic.setAttribute("src", `/uploads/${user.profile_pic}`);
   document.getElementById("name").innerHTML = user.name;
   document.getElementById(
@@ -61,10 +89,9 @@ const handleProfile = (id) => {
   document.getElementById(divs[(id + 1) % 2]).classList.add("hidden");
   if (id == 1) document.getElementById(divs[1]).classList.add("block");
 };
-
 const fillUpdateForm = () => {
-  const profile = document.getElementById('user-profile');
-  profile.innerHTML = `              
+  const updateProfile = document.getElementById('user-profile');
+  updateProfile.innerHTML = `              
   <form method="post" id="updateCustomer" class="w-[96%] h-[90%] bg-white rounded-md mx-5 flex p-6 flex-col"
       onsubmit="handleUpdateForm(event)" enctype="multipart/form-data">
   
