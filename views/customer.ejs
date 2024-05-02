@@ -117,11 +117,18 @@
                     </div>
             </div>
             <script>
-                let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book", "profile"];
+                let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book"];
                 let nextOne = screen[screen.indexOf('<%= active%>')];
                 localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);
 
                 const changePage = (step) => {
+                    if (step == 'next' && parseInt(localStorage.getItem("index")) == 4) {
+                        if (validateStore.payment()) {
+                            book();
+                            return
+                        }
+                        return
+                    }
                     let activeIndex = parseInt(localStorage.getItem("index"));
                     localStorage.setItem("index", (activeIndex + (step == 'prev' ? -1 : 1)))
                     activeIndex = parseInt(localStorage.getItem("index"));
@@ -142,7 +149,6 @@
                         formPlace.style.display = "none";
                         formPlace.style.zIndex = 0
                     }
-                    console.log(activeIndex);
                     switch (activeIndex) {
                         case 1:
                             showMap();
@@ -159,23 +165,11 @@
                             showMap();
                             break;
                         case 4:
-                            console.log(validateStore.slots());
                             if (validateStore.slots()) addCalendar()
                             else
                                 return
                             break;
-                        case 5:
-                            if (validateStore.payment())
-                                showMap();
-                            validateStore.book();
-                            // else
-                            return
-                            break;
-                        case 7:
-                            // fillNotification();
-                            showMap();
-                            // paymentPage();
-                            break
+
                         default:
                             break;
                     }

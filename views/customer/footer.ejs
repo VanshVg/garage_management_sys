@@ -68,7 +68,7 @@
   }
   const loadMap = async () => {
     const position = await getUserLocation();
-    let map = L.map('map').setView(position, 8);
+    let map = L.map('map').setView(position, 12);
     const locations = await fetchGarages();
 
     // Google layer (HTTPS URL)
@@ -110,17 +110,28 @@
       });
     }
   }
+  let valid = ["garage", "type", "vehicle", "service", "slots", "profile"]
   let active = '<%= active %>';
   if (active != 'dashboard') {
     document.querySelector('.overlay').remove();
-    changePage('next');
-    setActive('<%= active %>');
+    let index = localStorage.getItem("index");
+    if (!validateStore[valid[index == -2 ? 5 : index]]()) {
+      localStorage.clear();
+      changePage('next');
+      console.log("object");
+      setActive('dashboard');
+    }
+    else {
+      changePage('next');
+      setActive('<%= active %>');
+    }
   }
   else {
     document.querySelector('.overlay').remove();
     changePage('next');
     setActive('<%= active %>');
   }
+
   (async () => {
     loadMap()
     document.querySelector('loading').innerHTML = ''
