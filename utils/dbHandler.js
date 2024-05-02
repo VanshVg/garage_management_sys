@@ -635,7 +635,8 @@ export const getNotifications = async (userId) => {
 // Get Customerside Notification
 export const userNotification = async (userId) => {
   try {
-    let query = `SELECT * FROM appointments JOIN appointment_payments ON appointments.id = appointment_payments.appointment_id WHERE appointments.status = 2 AND appointments.vehicle_status = 2 AND appointment_payments.status = 1 AND appointments.customer_id = ?;`;
+    let query =
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where d.id = ? and c.status = 2;";
 
     let result = await conn.query(query, userId);
     return result[0];
