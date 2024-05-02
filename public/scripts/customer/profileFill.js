@@ -2,6 +2,7 @@ const socketIo = io("");
 
 const fillNotification = async () => {
   let data = await callAPI("/customer/notification");
+  console.log(data.notification);
   document.getElementById("userTotalNotification").innerHTML =
     data.notification.length;
 };
@@ -9,7 +10,6 @@ const fillNotification = async () => {
 socketIo.on("Received", (message) => {
   if (message) fillNotification();
 });
-
 
 const updateDetails = async () => {
   document.getElementById("user-profile")?.classList.remove("hidden");
@@ -54,8 +54,8 @@ const updateDetails = async () => {
 
 const handleProfile = (id) => {
   let divs = ["profile", "editProfile"];
-  document.getElementById(divs[1]).classList.remove('hidden');
-  document.getElementById(divs[id]).classList.remove('hidden');
-  document.getElementById(divs[(id + 1) % 2]).classList.add('hidden');
-  if (id == 1) document.getElementById(divs[1]).classList.add('block');
-}
+  document.getElementById(divs[1]).classList.remove("hidden");
+  document.getElementById(divs[id]).classList.remove("hidden");
+  document.getElementById(divs[(id + 1) % 2]).classList.add("hidden");
+  if (id == 1) document.getElementById(divs[1]).classList.add("block");
+};

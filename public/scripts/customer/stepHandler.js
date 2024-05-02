@@ -1,50 +1,65 @@
 const home = () => (location.href = "/");
 class validateStore {
-  static dashboard() {
-    if (!localStorage.getItem("garageId")) {
-      location.href = "/customer/dashboard";
-    }
+  static garage() {
+    return true;
   }
-  static vehicleType() {
-    validateStore.dashboard();
-    if (!localStorage.getItem("garageId")) {
-      location.href = "/customer/dashboard";
-    }
+  static type() {
+    validateStore.garage();
+    let id = localStorage.getItem("garageId");
+    if (isNaN(parseInt(id))) {
+      setActive(screen[0]);
+      return false;
+    } else return true;
   }
   static vehicle() {
-    validateStore.vehicleType();
-    if (!localStorage.getItem("typeId")) {
-      location.href = "/customer/vehicle";
-    }
+    validateStore.type();
+    let id = localStorage.getItem("typeId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 1);
+      setActive(screen[1]);
+      return false;
+    } else return true;
   }
   static service() {
     validateStore.vehicle();
-    if (!localStorage.getItem("vehicleId")) {
-      location.href = "/customer/vehicleList";
-    }
+    let id = localStorage.getItem("vehicleId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 2);
+      setActive(screen[2]);
+      return false;
+    } else return true;
   }
   static slots() {
     validateStore.service();
-    if (!localStorage.getItem("serviceId")) {
-      location.href = "/customer/service";
-    }
+    let id = localStorage.getItem("serviceId");
+    console.log(isNaN(parseInt(id)));
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 3);
+      setActive(screen[3]);
+      return false;
+    } else return true;
   }
   static payment() {
     validateStore.slots();
-    if (!localStorage.getItem("slotId")) {
-      location.href = "/customer/slots";
-    }
+    let id = localStorage.getItem("slotId");
+    if (isNaN(parseInt(id))) {
+      localStorage.setItem("index", 4);
+      setActive(screen[4]);
+      return false;
+    } else return true;
   }
   static book() {
-    validateStore.payment();
+    if (validateStore.payment()) {
+      book();
+    }
     // if (!localStorage.getItem("paymentId")) {
     // location.href = "/customer/payment";
     // } else {
-    let formPlace = document.getElementById("other");
-    formPlace.style.display = "none";
-    formPlace.style.zIndex = 0;
-    book();
+    // let formPlace = document.getElementById("other");
+    // formPlace.style.display = "none";
+    // formPlace.style.zIndex = 0;
     // }
+    return false;
   }
 }
 class storeHandler {
@@ -52,15 +67,15 @@ class storeHandler {
     localStorage.setItem(id, value);
   }
   static garageSelection() {
-    let id = document.querySelector("input[name=garage]:checked").value;
+    let id = document.querySelector("input[name=garage]:checked")?.value;
     storeHandler.store("garageId", id);
   }
   static vehicleTypeSelection() {
-    let id = document.querySelector("input[name=type]:checked").value;
+    let id = document.querySelector("input[name=type]:checked")?.value;
     storeHandler.store("typeId", id);
   }
   static vehicleSelection() {
-    let id = document.querySelector("input[name=vehicle]:checked").value;
+    let id = document.querySelector("input[name=vehicle]:checked")?.value;
     storeHandler.store("vehicleId", id);
   }
   static serviceSelection() {
@@ -73,11 +88,11 @@ class storeHandler {
     storeHandler.store("serviceId", selectedServices);
   }
   static slotSelection() {
-    let id = document.querySelector("input[name=slots]:checked").value;
+    let id = document.querySelector("input[name=slots]:checked")?.value;
     storeHandler.store("slotId", id);
   }
   static paymentSelection() {
-    let id = document.querySelector("input[name=payment]:checked").value;
+    let id = document.querySelector("input[name=payment]:checked")?.value;
     storeHandler.store("paymentId", id);
   }
 }
@@ -106,10 +121,16 @@ class htmlHandler {
     container,
     eventListenter
   ) {
+    if (!validateStore[step]()) {
+      console.log(step);
+      return;
+    }
     let data = await APICaller.callAPIHandler(step, params);
     let html = htmlHandler.fillHtml(data, errorMessage, step, stepTitle);
     document.getElementById(`${container}-container`).innerHTML = html;
-    document.querySelector(`input[name=${step}]`).setAttribute("checked", true);
+    document
+      .querySelector(`input[name=${step}]`)
+      ?.setAttribute("checked", true);
     storeHandler[eventListenter]();
     document.querySelectorAll(`input[name=${step}]`).forEach((control) => {
       control.addEventListener("change", storeHandler[eventListenter]);
@@ -180,12 +201,14 @@ class htmlHandler {
     let vehicleList = "";
     typeData.forEach((type) => {
       vehicleList += `
-        <input type="radio" class="type hidden" id="type-${type.id}" name="type" value="${type.id}"/>
+        <input type="radio" class="type hidden" id="type-${
+          type.id
+        }" name="type" value="${type.id}"/>
         <label for="type-${type.id}" class="w-1/3 h-[100px] p-2 " >
             <div class="h-full w-full rounded-md overflow-hidden cursor-pointer">
-                <div class="bg-[rgba(0,0,0,.2)] w-full h-full flex flex-col justify-center items-center p-2 rounded-md" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
-                    <img src='/icons/vehicleType/${type.name}.svg' style="-webkit-filter: grayscale(1) invert(1);filter: grayscale(1) invert(1);" />
-                    <p class="text-white">${type.name}</p>
+                <div class="bg-[rgba(0,0,0,.2)] w-full h-full flex flex-col justify-center items-center p-3 rounded-md" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
+                    <img class="h-[80%] w-full" src='/icons/vehicleType/${type.name.toLowerCase()}.svg' style="-webkit-filter: grayscale(1) invert(1);filter: grayscale(1) invert(1);" />
+                    <p class="text-white font-semibold">${type.name}</p>
                 </div>
         </div></label>
                         `;
@@ -298,7 +321,6 @@ class steps {
     );
   }
   static vehicle() {
-    validateStore.dashboard();
     htmlHandler.getData(
       "type",
       "Vehicle Types",
@@ -309,7 +331,6 @@ class steps {
     );
   }
   static vehicleList() {
-    validateStore.vehicleType();
     let typeId = localStorage.getItem("typeId");
     htmlHandler.getData(
       "vehicle",
@@ -321,7 +342,6 @@ class steps {
     );
   }
   static service() {
-    validateStore.vehicle();
     let id = localStorage.getItem("garageId");
     htmlHandler.getData(
       "service",
@@ -333,7 +353,6 @@ class steps {
     );
   }
   static slots(date) {
-    validateStore.service();
     let id = localStorage.getItem("garageId");
     date = date || new Date().toISOString().split("T")[0];
     htmlHandler.getData(
@@ -346,7 +365,6 @@ class steps {
     );
   }
   static payment() {
-    validateStore.slots();
     // htmlHandler.getData(
     //   "payment",
     //   "Payment Details",
@@ -359,7 +377,7 @@ class steps {
   static profile() {
     document.querySelector("#mapScreen").style.display = "none";
     document.querySelector("#otherScreen").style.display = "none";
-    document.querySelector("#profile-container").style.zIndex = 999999999999999;
+    document.querySelector("#profile-container").style.zIndex = 404;
     let profileHTML = `
     <div class="w-full p-2">
       <div class="flex justify-between items-center">

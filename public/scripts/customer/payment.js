@@ -1,7 +1,7 @@
 const paymentPage = () => {
   let formPlace = document.getElementById("other");
   formPlace.style.display = "flex";
-  formPlace.style.zIndex = 9999999999;
+  formPlace.style.zIndex = 1003;
   formPlace.innerHTML = `<!DOCTYPE html>
   <html lang="en">
     <head>
@@ -139,7 +139,7 @@ const paymentPage = () => {
     </body>
   </html>
   `;
-}
+};
 
 const changePayment = () => {
   let paymentType = document.getElementById("payment-type");

@@ -54,7 +54,7 @@ const addVehicle = async () => {
 const addVehicleForm = () => {
   let formPlace = document.getElementById("other");
   formPlace.style.display = "flex";
-  formPlace.style.zIndex = 9999999999;
+  formPlace.style.zIndex = 1003;
   formPlace.innerHTML = `
                     <div class="m-10 p-4 w-full bg-white my-20 mx-auto rounded-lg text-left" id="vehicle-form"
     style="box-shadow: 1px 1px 1px  grey, inset 1px 1px rgba(1,1,1,.1);">

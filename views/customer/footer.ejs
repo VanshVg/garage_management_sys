@@ -117,13 +117,14 @@
     setActive('<%= active %>');
   }
   else {
-    setTimeout(() => {
-      document.querySelector('.overlay').remove();
-      changePage('next');
-      setActive('<%= active %>');
-    }, 500)
+    document.querySelector('.overlay').remove();
+    changePage('next');
+    setActive('<%= active %>');
   }
-  loadMap()
+  (async () => {
+    loadMap()
+    document.querySelector('loading').innerHTML = ''
+  })()
 </script>
 
 <script src="/scripts/toast.js"></script>
