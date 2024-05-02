@@ -367,7 +367,7 @@ class steps {
                 1
               </div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="hover:cursor-pointer" onclick="showAppointments()" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
               <path d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-7.414V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v4.586l-1.707 1.707A.996.996 0 0 0 3 17v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a.996.996 0 0 0-.293-.707L19 14.586z">
               </path>
             </svg>
@@ -389,6 +389,16 @@ class steps {
           </div>
         </div>          
         <div class="w-[96%] h-full overflow-y-auto flex-wrap pt-5 pr-4 pl-10" id="user-profile">
+        <div class="absolute top-20 right-10 flex items-center mr-4 mt-4">
+        <button type="button" class="bg-dark focus:outline-none rounded-full h-full w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"
+                style="fill: rgba(255, 255, 255, 1);" onclick="">
+                <path
+                    d="M4 21a1 1 0 0 0 .24 0l4-1a1 1 0 0 0 .47-.26L21 7.41a2 2 0 0 0 0-2.82L19.42 3a2 2 0 0 0-2.83 0L4.3 15.29a1.06 1.06 0 0 0-.27.47l-1 4A1 1 0 0 0 3.76 21 1 1 0 0 0 4 21zM18 4.41 19.59 6 18 7.59 16.42 6zM5.91 16.51 15 7.41 16.59 9l-9.1 9.1-2.11.52z">
+                </path>
+            </svg>
+        </button>
+    </div>
           <div class="w-2/5 h-full">
             <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
             <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
@@ -416,4 +426,3 @@ class steps {
     updateDetails();
   }
 }
-

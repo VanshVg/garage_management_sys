@@ -133,28 +133,38 @@ export const getAllUserVehicles = async (req, res) => {
 export const getUserVehicleDetails = async (req, res) => {
   try {
     const vehicleId = req.params.id;
-    console.log(vehicleId)
     let vehicleDetails = await fetchUserVehicle(vehicleId);
     return res.json({ success: true, result: vehicleDetails });
   } catch (error) {
     logger.error(error);
-    return res.status(500)
-      .json({ success: false, message: "Something Went Wrong!" })
+    return res
+      .status(500)
+      .json({ success: false, message: "Something Went Wrong!" });
   }
-}
+};
 
 export const updateUserVehicle = async (req, res) => {
   try {
-    const { brand, model, year, numberPlate, description, thumbnail, id } = req.body;
-    let result = await updateVehicleDetails([numberPlate, brand, model, year, description, thumbnail, id]);
+    const { brand, model, year, numberPlate, description, thumbnail, id } =
+      req.body;
+    let result = await updateVehicleDetails([
+      numberPlate,
+      brand,
+      model,
+      year,
+      description,
+      thumbnail,
+      id,
+    ]);
     if (result.error) {
-      res.status(400).json({ success: false, message: "Something Went Wrong!" });
+      res
+        .status(400)
+        .json({ success: false, message: "Something Went Wrong!" });
     } else {
       res.status(200).json({ success: true, message: "Vehicle Updated" });
     }
-  }
-  catch (error) {
+  } catch (error) {
     logger.error(error);
-    res.status(500).json({ success: false, message: "Something Went Wrong!" })
+    res.status(500).json({ success: false, message: "Something Went Wrong!" });
   }
-}
+};

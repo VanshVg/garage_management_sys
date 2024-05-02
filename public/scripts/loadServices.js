@@ -62,11 +62,9 @@ const showServices = async (parent) => {
 };
 const loadService = async (parent) => {
   let panel = document.querySelector(`.${parent}`);
-  if (parent == 'service-container') {
+  if (parent == "service-container") {
     document.querySelector(".add-service-container").style.display = "none";
-  }
-  else {
-    console.log('inside service container')
+  } else {
     document.querySelector(".service-container").style.display = "none";
   }
   panel.style.display = "block";
@@ -103,7 +101,7 @@ const addServiceBtnClick = async (e, id, garage_id) => {
     // setTimeout(() => {
     //   location.href = "/owner/services";
     // }, 3000);
-    showServices('add-service-container');
+    showServices("add-service-container");
   }
 };
 const newService = (id, garage_id, name, description) => {
@@ -129,6 +127,8 @@ const newService = (id, garage_id, name, description) => {
     </form>
     `,
     showConfirmButton: false,
+  }).then(() => {
+    socketIO.emit("newServiceAdded");
   });
 };
 const deleteService = (id, name) => {
@@ -145,9 +145,7 @@ const deleteService = (id, name) => {
       let response = await callAPI(`/owner/services/${id}`, {}, "DELETE");
       toast.show(response.success ? "success" : "error", response.message);
       if (response.success) {
-        // setTimeout(() => {
-        //   location.href = "/owner/services";
-        // }, 2500);
+        socketIO.emit("newServiceAdded");
         showServices('service-container');
       }
     }

@@ -118,4 +118,4 @@ export const serviceCount = async (req, res) => {
   } catch (error) {
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
-}
+};
