@@ -55,7 +55,7 @@ export const bookedAppointments = async (req, res) => {
     });
     res.status(201).json({ success: false, appointments });
   } catch (error) {
-    logger.log(error);
+    logger.error(error);
     res.status(401).json({ success: false, message: "Something went wrong!" });
   }
 };
