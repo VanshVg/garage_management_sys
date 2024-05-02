@@ -1,4 +1,4 @@
-// const socketIo = io("");
+const socketIo = io("");
 
 const fillNotification = async () => {
   let data = await callAPI("/customer/notification");
