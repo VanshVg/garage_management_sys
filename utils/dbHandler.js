@@ -636,7 +636,7 @@ export const getNotifications = async (userId) => {
 export const userNotification = async (userId) => {
   try {
     let query =
-      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where d.id = ? and c.status = 2;";
+      "select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where d.id = ? and c.status = 2 or c.vehicle_status = 3;";
 
     let result = await conn.query(query, userId);
     return result[0];
@@ -940,3 +940,16 @@ export const updateVehicleDetails = async (vehicleInfo) => {
     return { error };
   }
 };
+
+export const getPaymentStatusService = async(id) => {
+  try{
+    let query = `select u.name, s.start_time, s.end_time
+    from appointment_payments as ap join appointments as a on ap.appointment_id = a.id join 
+    slot_master as s on a.slot_id = s.id join users as u on
+    a.customer_id = u.id where appointment_id = ? order by s.end_time desc limit 1;`;
+    let result = await conn.query(query,id);
+    return result[0];
+  }catch(error){
+    return { error };
+  }
+}

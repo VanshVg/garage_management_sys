@@ -116,7 +116,7 @@ const getVehicleTasks = async (page = 1) => {
 };
 
 const updateVehicleStatus = async (appointmentId, index) => {
-  const socketIo = io("");
+  // const socketIo = io("");
   let select = document.getElementById(`status${index}`);
   let status = select.value;
   select.removeAttribute("class");

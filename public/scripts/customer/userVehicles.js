@@ -15,68 +15,62 @@ const showUserVehicles = async () => {
   let appointmentRequest = await callAPI(`/customer/viewVehicles`);
   let userVehicles = ``;
   let index = 0;
-  if (appointmentRequest.result.length == 0) {
-    userVehicles += `<p class="text-xl mx-auto mt-12 text-red-500">No vehicles have been added yet...</p>`;
-  } else {
-    appointmentRequest.result.forEach((element) => {
-      userVehicles += `
-    <div class="w-[calc(100%/3)] px-5 mt-5 relative">
-        <div class="absolute top-0 right-1 flex items-center mr-4 mt-4 bg-dark rounded-full"
-            onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+  appointmentRequest.result.forEach((element) => {
+    userVehicles += `
+  <div class="w-[calc(100%/3)] px-5 mt-5 relative">
+      <div class="absolute top-0 right-1 flex items-center mr-4 mt-4 bg-dark rounded-full"
+          onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
+          <button type="button" class="h-full w-full" }>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
+                  <path d="M10   10h4v4h-4zm0-6h4v4h-4zm0 12h4v4h-4z"></path>
+              </svg>
+          </button>
+      </div>
+      <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
         index + 1
-      })">
-            <button type="button" class="h-full w-full" }>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" style="fill:white;transform: ;msFilter:;">
-                    <path d="M10   10h4v4h-4zm0-6h4v4h-4zm0 12h4v4h-4z"></path>
-                </svg>
-            </button>
-        </div>
-        <div class="absolute top-3 right-5 z-10 items-center mr-4 mt-4 hidden" id="editBox${
-          index + 1
-        }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
-        index + 1
-      })">
-            <div class="bg-light p-3 rounded-xl text-left">
-                <p class="flex hover:cursor-pointer"
-                    onClick="editVehicle(${
-                      element.id
-                    })"><img src="/icons/edit.svg"
-                        class="h-4 mt-1 mr-2">Edit</img></p>
-            </div>
-        </div>
-        <div class="bg-dark text-white border-2 border-[silver]">
-          <div class="flex border-2">
-            <div class="w-[35%] py-3">
-              <img
-                src="/uploads/${element.condition_image}"
-                class="h-[120px] w-[120px] bg-cover mx-auto border-2 rounded-md"
-              />
-            </div>
-          <div class="my-auto">
-           <p>
-              Number Plate:<span class="ml-2 text-[silver]">
-                ${element.register_plate_number}</span
-              >
-            </p>
-            <p class="mt-3">
-              Brand:
-              <span class="text-lg ml-2 text-[silver]">
-                ${element.brand}</span
-              >
-            </p>
-            <p class="mt-3">
-              Model: <span class="text-lg ml-2 text-[silver]"> ${
-                element.model
-              } </span>
-            </p>
+      }" onmouseover="showEditBox(${index + 1})" onmouseout="hideEditBox(${
+      index + 1
+    })">
+          <div class="bg-light p-3 rounded-xl text-left">
+              <p class="flex hover:cursor-pointer"
+                  onClick="editVehicle(${
+                    element.id
+                  })"><img src="/icons/edit.svg"
+                      class="h-4 mt-1 mr-2">Edit</img></p>
           </div>
-          
+      </div>
+      <div class="bg-dark text-white border-2 border-[silver]">
+        <div class="flex border-2">
+          <div class="w-[35%] py-3">
+            <img
+              src="/uploads/${element.condition_image}"
+              class="h-[120px] w-[120px] bg-cover mx-auto border-2 rounded-md"
+            />
+          </div>
+        <div class="my-auto">
+         <p>
+            Number Plate:<span class="ml-2 text-[silver]">
+              ${element.register_plate_number}</span
+            >
+          </p>
+          <p class="mt-3">
+            Brand:
+            <span class="text-lg ml-2 text-[silver]">
+              ${element.brand}</span
+            >
+          </p>
+          <p class="mt-3">
+            Model: <span class="text-lg ml-2 text-[silver]"> ${
+              element.model
+            } </span>
+          </p>
         </div>
       </div> </div>`;
-      index++;
-    });
-  }
+    index++;
+  });
   document.getElementById("vehicle-card").innerHTML = userVehicles;
 };
 
@@ -102,7 +96,7 @@ const editVehicle = async (id) => {
                     src="/icons/upload-white.svg"></img> Click here to
                 upload
                 pic</label>
-            <input type="file" id="vehicle-file" name="vehicleImage"
+            <input type="file" id="vehicle-file" name="vehicleImage" accept="image/*"
                 onchange="changeVehicleImage()" Validation="require" oninput="Validation.isValid(this)" hidden />
         </div>
         <div class="w-[70%] px-10">
