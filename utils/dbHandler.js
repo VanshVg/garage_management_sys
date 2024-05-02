@@ -939,3 +939,16 @@ export const updateVehicleDetails = async (vehicleInfo) => {
     return { error };
   }
 };
+
+export const getPaymentStatusService = async(id) => {
+  try{
+    let query = `select u.name, s.start_time, s.end_time
+    from appointment_payments as ap join appointments as a on ap.appointment_id = a.id join 
+    slot_master as s on a.slot_id = s.id join users as u on
+    a.customer_id = u.id where appointment_id = ? order by s.end_time desc limit 1;`;
+    let result = await conn.query(query,id);
+    return result[0];
+  }catch(error){
+    return { error };
+  }
+}

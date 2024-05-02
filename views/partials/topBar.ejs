@@ -7,7 +7,28 @@
     class="flex p-2 justify-center items-center text-left bg-emerald-400 max-w-fit rounded-xl z-10 invisible"
     id="notificationPopup"
   >
+    <div class="ml-3 overflow-hidden">
+      <div class="flex justify-between items-center">
+        <p class="font-medium text-gray-700" id="userNameNotification"></p>
+        <div class="border-2" onclick="closeNotification()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="fill: rgba(0, 0, 0, 1); transform: ; msfilter: "
+          >
+            <path
+              d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <p class="max-w-xs text-sm text-gray-500" id="userNameNotification">
+      </p>
+    </div>
   </div>
+
 
   <div class="right h-full flex">
     <div

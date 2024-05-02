@@ -40,5 +40,8 @@ io.on("connection", (socket) => {
   socket.on("newServiceAdded", () => {
     io.emit("newServiceAdded");
   });
+  socket.on("payment", (status) => {
+    status ? io.emit("paymentNotification",status) : 0;
+  });
 
 })
