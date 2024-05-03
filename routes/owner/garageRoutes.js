@@ -16,6 +16,7 @@ import {
   showGarageAppointments,
 } from "../../controllers/garageControllers.js";
 import { uploadMiddleware } from "../../middlewares/uploadMiddleware.js";
+import { paginationMiddleware } from "../../helpers/pagination.js";
 
 const router = express.Router();
 
@@ -30,5 +31,9 @@ router.get("/getGaragesList", getGarageListing);
 router.get("/count", getGarageCount);
 router.get("/address/:garageId", garageAddress);
 router.post("/slots", getGarageSlots);
-router.get("/appointments/:garageId", showGarageAppointments);
+router.get(
+  "/appointments/:garageId",
+  paginationMiddleware(10),
+  showGarageAppointments
+);
 export default router;

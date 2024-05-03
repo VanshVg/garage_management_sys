@@ -973,10 +973,12 @@ export const updateFields = async (tableName, fields, conditions) => {
 };
 
 // get appointments of a specific garage
-export const getGarageAppointments = async (garageId) => {
+export const getGarageAppointments = async (garageId, limit) => {
   try {
-    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
-    let [result] = await conn.query(query, [garageId]);
+    let query = `
+    SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2 LIMIT ?, 10;
+    SELECT COUNT(users.name) AS count FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
+    let [result] = await conn.query(query, [garageId, limit, garageId]);
     return result;
   } catch (error) {
     logger.error(error);

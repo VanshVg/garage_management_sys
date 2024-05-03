@@ -259,9 +259,19 @@ export const getGarageCount = async (req, res) => {
 // get all appointments of a garage
 export const showGarageAppointments = async (req, res) => {
   try {
+    const { page, startIndex, endIndex, limit } = req.pagination;
     const { garageId } = req.params;
-    let appointments = await getGarageAppointments(garageId);
-    return res.status(200).json({ success: true, appointments });
+    let appointments = await getGarageAppointments(garageId, startIndex);
+    return res.status(200).json({
+      success: true,
+      appointments: appointments[0],
+      pagination: {
+        totalRecords: appointments[1][0].count,
+        startIndex,
+        endIndex,
+        totalPages: Math.ceil(appointments[1][0].count / limit),
+      },
+    });
   } catch (error) {
     logger.error(error);
     return res
