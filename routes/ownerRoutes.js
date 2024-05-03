@@ -51,11 +51,7 @@ router.use("/profile", profileRoutes);
 router.get("/appointment", appointments);
 
 router.get("/appointmentsList", paginationMiddleware(1), appointmentsListing);
-router.get(
-  "/appointmentsList/:garageId",
-  paginationMiddleware(10),
-  appointmentsListing
-);
+router.get("/appointmentsList/:garageId",paginationMiddleware(10),appointmentsListing);
 router.get("/bookedAppointments/:id", bookedAppointments);
 router.post("/updateAppointment", updateAppointment);
 

@@ -28,7 +28,6 @@ socketIo.on("Received", (message) => {
 
 const successfulPayments = async (id) => {
   let data = await callAPI(`/owner/paymentStatus/${id}`);
-  // console.log(data.result.length);
 
   let currentNotificationCount = Number(document.getElementById('totalNotification').innerHTML);  
 
