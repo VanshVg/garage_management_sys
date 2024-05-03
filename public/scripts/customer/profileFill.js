@@ -6,7 +6,7 @@ const fillNotification = async () => {
 };
 
 socketIo.on("Received", (message) => {
-  if (message) fillNotification();
+  if (message) fillNotification(); getUserAppointments();
 });
 
 const fillProfile = () => {
@@ -23,7 +23,7 @@ const fillProfile = () => {
 </div>
     <div class="w-2/5 h-full">
       <img src="" class="rounded-md h-[70%] w-[75%]" id="user_profile_pic" onerror="this.src='https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-19.jpg'"/>
-      <h2 class="text-3xl font-bold text-bold mt-4" id="name" ></h2>
+      <h2 class="text-3xl font-bold text-bold mt-4" id="name" >Bharat Makwana</h2>
       <p id="email" class="mt-3 text-lg"></p>
       <p id="address" class="mt-3 text-lg"></p>
       <address></address>

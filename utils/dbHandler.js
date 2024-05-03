@@ -213,7 +213,7 @@ export const updateAddressById = async (userInfo) => {
 // delete user address
 export const deleteUserAddress = async (userInfo) => {
   try {
-    let query = `DELETE FROM address_master WHERE user_id = ?`;
+    let query = `DELETE FROM user_address WHERE user_id = ?`;
     let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
