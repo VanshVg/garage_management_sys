@@ -324,6 +324,7 @@
     };
     const searchAppointments = (e) => {
         let search = e.target.value;
+        search = search.toUpperCase().trim();
         let body = document.getElementById('dashboard-appointments-body');
         let rows = body.getElementsByTagName('tr');
         for (row of rows) {
@@ -331,6 +332,7 @@
             let flag = false;
             for (cell of cells) {
                 let text = cell.innerText || cell.textContent;
+                text = text.toUpperCase().trim();
                 if (text.search(search) != -1) {
                     flag = true;
                     break;

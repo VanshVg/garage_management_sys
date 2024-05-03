@@ -14,7 +14,7 @@ notification();
 const livePopup = async (data) => {
 
 
-  
+
 }
 
 socketIo.on("Received", (message) => {
@@ -28,9 +28,8 @@ socketIo.on("Received", (message) => {
 
 const successfulPayments = async (id) => {
   let data = await callAPI(`/owner/paymentStatus/${id}`);
-  console.log(data.result.length);
 
-  let currentNotificationCount = Number(document.getElementById('totalNotification').innerHTML);  
+  let currentNotificationCount = Number(document.getElementById('totalNotification').innerHTML);
 
   document.querySelector('.totalNotification').innerHTML = (currentNotificationCount + data.result.length);
 
@@ -47,14 +46,14 @@ const successfulPayments = async (id) => {
   document.getElementById('notificationPopup').style.visibility = "visible";
 
   setTimeout(function () {
-      document.getElementById('notificationPopup').style.visibility = "hidden";
+    document.getElementById('notificationPopup').style.visibility = "hidden";
   }, 9000)
 
 }
 
 
-socketIo.on("paymentNotification",(status) => {
-  if(status !== 0){
+socketIo.on("paymentNotification", (status) => {
+  if (status !== 0) {
     successfulPayments(status);
   }
 })

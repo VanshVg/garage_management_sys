@@ -32,6 +32,8 @@
       let garages = data.result;
       let leftPanel = document.getElementById('dashboard-container');
       leftPanel.innerHTML = (htmlHandler.fillHtml(data, "No garage Found..!!", "garage", "Near by Garages"));
+      document.querySelector('input[name=garage]')?.setAttribute('checked',true);
+      storeHandler.garageSelection();
       let result = [];
       let i = 0;
       garages.forEach(garage => {
