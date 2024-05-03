@@ -1,5 +1,5 @@
 import conn from "../config/dbConfig.js";
-import logger from "winston";
+import { logger } from "../helpers/logger.js";
 
 // get user details with user id
 export const findOneById = async (userId) => {

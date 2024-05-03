@@ -169,8 +169,7 @@
                     document.querySelectorAll('.page-container').forEach(page => page.style.display = "none");
                     let screen = document.querySelector(`#${activated}-screen`);
                     screen.style.display = 'flex';
-                    activated = activated.replace('-', '/')
-                    document.getElementById('currentPage').innerHTML = activated.charAt(0).toUpperCase() + activated.substring(1);
+                    activated = activated.replace('-', '/');
                 }
                 setActive('<%= active %>');
                 document.querySelectorAll('#sidebar li').forEach(li => {
