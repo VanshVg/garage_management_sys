@@ -6,56 +6,12 @@
     }
   });
   /*Map */
-  const ListPlace = () => {
-    $("#map").append(`
-     <div id="" class="place"   style="display:flex;justify-content:space-between" >
-                            <img src=""
-                                alt="garage" width="90px" height="85px">
-                            <div class="place-detail-container">
-                                <span class="place-name"></span>
-                                <div class="rating"
-                                    style="width: 70px;display: flex;justify-content: space-between;margin-bottom: 5px;">
-                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
-                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
-                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
-                                    <img src="./assest/Images/star.png" alt="" style="width:15px;height: 15px;">
-                                </div>
-                                <span class="distance"><i id="expand-icon" class="fa-solid fa-map-location-dot"
-                                        style="font-size: larger;"></i><span>35KM</span></span>
-                            </div>
-                            <div style="display:flex;flex-direction:column;height:100px;justify-content:space-between;align-items: flex-end;">
-                                <div class="wether" style="display: flex;">
-                                    <div class="whtext"
-                                    style="text-align: right;color:rgba(217, 217, 217, .74);font-size: small;">
-                                    67<sup style="color:rgba(217, 217, 217, .74)">o</sup><br />SUNNY</div>
-                                    <img src="./assest/Images/sun.png" alt=""
-                                        style="height:35px;width:35px;margin-left: 5px;">
-                                </div>
-                            </div>
-                        </div>
-    `);
-  }
 
-  const fetchGarages = async () => {
-    let locations = await (new Promise(async (resolve, reject) => {
-      let data = await callAPI('/customer/garageList');
-      let garages = data.result;
-      let result = [];
-      let i = 0;
-
-      garages.forEach(garage => {
-        result[i] = [];
-        result[i++].push(garage.garage_name, garage.latitude, garage.longitude, garage.thumbnail);
-      });
-      resolve(result);
-    }));
-    return locations;
-  }
   const getUserLocation = async () => {
-    let location = await (new Promise((resolve, reject) => {
+    let location = await new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-          resolve([position.coords.latitude, position.coords.longitude])
+          resolve([position.coords.latitude, position.coords.longitude]);
         });
       } else {
         let latitude = 22.684282675883896;
@@ -63,14 +19,70 @@
         toast("error", "Geolocation is not supported by this browser.");
         reject([latitude, longitude]);
       }
-    }))
+    });
     return location;
+  };
+
+  const fetchGarages = async (MyLoc, map, lat, long, km = 10) => {
+    let finder = document.querySelector('.overlay');
+    finder.innerHTML = `<div class="ring"></div>`
+    finder.style.zIndex = 1002;
+    let locations = await (new Promise(async (resolve, reject) => {
+      let data = await callAPI(`/customer/garageList/${km}/${lat}/${long}`);
+      let garages = data.result;
+      let leftPanel = document.getElementById('dashboard-container');
+      leftPanel.innerHTML = (htmlHandler.fillHtml(data, "No garage Found..!!", "garage", "Near by Garages"));
+      document.querySelector('input[name=garage]')?.setAttribute('checked',true);
+      storeHandler.garageSelection();
+      let result = [];
+      let i = 0;
+      garages.forEach(garage => {
+        result[i] = [];
+        result[i++].push(garage.garage_name, garage.latitude, garage.longitude, garage.thumbnail);
+      });
+      resolve(result);
+    }));
+    await loadGaragePin(MyLoc, locations, map);
+    setTimeout(() => {
+      finder.innerHTML = '';
+      finder.style.zIndex = 0
+    }, 100);
+
+    return locations;
+  }
+  const loadGaragePin = (MyLoc, locations, map) => {
+
+    const overlayMaps = {
+      "Marker": MyLoc
+    };
+    for (var i = 0; i < locations.length; i++) {
+      const myIcon = L.icon({
+        iconUrl: '/uploads/' + locations[i][3],
+        iconSize: [45, 45],
+        className: "iconPin",
+        // className: "border-2 border-sky-500",
+      });
+      let marker = new L.marker([locations[i][1], locations[i][2]], {
+        icon: myIcon, draggable: false
+      }).bindPopup(locations[i][0]).addTo(map);
+
+      marker._icon.id = i;
+      marker._icon.addEventListener('error', () => {
+        marker._icon.src = "/icons/garagePin.png"
+      });
+
+      //clicked on pin
+      marker._icon.addEventListener("click", (e) => {
+        let inputs = document.querySelectorAll("input[name=garage]");
+        inputs.forEach(garage => garage.removeAttribute('checked'))
+        inputs[e.target.id].setAttribute("checked", true);
+      });
+    }
+    // return overlayMaps
   }
   const loadMap = async () => {
     const position = await getUserLocation();
-    let map = L.map('map').setView(position, 8);
-    const locations = await fetchGarages();
-
+    let map = L.map('map').setView(position, 12);
     // Google layer (HTTPS URL)
     const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
       maxZoom: 20,
@@ -81,46 +93,41 @@
       iconUrl: 'https://raw.githubusercontent.com/Makwana-Bharat/pathdarshak/main/assest/Images/Location.png',
       iconSize: [50, 50],
     });
-    const MyLoc = L.marker(position, { icon: myIcon, draggable: false }).addTo(map);
+    const MyLoc = L.marker(position, { icon: myIcon, draggable: true }).addTo(map);
+    let locations = await fetchGarages(MyLoc, map, position[0], position[1], 10);
     /* Layer Management*/
-    const overlayMaps = {
-      "Marker": MyLoc
-    };
-    for (var i = 0; i < locations.length; i++) {
-      const myIcon = L.icon({
-        iconUrl: '/uploads/' + locations[i][3],
-        iconSize: [50, 50],
-        className: "shadow-xl iconPin",
-        // className: "border-2 border-sky-500",
-      });
-      let marker = new L.marker([locations[i][1], locations[i][2]], {
-        icon: myIcon, draggable: false
-      }).bindPopup(locations[i][0]).addTo(map);
-      marker._icon.id = i;
-    }
-    L.control.layers(overlayMaps).addTo(map);
-    let icons = document.querySelectorAll('.iconPin');
-    for (var i = 0; i < icons.length; i++) {
-      icons[i].addEventListener("click", (e) => {
-        let inputs = document.querySelectorAll("input[name=garage]");
-        inputs.forEach(input => {
-          input.setAttribute("checked", false);
-        });
-        inputs[e.target.id].setAttribute("checked", true);
-      });
-    }
+    MyLoc.addEventListener('dragend', async (e) => {
+      let { lat, lng } = MyLoc.getLatLng();
+      let range = [10, 25, 50];
+      range.forEach(async km => {
+        locations = await fetchGarages(MyLoc, map, lat, lng, km, MyLoc, map);
+        if (locations.length)
+          return
+      })
+
+    })
+
   }
+  let valid = ["garage", "type", "vehicle", "service", "slots", "profile"]
   let active = '<%= active %>';
   if (active != 'dashboard') {
     document.querySelector('.overlay').remove();
-    changePage('next');
-    setActive('<%= active %>');
+    let index = localStorage.getItem("index");
+    if (!validateStore[valid[index == -2 ? 5 : index]]()) {
+      localStorage.clear();
+      changePage('next');
+      setActive('dashboard');
+    }
+    else {
+      changePage('next');
+      setActive('<%= active %>');
+    }
   }
   else {
-    document.querySelector('.overlay').remove();
     changePage('next');
     setActive('<%= active %>');
   }
+
   (async () => {
     loadMap()
     document.querySelector('loading').innerHTML = ''

@@ -8,6 +8,7 @@
       denyButtonText: "No"
     }).then(async (result) => {
       if (result.isConfirmed) {
+        localStorage.clear();
         location.href = "/logout"
       }
     });

@@ -1,4 +1,7 @@
-const home = () => (location.href = "/");
+const home = () => {
+  location.href = "/";
+  localStorage.clear();
+};
 class validateStore {
   static garage() {
     return true;
@@ -47,18 +50,9 @@ class validateStore {
       return false;
     } else return true;
   }
-  static book() {
-    if (validateStore.payment()) {
-      book();
-    }
-    // if (!localStorage.getItem("paymentId")) {
-    // location.href = "/customer/payment";
-    // } else {
-    // let formPlace = document.getElementById("other");
-    // formPlace.style.display = "none";
-    // formPlace.style.zIndex = 0;
-    // }
-    return false;
+  static profile() {
+    localStorage.clear();
+    return true;
   }
 }
 class storeHandler {
@@ -70,14 +64,26 @@ class storeHandler {
     storeHandler.store("garageId", id);
   }
   static vehicleTypeSelection() {
+    if (!validateStore.garage() || localStorage.getItem("index") != "1") {
+      localStorage.clear();
+      return;
+    }
     let id = document.querySelector("input[name=type]:checked")?.value;
     storeHandler.store("typeId", id);
   }
   static vehicleSelection() {
+    if (!validateStore.type()) {
+      localStorage.clear();
+      return;
+    }
     let id = document.querySelector("input[name=vehicle]:checked")?.value;
     storeHandler.store("vehicleId", id);
   }
   static serviceSelection() {
+    if (!validateStore.vehicle()) {
+      localStorage.clear();
+      return;
+    }
     let selectedServices = [];
     document
       .querySelectorAll("input[name=service]:checked")
@@ -87,10 +93,18 @@ class storeHandler {
     storeHandler.store("serviceId", selectedServices);
   }
   static slotSelection() {
+    if (!validateStore.service()) {
+      localStorage.clear();
+      return;
+    }
     let id = document.querySelector("input[name=slots]:checked")?.value;
     storeHandler.store("slotId", id);
   }
   static paymentSelection() {
+    if (!validateStore.slots()) {
+      localStorage.clear();
+      return;
+    }
     let id = document.querySelector("input[name=payment]:checked")?.value;
     storeHandler.store("paymentId", id);
   }
@@ -121,7 +135,6 @@ class htmlHandler {
     eventListenter
   ) {
     if (!validateStore[step]()) {
-      console.log(step);
       return;
     }
     let data = await APICaller.callAPIHandler(step, params);
@@ -299,11 +312,13 @@ class htmlHandler {
   }
 }
 class steps {
-  static dashboard() {
+  static async dashboard() {
+    let location = await getUserLocation();
+    let [lat, long] = location;
     htmlHandler.getData(
       "garage",
       "Near by Garages",
-      "",
+      `/10/${lat}/${long}`,
       "No garage Found..!!",
       "dashboard",
       "garageSelection"
@@ -418,6 +433,6 @@ class steps {
   </div>
  `;
     document.getElementById("profile-container").innerHTML = profileHTML;
-    fillProfile()
+    fillProfile();
   }
 }
