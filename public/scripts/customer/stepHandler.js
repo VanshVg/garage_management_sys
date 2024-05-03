@@ -61,6 +61,7 @@ class storeHandler {
   }
   static garageSelection() {
     let id = document.querySelector("input[name=garage]:checked")?.value;
+    console.log(id, "asldhasdaowe");
     storeHandler.store("garageId", id);
   }
   static vehicleTypeSelection() {

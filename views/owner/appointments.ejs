@@ -225,10 +225,13 @@
     document.getElementById("appointment-pagination").innerHTML = paginationDiv;
   };
   const garageChange = async (e, page = 1) => {
+    console.log("/owner/appointmentsList/" + e.target.value + `?page=${page}`);
     const appointmentsDetails = await callAPI(
       "/owner/appointmentsList/" + e.target.value + `?page=${page}`
     );
     const appointments = appointmentsDetails.appointments;
+    updateTable(appointments, appointmentsDetails.pagination);
+    console.log(appointments);
     document.getElementById("currentDay").click();
   };
 
