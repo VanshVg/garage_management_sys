@@ -87,11 +87,11 @@
                                 <div class=" absolute bottom-1 right-1" style="z-index: 1003; " id="btn-container">
                                     <button id="btn-prev" onclick="changePage('prev')"
                                         class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6">
-                                        <<< </button>
-                                            <button id="btn-next"
-                                                class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6"
-                                                onclick="changePage('next')">
-                                                >>> </button>
+                                        Prev </button>
+                                    <button id="btn-next"
+                                        class="hidden cursor-pointer bg-dark p-2 rounded-md text-white text-bold tracking-wider px-6"
+                                        onclick="changePage('next')">
+                                        Next </button>
                                 </div>
                         </div>
                     </div>
@@ -119,6 +119,21 @@
             </div>
             <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
             <script>
+                const filterServices = (e) => {
+                    let search = e.target.value;
+                    search = search.toUpperCase().trim();
+                    let services = document.getElementsByClassName('serviceContainer');
+                    for (var i = 0; i < services.length; i++) {
+                        let service = services[i];
+                        service.style.display = 'none';
+                        let name = service.querySelector('h3').innerText;
+                        console.log(name)
+                        name = name.toUpperCase().trim();
+                        if (name.search(search) != -1) {
+                            service.style.display = 'flex';
+                        }
+                    };
+                }
                 let screen = ["dashboard", "vehicle", "vehicleList", "service", "slots", "book"];
                 let nextOne = screen[screen.indexOf('<%= active%>')];
                 localStorage.setItem("index", screen.indexOf('<%= active%>') - 1);

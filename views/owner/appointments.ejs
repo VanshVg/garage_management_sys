@@ -214,9 +214,7 @@
     document.getElementById("appointment-pagination").innerHTML = paginationDiv;
   };
   const garageChange = async (e, page = 1) => {
-    const appointmentsDetails = await callAPI(
-      "/owner/appointmentsList/" + e.target.value + `?page=${page}`
-    );
+    const appointmentsDetails = await callAPI("/owner/appointmentsList/" + e.target.value + `?page=${page}`);
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments, appointmentsDetails.pagination);
     document.getElementById("currentDay").click();
@@ -224,9 +222,7 @@
 
   const loadAppointments = async (page = 1) => {
     let garageId = document.getElementById("garageList").value;
-    const appointmentsDetails = await callAPI(
-      "/owner/appointmentsList/" + garageId + `?page=${page}`
-    );
+    const appointmentsDetails = await callAPI("/owner/appointmentsList/" + garageId + `?page=${page}`);
     const appointments = appointmentsDetails.appointments;
     updateTable(appointments, appointmentsDetails.pagination);
   };

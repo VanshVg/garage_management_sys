@@ -150,7 +150,7 @@ export const getPaymentStatus = async (req, res) => {
     const result = await getPaymentStatusService(appointmentId);
     res.status(200).json({ success: true, result });
   } catch (err) {
-    logger.error(error);
+    logger.error(err);
     res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };

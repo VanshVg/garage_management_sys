@@ -1,5 +1,5 @@
 import conn from "../config/dbConfig.js";
-import logger from "winston";
+import { logger } from "../helpers/logger.js";
 
 // get user details with user id
 export const findOneById = async (userId) => {
@@ -213,7 +213,7 @@ export const updateAddressById = async (userInfo) => {
 // delete user address
 export const deleteUserAddress = async (userInfo) => {
   try {
-    let query = `DELETE FROM address_master WHERE user_id = ?`;
+    let query = `DELETE FROM user_address WHERE user_id = ?`;
     let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
@@ -373,7 +373,7 @@ export const getNearByGarage = async (
   longitude = parseFloat(longitude);
 
   try {
-    let query = `select gm.id, gm.garage_name, gm.thumbnail,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude, ( ACOS((SIN(RADIANS(${latitude})) * SIN(RADIANS(ga.latitude))) + (COS(RADIANS(${latitude})) * COS(RADIANS(ga.latitude))) * (COS(RADIANS(ga.longitude) - RADIANS(${longitude})))) * 6371 ) as distance from garage_master as gm inner join garage_address as ga inner join address_master as a inner join city_master as c inner join state_master as s on gm.id = ga.garage_id and ga.address_id = a.id
+    let query = `select gm.id, gm.garage_name, gm.thumbnail, gm.rating as rating,a.area, c.city_name, s.state_name, ga.latitude as latitude, ga.longitude as longitude, ( ACOS((SIN(RADIANS(${latitude})) * SIN(RADIANS(ga.latitude))) + (COS(RADIANS(${latitude})) * COS(RADIANS(ga.latitude))) * (COS(RADIANS(ga.longitude) - RADIANS(${longitude})))) * 6371 ) as distance from garage_master as gm inner join garage_address as ga inner join address_master as a inner join city_master as c inner join state_master as s on gm.id = ga.garage_id and ga.address_id = a.id
     and a.city_id = c.id and c.sid = s.id WHERE gm.is_deleted = 0
     having distance <= ${distance};`;
     let result = await conn.query(query);

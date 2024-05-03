@@ -12,9 +12,9 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-            errorMessage: "password must be at least 8 character..",
-            valid: false,
-          }
+          errorMessage: "password must be at least 8 character..",
+          valid: false,
+        }
         : { valid: true },
     digit10: (value) =>
       !/^\d{10}$/.test(value)
@@ -145,14 +145,14 @@ const Validation = {
             let text = `${location.origin}/u/activate/${data.userId.insertId}/${data.token}`;
             href.setAttribute("href", text);
             href.append(text);
-            activate.innerHTML = href;
+            activate.appendChild(href);
           } else if (form == "u/forgotPassword") {
             const activate = document.getElementById("activate");
             let href = document.createElement("a");
             let text = `${location.origin}/u/resetPassword/${data.email}`;
             href.setAttribute("href", text);
             href.append(text);
-            activate.innerHTML = href;
+            activate.appendChild(href);
           } else if (form == "u/resetPassword") {
             Swal.fire({
               title: "Good job!",

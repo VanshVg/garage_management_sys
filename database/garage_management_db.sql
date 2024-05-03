@@ -856,3 +856,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-04-30 17:28:49
+
+
+CREATE TRIGGER rating_trigger AFTER INSERT ON feedbacks
+for each row 
+	update garage_master set rating = (select avg(rating) from feedbacks where garage_id = new.garage_id) where id = new.garage_id;
