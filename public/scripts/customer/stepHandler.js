@@ -368,7 +368,7 @@ class steps {
   }
   static slots(date) {
     let id = localStorage.getItem("garageId");
-    console.log("called");
+    // console.log("called");
     date = date || new Date().toISOString().split("T")[0];
     htmlHandler.getData(
       "slots",

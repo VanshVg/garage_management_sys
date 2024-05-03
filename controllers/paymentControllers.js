@@ -148,7 +148,7 @@ export const getPaymentStatus = async (req,res) => {
   try{
     const { appointmentId } = req.params;
     const result = await getPaymentStatusService(appointmentId);
-    console.log(result);
+    // console.log(result);
     res.status(200).json({success:true, result});
   }catch(err){
     logger.error(error);

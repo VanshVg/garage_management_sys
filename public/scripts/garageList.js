@@ -42,7 +42,7 @@ const getData = async (page = 1, garage) => {
     "/owner/slots/getAllSlots?page=" + page + "&garage=" + garage
   );
   var data = await jsonData.json();
-  console.log(data);
+  // console.log(data);
   return [
     data.result,
     data.startIndex,
