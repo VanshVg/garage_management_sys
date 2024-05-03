@@ -9,21 +9,23 @@
 
   const getUserLocation = async () => {
     let location = await new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          resolve([position.coords.latitude, position.coords.longitude]);
-        });
-      } else {
+      navigator.geolocation.watchPosition(handleGetCurrentPosition, handleGetCurrentPositionError, { enableHighAccuracy: true });
+      function handleGetCurrentPosition(position) {
+        resolve([position.coords.latitude, position.coords.longitude]);
+      }
+      function handleGetCurrentPositionError() {
         let latitude = 22.684282675883896;
         let longitude = 72.88051636361853;
         toast("error", "Geolocation is not supported by this browser.");
         reject([latitude, longitude]);
       }
+
     });
     return location;
   };
 
   const fetchGarages = async (MyLoc, map, lat, long, km = 10) => {
+    localStorage.clear()
     map.panTo(new L.LatLng(lat, long));
     let finder = document.querySelector('.overlay');
     finder.innerHTML = `<div class="ring"></div>`
@@ -96,6 +98,7 @@
   }
   const loadMap = async () => {
     const position = await getUserLocation();
+    console.log(position);
     let map = L.map('map').setView(position, 13);
     // Google layer (HTTPS URL)
     const googleStreets = L.tileLayer('https://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
