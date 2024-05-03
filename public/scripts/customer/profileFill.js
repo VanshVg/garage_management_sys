@@ -2,7 +2,8 @@ const socketIo = io("");
 
 const fillNotification = async () => {
   let data = await callAPI("/customer/notification");
-  document.getElementById("userTotalNotification").innerHTML = data.notification.length;
+  document.getElementById("userTotalNotification").innerHTML =
+    data.notification.length;
 };
 
 socketIo.on("Received", (message) => {
@@ -10,8 +11,9 @@ socketIo.on("Received", (message) => {
 });
 
 const fillProfile = () => {
-  const profile = document.getElementById('user-profile');
-  profile.innerHTML = `<div class="absolute top-20 right-10 flex items-center mr-4 mt-4">
+  const profile = document.getElementById("user-profile");
+  profile.innerHTML = `
+  <div class="absolute top-20 right-10 flex items-center mr-4 mt-4">
   <button type="button" class="bg-dark focus:outline-none rounded-full h-full w-full">
       <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24"
           style="fill: rgba(255, 255, 255, 1);" onclick="fillUpdateForm()">
@@ -34,7 +36,7 @@ const fillProfile = () => {
         <p id="bio">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
       </div>`;
   updateDetails();
-}
+};
 
 const updateDetails = async () => {
   document.getElementById("user-profile")?.classList.remove("hidden");
@@ -85,7 +87,7 @@ const handleProfile = (id) => {
   if (id == 1) document.getElementById(divs[1]).classList.add("block");
 };
 const fillUpdateForm = () => {
-  const updateProfile = document.getElementById('user-profile');
+  const updateProfile = document.getElementById("user-profile");
   updateProfile.innerHTML = `              
   <form method="post" id="updateCustomer" class="w-[96%] h-[90%] bg-white rounded-md mx-5 flex p-6 flex-col"
       onsubmit="handleUpdateForm(event)" enctype="multipart/form-data">
@@ -168,7 +170,7 @@ const fillUpdateForm = () => {
       </div>
   </form>`;
   myFetch();
-}
+};
 const handleUpdateForm = async (e) => {
   e.preventDefault();
   Validation.allValid = true;
