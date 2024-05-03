@@ -185,7 +185,7 @@ class htmlHandler {
                         <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                       <div class="absolute top-0.5 right-0.5 bg-yellow-600 flex rounded-md px-1 justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1); stroke:white; stroke-width: 1.7px;"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.676l-5.701-.453-2.467-5.461a.998.998 0 0 0-1.822-.001L8.622 8.05l-5.701.453a1 1 0 0 0-.619 1.713l4.213 4.107-1.49 6.452a1 1 0 0 0 1.53 1.057L12 18.202l5.445 3.63a1.001 1.001 0 0 0 1.517-1.106l-1.829-6.4 4.536-4.082c.297-.268.406-.686.278-1.065z"></path></svg>
-                        <span class="text-[12px] text-white text-semibold mx-0.5">5.0</span>
+                        <span class="text-[12px] text-white text-semibold mx-0.5">${data.rating}</span>
                         </div>
                             <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
                           <img src="/uploads/${
