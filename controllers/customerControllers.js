@@ -66,8 +66,18 @@ export const CustomerFeedbackPost = async (req, res) => {
 // get appointments of customer
 export const showAppointments = async (req, res) => {
   try {
-    let appointments = await getCustomerAppointments(req.user.id);
-    return res.status(200).json({ success: true, result: appointments });
+    const { startIndex, endIndex, limit } = req.pagination;
+    let appointments = await getCustomerAppointments(req.user.id, startIndex);
+    return res.status(200).json({
+      success: true,
+      result: appointments[0],
+      pagination: {
+        totalRecords: appointments[1][0].count,
+        startIndex,
+        endIndex,
+        totalPages: Math.ceil(appointments[1][0].count / limit),
+      },
+    });
   } catch (error) {
     logger.error(error);
     return res

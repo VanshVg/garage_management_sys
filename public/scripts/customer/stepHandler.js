@@ -279,14 +279,14 @@ class htmlHandler {
     return vehicleHTML;
   }
   static service(serviceData) {
-    let serviceList = "";
+    let serviceList = "<input type='text' placeholder='search' oninput='filterServices(event)'>";
     serviceData.forEach((ele) => {
       serviceList += `
                             <input type="checkbox" class="hidden" name="service" id="${
                               ele.id
                             }" value="${ele.id}">
                             <label for="${ele.id}" class="cursor-pointer">
-                            <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
+                            <div class="relative bg-[rgba(0,0,0,.2)] p-2 w-full h-[100px] mt-5 rounded-lg flex serviceContainer" style="box-shadow:1px 1px 1px rgba(0,0,0,.2),inset 1px 1px 1px rgba(255,255,255,.2)">
                 <div class="garage-icon border-2 w-2/4 rounded-md overflow-hidden">
                                 <img src="/assets/service.png"
                                         onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeUyb754vebKqfbxScXd11wIOQGyxRlNNQBv31JG4wC9ytLmJgMP3i__68EPQpIN3vrPk&usqp=CAU'"

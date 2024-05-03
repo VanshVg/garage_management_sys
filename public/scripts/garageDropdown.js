@@ -1,4 +1,3 @@
-// socketIo = io("");
 const garagesList = async () => {
   let garageRequest = await fetch(`/owner/garages/getGaragesList`);
   let garageResponse = await garageRequest.json();
@@ -42,16 +41,22 @@ const garagesList = async () => {
   getInvoices();
 };
 
-const getInvoices = async () => {
+const getInvoices = async (page = 1) => {
   let garageId = document.getElementById("select-garage").value;
-  let invoiceRequest = await fetch(`/owner/garages/appointments/${garageId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  let invoiceRequest = await fetch(
+    `/owner/garages/appointments/${garageId}?page=${page}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   let invoiceResponse = await invoiceRequest.json();
   let garageAppointments = ``;
+  let { totalRecords, startIndex, endIndex, totalPages } =
+    invoiceResponse.pagination;
+  let i = (page - 1) * 10 + 1;
 
   if (invoiceResponse.appointments.length == 0) {
     garageAppointments += `<div class="w-full h-[80vh] flex justify-center items-center flex-col">
@@ -69,10 +74,10 @@ const getInvoices = async () => {
         <th>Invoice</th>
       </tr>
     </thead>`;
-    let i = 0;
+
     invoiceResponse.appointments.forEach((element) => {
-      garageAppointments += `<tr class="hover:bg-lightbg">
-      <td class="mx-auto text-center p-4">${i + 1}</td>
+      garageAppointments += `<tr class="hover:bg-lightbg border-b-2 border-black">
+      <td class="mx-auto text-center p-4">${i}</td>
       <td class="mx-auto text-center">${element.start_time.split(" ")[0]}</td>
       <td class="mx-auto text-center">${element.customer_name}</td>`;
       if (element.payment_status == 0) {
@@ -91,9 +96,51 @@ const getInvoices = async () => {
       i++;
     });
     garageAppointments += `</tbody></table>`;
+    totalRecords < endIndex ? (endIndex = totalRecords) : 0;
+    garageAppointments += `<div class="pagination font-family mt-5" id="invoices-pagination"><div class="font-family pagination-text">Showing ${
+      startIndex + 1
+    } to ${endIndex} out of ${totalRecords} Entries</div>
+  <div class="page-buttons button-group-pagination">`;
+    if (page == 1) {
+      garageAppointments += `<input
+      class="font-family buttons hover:cursor-not-allowed"
+      type="button"
+      value="Prev"
+      id="prev"
+      disabled
+      />`;
+    } else {
+      garageAppointments += `<input
+      class="font-family buttons"
+      type="button"
+      value="Prev"
+      id="prev"
+      onclick="getInvoices(${page - 1})"
+      />`;
+    }
+    garageAppointments += `<div class="current font-family" id="pid">${page}</div>`;
+    if (page != totalPages) {
+      garageAppointments += `<input
+      class="font-family buttons"
+      type="button"
+      value="Next"
+      id="next"
+      onclick="getInvoices(${page + 1})"
+    />`;
+    } else {
+      garageAppointments += `<input
+      class="font-family buttons hover:cursor-not-allowed"
+      type="button"
+      value="Next"
+      id="next"
+      disabled
+    />`;
+    }
+    garageAppointments += `</div> </div>`;
   }
   if (document.getElementById("garage-appointments")) {
-    document.getElementById("garage-appointments").innerHTML = garageAppointments;
+    document.getElementById("garage-appointments").innerHTML =
+      garageAppointments;
   }
 };
 

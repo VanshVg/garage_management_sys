@@ -35,6 +35,12 @@
       },
     };
   </script>
+  <style>
+    error {
+      color: red;
+      margin-left: 20px;
+    }
+  </style>
 </head>
 
 <body class="bg-lightbg">
@@ -71,25 +77,25 @@
         <div class="flex justify-center mt-5">
           <label class="text-dark text-lg">Card Number: </label>
           <input class="ml-[72px] rounded h-[30px] bg-lightbg placeholder:text-dark placeholder:opacity-70 px-2"
-            name="cardNumber" type="text" placeholder="Enter card number" />
+            name="cardNumber" id="cardNumber" type="text" placeholder="Enter card number" Validation="require bank_card" oninput="Validation.isValid(this)" />
         </div>
         <div class="flex justify-center mt-5">
           <label class="text-dark text-lg">Account holder name: </label>
           <input class="ml-2 rounded h-[30px] bg-lightbg placeholder:text-dark placeholder:opacity-70 px-2"
-            name="accountHolder" type="text" placeholder="Enter card holder name" />
+            name="accountHolder" id="accountHolder" type="text" placeholder="Enter card holder name" Validation="require alpha" oninput="Validation.isValid(this)" />
         </div>
         <div class="flex justify-center">
           <div class="flex justify-center mt-5">
             <label class="text-dark text-lg">CVV: </label>
             <input
               class="ml-2 rounded h-[30px] w-[50px] bg-lightbg placeholder:text-2xl placeholder:text-dark placeholder:opacity-60 px-2"
-              name="cvv" type="text" maxlength="3" placeholder="- - -" />
+              name="cvv" id="cvv" type="text" maxlength="3" placeholder="- - -" Validation="require digit3" oninput="Validation.isValid(this)" />
           </div>
           <div class="flex justify-center mt-5 ml-[85px]">
             <label class="text-dark text-lg">Expiry Date: </label>
             <input
               class="ml-[35px] rounded h-[30px] w-[100px] bg-lightbg placeholder:text-dark placeholder:opacity-60 px-2"
-              name="expiryDate" type="text" placeholder="MM-YYYY" />
+              name="expiryDate" id="expiryDate" type="text" placeholder="MM-YYYY" Validation="require card_year" oninput="Validation.isValid(this)" />
           </div>
         </div>
       </div>
@@ -97,8 +103,8 @@
         <h2 class="text-center text-2xl text-dark">UPI Details</h2>
         <div class="flex justify-center mt-5">
           <label class="text-dark text-lg">UPI Id: </label>
-          <input class="ml-2 rounded h-[30px] bg-lightbg placeholder:text-dark placeholder:opacity-70 px-2" name="upi"
-            type="text" placeholder="Enter your UPI id" />
+          <input class="ml-2 rounded h-[30px] bg-lightbg placeholder:text-dark placeholder:opacity-70 px-2" name="upi" id="upi"
+            type="text" placeholder="Enter your UPI id" Validation="require" oninput="Validation.isValid(this)" />
         </div>
       </div>
       <div class="mt-10">
@@ -112,6 +118,7 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="/scripts/payment.js"></script>
     <script src="/scripts/appointments.js"></script>
+    <script src="/scripts/validation.js"></script>
 </body>
 
 </html>

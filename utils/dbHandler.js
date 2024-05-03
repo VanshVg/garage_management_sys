@@ -1,5 +1,5 @@
 import conn from "../config/dbConfig.js";
-import logger from "winston";
+import { logger } from "../helpers/logger.js";
 
 // get user details with user id
 export const findOneById = async (userId) => {
@@ -99,12 +99,12 @@ export const getAllSlots = async (offset, garage, user) => {
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
-                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?  and slot_master.is_deleted = 0 limit ?, 10;
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ?  and slot_master.is_deleted = 0 and slot_master.availability_status = 1   limit ?, 10;
                  SELECT COUNT(slot_master.id) as count 
                  FROM slot_master 
                  LEFT JOIN  garage_master ON slot_master.garage_id = garage_master.id 
                  LEFT JOIN owner_has_garages ON owner_has_garages.garage_id = garage_master.id 
-                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ? and slot_master.is_deleted = 0`;
+                 WHERE garage_master.garage_name LIKE ? and owner_has_garages.owner_id = ? and slot_master.is_deleted = 0 and slot_master.availability_status = 1`;
     let result = await conn.query(query, [
       "%" + garage + "%",
       user,
@@ -213,7 +213,7 @@ export const updateAddressById = async (userInfo) => {
 // delete user address
 export const deleteUserAddress = async (userInfo) => {
   try {
-    let query = `DELETE FROM address_master WHERE user_id = ?`;
+    let query = `DELETE FROM user_address WHERE user_id = ?`;
     let results = await conn.query(query, userInfo);
     return results[0].affectedRows;
   } catch (error) {
@@ -732,8 +732,8 @@ export const getUserAddress = async (userId) => {
 // get appointments of owner
 export const getAppointments = async (ownerDetails) => {
   try {
-    let query = `select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4 LIMIT ?, 10;
-      select COUNT(c.id) as count from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4;`;
+    let query = `select c.id as id, d.name as customerName,  b.start_time as startTime, b.end_time as endTime,c.status, c.vehicle_status as vehicle_status from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4 AND c.vehicle_status = 2 LIMIT ?, 10;
+      select COUNT(c.id) as count from owner_has_garages as a join slot_master as b join appointments as c join users as d on a.garage_id = b.garage_id and b.id = c.slot_id and c.customer_id = d.id where a.garage_id = ? and owner_id = ? and c.status != 4 and c.vehicle_status = 2;`;
     let result = await conn.query(query, ownerDetails);
     return result[0];
   } catch (error) {
@@ -935,10 +935,12 @@ export const getAppointsByDateRange = async (payload) => {
 };
 
 // get all appointments for customer
-export const getCustomerAppointments = async (customerId) => {
+export const getCustomerAppointments = async (customerId, limit) => {
   try {
-    let query = `SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status, appointments.vehicle_status, users.email AS customer_email FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE appointments.customer_id=?;`;
-    let [result] = await conn.query(query, [customerId]);
+    let query = `
+    SELECT garage_name, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status, appointments.vehicle_status, users.email AS customer_email FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE appointments.customer_id=? LIMIT ? , 10;
+    SELECT COUNT(garage_name) AS count FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN garage_master ON slot_master.garage_id = garage_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE appointments.customer_id=?;`;
+    let [result] = await conn.query(query, [customerId, limit, customerId]);
     return result;
   } catch (error) {
     logger.error(error);
@@ -973,10 +975,12 @@ export const updateFields = async (tableName, fields, conditions) => {
 };
 
 // get appointments of a specific garage
-export const getGarageAppointments = async (garageId) => {
+export const getGarageAppointments = async (garageId, limit) => {
   try {
-    let query = `SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
-    let [result] = await conn.query(query, [garageId]);
+    let query = `
+    SELECT users.name AS customer_name, users.email AS customer_email, slot_master.start_time, appointments.id AS appointment_id, appointment_payments.status AS payment_status, invoice_url, appointments.status AS appointment_status FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2 LIMIT ?, 10;
+    SELECT COUNT(users.name) AS count FROM appointments JOIN slot_master ON appointments.slot_id = slot_master.id JOIN appointment_payments ON appointment_payments.appointment_id = appointments.id JOIN users ON users.id = appointments.customer_id WHERE slot_master.garage_id=? AND appointments.status = 2;`;
+    let [result] = await conn.query(query, [garageId, limit, garageId]);
     return result;
   } catch (error) {
     logger.error(error);

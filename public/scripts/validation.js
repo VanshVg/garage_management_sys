@@ -12,9 +12,9 @@ const Validation = {
     length8: (value) =>
       value.length < 8
         ? {
-            errorMessage: "password must be at least 8 character..",
-            valid: false,
-          }
+          errorMessage: "password must be at least 8 character..",
+          valid: false,
+        }
         : { valid: true },
     digit10: (value) =>
       !/^\d{10}$/.test(value)
@@ -46,6 +46,26 @@ const Validation = {
         ? { errorMessage: "password not match...", valid: false }
         : { valid: true };
     },
+    bank_card: (value) => {
+      return !(
+        /^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$/.test(
+          value
+        ) ||
+        /^4[0-9]{12}(?:[0-9]{3})?$/.test(value) ||
+        /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$/.test(value)
+      )
+        ? { errorMessage: "Invalid card..", valid: false }
+        : { valid: true };
+    },
+    card_year: (value) => {
+      return !/^((0?[1-9]|1[0-2])-\d{4})$/.test(value)
+        ? { errorMessage: "Invalid card expiry date..", valid: false }
+        : { valid: true };
+    },
+    digit3: (value) =>
+      !/^\d{3}$/.test(value)
+        ? { errorMessage: "only 3 digit allowed..", valid: false }
+        : { valid: true },
     none: () => {
       return { valid: true };
     },
@@ -125,14 +145,14 @@ const Validation = {
             let text = `${location.origin}/u/activate/${data.userId.insertId}/${data.token}`;
             href.setAttribute("href", text);
             href.append(text);
-            activate.innerHTML = href;
+            activate.appendChild(href);
           } else if (form == "u/forgotPassword") {
             const activate = document.getElementById("activate");
             let href = document.createElement("a");
             let text = `${location.origin}/u/resetPassword/${data.email}`;
             href.setAttribute("href", text);
             href.append(text);
-            activate.innerHTML = href;
+            activate.appendChild(href);
           } else if (form == "u/resetPassword") {
             Swal.fire({
               title: "Good job!",
