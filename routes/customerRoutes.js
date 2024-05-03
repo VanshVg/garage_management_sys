@@ -43,8 +43,9 @@ import {
 } from "../controllers/appointmentsController.js";
 import {
   addPaymentDetails,
-  getPaymentDetails
+  getPaymentDetails,
 } from "../controllers/paymentControllers.js";
+import { paginationMiddleware } from "../helpers/pagination.js";
 
 const router = express.Router();
 
@@ -80,7 +81,7 @@ router.get("/invoice/:appointmentId", customerInvoice);
 router.get("/garages", getGarageListing);
 
 router.get("/notification", customerNotification);
-router.get("/appointments", showAppointments);
+router.get("/appointments", paginationMiddleware(10), showAppointments);
 router.get("/feedback", CustomerFeedback);
 router.post("/feedback", CustomerFeedbackPost);
 router.post("/bookAppointment", bookAppointment);

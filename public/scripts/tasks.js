@@ -1,8 +1,12 @@
 const getTaskGarages = async () => {
   let response = await callAPI(`/owner/garages/getGaragesList`);
   response.garages.forEach((element) => {
+    if (document.getElementById(element.garage_id)) {
+      document.getElementById(element.garage_id).remove();
+    }
     let option = document.createElement("option");
     option.value = element.garage_id;
+    option.id = element.garage_id;
     option.textContent = element.garage_name;
     document.getElementById("garage-list").appendChild(option);
   });

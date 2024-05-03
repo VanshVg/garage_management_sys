@@ -18,9 +18,11 @@ const getPayment = (appointmentId) => {
   window.location.href = `/customer/payment/${appointmentId}`;
 };
 
-const getUserAppointments = async () => {
-  let appointmentRequest = await callAPI(`/customer/appointments`);
+const getUserAppointments = async (page = 1) => {
+  let appointmentRequest = await callAPI(`/customer/appointments?page=${page}`);
   let userAppointments = ``;
+  let { totalRecords, startIndex, endIndex, totalPages } =
+    appointmentRequest.pagination;
   if (appointmentRequest.result.length == 0) {
     userAppointments += `<div class="flex flex-col mx-auto">
     <p class="text-xl mx-auto mt-12 text-red-500">No appointments have been booked yet...</p>
@@ -40,7 +42,7 @@ const getUserAppointments = async () => {
     </tr>
   </thead>
   <tbody>`;
-    let i = 1;
+    let i = (page - 1) * 10 + 1;
     appointmentRequest.result.forEach((element) => {
       userAppointments += `<tr
     class="text-lg border-b-2 border-dark hover:bg-lightbg text-center"
@@ -92,6 +94,51 @@ const getUserAppointments = async () => {
     });
     userAppointments += `</tbody> </table>`;
   }
+  totalRecords < endIndex ? (endIndex = totalRecords) : 0;
+  userAppointments += `<div class="pagination font-family mt-5" style="display: flex; justify-content: space-between; width:96%"><div class="font-family pagination-text">Showing ${
+    startIndex + 1
+  } to ${endIndex} out of ${totalRecords} Entries</div>
+  <div class="page-buttons button-group-pagination" style="display: flex; justify-content: space-between; gap: 10px;">`;
+  if (page == 1) {
+    userAppointments += `<input
+      class="font-family buttons hover:cursor-not-allowed"
+      style="width: 75px; background-color: #d9d9d9; border-radius: 5px; border-color: #d9d9d9;padding: 5px; cursor: pointer;"
+      type="button"
+      value="Prev"
+      id="prev"
+      disabled
+      />`;
+  } else {
+    userAppointments += `<input
+      class="font-family buttons"
+      style="width: 75px; background-color: #d9d9d9; border-radius: 5px; border-color: #d9d9d9;padding: 5px; cursor: pointer;"
+      type="button"
+      value="Prev"
+      id="prev"
+      onclick="getUserAppointments(${page - 1})"
+      />`;
+  }
+  userAppointments += `<div class="current font-family" style="margin-top: 5px; font-size: medium;" id="pid">${page}</div>`;
+  if (page != totalPages) {
+    userAppointments += `<input
+      class="font-family buttons"
+      style="width: 75px; background-color: #d9d9d9; border-radius: 5px; border-color: #d9d9d9;padding: 5px; cursor: pointer;"
+      type="button"
+      value="Next"
+      id="next"
+      onclick="getUserAppointments(${page + 1})"
+    />`;
+  } else {
+    userAppointments += `<input
+      class="font-family buttons hover:cursor-not-allowed"
+      style="width: 75px; background-color: #d9d9d9; border-radius: 5px; border-color: #d9d9d9;padding: 5px; cursor: pointer;"
+      type="button"
+      value="Next"
+      id="next"
+      disabled
+    />`;
+  }
+  userAppointments += `</div> </div>`;
   document.getElementById("user-appointments").innerHTML = userAppointments;
 };
 

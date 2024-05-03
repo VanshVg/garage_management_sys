@@ -259,7 +259,7 @@ export const getGarageCount = async (req, res) => {
 // get all appointments of a garage
 export const showGarageAppointments = async (req, res) => {
   try {
-    const { page, startIndex, endIndex, limit } = req.pagination;
+    const { startIndex, endIndex, limit } = req.pagination;
     const { garageId } = req.params;
     let appointments = await getGarageAppointments(garageId, startIndex);
     return res.status(200).json({

@@ -77,7 +77,7 @@ const getInvoices = async (page = 1) => {
     </thead>`;
 
     invoiceResponse.appointments.forEach((element) => {
-      garageAppointments += `<tr class="hover:bg-lightbg">
+      garageAppointments += `<tr class="hover:bg-lightbg border-b-2 border-black">
       <td class="mx-auto text-center p-4">${i}</td>
       <td class="mx-auto text-center">${element.start_time.split(" ")[0]}</td>
       <td class="mx-auto text-center">${element.customer_name}</td>`;
