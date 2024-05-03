@@ -18,8 +18,8 @@ const getPayment = (appointmentId) => {
   window.location.href = `/customer/payment/${appointmentId}`;
 };
 
-const getUserAppointments = async () => {
-  let appointmentRequest = await callAPI(`/customer/appointments`);
+const getUserAppointments = async (page = 1) => {
+  let appointmentRequest = await callAPI(`/customer/appointments?page=${page}`);
   console.log(appointmentRequest);
   let userAppointments = ``;
   let { totalRecords, startIndex, endIndex, totalPages } =
