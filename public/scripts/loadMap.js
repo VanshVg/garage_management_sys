@@ -78,6 +78,5 @@ const loadMap = async (mapId) => {
     };
     L.control.layers(base, overlayMaps).addTo(map);
   } catch (error) {
-    console.log(error)
   }
 };

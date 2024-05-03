@@ -6,7 +6,7 @@ const fillNotification = async () => {
 };
 
 socketIo.on("Received", (message) => {
-  if (message) fillNotification();
+  if (message) fillNotification(); getUserAppointments();
 });
 
 const fillProfile = () => {

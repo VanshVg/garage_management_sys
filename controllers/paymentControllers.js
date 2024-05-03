@@ -144,14 +144,13 @@ export const generateRevenue = async (req, res) => {
   }
 };
 
-export const getPaymentStatus = async (req,res) => {
-  try{
+export const getPaymentStatus = async (req, res) => {
+  try {
     const { appointmentId } = req.params;
     const result = await getPaymentStatusService(appointmentId);
-    console.log(result);
-    res.status(200).json({success:true, result});
-  }catch(err){
+    res.status(200).json({ success: true, result });
+  } catch (err) {
     logger.error(error);
-    res.status(301).json({success:false, message: "Something went wrong!"});
+    res.status(301).json({ success: false, message: "Something went wrong!" });
   }
 };
