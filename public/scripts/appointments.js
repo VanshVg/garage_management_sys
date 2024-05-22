@@ -6,7 +6,6 @@ let generateInvoice = async (appointmentId, customerEmail, downloadBtn) => {
 </svg>
 <p class='ml-1 font-bold'>Downloading...</p>
   `;
-  console.log(appointmentId, customerEmail);
   let pdfRequest = await fetch(`/invoice/${appointmentId}`, {
     method: "POST",
     headers: {

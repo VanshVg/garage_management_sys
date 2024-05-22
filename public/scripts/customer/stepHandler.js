@@ -279,7 +279,8 @@ class htmlHandler {
     return vehicleHTML;
   }
   static service(serviceData) {
-    let serviceList = "<input type='text' placeholder='search' oninput='filterServices(event)'>";
+    let serviceList =
+      "<input type='text' placeholder='search' oninput='filterServices(event)'>";
     serviceData.forEach((ele) => {
       serviceList += `
                             <input type="checkbox" class="hidden" name="service" id="${

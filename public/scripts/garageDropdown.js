@@ -90,7 +90,7 @@ const getInvoices = async (page = 1) => {
         `${element.appointment_id}` +
         `,` +
         `  '${element.customer_email}'` +
-        `)">Download Invoice</p></a></td>`;
+        `,this)">Download Invoice</p></a></td>`;
 
       garageAppointments += `</tr>`;
       i++;

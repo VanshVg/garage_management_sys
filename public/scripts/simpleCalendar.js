@@ -108,8 +108,7 @@ const fetchGarageSlots = async (id) => {
 const displaySlots = async (duration = 1, dateVal) => {
   if (dateVal) {
     date = dateVal;
-  }
-  else {
+  } else {
     date = new Date();
   }
   if (duration == 0) {
@@ -127,8 +126,8 @@ const displaySlots = async (duration = 1, dateVal) => {
     let time = availableSlots[availableSlots.length - 1];
     let slots = generateSlots({
       date: date,
-      start: time.open_time.split(" ")[1],
-      end: time.close_time.split(" ")[1],
+      start: time[0].open_time.split(" ")[1],
+      end: time[0].close_time.split(" ")[1],
       duration,
     });
     let slotCard = "";
@@ -163,8 +162,9 @@ const displaySlots = async (duration = 1, dateVal) => {
       slots.forEach((slot) => {
         slotCard += `
       <div class="w-1/5 h-[110px] p-2 relative">
-                    <div onclick="addSlot('${selectedGarage}','${slot.split("-")[0]
-          }','${slot.split("-")[1]}','${date}','${duration}')"
+                    <div onclick="addSlot('${selectedGarage}','${
+          slot.split("-")[0]
+        }','${slot.split("-")[1]}','${date}','${duration}')"
                         class="bg-green w-[20px] h-[20px] absolute -top-0 -right-0 rounded-full text-white cursor-pointer">
                         +
                     </div>
