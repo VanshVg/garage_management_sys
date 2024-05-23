@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import path from "path";
 import multer from "multer";
-import { userInterface } from "../interfaces/interface";
+import { fileInterface, userInterface } from "../interfaces/interface";
 
 const storage = multer.diskStorage({
-  destination: function (req: Request, file, cb) {
+  destination: function (req: Request, file: fileInterface, cb) {
     cb(null, "./public/uploads");
   },
-  filename: function (req: Request, file, cb) {
+  filename: function (req: Request, file: fileInterface, cb) {
     req.body.thumbnail =
       (req.user as userInterface).email +
       Date.now() +

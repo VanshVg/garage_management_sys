@@ -92,7 +92,7 @@ export const getSlots = async (req: RequestWithPagination, res: Response) => {
       startIndex,
       garage,
       user.id
-    )) as unknown as Array<Array<getAllSlotsInterface>>;
+    )) as Array<Array<getAllSlotsInterface>>;
 
     const totalPage = Math.ceil(result[1][0].count / 10);
 

@@ -2,6 +2,7 @@ import { ResultSetHeader } from "mysql2";
 import conn from "../config/dbConfig";
 import { logger } from "../helpers/logger";
 import {
+  garageDurationInterface,
   getUserAddressInterface,
   userInterface,
 } from "../interfaces/interface";
@@ -179,9 +180,10 @@ export const getCity = async (stateId: string) => {
 export const findAddressById = async (userId: string | number) => {
   try {
     let query = `SELECT * FROM user_address WHERE user_id = ?`;
-    let results: Array<getUserAddressInterface> = (await conn.query(query, [
-      userId,
-    ])) as unknown as Array<getUserAddressInterface>;
+    let results: Array<Array<getUserAddressInterface>> = (await conn.query(
+      query,
+      [userId]
+    )) as Array<Array<getUserAddressInterface>>;
     let address = results[0];
     return address;
   } catch (error) {
@@ -451,10 +453,10 @@ export const getGarageDuration = async (id: number) => {
   try {
     let query = "select open_time,close_time from garage_master where id = ?";
     let result = await conn.query(query, [id]);
-    return result[0];
+    return result[0] as garageDurationInterface;
   } catch (error) {
     logger.error(error);
-    return { error };
+    return error;
   }
 };
 
@@ -693,9 +695,9 @@ export const countgarages = async (ownerId: number) => {
     let query =
       " select COUNT(*) as count from owner_has_garages join garage_master on owner_has_garages.garage_id = garage_master.id where owner_has_garages.owner_id = ? and garage_master.is_deleted = '0';";
 
-    let results: Array<{ count: number }> = (await conn.query(query, [
+    let results: Array<{ count?: number }> = (await conn.query(query, [
       ownerId,
-    ])) as unknown as Array<{ count: number }>;
+    ])) as Array<{ count?: number }>;
     return results[0].count;
   } catch (error) {
     logger.error(error);
@@ -734,9 +736,9 @@ export const countServices = async (ownerId: number | undefined) => {
   try {
     let query =
       "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN garage_has_services AS b ON a.garage_id = b.garage_id WHERE a.owner_id = ? and is_deleted=0;";
-    let results: Array<{ count: number }> = (await conn.query(query, [
+    let results: Array<{ count?: number }> = (await conn.query(query, [
       ownerId,
-    ])) as unknown as Array<{ count: number }>;
+    ])) as Array<{ count?: number }>;
     return results[0].count;
   } catch (error) {
     logger.error(error);
@@ -749,18 +751,18 @@ export const countAppointments = async (ownerId: number) => {
   try {
     let query =
       "SELECT COUNT(*) AS count FROM owner_has_garages AS a JOIN slot_master as b JOIN appointments AS c ON a.garage_id = b.garage_id AND b.id = c.slot_id WHERE a.owner_id = ? and c.status = ?;";
-    let result: Array<{ count: number }> = (await conn.query(query, [
+    let result: Array<{ count?: number }> = (await conn.query(query, [
       ownerId,
       1,
-    ])) as unknown as Array<{ count: number }>;
-    let result2: Array<{ count: number }> = (await conn.query(query, [
+    ])) as Array<{ count?: number }>;
+    let result2: Array<{ count?: number }> = (await conn.query(query, [
       ownerId,
       4,
-    ])) as unknown as Array<{ count: number }>;
-    let result3: Array<{ count: number }> = (await conn.query(query, [
+    ])) as Array<{ count?: number }>;
+    let result3: Array<{ count?: number }> = (await conn.query(query, [
       ownerId,
       3,
-    ])) as unknown as Array<{ count: number }>;
+    ])) as Array<{ count?: number }>;
     let pending = result[0].count;
     let successful = result2[0].count;
     let cancelled = result3[0].count;

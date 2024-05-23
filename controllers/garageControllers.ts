@@ -62,7 +62,7 @@ export const garageAdd = async (req: Request, res: Response) => {
       latitude,
       longitude,
     } = req.body;
-    let thumbnail = (req.file as { filename: string, }).filename;
+    let thumbnail = (req.file as { filename: string }).filename;
     userId = (req.user as userInterface).id || userId;
     openTime = dateTimeConvertor(openTime);
     closeTime = dateTimeConvertor(closeTime);
@@ -217,13 +217,12 @@ export const getGarageListing = async (req: Request, res: Response) => {
 export const getGarageSlots = async (req: Request, res: Response) => {
   try {
     let { garageId } = req.body;
-    let garageDuration: garageDurationInterface = (await getGarageDuration(
-      garageId
-    )) as unknown as garageDurationInterface;
+    let [garageDuration]: Array<garageDurationInterface> =
+      (await getGarageDuration(garageId)) as Array<garageDurationInterface>;
     const result: Array<garageDurationInterface> = (await garageSlotListing(
       garageId,
-      garageDuration.open_time,
-      garageDuration.close_time
+      garageDuration.open_time as string,
+      garageDuration.close_time as string
     )) as Array<garageDurationInterface>;
     result.push(garageDuration);
     res.json(result);

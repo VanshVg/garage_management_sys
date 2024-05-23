@@ -108,8 +108,8 @@ export interface garageServicesInterface {
 }
 
 export interface garageDurationInterface {
-  open_time: string;
-  close_time: string;
+  open_time?: string;
+  close_time?: string;
 }
 
 export interface garageSlotListingInterface {
@@ -188,13 +188,13 @@ export interface vehicleInterface {
 }
 
 export interface getUserAddressInterface {
-  area: string;
-  pincode: number;
-  cityId: number;
-  cityName: number;
-  stateId: number;
-  stateName: string;
-  address_id: number;
+  area?: string;
+  pincode?: number;
+  cityId?: number;
+  cityName?: number;
+  stateId?: number;
+  stateName?: string;
+  address_id?: number;
 }
 
 export interface RequestWithPagination extends Request {
@@ -203,4 +203,13 @@ export interface RequestWithPagination extends Request {
 
 export interface errorInterface {
   message: string;
+}
+
+export interface fileInterface {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
 }

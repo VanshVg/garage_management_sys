@@ -262,7 +262,7 @@ export const updateProfile = async (req: Request, res: Response) => {
     let userId = (req.user as userInterface).id;
     let address: Array<getUserAddressInterface> = (await findAddressById(
       userId
-    )) as unknown as Array<getUserAddressInterface>;
+    )) as Array<getUserAddressInterface>;
 
     if (!address) {
       let result: number = (await insertAddress([
